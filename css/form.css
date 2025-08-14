@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+main {
+    padding: 20px 25%;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
