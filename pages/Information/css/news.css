@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+body {
+    background: linear-gradient(to right, #eef2f3, #d9e9ff);
+}
+
+h1 {
+    color: #333;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 700;
+}
+
+.news-card:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: .3s;
+    scale: 1.02;
+}
+
+.news-image {
+    height: 250px;
+    object-fit: cover;
+}
+
+.no-news {
+    text-align: center;
+    padding: 2rem;
+    color: #6c757d;
+}

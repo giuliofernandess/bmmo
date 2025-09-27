@@ -1,0 +1,100 @@
+@charset "UTF-8";
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-dark);
+  overflow-x: hidden;
+}
+
+/* Main */
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(to right, #eef2f3, #d9e9ff);
+  padding: 80px 20px;
+}
+
+.introduction-container {
+  background: #fff;
+  backdrop-filter: blur(8px);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+}
+
+.introduction-container img {
+  max-width: 90px;
+  margin-bottom: 20px;
+  animation: pulse 3s infinite;
+}
+
+.introduction-container h1 {
+  font-weight: 700;
+  margin-bottom: 15px;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  color: var(--color-1);
+}
+
+.introduction-container p {
+  font-size: clamp(1rem, 2.2vw, 1.1rem);
+  max-width: 700px;
+  margin: 0 auto 25px auto;
+  line-height: 1.6;
+}
+
+.musician-login-button {
+  flex-direction: column;
+}
+
+/* Botões */
+.btn {
+  width: 100%;
+  border-radius: 30px !important;
+  padding: 12px 30px;
+  font-weight: 600;
+  transition: all 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+.btn::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: rgba(255,255,255,0.2);
+  transition: left 0.4s;
+}
+.btn:hover::after {
+  left: 0;
+}
+.btn:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* Animações */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Responsividade */
+@media (min-width: 768px) {
+  .introduction-container img {
+    max-width: 120px;
+  }
+  .btn {
+    width: auto;
+  }
+  .musician-login-button {
+    flex-direction: row;
+  }
+}
