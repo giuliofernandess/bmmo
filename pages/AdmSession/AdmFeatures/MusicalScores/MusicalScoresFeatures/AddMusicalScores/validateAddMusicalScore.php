@@ -1,5 +1,5 @@
 <?php
-require_once 'bdConnect.php';
+require_once '../../../../../../general-features/bdConnect.php';
 
 $name = trim($_POST['name']);
 $instrument = trim($_POST['instrument']);
