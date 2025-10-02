@@ -24,14 +24,21 @@
             $name = "";
             $musicalGenre = $res['musicalGenre'];
             echo "<h2>$musicalGenre</h2>";
-            while ($result && $result -> num_rows > 0) { 
+            while ($res = $result->fetch_assoc()) { 
               if ($musicalGenre != $res['musicalGenre']) {
                 echo "<h2>$musicalGenre</h2>";
                 
                 $musicalGenre = $res['musicalGenre'];
               }
               if ($name != $res['name']) {
-                  echo "<a href='MusicalScoresEdit/musicalScoreEdit.php'>{$res['name']}</a>";
+                  echo 
+                  "<form action='MusicalScoresEdit/MusicalScoreEdit.php' method='post'>
+                  <input type='hidden' name='musicalScore' value='$name'>
+                  <button>
+                  <iframe src='../../../../../../assets/musical-scores/{$res['file']}'></iframe>
+                  {$res['name']}
+                  </button>
+                  </form>";
 
                   $name = $res['name'];
               }
