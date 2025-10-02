@@ -1,5 +1,5 @@
 <?php
-    require_once '../../../../../../../assets/general-features/bdConnect.php';
+    require_once '../../../../../../../general-features/bdConnect.php';
 
     $name = trim($_POST['musicalScore']);
 
@@ -9,7 +9,7 @@
 
     $result = $stmt->get_result();
 
-    if ($result->num_rows === 0) {
+    if ($result->num_rows == 0) {
         die('Partitura não encontrada.');
     }
 
@@ -35,7 +35,7 @@
   />
 </head>
 <body>
-  <a href="listOfMusicalScores.php">Voltar</a>
+  <a href="../listOfMusicalScores.php">Voltar</a>
 
   <main>
     <!-- Form Container -->
@@ -82,14 +82,14 @@
 
         <!-- Botão de editar -->
         <div class="col-md-12">
-            <button type="submit">Editar Músico</button>
+            <button type="submit">Editar Partitura</button>
         </div>        
 
       </form>
 
       <form action="#" method="post">
             <div>
-            <button type="submit">Deletar Músico</button>
+            <button type="submit">Deletar Partitura</button>
             </div>
         </form>
     </div>

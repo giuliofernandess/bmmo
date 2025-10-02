@@ -32,8 +32,8 @@
               }
               if ($name != $res['name']) {
                   echo 
-                  "<form action='MusicalScoresEdit/MusicalScoreEdit.php' method='post'>
-                  <input type='hidden' name='musicalScore' value='$name'>
+                  "<form action='MusicalScoresEdit/musicalScoreEdit.php' method='post'>
+                  <input type='hidden' name='musicalScore' value='{$res['name']}'>
                   <button>
                   <iframe src='../../../../../../assets/musical-scores/{$res['file']}'></iframe>
                   {$res['name']}
