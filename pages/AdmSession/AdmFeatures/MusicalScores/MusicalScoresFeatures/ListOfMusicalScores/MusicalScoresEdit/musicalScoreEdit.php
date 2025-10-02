@@ -1,5 +1,5 @@
 <?php
-    require_once 'bdConnect.php';
+    require_once '../../../../../../../assets/general-features/bdConnect.php';
 
     $name = trim($_POST['musicalScore']);
 

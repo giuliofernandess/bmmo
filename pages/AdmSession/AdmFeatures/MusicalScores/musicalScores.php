@@ -25,7 +25,7 @@ if (!isset($_SESSION['login'])) {
     <div>
       <!-- Card: Lista de Partituras -->
       <div>
-        <a href="#">
+        <a href="MusicalScoresFeatures/ListOfMusicalScores/listOfMusicalScores.php">
               <h5>Lista de Partituras</h5>
               <p>Veja todas as partituras disponíveis</p>
         </a>

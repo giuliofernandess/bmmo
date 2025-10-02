@@ -37,7 +37,7 @@ $res = $result->fetch_array(MYSQLI_ASSOC);
     <nav>
       <ul class="nav">
         <li class="nav-item">
-          <a href="../../Index/index.php" class="nav-link text-white">Home</a>
+          <a href="../../Index/index.php" class="nav-link text-white">Início</a>
         </li>
         <li class="nav-item">
           <a href="../../Information/News/news.php" class="nav-link text-white">Notícias</a>
