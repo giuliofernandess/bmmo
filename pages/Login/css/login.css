@@ -1,8 +1,4 @@
-@charset "UTF-8"; 
-
-body {
-  background: linear-gradient(to right, #eef2f3, #d9e9ff);
-}
+@charset "UTF-8";
 
 .login-container {
   background: #fff;
