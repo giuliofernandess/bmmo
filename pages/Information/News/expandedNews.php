@@ -58,7 +58,7 @@ $res = $result->fetch_array(MYSQLI_ASSOC);
           <h1 class="mb-3 fw-bold"><?php echo htmlspecialchars($res['title']); ?></h1>
           <h5 class="text-muted mb-3 fw-bold"><?php echo htmlspecialchars($res['subtitle']); ?></h5>
           <p class="text-muted small mb-4">Publicado em <?php echo date('d/m/Y', strtotime($res['date'])); ?></p>
-          <img src="../../../assets/news-images/<?php echo htmlspecialchars($res['image']); ?>" alt="Imagem da Notícia" class="news-image-main mb-4">
+          <img src="../../../assets/images/news-images/<?php echo htmlspecialchars($res['image']); ?>" alt="Imagem da Notícia" class="news-image-main mb-4">
           <div class="news-text"><?php echo nl2br(htmlspecialchars($res['text'])); ?></div>
         </article>
       </div>
@@ -87,7 +87,7 @@ $res = $result->fetch_array(MYSQLI_ASSOC);
                 <div class='card aside-card rounded shadow-sm h-100'>
                   <div class='row g-0'>
                     <div class='col-4'>
-                      <img src='../../../assets/news-images/$image' class='img-fluid rounded-start h-100 object-fit-cover' alt='Imagem da notícia'>
+                      <img src='../../../assets/images/news-images/$image' class='img-fluid rounded-start h-100 object-fit-cover' alt='Imagem da notícia'>
                     </div>
                     <div class='col-8'>
                       <div class='card-body'>

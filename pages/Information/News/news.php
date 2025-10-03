@@ -66,7 +66,7 @@
                             <input type='hidden' name='newsId' value='$id'>
                             <button type='submit' class='btn p-0 w-100 text-start'>
                                 <div class='card news-card rounded shadow-sm h-100'>
-                                    <img src='../../../assets/news-images/$image' class='card-img-top rounded-top news-image' alt='Imagem da notícia'>
+                                    <img src='../../../assets/images/news-images/$image' class='card-img-top rounded-top news-image' alt='Imagem da notícia'>
                                     <div class='card-body'>
                                         <h5 class='card-title mb-1'>$title</h5>
                                         <p class='card-text text-muted small mb-2'>$subtitle</p>
