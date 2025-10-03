@@ -11,7 +11,7 @@
   <script src="js/jquery.js"></script>
   <link
     rel="shortcut icon"
-    href="images/logo_banda.png"
+    href="../../../../assets/images/logo_banda.png"
     type="image/x-icon"
   />
 </head>
@@ -21,7 +21,7 @@
   <main>
     <!-- Form Container -->
     <div>
-      <form method="post" action="validateMusicianRegister.php">
+      <form method="post" action="validateMusicianRegister.php" enctype="multipart/form-data">
 
         <!-- Nome +  Login + Data de nascimento -->
         <div>
@@ -120,6 +120,12 @@
           <label for="institution">Instituição</label>
           <input type="text" name="institution" id="institution" placeholder="Escola, faculdade ou emprego" />
         </div>
+
+        <!-- Card: Arquivo -->
+      <div>
+        <label for="file">Imagem *</label><br>
+        <input type="file" name="file" id="inputFile" accept="image/*">
+      </div>
 
         <!-- Senha + Confirmar senha -->
         <div>
