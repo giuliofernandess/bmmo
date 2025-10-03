@@ -30,7 +30,7 @@
   />
   <link
     rel="shortcut icon"
-    href="images/logo_banda.png"
+    href="../../../../../../../assets/images/logo_banda.png"
     type="image/x-icon"
   />
 </head>
