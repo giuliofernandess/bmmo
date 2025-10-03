@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+main {
+    background: linear-gradient(to right, #eef2f3, #d9e9ff);
+}
+
 h1 {
     color: #333;
     font-size: clamp(1.8rem, 4vw, 2.5rem);

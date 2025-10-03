@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+main {
+    background: linear-gradient(to right, #eef2f3, #d9e9ff);
+}
+
 h4 {
     color: #333;
 }
