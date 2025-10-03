@@ -8,15 +8,32 @@
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
     rel="stylesheet"
   />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <script src="js/jquery.js"></script>
   <link
     rel="shortcut icon"
     href="../../../../assets/images/logo_banda.png"
     type="image/x-icon"
   />
+  <link rel="stylesheet" href="../../../../assets/css/style.css">
 </head>
 <body>
-  <a href="../../admPage.php" class="back-button">Voltar</a>
+
+  <!-- Header -->
+  <header class="d-flex align-items-center justify-content-between px-3">
+    <a href="#" class="d-flex align-items-center text-white text-decoration-none">
+      <img src="../../../../assets/images/logo_banda.png" alt="Logo Banda" width="30" height="30" class="me-2">
+      <span class="fs-5 fw-bold">BMMO Online - Maestro</span>
+    </a>
+
+    <nav>
+      <ul class="nav">
+        <li class="nav-item">
+          <a href="../../admPage.php"><i class="bi bi-arrow-90deg-left text-white"></i></a>
+        </li>
+      </ul>
+    </nav>
+  </header>
 
   <main>
     <!-- Form Container -->
@@ -145,6 +162,16 @@
       </form>
     </div>
   </main>
+
+  <!-- Footer -->
+  <footer class="mt-auto py-3">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <span>&copy; Banda de Música</span>
+      <div class="d-flex gap-3">
+        <a href="https://www.instagram.com/bmmooficial" target="_blank"><i class="bi bi-instagram fs-5"></i></a>
+      </div>
+    </div>
+  </footer>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
