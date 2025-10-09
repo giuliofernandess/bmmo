@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-main {
+body {
   background: linear-gradient(to right, #eef2f3, #d9e9ff);
 }
 
