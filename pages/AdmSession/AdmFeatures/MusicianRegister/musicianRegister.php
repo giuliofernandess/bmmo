@@ -4,62 +4,68 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Registrar Músico</title>
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-  <script src="js/jquery.js"></script>
-  <link
-    rel="shortcut icon"
-    href="../../../../assets/images/logo_banda.png"
-    type="image/x-icon"
-  />
+
+  <!-- Estilos principais -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+  <link rel="shortcut icon" href="../../../../assets/images/logo_banda.png" type="image/x-icon" />
   <link rel="stylesheet" href="../../../../assets/css/style.css">
+  <link rel="stylesheet" href="../../../../assets/css/form.css">
+  <style>
+    main {
+      padding: 0 30px
+    }
+
+    .login-container {
+      max-width: 1000px;
+    }
+  </style>
 </head>
-<body>
+
+<body class="d-flex flex-column min-vh-100">
 
   <!-- Header -->
-  <header class="d-flex align-items-center justify-content-between px-3">
+  <header class="d-flex align-items-center justify-content-between px-3 mb-auto">
     <a href="#" class="d-flex align-items-center text-white text-decoration-none">
       <img src="../../../../assets/images/logo_banda.png" alt="Logo Banda" width="30" height="30" class="me-2">
       <span class="fs-5 fw-bold">BMMO Online - Maestro</span>
     </a>
-
     <nav>
       <ul class="nav">
         <li class="nav-item">
-          <a href="../../admPage.php"><i class="bi bi-arrow-90deg-left text-white"></i></a>
+          <a href="../../admPage.php" class="nav-link text-white"><i class="bi bi-arrow-90deg-left"></i></a>
         </li>
       </ul>
     </nav>
   </header>
 
-  <main>
-    <!-- Form Container -->
-    <div>
-      <form method="post" action="validateMusicianRegister.php" enctype="multipart/form-data">
+  <!-- Main -->
+  <main class="flex-grow-1 d-flex align-items-center justify-content-center flex-column py-5">
+    <div class="container login-container">
+      <h1 class="text-center mb-4">Cadastrar Músico</h1>
+      <form method="post" action="validateMusicianRegister.php" enctype="multipart/form-data" class="row g-3">
 
-        <!-- Nome +  Login + Data de nascimento -->
-        <div>
-          <label for="name">Nome *</label>
-          <input type="text"name="name" id="name" placeholder="Nome do músico" required />
-        </div>
-        <div>
-          <label for="login">Login *</label>
-          <input type="text" name="login" id="login" placeholder="Login do músico" required />
-        </div>
-        <div>
-          <label for="date">Data de Nascimento *</label>
-          <input type="date" name="dateOfBirth" id="date" required />
+        <!-- Nome + Login + Nascimento -->
+        <div class="col-md-6">
+          <label for="name" class="form-label ps-2">Nome *</label>
+          <input type="text" name="name" id="name" class="form-control" placeholder="Nome do músico" required />
         </div>
 
-        <!-- Instrumento + Grupo pertencente -->
-        <div>
-          <label for="instrument">Instrumento *</label>
-          <select name="instrument" id="instrument" required>
+        <div class="col-md-6">
+          <label for="login" class="form-label ps-2">Login *</label>
+          <input type="text" name="login" id="login" class="form-control" placeholder="Login do músico" required />
+        </div>
+
+        <div class="col-md-6">
+          <label for="date" class="form-label ps-2">Data de Nascimento *</label>
+          <input type="date" name="dateOfBirth" id="date" class="form-control" required />
+        </div>
+
+        <!-- Instrumento + Grupo -->
+        <div class="col-md-6">
+          <label for="instrument" class="form-label ps-2">Instrumento *</label>
+          <select name="instrument" id="instrument" class="form-control" required>
             <option value="">Selecione</option>
-            <option value="Flauta Doce">Flauta Doce</option>
             <option value="Flute">Flauta</option>
             <option value="Lira">Lira</option>
             <option value="1 Clarinet">1° Clarinete</option>
@@ -87,9 +93,9 @@
           </select>
         </div>
 
-        <div>
-          <label for="group">Grupo da Banda *</label>
-          <select name="bandGroup" id="group" required>
+        <div class="col-md-6">
+          <label for="group" class="form-label ps-2">Grupo da Banda *</label>
+          <select name="bandGroup" id="group" class="form-control" required>
             <option value="">Selecione</option>
             <option value="Banda Principal">Banda Principal</option>
             <option value="Banda Auxiliar">Banda Auxiliar</option>
@@ -99,26 +105,26 @@
           </select>
         </div>
 
-        <!-- Telefone + Responsável -->
-        <div>
-          <label for="tel">Contato do Músico *</label>
-          <input type="text" name="telephone" id="tel" required />
-        </div>
-        <div>
-          <label for="responsible">Responsável</label>
-          <input type="text" name="responsible" id="responsible" placeholder="Nome do responsável" />
+        <!-- Contatos -->
+        <div class="col-md-6">
+          <label for="tel" class="form-label ps-2">Contato do Músico *</label>
+          <input type="text" name="telephone" id="tel" class="form-control" required />
         </div>
 
-        <!-- Contato do responsável -->
-        <div>
-          <label for="contactOfResponsible">Contato do Responsável</label>
-          <input type="text" name="contactOfResponsible" id="contactOfResponsible" placeholder="Contato do responsável" />
+        <div class="col-md-6">
+          <label for="responsible" class="form-label ps-2">Responsável</label>
+          <input type="text" name="responsible" id="responsible" class="form-control" placeholder="Nome do responsável" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="contactOfResponsible" class="form-label ps-2">Contato do Responsável</label>
+          <input type="text" name="contactOfResponsible" id="contactOfResponsible" class="form-control" placeholder="Contato do responsável" />
         </div>
 
         <!-- Bairro + Instituição -->
-        <div>
-          <label for="neighborhood">Bairro *</label>
-          <select name="neighborhood" id="neighborhood" required>
+        <div class="col-md-6">
+          <label for="neighborhood" class="form-label ps-2">Bairro *</label>
+          <select name="neighborhood" id="neighborhood" class="form-control" required>
             <option value="">Selecione</option>
             <option value="Boa Esperança">Boa Esperança</option>
             <option value="Centro">Centro</option>
@@ -133,30 +139,32 @@
             <option value="Outro">Outro</option>
           </select>
         </div>
-        <div>
-          <label for="institution">Instituição</label>
-          <input type="text" name="institution" id="institution" placeholder="Escola, faculdade ou emprego" />
+
+        <div class="col-md-6">
+          <label for="institution" class="form-label ps-2">Instituição</label>
+          <input type="text" name="institution" id="institution" class="form-control" placeholder="Escola, faculdade ou emprego" />
         </div>
 
-        <!-- Card: Arquivo -->
-      <div>
-        <label for="file">Imagem *</label><br>
-        <input type="file" name="file" id="inputFile" accept="image/*">
-      </div>
-
-        <!-- Senha + Confirmar senha -->
-        <div>
-          <label for="password">Senha *</label>
-          <input type="password" name="password" id="password" placeholder="Digite a senha" required minlength="8" maxlength="20" />
-        </div>
-        <div>
-          <label for="confirmPassword">Confirmar Senha *</label>
-          <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirme a senha" required />
+        <!-- Upload -->
+        <div class="col-md-6">
+          <label for="file" class="form-label ps-2">Imagem *</label>
+          <input type="file" name="file" id="inputFile" accept="image/*" class="form-control" required />
         </div>
 
-        <!-- Botão de cadastrar -->
-        <div>
-          <button type="submit">Cadastrar Músico</button>
+        <!-- Senhas -->
+        <div class="col-md-6">
+          <label for="password" class="form-label ps-2">Senha *</label>
+          <input type="password" name="password" id="password" class="form-control" placeholder="Digite a senha" required minlength="8" maxlength="20" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="confirmPassword" class="form-label ps-2">Confirmar Senha *</label>
+          <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" placeholder="Confirme a senha" required />
+        </div>
+
+        <!-- Botão -->
+        <div class="col-12 mt-3">
+          <button type="submit" class="btn btn-primary btn-lg rounded-pill w-100">Cadastrar Músico</button>
         </div>
 
       </form>
@@ -173,14 +181,15 @@
     </div>
   </footer>
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Scripts -->
+  <script src="../../../../js/jquery.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
   <script>
     $(document).ready(function(){
-      $("#tel").mask("(00) 00000-0000", { placeholder: "(00) 00000-0000" });
-      $("#contactOfResponsible").mask("(00) 00000-0000", { placeholder: "(00) 00000-0000" });
+      $("#tel").mask("(00) 00000-0000");
+      $("#contactOfResponsible").mask("(00) 00000-0000");
     });
   </script>
-
- </body>
+</body>
 </html>

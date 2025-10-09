@@ -1,7 +1,10 @@
 @charset "UTF-8";
 
-.main-container {
+body {
     background: linear-gradient(to right, #eef2f3, #d9e9ff);
+}
+
+.main-container {
     border-radius: 0.5rem;
     padding: 2rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
