@@ -63,7 +63,7 @@ if (!isset($_SESSION['login'])) {
 
       <!-- Card 2 -->
       <div class="col">
-        <a href="AdmFeatures/ListOfMusicians/musicians.php" class="text-decoration-none text-dark">
+        <a href="AdmFeatures/ListOfMusicians/bandGroups.php" class="text-decoration-none text-dark">
           <div class="card h-100 shadow-sm border-0 p-3">
             <i class="bi bi-people-fill fs-2 text-success mb-2"></i>
             <h5 class="fw-bold">Relação de Músicos</h5>

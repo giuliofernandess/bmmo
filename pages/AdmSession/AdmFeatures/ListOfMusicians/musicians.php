@@ -1,3 +1,9 @@
+<?php
+
+$bandGroup = $_POST['bandGroup'];
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -28,7 +34,7 @@
     <nav>
       <ul class="nav">
         <li class="nav-item">
-          <a href="../../admPage.php" class="nav-link text-white"><i class="bi bi-arrow-90deg-left"></i></a>
+          <a href="bandGroups.php" class="nav-link text-white"><i class="bi bi-arrow-90deg-left"></i></a>
         </li>
       </ul>
     </nav>
@@ -43,21 +49,17 @@
         exit;
     }
 
-    $sql = "SELECT * FROM musicians ORDER BY bandGroup ASC, instrument ASC";
+    $sql = "SELECT * FROM musicians WHERE bandGroup = '$bandGroup' ORDER BY instrument ASC";
     $result = $connect->query($sql);
 
     $instrument = "";
-    $bandGroup = "";
+
+    echo "<h1 class='mt-4'>Musicos da {$bandGroup}</h1>";
 
     while ($res = $result->fetch_assoc()) {
-        if ($bandGroup != $res['bandGroup']) {
-            $bandGroup = $res['bandGroup'];
-            echo "<h2 class='mt-5 border-bottom pb-2 text-primary mb-4'>$bandGroup</h2>";
-        }
-
         if ($instrument != $res['instrument']) {
             $instrument = $res['instrument'];
-            echo "<h4 class='m-0 text-secondary'>$instrument</h4>";
+            echo "<h2 class='mt-5 border-bottom pb-2 text-primary mb-4'>$instrument</h2>";
             echo "<div class='row g-4 mt-3'>";
         }
         
