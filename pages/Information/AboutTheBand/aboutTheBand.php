@@ -10,6 +10,12 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="../../../assets/css/style.css">
   <link rel="stylesheet" href="../css/aboutTheBand.css">
+  <style>
+
+    .main-container {
+      background-color: #fff;
+    }
+  </style>
 </head>
 
 <body class="d-flex flex-column min-vh-100">

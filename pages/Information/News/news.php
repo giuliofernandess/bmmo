@@ -33,8 +33,9 @@
     </nav>
   </header>
 
-<main class="container py-5">
-    <h1 class="mb-4 text-center">Acompanhe as últimas notícias da banda</h1>
+<main class="py-5">
+  <h1 class="mb-4 text-center">Acompanhe as últimas notícias da banda</h1>
+  <div class="container">  
     <section class="row g-4">
         <?php
             // Conexão e Sql
@@ -81,6 +82,7 @@
             }
         ?>
     </section>
+  </div>
 </main>
 
 <!-- Footer -->
