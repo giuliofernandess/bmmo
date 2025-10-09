@@ -21,6 +21,15 @@ $bandGroup = $_POST['bandGroup'];
       object-fit: cover;
     }
 
+    .btn {
+      transition: .2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+    }
+
   </style>
 </head>
 
@@ -71,12 +80,13 @@ $bandGroup = $_POST['bandGroup'];
           <div class='col-12 col-sm-6 col-md-4 col-lg-3 mt-0 mb-5'>
             <div class='card musician-card h-100 border-0 shadow-sm'>
             <img src='{$image}' class='card-img-top' alt='Imagem de {$res['name']}'>
-              <div class='card-body d-flex flex-column'>
+              <form action='Profile/musicianProfile.php' method='post' class='card-body d-flex flex-column'>
+                <input type='hidden' name='idMusician' value='{$res['idMusician']}'>
                 <h5 class='card-title fw-semibold text-center mb-3'>{$res['name']}</h5>
-                <a href='MusicianProfile/musicianProfile.php?id={$res['idMusician']}' class='btn btn-outline-primary mt-auto w-100'>
+                <button class='btn btn-outline-primary mt-auto w-100'>
                   <i class='bi bi-person-lines-fill me-1'></i> Ver Perfil
-                </a>
-              </div>
+                </button>
+              </form>
             </div>
           </div>
 ";
