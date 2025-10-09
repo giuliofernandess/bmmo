@@ -108,7 +108,7 @@
         <!-- Contatos -->
         <div class="col-md-6">
           <label for="tel" class="form-label ps-2">Contato do Músico *</label>
-          <input type="text" name="telephone" id="tel" class="form-control" required />
+          <input type="text" name="telephone" id="tel" class="form-control" placeholder="(xx) xxxxx-xxxx" required />
         </div>
 
         <div class="col-md-6">
@@ -118,7 +118,7 @@
 
         <div class="col-md-6">
           <label for="contactOfResponsible" class="form-label ps-2">Contato do Responsável</label>
-          <input type="text" name="contactOfResponsible" id="contactOfResponsible" class="form-control" placeholder="Contato do responsável" />
+          <input type="text" name="contactOfResponsible" id="contactOfResponsible" class="form-control" placeholder="(xx) xxxxx-xxxx" />
         </div>
 
         <!-- Bairro + Instituição -->
@@ -182,11 +182,10 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="../../../../js/jquery.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
   <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
       $("#tel").mask("(00) 00000-0000");
       $("#contactOfResponsible").mask("(00) 00000-0000");
     });
