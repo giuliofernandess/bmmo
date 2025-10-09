@@ -1,6 +1,6 @@
 <?php
 
-$bandGroup = $_POST['bandGroup'];
+$bandGroup = $_GET['bandGroup'];
 
 ?>
 
@@ -80,13 +80,12 @@ $bandGroup = $_POST['bandGroup'];
           <div class='col-12 col-sm-6 col-md-4 col-lg-3 mt-0 mb-5'>
             <div class='card musician-card h-100 border-0 shadow-sm'>
             <img src='{$image}' class='card-img-top' alt='Imagem de {$res['name']}'>
-              <form action='Profile/musicianProfile.php' method='post' class='card-body d-flex flex-column'>
-                <input type='hidden' name='idMusician' value='{$res['idMusician']}'>
+              <a href='Profile/musicianProfile.php?idMusician={$res['idMusician']}' class='card-body d-flex flex-column text-decoration-none'>
                 <h5 class='card-title fw-semibold text-center mb-3'>{$res['name']}</h5>
                 <button class='btn btn-outline-primary mt-auto w-100'>
                   <i class='bi bi-person-lines-fill me-1'></i> Ver Perfil
                 </button>
-              </form>
+              </a>
             </div>
           </div>
 ";

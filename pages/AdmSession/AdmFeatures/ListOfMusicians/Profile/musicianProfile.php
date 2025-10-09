@@ -3,7 +3,7 @@ require_once '../../../../../general-features/bdConnect.php';
 
 session_start();
 
-$idMusician = $_POST['idMusician'];
+$idMusician = $_GET['idMusician'];
 
 if (!$connect) {
     die("Erro na conexão com o banco de dados.");
@@ -20,7 +20,7 @@ $res = $result->fetch_assoc();
 ?>
 
 <!doctype html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -72,7 +72,7 @@ $res = $result->fetch_assoc();
 
             <!-- Botões de ação -->
             <div class="mt-auto d-flex justify-content-end gap-2">
-              <a href="MusicianEdit/musicianEdit.php?id=<?php echo $res['idMusician']; ?>" class="btn btn-primary">
+              <a href="MusicianEdit/musicianEdit.php?idMusician=<?php echo $res['idMusician']; ?>" class="btn btn-primary">
                 <i class="bi bi-pencil-square"></i> Editar
               </a>
               <form action="MusicianEdit/MusicianDelete/validateMusicianDelete.php" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este músico?');">

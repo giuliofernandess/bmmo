@@ -1,11 +1,11 @@
 <?php
-    require_once '../../../../../general-features/bdConnect.php';
+    require_once '../../../../../../general-features/bdConnect.php';
 
-    if (!isset($_POST['idMusician']) || !is_numeric($_POST['idMusician'])) {
+    if (!isset($_GET['idMusician']) || !is_numeric($_GET['idMusician'])) {
         die('ID do músico inválido.');
     }
 
-    $idMusician = intval($_POST['idMusician']);
+    $idMusician = intval($_GET['idMusician']);
 
     $stmt = $connect->prepare("SELECT * FROM musicians WHERE idMusician = ?");
     $stmt->bind_param("i", $idMusician);

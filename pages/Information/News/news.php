@@ -1,18 +1,37 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notícias</title>
-    <link rel="shortcut icon" href="../../../assets/images/logo_banda.png" type="image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../../assets/css/style.css">
-    <link rel="stylesheet" href="../css/news.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notícias</title>
+  <link rel="shortcut icon" href="../../../assets/images/logo_banda.png" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/css/style.css">
+  <link rel="stylesheet" href="../css/news.css">
+  <style>
+    .news-card:hover {
+      transform: scale(1.01);
+      transition: 0.3s ease-in-out;
+    }
+
+    .news-image {
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .no-news {
+      text-align: center;
+      font-size: 1.2rem;
+      color: #6c757d;
+      margin-top: 2rem;
+    }
+  </style>
 </head>
-<body>
-    <!-- Header -->
-  <header class="d-flex align-items-center justify-content-between px-3 mb-auto">
+<body class="d-flex flex-column min-vh-100">
+
+  <!-- Header -->
+  <header class="d-flex align-items-center justify-content-between px-4">
     <a href="#" class="d-flex align-items-center text-white text-decoration-none">
       <img src="../../../assets/images/logo_banda.png" alt="Logo Banda" width="30" height="30" class="me-2">
       <span class="fs-5 fw-bold">BMMO Online</span>
@@ -33,60 +52,57 @@
     </nav>
   </header>
 
-<main class="py-5">
-  <h1 class="mb-4 text-center">Acompanhe as últimas notícias da banda</h1>
-  <div class="container">  
-    <section class="row g-4">
+  <!-- Main Content -->
+  <main class="py-5 flex-grow-1">
+    <div class="container">
+      <h1 class="mb-4 text-center">Acompanhe as últimas notícias da banda</h1>
+      <section class="row g-4">
         <?php
-            // Conexão e Sql
-            require_once '../../../general-features/bdConnect.php';
+          require_once '../../../general-features/bdConnect.php';
 
-            if (!$connect) {
-                echo "<div class='alert alert-danger'>Erro ao conectar com o banco de dados.</div>";
-                exit;
-            }
+          if (!$connect) {
+              echo "<div class='alert alert-danger'>Erro ao conectar com o banco de dados.</div>";
+              exit;
+          }
 
-            $sql = "SELECT * FROM news ORDER BY date DESC";
-            $result = $connect->query($sql);
+          $sql = "SELECT * FROM news ORDER BY date DESC";
+          $result = $connect->query($sql);
 
-            if (!$result) {
-                echo "<div class='alert alert-warning'>Erro ao buscar notícias: " . htmlspecialchars($connect->error) . "</div>";
-            } elseif ($result->num_rows === 0) {
-                echo "<div class='no-news'>Nenhuma notícia cadastrada no momento.</div>";
-            } else {
-                while ($res = $result->fetch_array(MYSQLI_ASSOC)) {
-                    $id = htmlspecialchars($res['id']);
-                    $title = htmlspecialchars($res['title']);
-                    $subtitle = htmlspecialchars($res['subtitle']);
-                    $image = htmlspecialchars($res['image']);
-                    $date = htmlspecialchars(date('d/m/Y', strtotime($res['date'])));
+          if (!$result) {
+              echo "<div class='alert alert-warning'>Erro ao buscar notícias: " . htmlspecialchars($connect->error) . "</div>";
+          } elseif ($result->num_rows === 0) {
+              echo "<div class='no-news'>Nenhuma notícia cadastrada no momento.</div>";
+          } else {
+              while ($res = $result->fetch_array(MYSQLI_ASSOC)) {
+                  $id = htmlspecialchars($res['id']);
+                  $title = htmlspecialchars($res['title']);
+                  $subtitle = htmlspecialchars($res['subtitle']);
+                  $image = htmlspecialchars($res['image']);
+                  $date = htmlspecialchars(date('d/m/Y', strtotime($res['date'])));
 
-                    echo "
-                    <div class='col-md-6 col-lg-4'>
-                        <form action='expandedNews.php' method='post' class='h-100'>
-                            <input type='hidden' name='newsId' value='$id'>
-                            <button type='submit' class='btn p-0 w-100 text-start'>
-                                <div class='card news-card rounded shadow-sm h-100'>
-                                    <img src='../../../assets/images/news-images/$image' class='card-img-top rounded-top news-image' alt='Imagem da notícia'>
-                                    <div class='card-body'>
-                                        <h5 class='card-title mb-1'>$title</h5>
-                                        <p class='card-text text-muted small mb-2'>$subtitle</p>
-                                        <p class='card-text'><small class='text-muted'>Publicado em: $date</small></p>
-                                    </div>
-                                </div>
-                            </button>
-                        </form>
-                    </div>
-                    ";
-                }
-            }
+                  echo "
+                  <div class='col-md-6 col-lg-4'>
+                      <a href='expandedNews.php?id=$id' class='text-decoration-none text-dark'>
+                          <div class='card news-card rounded shadow-sm h-100'>
+                              <img src='../../../assets/images/news-images/$image' class='card-img-top rounded-top news-image' alt='Imagem da notícia'>
+                              <div class='card-body'>
+                                  <h5 class='card-title mb-1'>$title</h5>
+                                  <p class='card-text text-muted small mb-2'>$subtitle</p>
+                                  <p class='card-text'><small class='text-muted'>Publicado em: $date</small></p>
+                              </div>
+                          </div>
+                      </a>
+                  </div>
+                  ";
+              }
+          }
         ?>
-    </section>
-  </div>
-</main>
+      </section>
+    </div>
+  </main>
 
-<!-- Footer -->
-  <footer class="mt-auto py-3">
+  <!-- Footer -->
+  <footer class="py-3">
     <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
       <span>&copy; Banda de Música</span>
       <div class="d-flex gap-3">
@@ -95,6 +111,6 @@
     </div>
   </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

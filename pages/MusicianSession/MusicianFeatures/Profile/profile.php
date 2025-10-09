@@ -20,7 +20,7 @@ $res = $result->fetch_assoc();
 ?>
 
 <!doctype html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,7 +35,7 @@ $res = $result->fetch_assoc();
   <header class="d-flex align-items-center justify-content-between px-3">
     <a href="#" class="d-flex align-items-center text-white text-decoration-none">
       <img src="../../../../assets/images/logo_banda.png" alt="Logo Banda" width="30" height="30" class="me-2">
-      <span class="fs-5 fw-bold">BMMO Online - Maestro</span>
+      <span class="fs-5 fw-bold">BMMO Online - Músico</span>
     </a>
     <nav>
       <ul class="nav">

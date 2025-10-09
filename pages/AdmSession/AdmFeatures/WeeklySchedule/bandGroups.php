@@ -42,66 +42,66 @@ if (!isset($_SESSION['login'])) {
       <img src="../../../../assets/images/logo_banda.png" width="90" height="90" alt="Logo" class="mb-3">
       <h1 class="fw-bold">Painel de Bandas</h1>
       <p class="mb-4">
-        Selecione o grupo musical para gerenciar os músicos.
+        Selecione o grupo musical para gerenciar a agenda.
       </p>
 
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 justify-content-center">
         <!-- Card Banda Principal -->
         <div class="col">
-          <form action="weeklyScheduleEdit/weeklyScheduleEdit.php" method="post">
+          <form action="weeklyScheduleEdit/weeklySchedule.php" method="post">
             <input type="hidden" name="bandGroup" value="Banda Principal">
             <button class="card h-100 shadow-sm border-0 p-3 text-decoration-none text-dark">
               <i class="bi bi-music-note-list fs-2 text-primary mb-2"></i>
               <h5 class="fw-bold">Banda Principal</h5>
-              <p class="text-muted">Gerencie os participantes do grupo principal.</p>
+              <p class="text-muted">Gerencie a programação do grupo principal.</p>
             </button>
           </form>
         </div>
 
         <!-- Card Banda Auxiliar -->
         <div class="col">
-          <form action="weeklyScheduleEdit/weeklyScheduleEdit.php" method="post">
+          <form action="weeklyScheduleEdit/weeklySchedule.php" method="post">
             <input type="hidden" name="bandGroup" value="Banda Auxiliar">
-            <button class="card h-100 shadow-sm border-0 p-3 text-decoration-none text-dark">
+            <button class="card h-100 shadow-sm border-0 p-3 px-4 text-decoration-none text-dark">
               <i class="bi bi-music-note-beamed fs-2 text-success mb-2"></i>
               <h5 class="fw-bold">Banda Auxiliar</h5>
-              <p class="text-muted">Gerencie os músicos do grupo banda auxiliar.</p>
+              <p class="text-muted">Gerencie a programação da banda auxiliar.</p>
             </button>
           </form>
         </div>
 
         <!-- Card Escola de Música -->
         <div class="col">
-          <form action="weeklyScheduleEdit/weeklyScheduleEdit.php" method="post">
+          <form action="weeklyScheduleEdit/weeklySchedule.php" method="post">
             <input type="hidden" name="bandGroup" value="Escola">
             <button class="card h-100 shadow-sm border-0 p-3 text-decoration-none text-dark">
               <i class="bi bi-book-fill fs-2 text-warning mb-2"></i>
               <h5 class="fw-bold">Escola de Música</h5>
-              <p class="text-muted">Gerencie os músicos da escola de música.</p>
+              <p class="text-muted">Gerencie a agenda da escola de música.</p>
             </button>
           </form>
         </div>
 
         <!-- Card Fanfarra -->
         <div class="col">
-          <form action="weeklyScheduleEdit/weeklyScheduleEdit.php" method="post">
+          <form action="weeklyScheduleEdit/weeklySchedule.php" method="post">
             <input type="hidden" name="bandGroup" value="Fanfarra">
-            <button class="card h-100 shadow-sm border-0 py-3 text-decoration-none text-dark">
+            <button class="card h-100 shadow-sm border-0 p-3 px-2 text-decoration-none text-dark">
               <i class="bi bi-megaphone-fill fs-2 text-danger mb-2"></i>
               <h5 class="fw-bold">Fanfarra</h5>
-              <p class="text-muted">Gerencie os músicos do grupo de fanfarra.</p>
+              <p class="text-muted">Gerencie a programação semanal da fanfarra.</p>
             </button>
           </form>
         </div>
 
         <!-- Card Flauta Doce -->
         <div class="col">
-          <form action="weeklyScheduleEdit/weeklyScheduleEdit.php" method="post">
+          <form action="weeklyScheduleEdit/weeklySchedule.php" method="post">
             <input type="hidden" name="bandGroup" value="Flauta Doce">
             <button class="card h-100 shadow-sm border-0 p-3 text-decoration-none text-dark">
               <i class="bi bi-music-note fs-2 text-info mb-2"></i>
               <h5 class="fw-bold">Flauta Doce</h5>
-              <p class="text-muted">Gerencie os músicos do grupo flauta doce.</p>
+              <p class="text-muted">Gerencie a agenda do grupo de flauta doce.</p>
             </button>
           </form>
         </div>
