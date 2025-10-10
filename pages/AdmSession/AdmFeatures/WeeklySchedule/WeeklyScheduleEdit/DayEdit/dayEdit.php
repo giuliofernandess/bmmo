@@ -1,9 +1,9 @@
 <?php
 
-$groupId = isset($_POST['id']) ? htmlspecialchars(trim($_POST['id'])) : '';
-$day = isset($_POST['day']) ? htmlspecialchars(trim($_POST['day'])) : '';
-$dayTitle = isset($_POST['dayTitle']) ? htmlspecialchars(trim($_POST['dayTitle'])) : '';
-$dayProgramation = isset($_POST['dayProgramation']) ? htmlspecialchars(trim($_POST['dayProgramation'])) : '';
+$groupId = isset($_GET['id']) ? htmlspecialchars(trim($_GET['id'])) : '';
+$day = isset($_GET['day']) ? htmlspecialchars(trim($_GET['day'])) : '';
+$dayTitle = isset($_GET['dayTitle']) ? htmlspecialchars(trim($_GET['dayTitle'])) : '';
+$dayProgramation = isset($_GET['dayProgramation']) ? htmlspecialchars(trim($_GET['dayProgramation'])) : '';
 
 if (empty($day) || empty($dayTitle)) {
     die('Dados incompletos. Volte e tente novamente.');
