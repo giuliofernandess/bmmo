@@ -19,6 +19,10 @@
     .login-container {
       max-width: 1000px;
     }
+
+    select.form-control {
+      padding: 0 0 0 12px;
+    }
   </style>
 </head>
 
@@ -64,7 +68,7 @@
         <!-- Instrumento + Grupo -->
         <div class="col-md-6">
           <label for="instrument" class="form-label ps-2">Instrumento *</label>
-          <select name="instrument" id="instrument" class="form-control" required>
+          <select name="instrument" id="instrument" class="form-control select" required>
             <option value="">Selecione</option>
             <option value="Flute">Flauta</option>
             <option value="Lira">Lira</option>
@@ -147,7 +151,7 @@
 
         <!-- Upload -->
         <div class="col-md-6">
-          <label for="file" class="form-label ps-2">Imagem *</label>
+          <label for="file" class="form-label ps-2">Imagem do músico *</label>
           <input type="file" name="file" id="inputFile" accept="image/*" class="form-control" required />
         </div>
 
