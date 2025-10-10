@@ -20,6 +20,16 @@ if (empty($day) || empty($dayTitle)) {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
   <link rel="stylesheet" href="../../../../../../assets/css/style.css">
+  <link rel="stylesheet" href="../../../../../../assets/css/form.css">
+  <style>
+    .login-container {
+      max-width: 800px;
+    }
+
+    .btn {
+      padding: 0 0 0 12px;
+    }
+  </style>
 </head>
 <body>
 
@@ -38,37 +48,35 @@ if (empty($day) || empty($dayTitle)) {
     </nav>
   </header>
 
-<main class="container my-5">
-  <div class="row justify-content-center">
-    <div class="col-lg-8">
-      <div class="card shadow-sm">
-        <h3 class="mb-0 text-center text-primary mt-3 fs-1 fw-semibold">Programação de <?php echo htmlspecialchars($dayTitle); ?></h3>
-        <div class="card-body">
-          <form action="validateDayEdit.php" method="post">
-            <div class="mb-3">
-              <textarea 
-                name="dayProgramation" 
-                id="dayProgramation" 
-                rows="10" 
-                class="form-control" 
-                required
-              ><?php echo htmlspecialchars($dayProgramation); ?></textarea>
-            </div>
-
-            <!-- Hidden Inputs -->
-            <input type="hidden" name="id" value="<?php echo htmlspecialchars($groupId); ?>">
-            <input type="hidden" name="day" value="<?php echo htmlspecialchars($day); ?>">
-
-            <div class="d-grid">
-              <button type="submit" class="btn btn-primary">
-                <i class="bi bi-pencil-square me-1"></i> Editar Dia
-              </button>
-            </div>
-          </form>
+<main class="container login-container my-5" style="width: 90%;">
+    <div class="row justify-content-center">
+      <div class="col-lg-12">
+          <h3 class="mb-4 text-center text-primary fs-1 fw-semibold">Programação de <?php echo htmlspecialchars($dayTitle); ?></h3>
+          <div class="card-body">
+            <form action="validateDayEdit.php" method="post">
+              <div class="mb-3">
+                <textarea
+                  name="dayProgramation"
+                  id="dayProgramation"
+                  rows="10"
+                  class="form-control"
+                  style="height: auto";
+                  required
+                ><?php echo htmlspecialchars($dayProgramation); ?></textarea>
+              </div>
+              <!-- Hidden Inputs -->
+              <input type="hidden" name="id" value="<?php echo htmlspecialchars($groupId); ?>">
+              <input type="hidden" name="day" value="<?php echo htmlspecialchars($day); ?>">
+              <div class="d-grid">
+                <!-- Botão -->
+                <div class="col-12 mt-3">
+                  <button type="submit" class="btn btn-primary btn-lg rounded-pill w-100">Editar Dia</button>
+                </div>
+              </div>
+            </form>
         </div>
       </div>
     </div>
-  </div>
 </main>
 
 
