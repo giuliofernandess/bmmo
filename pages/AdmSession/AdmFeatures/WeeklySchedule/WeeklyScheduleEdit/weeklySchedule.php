@@ -5,7 +5,7 @@ if (!$connect) {
     die("Erro na conexão com o banco de dados.");
 }
 
-$bandGroup = isset($_POST['bandGroup']) ? htmlspecialchars(trim($_POST['bandGroup'])) : '';
+$bandGroup = isset($_GET['bandGroup']) ? htmlspecialchars(trim($_GET['bandGroup'])) : '';
 
 $bandGroups = [
     'Banda Principal' => '1',
@@ -42,6 +42,13 @@ $res = $result->fetch_assoc();
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
   <link rel="stylesheet" href="../../../../../assets/css/style.css">
+  <style>
+    .card:hover {
+      transform: scale(1.01);
+      transition: transform 0.2s ease-in-out;
+    }
+  </style>
+
 </head>
 <body>
 
@@ -54,24 +61,18 @@ $res = $result->fetch_assoc();
     <nav>
       <ul class="nav">
         <li class="nav-item">
-          <a href="../../admPage.php" class="nav-link text-white" style="font-size: 1.4rem;"><i class="bi bi-arrow-90deg-left"></i></a>
+          <a href="../bandGroups.php" class="nav-link text-white" style="font-size: 1.4rem;"><i class="bi bi-arrow-90deg-left"></i></a>
         </li>
       </ul>
     </nav>
   </header>
 
-  <div class="days">
+  <main class="container my-4">
+   <div class="row g-4">
     <?php
-    $days = [
-        'sunday' => 'Domingo',
-        'monday' => 'Segunda-Feira',
-        'tuesday' => 'Terça-Feira',
-        'wednesday' => 'Quarta-Feira',
-        'thursday' => 'Quinta-Feira',
-        'friday' => 'Sexta-Feira',
-        'saturday' => 'Sábado'
-    ];
 
+    $days = [ 'sunday' => 'Domingo', 'monday' => 'Segunda-Feira', 'tuesday' => 'Terça-Feira', 'wednesday' => 'Quarta-Feira', 'thursday' => 'Quinta-Feira', 'friday' => 'Sexta-Feira', 'saturday' => 'Sábado' ];
+    
     foreach ($days as $key => $name) {
         $content = isset($res[$key]) ? $res[$key] : '';
 
@@ -80,18 +81,22 @@ $res = $result->fetch_assoc();
         $escapedKey = htmlspecialchars($key, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 
         echo '
-            <div>
-                <h2 class="day">' . $escapedTitle . '</h2>
-                <p class="dayProgramation">' . nl2br($escapedContent) . '</p>
-                <input type="hidden" name="id" value="' . $groupId . '">
-                <input type="hidden" name="day" value="' . $escapedKey . '">
-                <input type="hidden" name="dayTitle" value="' . $escapedTitle . '">
-                <input type="hidden" name="dayProgramation" value="' . $escapedContent . '">
-                <a href="DayEdit/dayEdit.php?id=' . $groupId . '&day=' . $escapedKey . '&dayTitle=' . $escapedTitle . '&dayProgramation=' . $escapedContent .'">Editar dia</a>
-            </div>';
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title text-primary fw-bold">' . $escapedTitle . '</h5>
+                <p class="card-text flex-grow-1 dayProgramation text-muted">' . nl2br($escapedContent) . '</p>
+                <a href="DayEdit/dayEdit.php?id=' . $groupId . '&day=' . $escapedKey . '&dayTitle=' . $escapedTitle . '&dayProgramation=' . $escapedContent .'" class="btn btn-outline-primary btn-sm mt-3 align-self-start">
+                  <i class="bi bi-pencil-square me-1"></i> Editar dia
+                </a>
+              </div>
+            </div>
+          </div>';
     }
     ?>
-  </div>
+   </div>
+  </main>
+
 
   <!-- Footer -->
   <footer class="mt-auto py-3">
