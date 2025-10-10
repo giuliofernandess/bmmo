@@ -26,7 +26,7 @@ if (!isset($_SESSION['login'])) {
 <body>
   <!-- Header -->
   <header class="d-flex align-items-center justify-content-between px-3">
-    <a href="#" class="d-flex align-items-center text-white text-decoration-none">
+    <a href="#" class="d-flex align-items-center text-white text-decoration-none" onclick="return confirm('Tem certeza que deseja sair de sua conta?');">
       <img src="../../assets/images/logo_banda.png" alt="Logo Banda" width="30" height="30" class="me-2">
       <span class="fs-5 fw-bold">BMMO Online - Maestro</span>
     </a>
