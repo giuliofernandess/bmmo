@@ -159,6 +159,7 @@
             <option value="Novo Horizonte">Novo Horizonte</option>
             <option value="Placa de Ocara">Placa de Ocara</option>
             <option value="Placa José Pereira">Placa José Pereira</option>
+            <option value="Prainha">Prainha</option>
             <option value="São Marcos">São Marcos</option>
             <option value="São Pedro">São Pedro</option>
             <option value="Sereno">Sereno</option>
