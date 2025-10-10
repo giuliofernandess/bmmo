@@ -25,7 +25,7 @@ if (!isset($_SESSION['login'])) {
 <body>
   <!-- Header -->
   <header class="d-flex align-items-center justify-content-between px-3 mb-auto">
-    <a href="#" class="d-flex align-items-center text-white text-decoration-none" onclick="return confirm('Tem certeza que deseja sair de sua conta?');">
+    <a href="#" class="d-flex align-items-center text-white text-decoration-none">
       <img src="../../assets/images/logo_banda.png" alt="Logo Banda" width="30" height="30" class="me-2">
       <span class="fs-5 fw-bold">BMMO Online - Músico</span>
     </a>
@@ -33,7 +33,7 @@ if (!isset($_SESSION['login'])) {
     <nav>
       <ul class="nav">
         <li class="nav-item">
-          <a href="../../general-features/logout.php" class="nav-link text-white"><i class="bi bi-box-arrow-right fs-2 text-white mb-2"></i></a>
+          <a href="../../general-features/logout.php" class="nav-link text-white" onclick="return confirm('Tem certeza que deseja sair de sua conta?');"><i class="bi bi-box-arrow-right fs-2 text-white mb-2"></i></a>
         </li>
       </ul>
     </nav>
