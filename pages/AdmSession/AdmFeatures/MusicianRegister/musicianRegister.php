@@ -20,7 +20,7 @@
       max-width: 1000px;
     }
 
-    select.form-control {
+    select.form-control, .btn {
       padding: 0 0 0 12px;
     }
   </style>
