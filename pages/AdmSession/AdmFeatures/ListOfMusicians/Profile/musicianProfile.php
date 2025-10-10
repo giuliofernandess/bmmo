@@ -29,6 +29,16 @@ $res = $result->fetch_assoc();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="shortcut icon" href="../../../../../assets/images/logo_banda.png" type="image/x-icon">
     <link rel="stylesheet" href="../../../../../assets/css/style.css">
+    <style>
+      .btn {
+        transition: .2s;
+      }
+
+      .btn:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+      }
+    </style>
   </head>
   <body>
     <!-- Header -->
@@ -76,12 +86,12 @@ $res = $result->fetch_assoc();
 
             <!-- Botões de ação -->
             <div class="mt-auto d-flex justify-content-end gap-2">
-              <a href="MusicianEdit/musicianEdit.php?idMusician=<?php echo $res['idMusician']; ?>" class="btn btn-primary">
+              <a href="MusicianEdit/musicianEdit.php?idMusician=<?php echo $res['idMusician']; ?>" class='btn btn-outline-primary mt-auto'>
                 <i class="bi bi-pencil-square"></i> Editar
               </a>
               <form action="MusicianEdit/MusicianDelete/validateMusicianDelete.php" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este músico?');">
                 <input type="hidden" name="idMusician" value="<?php echo $res['idMusician']; ?>">
-                <button type="submit" class="btn btn-danger">
+                <button type="submit" class='btn btn-outline-danger mt-auto'>
                   <i class="bi bi-trash"></i> Excluir
                 </button>
               </form>
