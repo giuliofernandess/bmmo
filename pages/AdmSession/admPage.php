@@ -20,7 +20,6 @@ if (!isset($_SESSION['login'])) {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="../../assets/css/style.css">
-  </style>
 </head>
 
 <body>
@@ -34,7 +33,7 @@ if (!isset($_SESSION['login'])) {
     <nav>
       <ul class="nav">
         <li class="nav-item">
-          <a href="../../general-features/logout.php" class="nav-link text-white" onclick="return confirm('Tem certeza que deseja sair de sua conta?');"  style="display: inline-block; height: 25px; width: 25px;"><i class="bi bi-box-arrow-left text-white"></i></a>
+          <a href="../../general-features/logout.php" class="nav-link text-white" onclick="return confirm('Tem certeza que deseja sair de sua conta?');"><i class="bi bi-box-arrow-left text-white"></i></a>
         </li>
       </ul>
     </nav>

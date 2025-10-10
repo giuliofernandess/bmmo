@@ -39,6 +39,10 @@ header a span {
     font-weight: 600;
 }
 
+.nav-link {
+    font-size: 1.6rem;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
 }
