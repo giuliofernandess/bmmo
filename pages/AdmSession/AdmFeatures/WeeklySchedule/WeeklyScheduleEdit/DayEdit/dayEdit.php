@@ -5,6 +5,16 @@ $day = isset($_GET['day']) ? htmlspecialchars(trim($_GET['day'])) : '';
 $dayTitle = isset($_GET['dayTitle']) ? htmlspecialchars(trim($_GET['dayTitle'])) : '';
 $dayProgramation = isset($_GET['dayProgramation']) ? htmlspecialchars(trim($_GET['dayProgramation'])) : '';
 
+$bandGroups = [
+    '1' => 'Banda Principal',
+    '2' => 'Banda Auxiliar',
+    '3' => 'Escola',
+    '4' => 'Fanfarra',
+    '5' => 'Flauta Doce'
+];
+
+$bandGroup = $bandGroups[$groupId];
+
 if (empty($day) || empty($dayTitle)) {
     die('Dados incompletos. Volte e tente novamente.');
 }
@@ -42,7 +52,7 @@ if (empty($day) || empty($dayTitle)) {
     <nav>
       <ul class="nav">
         <li class="nav-item">
-          <a href="../../bandGroups.php" class="nav-link text-white" style="font-size: 1.4rem;"><i class="bi bi-arrow-90deg-left"></i></a>
+          <a href="../weeklySchedule.php?bandGroup=<?php echo $bandGroup ?>" class="nav-link text-white" style="font-size: 1.4rem;"><i class="bi bi-arrow-90deg-left"></i></a>
         </li>
       </ul>
     </nav>
