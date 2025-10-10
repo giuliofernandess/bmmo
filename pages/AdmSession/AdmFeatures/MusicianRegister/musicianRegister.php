@@ -151,8 +151,8 @@
 
         <!-- Upload -->
         <div class="col-md-6">
-          <label for="file" class="form-label ps-2">Imagem do músico *</label>
-          <input type="file" name="file" id="inputFile" accept="image/*" class="form-control" required />
+          <label for="file" class="form-label ps-2">Imagem do músico</label>
+          <input type="file" name="file" id="inputFile" accept="image/*" class="form-control" />
         </div>
 
         <!-- Senhas -->
