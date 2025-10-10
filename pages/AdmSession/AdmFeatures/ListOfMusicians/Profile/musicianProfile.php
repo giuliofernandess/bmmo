@@ -52,7 +52,11 @@ $res = $result->fetch_assoc();
       <div class="row g-0">
         <!-- Imagem -->
         <div class="col-md-4 text-center bg-secondary">
-          <img src="../../../../../assets/images/musicians-images/<?php echo $res['image'] ?>" 
+          <img src="../../../../../assets/images/musicians-images/<?php if ($res['image'] == "") {
+            echo 'default.png';
+          } else {
+            echo $res['image'];
+          } ?>" 
                class="img-fluid rounded-start h-100 object-fit-cover" 
                alt="Imagem de <?php echo htmlspecialchars($res['name']) ?>">
         </div>
