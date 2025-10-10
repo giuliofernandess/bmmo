@@ -30,7 +30,7 @@ if (!isset($_SESSION['login'])) {
     <nav>
       <ul class="nav">
         <li class="nav-item">
-          <a href="../../admPage.php" class="nav-link text-white" style="font-size: 1.6rem;"><i class="bi bi-arrow-90deg-left"></i></a>
+          <a href="../../admPage.php" class="nav-link text-white" style="font-size: 1.4rem;"><i class="bi bi-arrow-90deg-left"></i></a>
         </li>
       </ul>
     </nav>
