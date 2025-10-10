@@ -43,9 +43,28 @@ $res = $result->fetch_assoc();
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
   <link rel="stylesheet" href="../../../../../assets/css/style.css">
   <style>
-    .card:hover {
-      transform: scale(1.01);
-      transition: transform 0.2s ease-in-out;
+    .card-body {
+      text-align: center;
+    }
+
+    .card-img-top {
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .btn {
+      transition: .2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+    }
+
+    @media screen and (min-width: 768px) {
+      .card-body {
+        text-align: left;
+      }
     }
   </style>
 
@@ -72,7 +91,7 @@ $res = $result->fetch_assoc();
     <?php
 
     $days = [ 'sunday' => 'Domingo', 'monday' => 'Segunda-Feira', 'tuesday' => 'Terça-Feira', 'wednesday' => 'Quarta-Feira', 'thursday' => 'Quinta-Feira', 'friday' => 'Sexta-Feira', 'saturday' => 'Sábado' ];
-    
+
     foreach ($days as $key => $name) {
         $content = isset($res[$key]) ? $res[$key] : '';
 
@@ -84,9 +103,9 @@ $res = $result->fetch_assoc();
           <div class="col-12 col-md-6 col-lg-4">
             <div class="card h-100 shadow-sm border-0">
               <div class="card-body d-flex flex-column">
-                <h5 class="card-title text-primary fw-bold">' . $escapedTitle . '</h5>
-                <p class="card-text flex-grow-1 dayProgramation text-muted">' . nl2br($escapedContent) . '</p>
-                <a href="DayEdit/dayEdit.php?id=' . $groupId . '&day=' . $escapedKey . '&dayTitle=' . $escapedTitle . '&dayProgramation=' . $escapedContent .'" class="btn btn-outline-primary btn-sm mt-3 align-self-start">
+                <h5 class="card-title text-primary fw-bold fs-3">' . $escapedTitle . '</h5>
+                <p class="card-text flex-grow-1 dayProgramation text-muted fs-6">' . nl2br($escapedContent) . '</p>
+                <a href="DayEdit/dayEdit.php?id=' . $groupId . '&day=' . $escapedKey . '&dayTitle=' . $escapedTitle . '&dayProgramation=' . $escapedContent . '" class="btn btn-outline-primary btn-sm mt-3 align-center">
                   <i class="bi bi-pencil-square me-1"></i> Editar dia
                 </a>
               </div>
