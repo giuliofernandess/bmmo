@@ -33,7 +33,7 @@ if (!isset($_SESSION['login'])) {
     <nav>
       <ul class="nav">
         <li class="nav-item">
-          <a href="../../general-features/logout.php" class="nav-link text-white" onclick="return confirm('Tem certeza que deseja sair de sua conta?');"><i class="bi bi-box-arrow-left text-white"></i></a>
+          <a href="../../general-features/logout.php" class="nav-link text-white" onclick="return confirm('Tem certeza que deseja sair de sua conta?');" style="font-size: 1.6rem;"><i class="bi bi-box-arrow-left text-white"></i></a>
         </li>
       </ul>
     </nav>

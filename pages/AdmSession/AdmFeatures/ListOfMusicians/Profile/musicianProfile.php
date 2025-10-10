@@ -40,7 +40,7 @@ $res = $result->fetch_assoc();
     <nav>
       <ul class="nav">
         <li class="nav-item">
-          <a href="../bandGroups.php" class="nav-link text-white"><i class="bi bi-arrow-90deg-left"></i></a>
+          <a href="../bandGroups.php" class="nav-link text-white" style="font-size: 1.6rem;"><i class="bi bi-arrow-90deg-left"></i></a>
         </li>
       </ul>
     </nav>
