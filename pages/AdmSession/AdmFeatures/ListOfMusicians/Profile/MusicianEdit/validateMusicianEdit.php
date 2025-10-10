@@ -16,7 +16,7 @@ $password = $_POST['password'] ?? '';
 $confirmPassword = $_POST['confirmPassword'] ?? '';
 
 // Conexão com banco
-require_once '../../../../../general-features/bdConnect.php';
+require_once '../../../../../../general-features/bdConnect.php';
 if ($connect->connect_error) {
     error_log("Erro de conexão: " . $connect->connect_error);
     echo "<script>alert('Erro ao conectar com o banco de dados.'); window.location.href = '../musicians.php';</script>";
@@ -35,7 +35,7 @@ if (!empty($password)) {
     $stmt = $connect->prepare("UPDATE musicians SET login = ?, instrument = ?, bandGroup = ?, telephone = ?, responsible = ?, telephoneOfResponsible = ?, neighborhood = ?, institution = ?, password = ? WHERE idMusician = ?");
     if (!$stmt) {
         error_log("Erro na preparação da query: " . $connect->error);
-        echo "<script>alert('Erro interno no servidor.'); window.location.href = '../musicians.php';</script>";
+        echo "<script>alert('Erro interno no servidor.'); window.location.href = '../musicianProfile.php?idMusician={$idMusician}';</script>";
         exit;
     }
 
@@ -44,7 +44,7 @@ if (!empty($password)) {
     $stmt = $connect->prepare("UPDATE musicians SET login = ?, instrument = ?, bandGroup = ?, telephone = ?, responsible = ?, telephoneOfResponsible = ?, neighborhood = ?, institution = ? WHERE idMusician = ?");
     if (!$stmt) {
         error_log("Erro na preparação da query: " . $connect->error);
-        echo "<script>alert('Erro interno no servidor.'); window.location.href = '../musicians.php';</script>";
+        echo "<script>alert('Erro interno no servidor.'); window.location.href = '../musicianProfile.php?idMusician={$idMusician}';</script>";
         exit;
     }
 
@@ -53,7 +53,7 @@ if (!empty($password)) {
 
 if ($stmt->execute()) {
     if ($stmt->affected_rows > 0) {
-        echo "<script>alert('O músico foi editado com sucesso!'); window.location.href = '../musicians.php';</script>";
+        echo "<script>alert('O músico foi editado com sucesso!'); window.location.href = '../musicianProfile.php?idMusician={$idMusician}';</script>";
     } else {
         echo "<script>alert(' [ERRO] Nenhum dado editado!'); window.history.back();</script>";
     }

@@ -120,7 +120,7 @@
         <div class="col-md-6">
           <label for="group" class="form-label ps-2">Grupo da Banda</label>
           <select name="bandGroup" id="group" class="form-control">
-            <option value="">Selecione</option>
+            <option value="<?php echo $res['bandGroup'] ?>">Selecione</option>
             <option value="Banda Principal">Banda Principal</option>
             <option value="Banda Auxiliar">Banda Auxiliar</option>
             <option value="Escola">Escola de Música</option>
