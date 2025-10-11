@@ -49,53 +49,100 @@ $res = $result->fetch_assoc();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Agenda Semanal</title>
-  <link rel="shortcut icon" href="images/logo_banda.png" type="image/x-icon" />
+  <link rel="shortcut icon" href="../../../../assets/images/logo_banda.png" type="image/x-icon">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../../../../assets/css/style.css">
+  <style>
+    .card-body {
+      text-align: center;
+    }
+
+    .card-img-top {
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .btn {
+      transition: .2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+    }
+
+    @media screen and (min-width: 768px) {
+      .card-body {
+        text-align: left;
+      }
+    }
+  </style>
+
 </head>
 <body>
-  <header>
-    <h1>Agenda Semanal</h1>
+
+  <!-- Header -->
+  <header class="d-flex align-items-center justify-content-between px-3">
+    <a href="#" class="d-flex align-items-center text-white text-decoration-none">
+      <img src="../../../../assets/images/logo_banda.png" alt="Logo Banda" width="30" height="30" class="me-2">
+      <span class="fs-5 fw-bold">BMMO Online - Maestro</span>
+    </a>
+    <nav>
+      <ul class="nav">
+        <li class="nav-item">
+          <a href="../musicianPage.php" class="nav-link text-white" style="font-size: 1.4rem;"><i class="bi bi-arrow-90deg-left"></i></a>
+        </li>
+      </ul>
+    </nav>
   </header>
 
-  <a href="../../musicianPage.php">Voltar</a>
-
-  <div class="days">
+  <main class="container my-4">
+   <div class="row g-4">
     <?php
-    $days = [
-        'sunday' => 'Domingo',
-        'monday' => 'Segunda-Feira',
-        'tuesday' => 'Terça-Feira',
-        'wednesday' => 'Quarta-Feira',
-        'thursday' => 'Quinta-Feira',
-        'friday' => 'Sexta-Feira',
-        'saturday' => 'Sábado'
-    ];
+
+    $days = [ 'sunday' => 'Domingo', 'monday' => 'Segunda-Feira', 'tuesday' => 'Terça-Feira', 'wednesday' => 'Quarta-Feira', 'thursday' => 'Quinta-Feira', 'friday' => 'Sexta-Feira', 'saturday' => 'Sábado' ];
 
     foreach ($days as $key => $name) {
         $content = isset($res[$key]) ? $res[$key] : '';
+
         $escapedContent = htmlspecialchars($content, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
         $escapedTitle = htmlspecialchars($name, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
         $escapedKey = htmlspecialchars($key, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 
         echo '
-        <div>
-            <form action="day.php" method="post">
-                <h2 class="day">' . $escapedTitle . '</h2>
-                <p class="dayProgramation">' . nl2br($escapedContent) . '</p>
-                <input type="hidden" name="day" value="' . $escapedKey . '">
-                <input type="hidden" name="dayTitle" value="' . $escapedTitle . '">
-                <input type="hidden" name="dayProgramation" value="' . $escapedContent . '">
-                <button type="submit">Ver mais</button>
-            </form>
-        </div>';
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title text-primary fw-bold fs-3">' . $escapedTitle . '</h5>
+                <p class="card-text flex-grow-1 dayProgramation text-muted fs-6">' . nl2br($escapedContent) . '</p>
+                <a href="day.php?day=' . $escapedKey . '&dayTitle=' . $escapedTitle . '&dayProgramation=' . $escapedContent . '" class="btn btn-outline-primary btn-sm mt-3 align-center">
+                  <i class="bi bi-pencil-square me-1"></i> Editar dia
+                </a>
+              </div>
+            </div>
+          </div>';
     }
     ?>
-  </div>
+   </div>
+  </main>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const programations = document.querySelectorAll(".dayProgramation");
-        const limit = 50;
+
+  <!-- Footer -->
+  <footer class="mt-auto py-3">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <span>&copy; Banda de Música</span>
+      <div class="d-flex gap-3">
+        <a href="https://www.instagram.com/bmmooficial" target="_blank"><i class="bi bi-instagram fs-5"></i></a>
+      </div>
+    </div>
+  </footer>
+  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const programations = document.querySelectorAll(".dayProgramation");
+            const limit = 50;
 
         programations.forEach(function (p) {
             const originalText = p.innerText;
@@ -104,10 +151,7 @@ $res = $result->fetch_assoc();
             }
         });
     });
-  </script>
+    </script>
 
-  <footer class="bg-light text-center py-3 mt-auto">
-    <small>&copy; <?php echo date("Y"); ?> Banda Musical - Músico</small>
-  </footer>
 </body>
 </html>
