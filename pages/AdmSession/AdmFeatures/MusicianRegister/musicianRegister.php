@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,7 +21,8 @@
       max-width: 1000px;
     }
 
-    select.form-control, .btn {
+    select.form-control,
+    .btn {
       padding: 0 0 0 12px;
     }
   </style>
@@ -37,7 +39,8 @@
     <nav>
       <ul class="nav">
         <li class="nav-item">
-          <a href="../../admPage.php" class="nav-link text-white" style="font-size: 1.4rem;"><i class="bi bi-arrow-90deg-left"></i></a>
+          <a href="../../admPage.php" class="nav-link text-white" style="font-size: 1.4rem;"><i
+              class="bi bi-arrow-90deg-left"></i></a>
         </li>
       </ul>
     </nav>
@@ -118,12 +121,14 @@
 
         <div class="col-md-6">
           <label for="responsible" class="form-label ps-2">Responsável</label>
-          <input type="text" name="responsible" id="responsible" class="form-control" placeholder="Nome do responsável" />
+          <input type="text" name="responsible" id="responsible" class="form-control"
+            placeholder="Nome do responsável" />
         </div>
 
         <div class="col-md-6">
           <label for="contactOfResponsible" class="form-label ps-2">Contato do Responsável</label>
-          <input type="text" name="contactOfResponsible" id="contactOfResponsible" class="form-control" placeholder="(xx) xxxxx-xxxx" />
+          <input type="text" name="contactOfResponsible" id="contactOfResponsible" class="form-control"
+            placeholder="(xx) xxxxx-xxxx" />
         </div>
 
         <!-- Bairro + Instituição -->
@@ -148,7 +153,8 @@
 
         <div class="col-md-6">
           <label for="institution" class="form-label ps-2">Instituição</label>
-          <input type="text" name="institution" id="institution" class="form-control" placeholder="Escola, faculdade ou emprego" />
+          <input type="text" name="institution" id="institution" class="form-control"
+            placeholder="Escola, faculdade ou emprego" />
         </div>
 
         <!-- Upload -->
@@ -160,12 +166,14 @@
         <!-- Senhas -->
         <div class="col-md-6">
           <label for="password" class="form-label ps-2">Senha *</label>
-          <input type="password" name="password" id="password" class="form-control" placeholder="Digite a senha" required minlength="8" maxlength="20" />
+          <input type="password" name="password" id="password" class="form-control" placeholder="Digite a senha"
+            required minlength="8" maxlength="20" />
         </div>
 
         <div class="col-md-6">
           <label for="confirmPassword" class="form-label ps-2">Confirmar Senha *</label>
-          <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" placeholder="Confirme a senha" required />
+          <input type="password" name="confirmPassword" id="confirmPassword" class="form-control"
+            placeholder="Confirme a senha" required />
         </div>
 
         <!-- Botão -->
@@ -197,4 +205,5 @@
     });
   </script>
 </body>
+
 </html>

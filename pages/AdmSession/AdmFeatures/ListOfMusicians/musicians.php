@@ -29,7 +29,6 @@ $bandGroup = $_GET['bandGroup'];
       transform: translateY(-4px) scale(1.02);
       box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
     }
-
   </style>
 </head>
 
@@ -43,19 +42,20 @@ $bandGroup = $_GET['bandGroup'];
     <nav>
       <ul class="nav">
         <li class="nav-item">
-          <a href="bandGroups.php" class="nav-link text-white" style="font-size: 1.4rem;"><i class="bi bi-arrow-90deg-left"></i></a>
+          <a href="bandGroups.php" class="nav-link text-white" style="font-size: 1.4rem;"><i
+              class="bi bi-arrow-90deg-left"></i></a>
         </li>
       </ul>
     </nav>
   </header>
 
   <main class="container mb-5 p-5">
-  <?php 
+    <?php
     require_once '../../../../general-features/bdConnect.php';
 
     if (!$connect) {
-        echo "<div class='alert alert-danger'>Erro ao conectar com o banco de dados.</div>";
-        exit;
+      echo "<div class='alert alert-danger'>Erro ao conectar com o banco de dados.</div>";
+      exit;
     }
 
     $sql = "SELECT * FROM musicians WHERE bandGroup = '$bandGroup' ORDER BY instrument ASC";
@@ -66,17 +66,17 @@ $bandGroup = $_GET['bandGroup'];
     echo "<h1 class='mt-4'>Musicos da {$bandGroup}</h1>";
 
     while ($res = $result->fetch_assoc()) {
-        if ($instrument != $res['instrument']) {
-            $instrument = $res['instrument'];
-            echo "<h2 class='mt-5 border-bottom pb-2 text-primary mb-4'>$instrument</h2>";
-            echo "<div class='row g-4 mt-3'>";
-        }
-        
-        $image = !empty($res['image']) && file_exists("../../../../assets/images/musicians-images/{$res['image']}")
+      if ($instrument != $res['instrument']) {
+        $instrument = $res['instrument'];
+        echo "<h2 class='mt-5 border-bottom pb-2 text-primary mb-4'>$instrument</h2>";
+        echo "<div class='row g-4 mt-3'>";
+      }
+
+      $image = !empty($res['image']) && file_exists("../../../../assets/images/musicians-images/{$res['image']}")
         ? "../../../../assets/images/musicians-images/{$res['image']}"
         : "../../../../assets/images/musicians-images/default.png";
 
-        echo "
+      echo "
           <div class='col-6 col-md-4 col-lg-3 mt-0 mb-5'>
             <div class='card musician-card h-100 border-0 shadow-sm'>
             <img src='{$image}' class='card-img-top' alt='Imagem de {$res['name']}'>
@@ -90,8 +90,8 @@ $bandGroup = $_GET['bandGroup'];
           </div>
 ";
     }
-  ?>
-</main>
+    ?>
+  </main>
 
 
   <!-- Footer -->

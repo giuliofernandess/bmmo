@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,6 +29,7 @@
     }
   </style>
 </head>
+
 <body class="d-flex flex-column min-vh-100">
 
   <!-- Header -->
@@ -58,29 +60,29 @@
       <h1 class="mb-4 text-center">Acompanhe as últimas notícias da banda</h1>
       <section class="row g-4">
         <?php
-          require_once '../../../general-features/bdConnect.php';
+        require_once '../../../general-features/bdConnect.php';
 
-          if (!$connect) {
-              echo "<div class='alert alert-danger'>Erro ao conectar com o banco de dados.</div>";
-              exit;
-          }
+        if (!$connect) {
+          echo "<div class='alert alert-danger'>Erro ao conectar com o banco de dados.</div>";
+          exit;
+        }
 
-          $sql = "SELECT * FROM news ORDER BY date DESC";
-          $result = $connect->query($sql);
+        $sql = "SELECT * FROM news ORDER BY date DESC";
+        $result = $connect->query($sql);
 
-          if (!$result) {
-              echo "<div class='alert alert-warning'>Erro ao buscar notícias: " . htmlspecialchars($connect->error) . "</div>";
-          } elseif ($result->num_rows === 0) {
-              echo "<div class='no-news'>Nenhuma notícia cadastrada no momento.</div>";
-          } else {
-              while ($res = $result->fetch_array(MYSQLI_ASSOC)) {
-                  $id = htmlspecialchars($res['id']);
-                  $title = htmlspecialchars($res['title']);
-                  $subtitle = htmlspecialchars($res['subtitle']);
-                  $image = htmlspecialchars($res['image']);
-                  $date = htmlspecialchars(date('d/m/Y', strtotime($res['date'])));
+        if (!$result) {
+          echo "<div class='alert alert-warning'>Erro ao buscar notícias: " . htmlspecialchars($connect->error) . "</div>";
+        } elseif ($result->num_rows === 0) {
+          echo "<div class='no-news'>Nenhuma notícia cadastrada no momento.</div>";
+        } else {
+          while ($res = $result->fetch_array(MYSQLI_ASSOC)) {
+            $id = htmlspecialchars($res['id']);
+            $title = htmlspecialchars($res['title']);
+            $subtitle = htmlspecialchars($res['subtitle']);
+            $image = htmlspecialchars($res['image']);
+            $date = htmlspecialchars(date('d/m/Y', strtotime($res['date'])));
 
-                  echo "
+            echo "
                   <div class='col-md-6 col-lg-4'>
                       <a href='expandedNews.php?id=$id' class='text-decoration-none text-dark'>
                           <div class='card news-card rounded shadow-sm h-100'>
@@ -94,8 +96,8 @@
                       </a>
                   </div>
                   ";
-              }
           }
+        }
         ?>
       </section>
     </div>
@@ -113,4 +115,5 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

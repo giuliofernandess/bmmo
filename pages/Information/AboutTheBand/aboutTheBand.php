@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="../../../assets/css/style.css">
   <link rel="stylesheet" href="../css/aboutTheBand.css">
   <style>
-
     .main-container {
       background-color: #fff;
     }
@@ -52,34 +51,43 @@
       <section class="mb-5">
         <figure class="text-center">
           <img src="../../../assets/images/about-the-band/first_image.jpg"
-            alt="Imagem da primeira turma da banda no ano de 2002"
-            class="about-image img-fluid">
+            alt="Imagem da primeira turma da banda no ano de 2002" class="about-image img-fluid">
           <figcaption>Imagem da primeira turma da banda no ano de 2002</figcaption>
         </figure>
       </section>
 
       <section class="mb-4">
         <p class="fs-6 text-dark">
-          A Banda de Música Municipal de Ocara Maestro Jairo Cláudio Silveira foi fundada no ano de 2002 e só foi registrada no dia 16 de junho de 2008 pela Lei Nº 569. Com a finalidade de atividades musicais como um fator importante para o desenvolvimento social e cultural do ser humano e de ser um espaço de criação e educação musical para jovens e adolescentes do município, tendo em vista aptidão musical na região, como também ser uma opção musical no contra turno.
+          A Banda de Música Municipal de Ocara Maestro Jairo Cláudio Silveira foi fundada no ano de 2002 e só foi
+          registrada no dia 16 de junho de 2008 pela Lei Nº 569. Com a finalidade de atividades musicais como um fator
+          importante para o desenvolvimento social e cultural do ser humano e de ser um espaço de criação e educação
+          musical para jovens e adolescentes do município, tendo em vista aptidão musical na região, como também ser uma
+          opção musical no contra turno.
         </p>
       </section>
 
       <section class="mb-5">
         <p class="fs-6 text-dark">
-          Para que a tradição se mantenha, é necessária a continuidade dos valores, normas e práticas assumidas em grupo. Assim, a participação de crianças, jovens e adolescentes neste grupo, além de possibilitar essa continuidade, também promove um amadurecimento nessas pessoas, pois é dentro desses grupos que muitos se encontram e veem em sua atividade muito mais que uma distração ou uma brincadeira.
+          Para que a tradição se mantenha, é necessária a continuidade dos valores, normas e práticas assumidas em
+          grupo. Assim, a participação de crianças, jovens e adolescentes neste grupo, além de possibilitar essa
+          continuidade, também promove um amadurecimento nessas pessoas, pois é dentro desses grupos que muitos se
+          encontram e veem em sua atividade muito mais que uma distração ou uma brincadeira.
         </p>
         <div class="text-center mt-4">
           <picture>
             <img src="../../../assets/images/about-the-band/second_image.jpg" alt="Imagem do grupo atual da banda"
               class="about-image img-fluid">
-              <figcaption>Imagem atual da Banda de Música</figcaption>
+            <figcaption>Imagem atual da Banda de Música</figcaption>
           </picture>
         </div>
       </section>
 
       <section>
         <p class="fs-6 text-dark">
-          Atualmente, a Banda de Música Municipal de Ocara Maestro Jairo Cláudio Silveira é subordinada à Secretaria de Cultura e Turismo, tendo sua sede no prédio da escola CATAVENTO. Lá, realiza aulas teóricas, práticas e ensaios gerais de segunda a sábado nos turnos da manhã, tarde e noite, sob a regência do maestro e professor Raul Anderson.
+          Atualmente, a Banda de Música Municipal de Ocara Maestro Jairo Cláudio Silveira é subordinada à Secretaria de
+          Cultura e Turismo, tendo sua sede no prédio da escola CATAVENTO. Lá, realiza aulas teóricas, práticas e
+          ensaios gerais de segunda a sábado nos turnos da manhã, tarde e noite, sob a regência do maestro e professor
+          Raul Anderson.
         </p>
       </section>
 

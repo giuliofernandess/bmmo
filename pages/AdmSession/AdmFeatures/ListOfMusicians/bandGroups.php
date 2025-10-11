@@ -2,8 +2,8 @@
 session_start();
 
 if (!isset($_SESSION['login'])) {
-    echo "<meta http-equiv='refresh' content='0; url=index.php'>";
-    exit;
+  echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+  exit;
 }
 ?>
 
@@ -30,7 +30,8 @@ if (!isset($_SESSION['login'])) {
     <nav>
       <ul class="nav">
         <li class="nav-item">
-          <a href="../../admPage.php" class="nav-link text-white" style="font-size: 1.4rem;"><i class="bi bi-arrow-90deg-left"></i></a>
+          <a href="../../admPage.php" class="nav-link text-white" style="font-size: 1.4rem;"><i
+              class="bi bi-arrow-90deg-left"></i></a>
         </li>
       </ul>
     </nav>
@@ -48,46 +49,51 @@ if (!isset($_SESSION['login'])) {
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 justify-content-center">
         <!-- Card Banda Principal -->
         <div class="col">
-          <a href="musicians.php?bandGroup=Banda Principal" class="text-decoration-none card h-100 shadow-sm border-0 p-3 text-decoration-none text-dark">
-              <i class="bi bi-music-note-list fs-2 text-primary mb-2"></i>
-              <h5 class="fw-bold">Banda Principal</h5>
-              <p class="text-muted">Gerencie os participantes do grupo principal.</p>
+          <a href="musicians.php?bandGroup=Banda Principal"
+            class="text-decoration-none card h-100 shadow-sm border-0 p-3 text-decoration-none text-dark">
+            <i class="bi bi-music-note-list fs-2 text-primary mb-2"></i>
+            <h5 class="fw-bold">Banda Principal</h5>
+            <p class="text-muted">Gerencie os participantes do grupo principal.</p>
           </a>
         </div>
 
         <!-- Card Banda Auxiliar -->
         <div class="col">
-          <a href="musicians.php?bandGroup=Banda Auxiliar" class="text-decoration-none card h-100 shadow-sm border-0 p-3 text-decoration-none text-dark">
-              <i class="bi bi-music-note-beamed fs-2 text-success mb-2"></i>
-              <h5 class="fw-bold">Banda Auxiliar</h5>
-              <p class="text-muted">Gerencie os músicos do grupo banda auxiliar.</p>
+          <a href="musicians.php?bandGroup=Banda Auxiliar"
+            class="text-decoration-none card h-100 shadow-sm border-0 p-3 text-decoration-none text-dark">
+            <i class="bi bi-music-note-beamed fs-2 text-success mb-2"></i>
+            <h5 class="fw-bold">Banda Auxiliar</h5>
+            <p class="text-muted">Gerencie os músicos do grupo banda auxiliar.</p>
           </a>
         </div>
 
         <!-- Card Escola de Música -->
         <div class="col">
-          <a href="musicians.php?bandGroup=Escola" class="text-decoration-none card h-100 shadow-sm border-0 p-3 text-decoration-none text-dark">
-              <i class="bi bi-book-fill fs-2 text-warning mb-2"></i>
-              <h5 class="fw-bold">Escola de Música</h5>
-              <p class="text-muted">Gerencie os músicos da escola de música.</p>
+          <a href="musicians.php?bandGroup=Escola"
+            class="text-decoration-none card h-100 shadow-sm border-0 p-3 text-decoration-none text-dark">
+            <i class="bi bi-book-fill fs-2 text-warning mb-2"></i>
+            <h5 class="fw-bold">Escola de Música</h5>
+            <p class="text-muted">Gerencie os músicos da escola de música.</p>
           </a>
         </div>
 
         <!-- Card Fanfarra -->
         <div class="col">
-          <a href="musicians.php?bandGroup=Fanfarra" class="text-decoration-none card h-100 shadow-sm border-0 p-3 text-decoration-none text-dark">
-              <i class="bi bi-megaphone-fill fs-2 text-danger mb-2"></i>
-              <h5 class="fw-bold">Fanfarra</h5>
-              <p class="text-muted">Gerencie os músicos do grupo de fanfarra.</p>
+          <a href="musicians.php?bandGroup=Fanfarra"
+            class="text-decoration-none card h-100 shadow-sm border-0 p-3 text-decoration-none text-dark">
+            <i class="bi bi-megaphone-fill fs-2 text-danger mb-2"></i>
+            <h5 class="fw-bold">Fanfarra</h5>
+            <p class="text-muted">Gerencie os músicos do grupo de fanfarra.</p>
           </a>
         </div>
 
         <!-- Card Flauta Doce -->
         <div class="col">
-          <a href="musicians.php?bandGroup=Flauta Doce" class="text-decoration-none card h-100 shadow-sm border-0 p-3 text-decoration-none text-dark">
-              <i class="bi bi-music-note fs-2 text-info mb-2"></i>
-              <h5 class="fw-bold">Flauta Doce</h5>
-              <p class="text-muted">Gerencie os músicos do grupo flauta doce.</p>
+          <a href="musicians.php?bandGroup=Flauta Doce"
+            class="text-decoration-none card h-100 shadow-sm border-0 p-3 text-decoration-none text-dark">
+            <i class="bi bi-music-note fs-2 text-info mb-2"></i>
+            <h5 class="fw-bold">Flauta Doce</h5>
+            <p class="text-muted">Gerencie os músicos do grupo flauta doce.</p>
           </a>
         </div>
       </div>

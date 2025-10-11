@@ -2,10 +2,10 @@
 require_once '../../../general-features/bdConnect.php';
 
 if (!isset($_GET['id'])) {
-    die("ID da notícia não fornecido.");
+  die("ID da notícia não fornecido.");
 }
 
-$id = (int)$_GET['id'];
+$id = (int) $_GET['id'];
 
 $sql = "SELECT * FROM news WHERE id = ?";
 $stmt = $connect->prepare($sql);
@@ -18,6 +18,7 @@ $res = $result->fetch_array(MYSQLI_ASSOC);
 
 <!doctype html>
 <html lang="pt-br">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -90,7 +91,8 @@ $res = $result->fetch_array(MYSQLI_ASSOC);
           <h1 class="mb-3 fw-bold"><?php echo htmlspecialchars($res['title']); ?></h1>
           <h5 class="text-muted mb-3 fw-bold"><?php echo htmlspecialchars($res['subtitle']); ?></h5>
           <p class="text-muted small mb-4">Publicado em <?php echo date('d/m/Y', strtotime($res['date'])); ?></p>
-          <img src="../../../assets/images/news-images/<?php echo htmlspecialchars($res['image']); ?>" alt="Imagem da Notícia" class="news-image-main mb-4" />
+          <img src="../../../assets/images/news-images/<?php echo htmlspecialchars($res['image']); ?>"
+            alt="Imagem da Notícia" class="news-image-main mb-4" />
           <div class="news-text"><?php echo nl2br(htmlspecialchars($res['text'])); ?></div>
         </article>
       </div>
@@ -150,4 +152,5 @@ $res = $result->fetch_array(MYSQLI_ASSOC);
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

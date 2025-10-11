@@ -3,7 +3,7 @@ session_start();
 
 $requiredFields = ['idMusician', 'instrument', 'telephone', 'responsible', 'contactOfResponsible', 'neighborhood', 'institution'];
 
-$idMusician = (int)$_POST['idMusician'];
+$idMusician = (int) $_POST['idMusician'];
 $login = trim($_POST['login']);
 $instrument = trim($_POST['instrument']);
 $bandGroup = trim($_POST['bandGroup']);
@@ -57,7 +57,7 @@ if ($stmt->execute()) {
     } else {
         echo "<script>alert(' [ERRO] Nenhum dado editado!'); window.history.back();</script>";
     }
-        
+
 } else {
     error_log("Erro ao executar a query: " . $stmt->error);
     echo "<script>alert('Erro ao editar o músico.'); window.history.back();</script>";

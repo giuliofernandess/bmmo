@@ -6,7 +6,7 @@ if (!isset($_POST['idMusician']) || !filter_var($_POST['idMusician'], FILTER_VAL
     exit;
 }
 
-$idMusician = (int)$_POST['idMusician'];
+$idMusician = (int) $_POST['idMusician'];
 
 // Conexão com banco
 require_once '../../../../../../general-features/bdConnect.php';

@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Maestro - Login</title>
   <link rel="shortcut icon" href="../../../assets/images/logo_banda.png" type="image/x-icon" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+    crossorigin="anonymous" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="../../../assets/css/style.css">
   <link rel="stylesheet" href="../../../assets/css/form.css">
@@ -50,7 +51,8 @@
             <input type="password" name="password" id="passwordMusic" class="form-control rounded-pill" required />
           </div>
 
-          <button type="submit" class="btn btn-primary btn-lg rounded-pill px-4 d-flex align-items-center justify-content-center">Acessar</button>
+          <button type="submit"
+            class="btn btn-primary btn-lg rounded-pill px-4 d-flex align-items-center justify-content-center">Acessar</button>
         </form>
       </div>
     </div>
@@ -66,7 +68,8 @@
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>

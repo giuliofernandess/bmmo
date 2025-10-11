@@ -1,9 +1,11 @@
 <?php
 
-function ageVerification($dateOfBirth) {
+function ageVerification($dateOfBirth)
+{
     $birth = DateTime::createFromFormat('Y-m-d', $dateOfBirth);
     $today = new DateTime();
-    if (!$birth) return false;
+    if (!$birth)
+        return false;
 
     return $birth < $today;
 }

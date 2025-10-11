@@ -2,8 +2,8 @@
 session_start();
 
 if (!isset($_SESSION['login'])) {
-    echo "<meta http-equiv='refresh' content='0; url=index.php'>";
-    exit;
+  echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+  exit;
 }
 ?>
 
@@ -33,7 +33,9 @@ if (!isset($_SESSION['login'])) {
     <nav>
       <ul class="nav">
         <li class="nav-item">
-          <a href="../../general-features/logout.php" class="nav-link text-white" onclick="return confirm('Tem certeza que deseja sair de sua conta?');" style="font-size: 1.6rem;"><i class="bi bi-box-arrow-right fs-2 text-white mb-2"></i></a>
+          <a href="../../general-features/logout.php" class="nav-link text-white"
+            onclick="return confirm('Tem certeza que deseja sair de sua conta?');" style="font-size: 1.6rem;"><i
+              class="bi bi-box-arrow-right fs-2 text-white mb-2"></i></a>
         </li>
       </ul>
     </nav>

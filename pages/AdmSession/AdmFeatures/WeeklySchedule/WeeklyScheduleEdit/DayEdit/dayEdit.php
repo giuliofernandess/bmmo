@@ -6,22 +6,23 @@ $dayTitle = isset($_GET['dayTitle']) ? htmlspecialchars(trim($_GET['dayTitle']))
 $dayProgramation = isset($_GET['dayProgramation']) ? htmlspecialchars(trim($_GET['dayProgramation'])) : '';
 
 $bandGroups = [
-    '1' => 'Banda Principal',
-    '2' => 'Banda Auxiliar',
-    '3' => 'Escola',
-    '4' => 'Fanfarra',
-    '5' => 'Flauta Doce'
+  '1' => 'Banda Principal',
+  '2' => 'Banda Auxiliar',
+  '3' => 'Escola',
+  '4' => 'Fanfarra',
+  '5' => 'Flauta Doce'
 ];
 
 $bandGroup = $bandGroups[$groupId];
 
 if (empty($day) || empty($dayTitle)) {
-    die('Dados incompletos. Volte e tente novamente.');
+  die('Dados incompletos. Volte e tente novamente.');
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,6 +42,7 @@ if (empty($day) || empty($dayTitle)) {
     }
   </style>
 </head>
+
 <body>
 
   <!-- Header -->
@@ -52,42 +54,38 @@ if (empty($day) || empty($dayTitle)) {
     <nav>
       <ul class="nav">
         <li class="nav-item">
-          <a href="../weeklySchedule.php?bandGroup=<?php echo $bandGroup ?>" class="nav-link text-white" style="font-size: 1.4rem;"><i class="bi bi-arrow-90deg-left"></i></a>
+          <a href="../weeklySchedule.php?bandGroup=<?php echo $bandGroup ?>" class="nav-link text-white"
+            style="font-size: 1.4rem;"><i class="bi bi-arrow-90deg-left"></i></a>
         </li>
       </ul>
     </nav>
   </header>
 
-<main class="container login-container my-5" style="width: 90%;">
+  <main class="container login-container my-5" style="width: 90%;">
     <div class="row justify-content-center">
       <div class="col-lg-12">
-          <h3 class="mb-4 text-center text-primary fs-1 fw-semibold">Programação de <?php echo htmlspecialchars($dayTitle); ?></h3>
-          <div class="card-body">
-            <form action="validateDayEdit.php" method="post">
-              <div class="mb-3">
-                <textarea
-                  name="dayProgramation"
-                  id="dayProgramation"
-                  rows="10"
-                  class="form-control"
-                  style="height: auto";
-                  required
-                ><?php echo htmlspecialchars($dayProgramation); ?></textarea>
+        <h3 class="mb-4 text-center text-primary fs-1 fw-semibold">Programação de
+          <?php echo htmlspecialchars($dayTitle); ?></h3>
+        <div class="card-body">
+          <form action="validateDayEdit.php" method="post">
+            <div class="mb-3">
+              <textarea name="dayProgramation" id="dayProgramation" rows="10" class="form-control" style="height: auto"
+                ; required><?php echo htmlspecialchars($dayProgramation); ?></textarea>
+            </div>
+            <!-- Hidden Inputs -->
+            <input type="hidden" name="id" value="<?php echo htmlspecialchars($groupId); ?>">
+            <input type="hidden" name="day" value="<?php echo htmlspecialchars($day); ?>">
+            <div class="d-grid">
+              <!-- Botão -->
+              <div class="col-12 mt-3">
+                <button type="submit" class="btn btn-primary btn-lg rounded-pill w-100">Editar Dia</button>
               </div>
-              <!-- Hidden Inputs -->
-              <input type="hidden" name="id" value="<?php echo htmlspecialchars($groupId); ?>">
-              <input type="hidden" name="day" value="<?php echo htmlspecialchars($day); ?>">
-              <div class="d-grid">
-                <!-- Botão -->
-                <div class="col-12 mt-3">
-                  <button type="submit" class="btn btn-primary btn-lg rounded-pill w-100">Editar Dia</button>
-                </div>
-              </div>
-            </form>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-</main>
+  </main>
 
 
   <!-- Footer -->
@@ -102,4 +100,5 @@ if (empty($day) || empty($dayTitle)) {
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

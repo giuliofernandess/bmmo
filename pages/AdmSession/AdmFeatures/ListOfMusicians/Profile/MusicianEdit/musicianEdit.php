@@ -1,35 +1,37 @@
 <?php
-    require_once '../../../../../../general-features/bdConnect.php';
+require_once '../../../../../../general-features/bdConnect.php';
 
-    if (!isset($_GET['idMusician']) || !is_numeric($_GET['idMusician'])) {
-        die('ID do músico inválido.');
-    }
+if (!isset($_GET['idMusician']) || !is_numeric($_GET['idMusician'])) {
+  die('ID do músico inválido.');
+}
 
-    $idMusician = intval($_GET['idMusician']);
+$idMusician = intval($_GET['idMusician']);
 
-    $stmt = $connect->prepare("SELECT * FROM musicians WHERE idMusician = ?");
-    $stmt->bind_param("i", $idMusician);
-    $stmt->execute();
+$stmt = $connect->prepare("SELECT * FROM musicians WHERE idMusician = ?");
+$stmt->bind_param("i", $idMusician);
+$stmt->execute();
 
-    $result = $stmt->get_result();
+$result = $stmt->get_result();
 
-    if ($result->num_rows === 0) {
-        die('Músico não encontrado.');
-    }
+if ($result->num_rows === 0) {
+  die('Músico não encontrado.');
+}
 
-    $res = $result->fetch_array(MYSQLI_ASSOC);
+$res = $result->fetch_array(MYSQLI_ASSOC);
 
-    $stmt->close();
+$stmt->close();
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Editar Músico</title>
   <script src="../../../../../js/jquery.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
   <link rel="shortcut icon" href="../../../../../../assets/images/logo_banda.png" type="image/x-icon">
   <link rel="stylesheet" href="../../../../../../assets/css/style.css">
@@ -43,11 +45,13 @@
       max-width: 1000px;
     }
 
-    select.form-control, .btn {
+    select.form-control,
+    .btn {
       padding: 0 0 0 12px;
     }
   </style>
 </head>
+
 <body>
 
   <!-- Header -->
@@ -59,7 +63,8 @@
     <nav>
       <ul class="nav">
         <li class="nav-item">
-          <a href="../musicianProfile.php?idMusician=<?php echo $res['idMusician'] ?>" class="nav-link text-white" style="font-size: 1.4rem;"><i class="bi bi-arrow-90deg-left"></i></a>
+          <a href="../musicianProfile.php?idMusician=<?php echo $res['idMusician'] ?>" class="nav-link text-white"
+            style="font-size: 1.4rem;"><i class="bi bi-arrow-90deg-left"></i></a>
         </li>
       </ul>
     </nav>
@@ -69,7 +74,7 @@
     <!-- Formulário -->
     <div class="container login-container">
       <h1 class="text-center mb-4">Editar Músico</h1>
-      <form method="post" action="validateMusicianEdit.php"  enctype="multipart/form-data" class="row g-3">
+      <form method="post" action="validateMusicianEdit.php" enctype="multipart/form-data" class="row g-3">
 
         <!-- Nome -->
         <div class="col-md-12">
@@ -142,13 +147,15 @@
         <!-- Responsável -->
         <div class="col-md-6">
           <label for="responsible" class="form-label ps-2">Responsável</label>
-          <input type="text" name="responsible" id="responsible" value="<?php echo $res['responsible'] ?>" class="form-control" />
+          <input type="text" name="responsible" id="responsible" value="<?php echo $res['responsible'] ?>"
+            class="form-control" />
         </div>
 
         <!-- Contato do Responsável -->
         <div class="col-md-6">
           <label for="contactOfResponsible" class="form-label ps-2">Contato do Responsável</label>
-          <input type="text" name="contactOfResponsible" id="contactOfResponsible" value="<?php echo $res['telephoneOfResponsible'] ?>" class="form-control" />
+          <input type="text" name="contactOfResponsible" id="contactOfResponsible"
+            value="<?php echo $res['telephoneOfResponsible'] ?>" class="form-control" />
         </div>
 
         <!-- Bairro -->
@@ -174,17 +181,20 @@
         <!-- Instituição -->
         <div class="col-md-6">
           <label for="institution" class="form-label ps-2">Instituição</label>
-          <input type="text" name="institution" id="institution" value="<?php echo $res['institution'] ?>" class="form-control" />
+          <input type="text" name="institution" id="institution" value="<?php echo $res['institution'] ?>"
+            class="form-control" />
         </div>
 
         <!-- Senhas -->
         <div class="col-md-6">
           <label for="password" class="form-label ps-2">Senha</label>
-          <input type="password" name="password" id="password" placeholder="Digite a nova senha" minlength="8" maxlength="20" class="form-control" />
+          <input type="password" name="password" id="password" placeholder="Digite a nova senha" minlength="8"
+            maxlength="20" class="form-control" />
         </div>
         <div class="col-md-6">
           <label for="confirmPassword" class="form-label ps-2">Confirmar Senha</label>
-          <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirme a nova senha" class="form-control" />
+          <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirme a nova senha"
+            class="form-control" />
         </div>
 
         <!-- Botão Editar -->
@@ -222,4 +232,5 @@
     $("#contactOfResponsible").mask("(00) 00000-0000", { placeholder: "(00) 00000-0000" });
   </script>
 </body>
+
 </html>
