@@ -51,7 +51,7 @@
 
       <section class="mb-5">
         <figure class="text-center">
-          <img src="../../../assets/images/about-the-band/first-image.jpg"
+          <img src="../../../assets/images/about-the-band/first_image.jpg"
             alt="Imagem da primeira turma da banda no ano de 2002"
             class="about-image img-fluid">
           <figcaption>Imagem da primeira turma da banda no ano de 2002</figcaption>
@@ -70,7 +70,7 @@
         </p>
         <div class="text-center mt-4">
           <picture>
-            <img src="../../../assets/images/about-the-band/second-image.jpg" alt="Imagem do grupo atual da banda"
+            <img src="../../../assets/images/about-the-band/second_image.jpg" alt="Imagem do grupo atual da banda"
               class="about-image img-fluid">
               <figcaption>Imagem atual da Banda de Música</figcaption>
           </picture>
