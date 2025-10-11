@@ -173,7 +173,7 @@
         <div class="col-md-6">
           <label for="confirmPassword" class="form-label ps-2">Confirmar Senha *</label>
           <input type="password" name="confirmPassword" id="confirmPassword" class="form-control"
-            placeholder="Confirme a senha" required />
+            placeholder="Confirme a senha"  minlength="8" maxlength="20" required />
         </div>
 
         <!-- Botão -->

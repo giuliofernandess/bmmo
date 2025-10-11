@@ -48,7 +48,7 @@
 
           <div class="mb-4">
             <label for="passwordMusic" class="form-label ps-2">Senha</label>
-            <input type="password" name="password" id="passwordMusic" class="form-control rounded-pill" required />
+            <input type="password" name="password" id="passwordMusic" class="form-control rounded-pill"  minlength="8" maxlength="20" required />
           </div>
 
           <button type="submit"

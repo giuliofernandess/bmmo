@@ -194,7 +194,7 @@ $stmt->close();
         <div class="col-md-6">
           <label for="confirmPassword" class="form-label ps-2">Confirmar Senha</label>
           <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirme a nova senha"
-            class="form-control" />
+            class="form-control"  minlength="8" maxlength="20" />
         </div>
 
         <!-- Botão Editar -->
