@@ -10,6 +10,29 @@ function ageVerification($dateOfBirth)
     return $birth < $today;
 }
 
+function verifyLogin($login, $connect)
+{
+    $stmt = $connect->prepare("SELECT `login` FROM musicians WHERE login = ?");
+    if (!$stmt) {
+        error_log("Erro na preparação da query: " . $connect->error);
+        echo "<script>alert('Erro interno no servidor.'); window.history.back();</script>";
+        exit;
+    }
+
+    $stmt->bind_param("s", $login);
+    $stmt->execute();
+
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        $stmt->close();
+        return true;
+    } else {
+        $stmt->close();
+        return false;
+    }
+}
+
 $name = trim($_POST['name'] ?? '');
 $login = trim($_POST['login'] ?? '');
 $dateOfBirth = trim($_POST['dateOfBirth'] ?? '');
@@ -71,13 +94,17 @@ if ($password !== $confirmPassword) {
     exit;
 }
 
+/* Valida login */
+if (verifyLogin($login, $connect)) {
+    echo "<script>alert('Login já existe!'); window.history.back();</script>";
+    exit;
+}
+
 /* Valida datas */
 if (!ageVerification($dateOfBirth)) {
     echo "<script>alert('Data de nascimento inválida!'); window.history.back();</script>";
     exit;
 }
-
-$passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
 $stmt = $connect->prepare("INSERT INTO musicians (name, login, dateOfBirth, instrument, bandGroup, telephone, responsible, telephoneOfResponsible, neighborhood, institution, image, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 if (!$stmt) {
