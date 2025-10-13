@@ -53,7 +53,7 @@
       <form method="post" action="validateMusicianRegister.php" enctype="multipart/form-data" class="row g-3">
 
         <!-- Nome + Login + Nascimento -->
-        <div class="col-md-6">
+        <div class="col-md-12">
           <label for="name" class="form-label ps-2">Nome *</label>
           <input type="text" name="name" id="name" class="form-control" placeholder="Nome do músico" required />
         </div>
