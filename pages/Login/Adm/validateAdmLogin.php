@@ -3,7 +3,7 @@ session_start();
 require_once '../../../general-features/bdConnect.php';
 
 // Valida se os campos foram enviados
-if (empty(($_POST['login']) and empty($_POST['password']))) {
+if (!isset($_POST['login'], $_POST['password'])) {
     echo "<script>alert('Dados incompletos.');</script>";
     echo "<meta http-equiv='refresh' content='0; url=admLogin.php'>";
     exit;
