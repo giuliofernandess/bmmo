@@ -39,7 +39,10 @@ $stmt->close();
 $imageFileName = $currentImage;
 
 if (!empty($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
-    // Validação da imagem
+    if ($currentImage && file_exists('../../../../../../assets/images/musicians-images/' . $currentImage)) {
+        unlink('../../../../../../assets/images/musicians-images/' . $currentImage);
+    }
+
     $fileTmpPath = $_FILES['file']['tmp_name'];
     $fileName = $_FILES['file']['name'];
     $fileSize = $_FILES['file']['size'];
@@ -66,13 +69,12 @@ if (!empty($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
     $destPath = $uploadFileDir . $newFileName;
 
     if (move_uploaded_file($fileTmpPath, $destPath)) {
-        $imageFileName = $newFileName; // Atualizar com a nova imagem
+        $imageFileName = $newFileName;
     } else {
         die('Erro ao mover a imagem para o diretório.');
     }
 }
 
-// Atualizar no banco de dados
 $stmt = $connect->prepare("UPDATE musicians SET login = ?, instrument = ?, bandGroup = ?, telephone = ?, responsible = ?, telephoneOfResponsible = ?, neighborhood = ?, institution = ?, image = ?, password = ? WHERE idMusician = ?");
 if (!$stmt) {
     error_log("Erro na preparação da query: " . $connect->error);

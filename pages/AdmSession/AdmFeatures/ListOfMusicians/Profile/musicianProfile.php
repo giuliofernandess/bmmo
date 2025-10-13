@@ -101,7 +101,6 @@ $res = $result->fetch_assoc();
                 <form action="MusicianEdit/MusicianDelete/validateMusicianDelete.php" method="POST"
                   onsubmit="return confirm('Tem certeza que deseja excluir este músico?');">
                   <input type="hidden" name="idMusician" value="<?php echo $res['idMusician']; ?>">
-                  <input type="hidden" name="bandGroup" value="<?php echo $res['bandGroup']; ?>">
                   <button type="submit" class='btn btn-outline-danger mt-auto'>
                     <i class="bi bi-trash"></i> Excluir
                   </button>
