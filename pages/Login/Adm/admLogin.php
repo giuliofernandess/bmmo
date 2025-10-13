@@ -40,7 +40,7 @@
   <main>
     <div class="d-flex flex-grow-1 align-items-center justify-content-center flex-column">
       <div class="container login-container">
-        <form action="validateAdmLogin.php" method="post" novalidate>
+        <form action="validateAdmLogin.php" method="post">
           <div class="mb-3">
             <label for="loginMusic" class="form-label ps-2">Login</label>
             <input type="text" name="login" id="loginMusic" class="form-control rounded-pill" required />
