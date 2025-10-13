@@ -29,7 +29,7 @@ $stmt->close();
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Editar Músico</title>
-  <script src="../../../../../js/jquery.js"></script>
+  <script src="../../../../../../js/jquery.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
@@ -77,7 +77,7 @@ $stmt->close();
       <form method="post" action="validateMusicianEdit.php" enctype="multipart/form-data" class="row g-3">
 
         <!-- Nome -->
-        <div class="col-md-12">
+        <div class="col-md-6">
           <label for="name" class="form-label ps-2">Nome</label>
           <input type="text" name="name" id="name" value="<?php echo $res['name'] ?>" class="form-control" disabled />
         </div>
@@ -185,16 +185,22 @@ $stmt->close();
             class="form-control" />
         </div>
 
+        <!-- Upload -->
+        <div class="col-md-6">
+          <label for="file" class="form-label ps-2">Imagem do músico</label>
+          <input type="file" name="file" id="inputFile" accept="image/*" class="form-control"/>
+        </div>
+
         <!-- Senhas -->
         <div class="col-md-6">
           <label for="password" class="form-label ps-2">Senha</label>
           <input type="password" name="password" id="password" placeholder="Digite a nova senha" minlength="8"
-            maxlength="20" class="form-control" />
+            maxlength="20" value="<?php echo $res['password'] ?>" class="form-control" />
         </div>
         <div class="col-md-6">
           <label for="confirmPassword" class="form-label ps-2">Confirmar Senha</label>
           <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirme a nova senha"
-            class="form-control"  minlength="8" maxlength="20" />
+            class="form-control"  minlength="8" maxlength="20" value="<?php echo $res['password'] ?>" />
         </div>
 
         <!-- Botão Editar -->

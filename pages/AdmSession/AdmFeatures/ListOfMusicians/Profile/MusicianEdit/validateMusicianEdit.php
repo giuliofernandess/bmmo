@@ -23,33 +23,64 @@ if ($connect->connect_error) {
     exit;
 }
 
-if (!empty($password)) {
-    if ($password !== $confirmPassword) {
-        echo "<script>alert('As senhas não conferem!'); window.history.back();</script>";
-        exit;
-    }
-
-    // Hash da senha
-    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-
-    $stmt = $connect->prepare("UPDATE musicians SET login = ?, instrument = ?, bandGroup = ?, telephone = ?, responsible = ?, telephoneOfResponsible = ?, neighborhood = ?, institution = ?, password = ? WHERE idMusician = ?");
-    if (!$stmt) {
-        error_log("Erro na preparação da query: " . $connect->error);
-        echo "<script>alert('Erro interno no servidor.'); window.location.href = '../musicianProfile.php?idMusician={$idMusician}';</script>";
-        exit;
-    }
-
-    $stmt->bind_param("sssssssssi", $login, $instrument, $bandGroup, $telephone, $responsible, $telephoneOfResponsible, $neighborhood, $institution, $password, $idMusician);
-} else {
-    $stmt = $connect->prepare("UPDATE musicians SET login = ?, instrument = ?, bandGroup = ?, telephone = ?, responsible = ?, telephoneOfResponsible = ?, neighborhood = ?, institution = ? WHERE idMusician = ?");
-    if (!$stmt) {
-        error_log("Erro na preparação da query: " . $connect->error);
-        echo "<script>alert('Erro interno no servidor.'); window.location.href = '../musicianProfile.php?idMusician={$idMusician}';</script>";
-        exit;
-    }
-
-    $stmt->bind_param("ssssssssi", $login, $instrument, $bandGroup, $telephone, $responsible, $telephoneOfResponsible, $neighborhood, $institution, $idMusician);
+if ($password !== $confirmPassword) {
+    echo "<script>alert('As senhas não conferem!'); window.history.back();</script>";
+    exit;
 }
+
+$query = "SELECT image FROM musicians WHERE idMusician = ?";
+$stmt = $connect->prepare($query);
+$stmt->bind_param("i", $idMusician);
+$stmt->execute();
+$result = $stmt->get_result();
+$currentImage = $result->fetch_assoc()['image'];
+$stmt->close();
+
+$imageFileName = $currentImage;
+
+if (!empty($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
+    // Validação da imagem
+    $fileTmpPath = $_FILES['file']['tmp_name'];
+    $fileName = $_FILES['file']['name'];
+    $fileSize = $_FILES['file']['size'];
+    $fileType = $_FILES['file']['type'];
+    $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+    $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+    if (!in_array($fileExtension, $allowedExtensions)) {
+        die('Extensão de arquivo inválida. Permitido apenas jpg, jpeg, png, gif.');
+    }
+
+    if ($fileSize > 5 * 1024 * 1024) {
+        die('Arquivo muito grande. Máximo permitido: 5MB.');
+    }
+
+    $newFileName = uniqid('profile_', true) . '.' . $fileExtension;
+    $uploadFileDir = '../../../../../../assets/images/musicians-images/';
+
+    if (!is_dir($uploadFileDir)) {
+        mkdir($uploadFileDir, 0755, true);
+    }
+
+    $destPath = $uploadFileDir . $newFileName;
+
+    if (move_uploaded_file($fileTmpPath, $destPath)) {
+        $imageFileName = $newFileName; // Atualizar com a nova imagem
+    } else {
+        die('Erro ao mover a imagem para o diretório.');
+    }
+}
+
+// Atualizar no banco de dados
+$stmt = $connect->prepare("UPDATE musicians SET login = ?, instrument = ?, bandGroup = ?, telephone = ?, responsible = ?, telephoneOfResponsible = ?, neighborhood = ?, institution = ?, image = ?, password = ? WHERE idMusician = ?");
+if (!$stmt) {
+    error_log("Erro na preparação da query: " . $connect->error);
+    echo "<script>alert('Erro interno no servidor.'); window.location.href = '../musicianProfile.php?idMusician={$idMusician}';</script>";
+    exit;
+}
+
+$stmt->bind_param("ssssssssssi", $login, $instrument, $bandGroup, $telephone, $responsible, $telephoneOfResponsible, $neighborhood, $institution, $imageFileName, $password, $idMusician);
 
 if ($stmt->execute()) {
     if ($stmt->affected_rows > 0) {
