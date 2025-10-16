@@ -38,7 +38,7 @@
 
   <!-- Main -->
   <main>
-    <div class="d-flex flex-grow-1 align-items-center justify-content-center flex-column">
+    <div class="d-flex flex-grow-1 align-items-center justify-content-center flex-column mx-3">
       <div class="container login-container">
         <form action="validateMusicianLogin.php" method="post">
           <div class="mb-3">
