@@ -120,7 +120,7 @@ $res = $result->fetch_assoc();
                 <h5 class="card-title text-primary fw-bold fs-3">' . $escapedTitle . '</h5>
                 <p class="card-text flex-grow-1 dayProgramation text-muted fs-6">' . nl2br($escapedContent) . '</p>
                 <a href="day.php?day=' . $escapedKey . '&dayTitle=' . $escapedTitle . '&dayProgramation=' . $escapedContent . '" class="btn btn-outline-primary btn-sm mt-3 align-center">
-                  <i class="bi bi-pencil-square me-1"></i> Editar dia
+                  <i class="bi bi-pencil-square me-1"></i> Ver programação
                 </a>
               </div>
             </div>
