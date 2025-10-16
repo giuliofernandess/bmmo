@@ -47,8 +47,12 @@
           </div>
 
           <div class="mb-4">
-            <label for="passwordMusic" class="form-label ps-2">Senha</label>
-            <input type="password" name="password" id="passwordMusic" class="form-control rounded-pill"  minlength="8" maxlength="20" required />
+            <label for="passwordMusician" class="form-label ps-2">Senha</label>
+            <div>
+              <input type="password" name="password" id="passwordMusician" class="form-control rounded-pill"
+                minlength="8" maxlength="20" required />
+              <i class="bi bi-eye-fill show-password" id="passwordBtn" onclick="showPassword()"></i>
+            </div>
           </div>
 
           <button type="submit"
@@ -68,6 +72,7 @@
     </div>
   </footer>
 
+  <script src="../../../js/password.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
     crossorigin="anonymous"></script>
 </body>

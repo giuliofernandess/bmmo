@@ -35,13 +35,12 @@ h1 {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
-form i {
+form i.show-password {
   font-size: 20px;
   cursor: pointer;
-
   position: absolute;
-  right: 5%;
-  bottom: 10%;
+  right: 10%;
+  bottom: 35%;
 }
 
 /* Estilo para o botão */
@@ -80,5 +79,10 @@ form i {
 @media (min-width: 768px) {
   .login-container {
     padding: 40px;
+  }
+
+  form i.show-password {
+    right: 13%;
+    bottom: 36.5%;
   }
 }
