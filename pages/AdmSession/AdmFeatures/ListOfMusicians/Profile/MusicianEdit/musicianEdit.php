@@ -49,6 +49,31 @@ $stmt->close();
     .btn {
       padding: 0 0 0 12px;
     }
+
+    form i.show-password {
+      right: 10%;
+      bottom: 18.8%;
+    }
+
+    @media screen and (min-width: 481px) {
+      form i.show-password {
+        right: 7%;
+        bottom: 18.8%;
+      }
+    }
+
+    @media screen and (min-width: 768px) {
+      form i.show-password {
+        left: 45.5%;
+        bottom: 21.2%;
+      }
+    }
+
+    @media screen and (min-width: 993px) {
+      form i.show-password {
+        left: 46%;
+      }
+    }
   </style>
 </head>
 
@@ -199,8 +224,11 @@ $stmt->close();
         </div>
         <div class="col-md-6">
           <label for="confirmPassword" class="form-label ps-2">Confirmar Senha</label>
-          <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirme a nova senha"
-            class="form-control"  minlength="8" maxlength="20" value="<?php echo $res['password'] ?>" />
+          <div>
+            <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirme a nova senha"
+              class="form-control"  minlength="8" maxlength="20" value="<?php echo $res['password'] ?>" />
+            <i class="bi bi-eye-fill show-password" id="passwordBtn" onclick="showPassword()"></i>
+          </div>
         </div>
 
         <!-- Botão Editar -->
@@ -231,6 +259,7 @@ $stmt->close();
   </footer>
 
   <!-- Scripts -->
+   <script src="../../../../../../js/password.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
   <script>

@@ -25,6 +25,29 @@
     .btn {
       padding: 0 0 0 12px;
     }
+
+    form i.show-password {
+      bottom: 13.7%;
+    }
+
+    @media screen and (min-width: 481px) {
+      form i.show-password {
+        right: 7%;
+      }
+    }
+
+    @media screen and (min-width: 768px) {
+      form i.show-password {
+        left: 45.5%;
+        bottom: 13%;
+      }
+    }
+
+    @media screen and (min-width: 993px) {
+      form i.show-password {
+        left: 46%;
+      }
+    }
   </style>
 </head>
 
@@ -165,15 +188,18 @@
 
         <!-- Senhas -->
         <div class="col-md-6">
-          <label for="password" class="form-label ps-2">Senha *</label>
-          <input type="password" name="password" id="password" class="form-control" placeholder="Digite a senha"
-            required minlength="8" maxlength="20" />
+          <label for="passwordMusician" class="form-label ps-2">Senha *</label>
+          <div>
+            <input type="password" name="password" id="passwordMusician" class="form-control rounded-pill"
+              placeholder="Digite a senha" minlength="8" maxlength="20" required />
+            <i class="bi bi-eye-fill show-password" id="passwordBtn" onclick="showPassword()"></i>
+          </div>
         </div>
 
         <div class="col-md-6">
           <label for="confirmPassword" class="form-label ps-2">Confirmar Senha *</label>
           <input type="password" name="confirmPassword" id="confirmPassword" class="form-control"
-            placeholder="Confirme a senha"  minlength="8" maxlength="20" required />
+            placeholder="Confirme a senha" minlength="8" maxlength="20" required />
         </div>
 
         <!-- Botão -->
@@ -196,6 +222,7 @@
   </footer>
 
   <!-- Scripts -->
+  <script src="../../../../js/password.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
   <script>
