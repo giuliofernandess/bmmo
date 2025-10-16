@@ -77,7 +77,7 @@ $bandGroup = $_GET['bandGroup'];
         : "../../../../assets/images/musicians-images/default.png";
 
       echo "
-          <div class='col-6 col-md-4 col-lg-3 mt-0 mb-5'>
+          <div class='col-12 col-md-6 col-lg-3 mt-0 mb-5 w-auto'>
             <div class='card musician-card h-100 border-0 shadow-sm'>
             <img src='{$image}' class='card-img-top' alt='Imagem de {$res['name']}'>
               <a href='Profile/musicianProfile.php?idMusician={$res['idMusician']}' class='card-body d-flex flex-column text-decoration-none'>
