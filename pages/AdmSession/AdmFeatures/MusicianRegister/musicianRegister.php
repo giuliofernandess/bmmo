@@ -21,11 +21,6 @@
       max-width: 1000px;
     }
 
-    select.form-control,
-    .btn {
-      padding: 0 0 0 12px;
-    }
-
     form i.show-password {
       bottom: 13.7%;
     }
