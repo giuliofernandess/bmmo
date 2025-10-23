@@ -38,7 +38,9 @@
   <main>
 
     <!-- Início Formulário -->
+     
     <form action="validateNewsCreate.php" method="post" enctype="multipart/form-data" class="container login-container my-5">
+      <h1 class="text-center mb-4">Adicionar Notícia</h1>
 
       <!-- Card: Título -->
       <div>

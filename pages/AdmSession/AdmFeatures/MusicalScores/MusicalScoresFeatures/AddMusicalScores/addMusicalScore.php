@@ -33,7 +33,7 @@
 
   <main class="flex-grow-1 d-flex align-items-center justify-content-center flex-column py-5">
     <div class="container login-container">
-      <h1 class="text-center mb-4">Adicionar Partitura</h1>
+      <h1 class="text-center mb-4">Criar Partitura</h1>
       <form method="post" action="validateAddMusicalScore.php" enctype="multipart/form-data" class="row g-3">
 
         <!-- Nome + Instrumento -->
