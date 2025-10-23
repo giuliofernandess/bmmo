@@ -75,7 +75,7 @@ if (!isset($_SESSION['login'])) {
 
         <!-- Card 3 -->
         <div class="col">
-          <a href="MusicianFeatures/MusicalScores/musicalScores.php" class="text-decoration-none text-dark">
+          <a href="MusicianFeatures/MusicalScores/musicianMusicalScores.php" class="text-decoration-none text-dark">
             <div class="card h-100 shadow-sm border-0 p-3">
               <i class="bi bi-music-note-beamed fs-2 text-warning mb-2"></i>
               <h5 class="fw-bold">Partituras</h5>

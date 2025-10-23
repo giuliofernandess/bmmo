@@ -56,7 +56,7 @@ if (!isset($_SESSION['login'])) {
   <main class="container mb-5 p-5">
     <h1 class="mt-4">Partituras</h1>
     <?php
-    require_once '../../../../../../general-features/bdConnect.php';
+    require_once '../../../../general-features/bdConnect.php';
 
     if (!$connect) {
       die('Erro de conexão: ' . mysqli_connect_error());
@@ -86,7 +86,7 @@ if (!isset($_SESSION['login'])) {
           echo "
       <div class='col-12 col-sm-6 col-lg-3'>
         <div class='card musician-card h-100 border-0 shadow-sm'>
-          <img src='../../../../../../assets/images/musical_score.jpg' 
+          <img src='../../../../assets/images/musical_score.jpg' 
                class='card-img-top musical-score-img' 
                alt='Capa de Partitura'>
           <a href='Instruments/instruments.php?name=" . htmlspecialchars($res['name']) . "' 
