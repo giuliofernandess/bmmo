@@ -1,39 +1,41 @@
 <?php
-    require_once '../../../../../../../general-features/bdConnect.php';
+session_start();
 
-    $name = trim($_POST['musicalScore']);
+if (!isset($_SESSION['login'])) {
+  echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+  exit;
+}
 
-    $stmt = $connect->prepare("SELECT * FROM musical_scores WHERE name = ?");
-    $stmt->bind_param("s", $name);
-    $stmt->execute();
+require_once '../../../../../../../general-features/bdConnect.php';
 
-    $result = $stmt->get_result();
+$name = trim($_POST['musicalScore']);
 
-    if ($result->num_rows == 0) {
-        die('Partitura não encontrada.');
-    }
+$stmt = $connect->prepare("SELECT * FROM musical_scores WHERE name = ?");
+$stmt->bind_param("s", $name);
+$stmt->execute();
 
-    $res = $result->fetch_array(MYSQLI_ASSOC);
+$result = $stmt->get_result();
 
-    $stmt->close();
+if ($result->num_rows == 0) {
+  die('Partitura não encontrada.');
+}
+
+$res = $result->fetch_array(MYSQLI_ASSOC);
+
+$stmt->close();
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Editar Partitura</title>
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  />
-  <link
-    rel="shortcut icon"
-    href="../../../../../../../assets/images/logo_banda.png"
-    type="image/x-icon"
-  />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="shortcut icon" href="../../../../../../../assets/images/logo_banda.png" type="image/x-icon" />
 </head>
+
 <body>
   <a href="../listOfMusicalScores.php">Voltar</a>
 
@@ -82,20 +84,21 @@
 
         <!-- Botão de editar -->
         <div class="col-md-12">
-            <button type="submit">Editar Partitura</button>
-        </div>        
+          <button type="submit">Editar Partitura</button>
+        </div>
 
       </form>
 
       <form action="#" method="post">
-            <div>
-            <button type="submit">Deletar Partitura</button>
-            </div>
-        </form>
+        <div>
+          <button type="submit">Deletar Partitura</button>
+        </div>
+      </form>
     </div>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
 </body>
+
 </html>

@@ -1,5 +1,12 @@
 <?php
 
+session_start();
+
+if (!isset($_SESSION['login'])) {
+  echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+  exit;
+}
+
 $groupId = isset($_GET['id']) ? htmlspecialchars(trim($_GET['id'])) : '';
 $day = isset($_GET['day']) ? htmlspecialchars(trim($_GET['day'])) : '';
 $dayTitle = isset($_GET['dayTitle']) ? htmlspecialchars(trim($_GET['dayTitle'])) : '';

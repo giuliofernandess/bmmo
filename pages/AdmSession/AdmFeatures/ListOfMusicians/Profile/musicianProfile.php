@@ -3,6 +3,11 @@ require_once '../../../../../general-features/bdConnect.php';
 
 session_start();
 
+if (!isset($_SESSION['login'])) {
+  echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+  exit;
+}
+
 $idMusician = $_GET['idMusician'];
 
 if (!$connect) {
