@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+if (!isset($_SESSION['login'])) {
+  echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+  exit;
+}
+
 require_once '../../../../general-features/bdConnect.php';
 
 if (!$connect) {

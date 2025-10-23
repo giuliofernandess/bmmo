@@ -1,10 +1,16 @@
 <?php
-// Valida e sanitiza os dados recebidos
+
+session_start();
+
+if (!isset($_SESSION['login'])) {
+  echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+  exit;
+}
+
 $day = isset($_GET['day']) ? htmlspecialchars(trim($_GET['day'])) : '';
 $dayTitle = isset($_GET['dayTitle']) ? htmlspecialchars(trim($_GET['dayTitle'])) : '';
 $dayProgramation = isset($_GET['dayProgramation']) ? htmlspecialchars(trim($_GET['dayProgramation'])) : '';
 
-// Verifica se os campos obrigatórios estão presentes
 if (empty($day) || empty($dayTitle)) {
   die('Dados incompletos. Volte e tente novamente.');
 }
