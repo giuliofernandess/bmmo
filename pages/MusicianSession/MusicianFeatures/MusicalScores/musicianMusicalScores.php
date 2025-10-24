@@ -71,9 +71,8 @@ if (!isset($_SESSION['login'])) {
 
     $bandGroup = $_SESSION['bandGroup'];
     $instrument = $_SESSION['instrument'];
-
-    $stmt = $connect->prepare("SELECT * FROM `musical_scores` WHERE bandGroup = ? and instrument = ? ORDER BY musicalGenre, name ASC");
-    $stmt->bind_param("ss", $bandGroup, $instrument);
+    $stmt = $connect->prepare("SELECT * FROM `musical_scores` WHERE bandGroup = ? and instrument LIKE '%$instrument%' ORDER BY musicalGenre, name ASC");
+    $stmt->bind_param("s", $bandGroup,);
     $stmt->execute();
     $result = $stmt->get_result();
 
