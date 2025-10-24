@@ -2,8 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['login'])) {
-  echo "<meta http-equiv='refresh' content='0; url=index.php'>";
-  exit;
+  echo "<meta http-equiv='refresh' content='0; url=../../../Index/index.php'>";
 }
 ?>
 
@@ -40,7 +39,7 @@ if (!isset($_SESSION['login'])) {
   <header class="d-flex align-items-center justify-content-between px-3 mb-auto">
     <a href="#" class="d-flex align-items-center text-white text-decoration-none">
       <img src="../../../../assets/images/logo_banda.png" alt="Logo Banda" width="30" height="30" class="me-2">
-      <span class="fs-5 fw-bold">BMMO Online - Maestro</span>
+      <span class="fs-5 fw-bold">BMMO Online - Músico</span>
     </a>
     <nav>
       <ul class="nav">
@@ -62,8 +61,26 @@ if (!isset($_SESSION['login'])) {
       die('Erro de conexão: ' . mysqli_connect_error());
     }
 
-    $sql = "SELECT * FROM musical_scores ORDER BY musicalGenre ASC, name ASC";
-    $result = $connect->query($sql);
+    if (!isset($_SESSION['bandGroup'])) {
+      die("Erro: A informação de 'bandGroup' não foi encontrada na sessão.");
+    }
+
+    $bandGroup = $_SESSION['bandGroup'];
+
+    $stmt = $connect->prepare("SELECT * FROM `musical_scores` WHERE bandGroup = ? ORDER BY musicalGenre, name ASC");
+    $stmt->bind_param("s", $bandGroup);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if (!$result) {
+      die("Erro na consulta: " . $connect->error);
+    }
+
+    if ($result->num_rows == 0) {
+      die("Erro: Nenhuma partitura encontrada para o grupo.");
+    }
+
+    $res = $result->fetch_assoc();
 
     if ($result && $result->num_rows > 0) {
       $currentGenre = "";
@@ -89,11 +106,11 @@ if (!isset($_SESSION['login'])) {
           <img src='../../../../assets/images/musical_score.jpg' 
                class='card-img-top musical-score-img' 
                alt='Capa de Partitura'>
-          <a href='Instruments/instruments.php?name=" . htmlspecialchars($res['name']) . "' 
+          <a href='#' 
              class='card-body d-flex flex-column text-decoration-none'>
             <h5 class='card-title fw-semibold text-center mb-3'>" . htmlspecialchars($res['name']) . "</h5>
             <button class='btn btn-outline-primary mt-auto w-100'>
-              <i class='bi bi-person-lines-fill me-1'></i> Editar Partitura
+              <i class='bi bi-person-lines-fill me-1'></i> Baixar Partitura
             </button>
           </a>
         </div>
