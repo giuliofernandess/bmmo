@@ -4,6 +4,16 @@ session_start();
 if (!isset($_SESSION['login'])) {
   echo "<meta http-equiv='refresh' content='0; url=../Index/index.php'>";
 }
+
+require_once "../../general-features/bdConnect.php";
+
+$login = $_SESSION["login"];
+
+$stmt = $connect->prepare("SELECT name FROM `musicians` WHERE login = ?");
+$stmt->bind_param("s", $login);
+$stmt->execute();
+$result = $stmt->get_result();
+$res = $result->fetch_assoc();
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +54,7 @@ if (!isset($_SESSION['login'])) {
   <main class="flex-grow-1 d-flex align-items-center justify-content-center py-5">
     <div class="container introduction-container text-center">
       <img src="../../assets/images/logo_banda.png" width="90" height="90" alt="Logo" class="mb-3">
-      <h1 class="fw-bold">Bem-vindo, Músico</h1>
+      <h1 class="fw-bold">Bem-vindo, <?php echo htmlspecialchars($res['name']); ?></h1>
       <p class="mb-4">
         Aqui você pode acessar suas informações, ensaios, partituras e muito mais.
       </p>
