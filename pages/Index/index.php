@@ -43,8 +43,7 @@
       <img src="../../assets/images/logo_banda.png" width="100" height="100" alt="Logo" class="mb-3">
       <h1 class="fw-bold">A Banda Online</h1>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni reiciendis repellat nihil labore ab totam culpa
-        et quo! Beatae quod porro, reprehenderit placeat aut accusantium cum magni fugit assumenda illo.
+        A <strong>BMMO Online</strong> é um sistema desenvolvido para reunir em um só lugar todas as ferramentas necessárias para o funcionamento organizado do grupo, permitindo o acesso rápido a informações, notícias e recursos voltados para os fãs, integrantes e o maestro.
       </p>
       <div class="d-flex flex-wrap gap-3 justify-content-center musician-login-button">
         <a href="../Login/Musician/musicianLogin.php" class="btn btn-primary btn-lg rounded-pill px-4">
