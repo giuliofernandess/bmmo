@@ -65,10 +65,15 @@ if (!isset($_SESSION['login'])) {
       die("Erro: A informação de 'bandGroup' não foi encontrada na sessão.");
     }
 
-    $bandGroup = $_SESSION['bandGroup'];
+    if (!isset($_SESSION['instrument'])) {
+      die("Erro: A informação de 'instrument' não foi encontrada na sessão.");
+    }
 
-    $stmt = $connect->prepare("SELECT * FROM `musical_scores` WHERE bandGroup = ? ORDER BY musicalGenre, name ASC");
-    $stmt->bind_param("s", $bandGroup);
+    $bandGroup = $_SESSION['bandGroup'];
+    $instrument = $_SESSION['instrument'];
+
+    $stmt = $connect->prepare("SELECT * FROM `musical_scores` WHERE bandGroup = ? and instrument = ? ORDER BY musicalGenre, name ASC");
+    $stmt->bind_param("ss", $bandGroup, $instrument);
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -77,14 +82,11 @@ if (!isset($_SESSION['login'])) {
     }
 
     if ($result->num_rows == 0) {
-      die("Erro: Nenhuma partitura encontrada para o grupo.");
+      die("Erro: Nenhuma partitura encontrada para o grupo ou instrumento.");
     }
-
-    $res = $result->fetch_assoc();
 
     if ($result && $result->num_rows > 0) {
       $currentGenre = "";
-      $lastName = "";
 
       echo "<div class='container'>";
 
@@ -99,8 +101,7 @@ if (!isset($_SESSION['login'])) {
           echo "<div class='row g-4'>";
         }
 
-        if ($lastName != $res['name']) {
-          echo "
+        echo "
       <div class='col-12 col-sm-6 col-lg-3'>
         <div class='card musician-card h-100 border-0 shadow-sm'>
           <img src='../../../../assets/images/musical_score.jpg' 
@@ -115,16 +116,12 @@ if (!isset($_SESSION['login'])) {
           </a>
         </div>
       </div>";
-        }
-
-        $lastName = $res['name'];
       }
 
-      echo "</div>";
-      echo "</div>";
-    } else {
-      echo "<p>Nenhuma partitura encontrada.</p>";
     }
+
+    echo "</div>";
+    echo "</div>";
     ?>
 
 

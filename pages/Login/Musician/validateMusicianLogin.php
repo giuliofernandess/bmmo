@@ -14,7 +14,7 @@ $login = trim($_POST['login']);
 $password = trim($_POST['password']);
 
 // Envio do SQL
-$stmt = $connect->prepare("SELECT login, password, bandGroup FROM musicians WHERE login = ? and password = ?");
+$stmt = $connect->prepare("SELECT login, password, instrument, bandGroup FROM musicians WHERE login = ? and password = ?");
 $stmt->bind_param("ss", $login, $password);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -27,6 +27,7 @@ if ($result->num_rows > 0) {
     if ($password == $res['password']) {
         $_SESSION['login'] = $res['login'];
         $_SESSION['bandGroup'] = $res['bandGroup'];
+        $_SESSION['instrument'] = $res['instrument'];
 
         echo "<script>alert('Login concluído com sucesso!');</script>";
         echo "<meta http-equiv='refresh' content='0; url=../../MusicianSession/musicianPage.php'>";
