@@ -90,7 +90,7 @@ if (!isset($_SESSION['login'])) {
           <img src='../../../../../../assets/images/musical_score.jpg' 
                class='card-img-top musical-score-img' 
                alt='Capa de Partitura'>
-          <a href='Instruments/instruments.php?name=" . htmlspecialchars($res['name']) . "' 
+          <a href='MusicalScoreEdit/musicalScoreEdit.php?name=" . htmlspecialchars($res['name']) . "' 
              class='card-body d-flex flex-column text-decoration-none'>
             <h5 class='card-title fw-semibold text-center mb-3'>" . htmlspecialchars($res['name']) . "</h5>
             <button class='btn btn-outline-primary mt-auto w-100'>
