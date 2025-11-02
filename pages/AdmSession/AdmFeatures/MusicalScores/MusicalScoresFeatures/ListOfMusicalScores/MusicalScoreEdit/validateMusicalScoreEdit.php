@@ -46,7 +46,7 @@ if ($connect->connect_error) {
     exit;
 }
 
-if (empty($instrument) && empty($bandGroup)) {
+if (empty($bandGroup) || empty($instrument) && empty($_FILES['file'])) {
     echo "<script>alert('Dados incompletos!'); window.history.back();</script>";
 } else {
     if (!empty($bandGroup)) {
@@ -57,9 +57,13 @@ if (empty($instrument) && empty($bandGroup)) {
         $stmt -> execute();
 
         $stmt->close();
-
-        echo "<script>alert('Grupos atualizados com sucesso!'); window.location.href='../listOfMusicalScores.php';</script>";
     }
+
+    if (!empty($instrument) && !empty($_FILES['file'])) {
+
+    }
+
+    echo "<script>alert('Atualizações feitas com sucesso com sucesso!'); window.location.href='../listOfMusicalScores.php';</script>";
 }
 
 ?>
