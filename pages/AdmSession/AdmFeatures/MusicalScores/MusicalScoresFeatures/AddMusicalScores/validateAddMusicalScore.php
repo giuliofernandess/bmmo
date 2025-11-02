@@ -6,8 +6,8 @@ $instrument = trim($_POST['instrument']);
 $bandGroup = trim($_POST['bandGroup']);
 $musicalGenre = trim($_POST['musicalGenre']);
 
-// Validação simples da imagem
-$imageFileName = null;
+// Validação simples do arquivo
+$FileName = null;
 if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
     $fileTmpPath = $_FILES['file']['tmp_name'];
     $fileName = $_FILES['file']['name'];
@@ -35,14 +35,14 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
     $destPath = $uploadFileDir . $newFileName;
 
     if (move_uploaded_file($fileTmpPath, $destPath)) {
-        $imageFileName = $newFileName;
+        $FileName = $newFileName;
     } else {
-        die('Erro ao mover a imagem para o diretório.');
+        die('Erro ao mover o arquivo para o diretório.');
     }
 }
 
 $stmt = $connect->prepare("INSERT INTO `musical_scores` (`name`, `instrument`, `file`, `bandGroup`, `musicalGenre`) VALUES (?, ?, ?, ?, ?)");
-$stmt->bind_param("sssss", $name, $instrument, $imageFileName, $bandGroup, $musicalGenre);
+$stmt->bind_param("sssss", $name, $instrument, $FileName, $bandGroup, $musicalGenre);
 
 if ($stmt->execute()) {
     echo "<script>alert('Partitura adicionada com sucesso!'); window.location.href='addMusicalScore.php';</script>";
