@@ -72,14 +72,7 @@ if (!isset($_SESSION['login'])) {
   </main>
 
   <!-- Footer -->
-  <footer class="mt-auto py-3">
-    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
-      <span>&copy; Banda de Música</span>
-      <div class="d-flex gap-3">
-        <a href="https://www.instagram.com/bmmooficial" target="_blank"><i class="bi bi-instagram fs-5"></i></a>
-      </div>
-    </div>
-  </footer>
+  <?php require_once '../../../../general-features/footer.php'; ?>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
