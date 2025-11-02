@@ -102,9 +102,11 @@ if (!isset($_SESSION['login'])) {
         echo "
       <div class='col-12 col-sm-6 col-lg-3'>
         <div class='card musician-card h-100 border-0 shadow-sm'>
-          <img src='../../../../assets/images/musical_score.jpg' 
-               class='card-img-top musical-score-img' 
-               alt='Capa de Partitura'>
+          <a href='../../../../assets/musical-scores/" . $res['file'] . "' target='_blank'>
+            <img src='../../../../assets/images/musical_score.jpg'
+                 class='card-img-top musical-score-img'
+                 alt='Capa de Partitura'>
+          </a>
           <a href='../../../../assets/musical-scores/" . $res['file'] . "' download type='application/pdf'
              class='card-body d-flex flex-column text-decoration-none'>
             <h5 class='card-title fw-semibold text-center mb-3'>" . htmlspecialchars($res['name']) . "</h5>
