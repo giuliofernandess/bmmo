@@ -18,6 +18,7 @@ $name = trim($_GET['name']);
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Editar Partitura</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
   <link rel="shortcut icon" href="../../../../../../../assets/images/logo_banda.png" type="image/x-icon" />
   <link rel="stylesheet" href="../../../../../../../assets/css/style.css">
   <link rel="stylesheet" href="../../../../../../../assets/css/form.css">
@@ -38,7 +39,7 @@ $name = trim($_GET['name']);
     <nav>
       <ul class="nav">
         <li class="nav-item">
-          <a href="../listOfMusicalScores" class="nav-link text-white" style="font-size: 1.4rem;"><i
+          <a href="../listOfMusicalScores.php" class="nav-link text-white" style="font-size: 1.4rem;"><i
               class="bi bi-arrow-90deg-left"></i></a>
         </li>
       </ul>
