@@ -1,12 +1,28 @@
 <?php
 
+require_once '../../../../../../../general-features/bdConnect.php';
+if ($connect->connect_error) {
+    error_log("Erro de conexão: " . $connect->connect_error);
+    echo "<script>alert('Erro ao conectar com o banco de dados.'); window.history.back();</script>";
+    exit;
+}
+
 $name = trim($_POST['name']);
 $instrument = trim($_POST['instrument']);
 $bandGroup = $_POST['bandGroup'];
 
-// Validação simples da imagem
-$imageFileName = null;
+$query = "SELECT file FROM musical_scores WHERE name = ? and instrument = ?";
+$stmt = $connect -> prepare($query);
+$stmt -> bind_param("ss", $name, $instrument);
+$stmt -> execute();
+$result = $stmt->get_result();
+$currentFile = $result->fetch_assoc()['file'];
+$stmt->close();
+
+// Validação simples do arquivo
+$FileName = null;
 if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
+
     $fileTmpPath = $_FILES['file']['tmp_name'];
     $fileName = $_FILES['file']['name'];
     $fileSize = $_FILES['file']['size'];
@@ -33,22 +49,16 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
     $destPath = $uploadFileDir . $newFileName;
 
     if (move_uploaded_file($fileTmpPath, $destPath)) {
-        $imageFileName = $newFileName;
+        $FileName = $newFileName;
     } else {
-        die('Erro ao mover a imagem para o diretório.');
+        die('Erro ao mover o arquivo para o diretório.');
     }
 }
 
-require_once '../../../../../../../general-features/bdConnect.php';
-if ($connect->connect_error) {
-    error_log("Erro de conexão: " . $connect->connect_error);
-    echo "<script>alert('Erro ao conectar com o banco de dados.'); window.history.back();</script>";
-    exit;
-}
+$hasBandGroupUpdate = !empty($bandGroup);
+$hasFileUpdate = !empty($instrument) && !empty($newFileName);
 
-if (empty($bandGroup) || empty($instrument) && empty($_FILES['file'])) {
-    echo "<script>alert('Dados incompletos!'); window.history.back();</script>";
-} else {
+if ($hasBandGroupUpdate || $hasFileUpdate) {
     if (!empty($bandGroup)) {
         $bandGroups = implode(' ',$bandGroup);
 
@@ -60,10 +70,20 @@ if (empty($bandGroup) || empty($instrument) && empty($_FILES['file'])) {
     }
 
     if (!empty($instrument) && !empty($_FILES['file'])) {
+        $stmt = $connect -> prepare("UPDATE `musical_scores` SET file = ? WHERE name = ? and instrument = ?");
+        $stmt -> bind_param("sss", $newFileName, $name, $instrument);
+        $stmt -> execute();
 
+        $stmt->close();
+
+        if ($currentFile && file_exists('../../../../../../../assets/musical-scores/' . $currentFile)) {
+            unlink('../../../../../../../assets/musical-scores/' . $currentFile);
+        }
     }
 
     echo "<script>alert('Atualizações feitas com sucesso com sucesso!'); window.location.href='../listOfMusicalScores.php';</script>";
+} else {
+    echo "<script>alert('Dados incompletos!'); window.history.back();</script>";
 }
 
 ?>
