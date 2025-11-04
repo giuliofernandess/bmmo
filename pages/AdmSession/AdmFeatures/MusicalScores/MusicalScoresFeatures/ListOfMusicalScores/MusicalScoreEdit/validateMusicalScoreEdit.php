@@ -40,7 +40,7 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
     }
 
     $newFileName = uniqid('profile_', true) . '.' . $fileExtension;
-    $uploadFileDir = '../../../../../../assets/musical-scores/';
+    $uploadFileDir = '../../../../../../../assets/musical-scores/';
 
     if (!is_dir($uploadFileDir)) {
         mkdir($uploadFileDir, 0755, true);
