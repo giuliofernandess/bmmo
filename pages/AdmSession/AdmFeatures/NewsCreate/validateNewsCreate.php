@@ -26,7 +26,7 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
     }
 
     $newFileName = uniqid('profile_', true) . '.' . $fileExtension;
-    $uploadFileDir = '../../../../assets/news-images/';
+    $uploadFileDir = '../../../../assets/images/news-images/';
 
     if (!is_dir($uploadFileDir)) {
         mkdir($uploadFileDir, 0755, true);
