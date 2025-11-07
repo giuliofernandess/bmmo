@@ -33,26 +33,36 @@
 <body class="d-flex flex-column min-vh-100">
 
   <!-- Header -->
-  <header class="d-flex align-items-center justify-content-between px-4">
-    <a href="#" class="d-flex align-items-center text-white text-decoration-none">
-      <img src="../../../assets/images/logo_banda.png" alt="Logo Banda" width="30" height="30" class="me-2">
-      <span class="fs-5 fw-bold">BMMO Online</span>
-    </a>
+  <nav class="navbar navbar-expand-md navbar-dark"
+    style="background: rgba(13, 110, 253, 0.95); backdrop-filter: blur(6px); box-shadow: 0 2px 15px rgba(0,0,0,0.15);">
+    <div class="container-fluid px-3">
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <img src="../../../assets/images/logo_banda.png" alt="Logo Banda" width="30" height="30" class="me-2">
+        <span class="fw-bold">BMMO Online</span>
+      </a>
 
-    <nav>
-      <ul class="nav">
-        <li class="nav-item">
-          <a href="../../Index/index.php" class="nav-link text-white">Início</a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link text-white">Notícias</a>
-        </li>
-        <li class="nav-item">
-          <a href="../../Information/AboutTheBand/aboutTheBand.php" class="nav-link text-white">Sobre</a>
-        </li>
-      </ul>
-    </nav>
-  </header>
+      <!-- Botão hamburguer -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Itens do menu -->
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link text-white" href="../../Index/index.php">Início</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="#">Notícias</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="../AboutTheBand/aboutTheBand.php">Sobre</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
   <!-- Main Content -->
   <main class="py-5 flex-grow-1">
@@ -105,6 +115,9 @@
 
   <!-- Footer -->
   <?php require_once '../../../general-features/footer.php'; ?>
+
+  <!-- Hamburguer JS -->
+  <script src="../../../js/hamburguer.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
