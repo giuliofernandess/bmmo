@@ -66,7 +66,7 @@ $res = $result->fetch_assoc();
 
   <main class="flex-fill py-5">
     <div class="container">
-      <div class="card shadow mx-auto" style="max-width: 800px;">
+      <div class="card shadow mx-auto" style="max-width: 1200px;">
         <div class="row g-0">
           <!-- Imagem -->
           <div class="col-md-4 text-center bg-secondary">
@@ -94,6 +94,14 @@ $res = $result->fetch_assoc();
                   <?php echo htmlspecialchars($res['telephone']); ?></li>
                 <li class="list-group-item"><strong>Bairro:</strong>
                   <?php echo htmlspecialchars($res['neighborhood']); ?></li>
+                <li class="list-group-item"><strong>Instituição:</strong>
+                  <?php echo htmlspecialchars($res['institution']); ?></li>
+                  <li class="list-group-item"><strong>Responsável:</strong>
+                  <?php echo htmlspecialchars($res['responsible']); ?></li>
+                  <li class="list-group-item"><strong>Telefone do Responsável:</strong>
+                  <?php echo htmlspecialchars($res['telephoneOfResponsible']); ?></li>
+                  <li class="list-group-item"><strong>Senha:</strong>
+                  <?php echo htmlspecialchars($res['password']); ?></li>
               </ul>
 
               <!-- Botões de ação -->
