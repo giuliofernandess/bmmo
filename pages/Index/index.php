@@ -52,11 +52,9 @@
   <main class="flex-grow-1 d-flex align-items-center justify-content-center">
     <div class="container introduction-container text-center">
       <img src="../../assets/images/logo_banda.png" width="100" height="100" alt="Logo" class="mb-3">
-      <h1 class="fw-bold">A Banda Online</h1>
+      <h1 class="fw-bold">Banda de Música Municipal de Ocara</h1>
       <p>
-        A <strong>BMMO Online</strong> é um sistema desenvolvido para reunir em um só lugar todas as ferramentas
-        necessárias para o funcionamento organizado do grupo, permitindo o acesso rápido a informações, notícias e
-        recursos voltados para os fãs, integrantes e o maestro.
+        A <strong>Banda de Música Maestro Jairo Cláudio Silveira</strong> tem como objetivo proporcionar aos músicos a formação necessária ao desenvolvimento de suas potencialidades como elementos de auto-realização, preparação para o trabalho e para exercício constante de cidadania.
       </p>
       <div class="d-flex flex-wrap gap-3 justify-content-center musician-login-button">
         <a href="../Login/Musician/musicianLogin.php" class="btn btn-primary btn-lg rounded-pill px-4">

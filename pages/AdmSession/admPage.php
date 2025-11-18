@@ -44,7 +44,7 @@ if (!isset($_SESSION['login'])) {
   <!-- Main -->
   <main class="flex-grow-1 d-flex align-items-center justify-content-center py-5">
     <div class="container introduction-container text-center">
-      <img src="../../assets/images/logo_banda.png" width="90" height="90" alt="Logo" class="mb-3">
+      <img src="../../assets/images/logo_banda.png" width="160" height="160" alt="Logo" class="mb-3">
       <h1 class="fw-bold">Painel do Maestro</h1>
       <p class="mb-4">
         Gerencie os músicos, partituras, cronogramas e comunicações da banda.

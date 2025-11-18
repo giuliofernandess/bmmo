@@ -53,7 +53,7 @@ $res = $result->fetch_assoc();
   <!-- Main -->
   <main class="flex-grow-1 d-flex align-items-center justify-content-center py-5">
     <div class="container introduction-container text-center">
-      <img src="../../assets/images/logo_banda.png" width="90" height="90" alt="Logo" class="mb-3">
+      <img src="../../assets/images/logo_banda.png" width="160" height="160" alt="Logo" class="mb-3">
       <h1 class="fw-bold">Bem-vindo, <?php echo htmlspecialchars($res['name']); ?></h1>
       <p class="mb-4">
         Aqui você pode acessar suas informações, ensaios, partituras e muito mais.
