@@ -49,6 +49,7 @@ $name = trim($_GET['name']);
   <main>
     <!-- Form Container -->
     <div class="container login-container mt-5 mb-5">
+      <h1 class="text-center">Editar Partitura</h1>
       <form method="post" action="validateMusicalScoreEdit.php" enctype="multipart/form-data">
 
         <!-- Nome da partitura -->
