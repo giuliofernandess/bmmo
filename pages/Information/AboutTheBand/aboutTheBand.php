@@ -85,7 +85,7 @@
         </p>
         <div class="text-center mt-4">
           <picture>
-            <img src="../../../assets/images/about-the-band/second_image.jpg" alt="Imagem do grupo atual da banda"
+            <img src="../../../assets/images/about-the-band/actually_image.jpg" alt="Imagem do grupo atual da banda"
               class="about-image img-fluid">
             <figcaption>Imagem atual da Banda de Música</figcaption>
           </picture>
