@@ -75,11 +75,11 @@ if (!isset($_SESSION['login'])) {
 
         <!-- Card 3 -->
         <div class="col">
-          <a href="AdmFeatures/WeeklySchedule/bandGroups.php" class="text-decoration-none text-dark">
+          <a href="AdmFeatures/Repertoire/repertoire.php" class="text-decoration-none text-dark">
             <div class="card h-100 shadow-sm border-0 p-3">
               <i class="bi bi-calendar-week-fill fs-2 text-warning mb-2"></i>
-              <h5 class="fw-bold">Agenda Semanal</h5>
-              <p class="text-muted">Gerencie os ensaios e apresentações.</p>
+              <h5 class="fw-bold">Repertório</h5>
+              <p class="text-muted">Divulgue as músicas à ser tocadas.</p>
             </div>
           </a>
         </div>
