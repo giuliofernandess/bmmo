@@ -1,9 +1,10 @@
 <?php
-require_once '../../../../general-features/bdConnect.php';
+require_once '../../../../../general-features/bdConnect.php';
 
 $name = trim($_POST['name']);
 $date = trim($_POST['date']);
 $hour = trim($_POST['hour']);
+$local = trim($_POST['local']);
 
 $inputDate = new DateTime($date);
 $today = new DateTime('today');
@@ -27,13 +28,13 @@ if (isset($_POST['songs']) && !empty($_POST['songs']))  {
     window.history.back()</script>";
 }
 
-$stmt = $connect->prepare("INSERT INTO `repertoire` (`presentationName`, `date`, `hour`, `bandGroup`, `songs`) VALUES (?, ?, ?, ?, ?)");
-$stmt->bind_param("sssss", $name, $date, $hour, $bandGroup, $songs);
+$stmt = $connect->prepare("INSERT INTO `repertoire` (`presentationName`, `date`, `hour`, `local`, `bandGroup`, `songs`) VALUES (?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("ssssss", $name, $date, $hour, $local, $bandGroup, $songs);
 
 if ($stmt->execute()) {
-    echo "<script>alert('Tocata adicionada com sucesso!'); window.location.href='repertoire.php';</script>";
+    echo "<script>alert('Tocata adicionada com sucesso!'); window.location.href='../repertoire.php';</script>";
 } else {
-    echo "<script>alert('Erro ao adicionar.'); window.location.href='repertoire.php';</script>";
+    echo "<script>alert('Erro ao adicionar.'); window.location.href='../repertoire.php';</script>";
 }
 
 $stmt->close();
