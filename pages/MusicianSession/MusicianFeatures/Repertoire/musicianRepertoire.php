@@ -4,10 +4,9 @@ require_once '../../../../general-features/bdConnect.php';
 session_start();
 
 if (!isset($_SESSION['login'])) {
-  echo "<meta http-equiv='refresh' content='0; url=../../../Index/index.php'>";
+    header("Location: ../../../Index/index.php");
+    exit;
 } else {
-    require_once '../../../../general-features/bdConnect.php';
-
     if (!$connect) {
         die('Erro de conexão: ' . mysqli_connect_error());
     }
@@ -69,16 +68,16 @@ if (!isset($_SESSION['login'])) {
 
                     <h5 class="card-title"><?= htmlspecialchars($res['presentationName']) ?></h5>
 
-                    <p class="mb-1"><strong>Data:</strong> <?= $res['date'] ?></p>
-                    <p class="mb-1"><strong>Horário:</strong> <?= $res['hour'] ?></p>
-                    <p class="mb-1"><strong>Local:</strong> <?= $res['local'] ?></p>
+                    <p class="mb-1"><strong>Data:</strong> <?= htmlspecialchars($res['date']) ?></p>
+                    <p class="mb-1"><strong>Horário:</strong> <?= htmlspecialchars($res['hour']) ?></p>
+                    <p class="mb-1"><strong>Local:</strong> <?= htmlspecialchars($res['local']) ?></p>
 
                     <p class="mb-1"><strong>Grupo(s):</strong><br>
-                        <?= str_replace('-', '<br>', $res['bandGroup']) ?>
+                        <?= htmlspecialchars(str_replace('-', '<br>', $res['bandGroup'])) ?>
                     </p>
 
                     <p class="mb-1"><strong>Músicas:</strong><br>
-                        <?= str_replace('-', '<br>', $res['songs']) ?>
+                        <?= htmlspecialchars(str_replace('-', '<br>', $res['songs'])) ?>
                     </p>
                 </div>
             </div>
