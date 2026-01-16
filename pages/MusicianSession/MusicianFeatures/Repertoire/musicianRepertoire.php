@@ -5,10 +5,15 @@ session_start();
 
 if (!isset($_SESSION['login'])) {
   echo "<meta http-equiv='refresh' content='0; url=../../../Index/index.php'>";
-}
+} else {
+    require_once '../../../../general-features/bdConnect.php';
 
-if (!$connect) {
-  die("Erro na conexão com o banco de dados.");
+    if (!$connect) {
+        die('Erro de conexão: ' . mysqli_connect_error());
+    }
+
+    $today = (new DateTime())->format('Y-m-d');
+    $connect->query("DELETE FROM repertoire WHERE date < '$today'");
 }
 ?>
 
