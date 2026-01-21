@@ -1,4 +1,4 @@
-Copyright (c) 2026 Giulio
+Copyright (c) 2026 Giulio Fernandes
 
 Todos os direitos reservados.
 
@@ -11,7 +11,7 @@ sem autorização prévia e por escrito do autor.
 
 -------------------------------------------------------------------------
 
-Copyright (c) 2026 Giulio
+Copyright (c) 2026 Giulio Fernandes
 
 All rights reserved.
 
@@ -19,3 +19,5 @@ This source code is made available exclusively for
 technical evaluation and review by recruiters.
 
 No permission is granted to use, copy, modify,
+publish, or distribute this software, in whole or in part,
+without prior written authorization from the author.
