@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Tempo de geração: 26/09/2025 às 20:45
+-- Host: localhost
+-- Tempo de geração: 29/01/2026 às 14:28
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -24,34 +24,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `agenda`
---
-
-CREATE TABLE `agenda` (
-  `id` int(11) NOT NULL,
-  `sunday` varchar(1000) NOT NULL,
-  `monday` varchar(1000) NOT NULL,
-  `tuesday` varchar(1000) NOT NULL,
-  `wednesday` varchar(1000) NOT NULL,
-  `thursday` varchar(1000) NOT NULL,
-  `friday` varchar(1000) NOT NULL,
-  `saturday` varchar(1000) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `agenda`
---
-
-INSERT INTO `agenda` (`id`, `sunday`, `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`) VALUES
-(1, 'Folga', 'Tocata', 'Folga', 'Sala aberta', 'Ensaio', 'Tocata', 'Ensaio'),
-(2, 'Folga', 'Tocata', 'Folga', 'Sala aberta', 'Ensaio', 'Tocata', 'Folga'),
-(3, 'Folga', 'Tocata', 'Folga', 'Sala aberta', 'Ensaio', 'Tocata', 'Ensaio'),
-(4, 'Folga', 'Ensaio', 'Folga', 'Sala aberta', 'Ensaio', 'Tocata', 'Folga'),
-(5, 'Folga', 'Ensaio', 'Sala aberta', 'Sala aberta', 'Ensaio', 'Tocata', 'Ensaio');
-
--- --------------------------------------------------------
-
---
 -- Estrutura para tabela `musical_scores`
 --
 
@@ -63,14 +35,6 @@ CREATE TABLE `musical_scores` (
   `musicalGenre` varchar(50) NOT NULL,
   `file` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `musical_scores`
---
-
-INSERT INTO `musical_scores` (`id`, `name`, `instrument`, `bandGroup`, `musicalGenre`, `file`) VALUES
-(1, 'Stand By Me', '1 Alto Sax', 'Fanfarra', 'Internacionais', 'profile_68cc49b41d35f3.46631892.pdf'),
-(2, 'Stand By Me', '2 Alto Sax', 'Fanfarra', 'Internacionais', 'profile_68cc5174359a84.92695050.pdf');
 
 -- --------------------------------------------------------
 
@@ -93,14 +57,6 @@ CREATE TABLE `musicians` (
   `password` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `musicians`
---
-
-INSERT INTO `musicians` (`idMusician`, `name`, `login`, `dateOfBirth`, `instrument`, `bandGroup`, `telephone`, `responsible`, `telephoneOfResponsible`, `neighborhood`, `institution`, `password`) VALUES
-(98, 'Giulio', 'giulio123', '2007-06-21', '1 Alto Sax', '', '(85) 98237-6209', 'Leonilde Alves Barbosa Fernandes', '(00) 00000-0000', 'São Marcos', 'Môsa', '12345678'),
-(99, 'Jão', 'jao123', '2004-05-21', 'Bumbo', 'Fanfarra', '(00) 00000-0000', '', '', 'Outro', 'Môsa', '12345678');
-
 -- --------------------------------------------------------
 
 --
@@ -116,15 +72,6 @@ CREATE TABLE `news` (
   `date` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `news`
---
-
-INSERT INTO `news` (`id`, `title`, `subtitle`, `image`, `text`, `date`) VALUES
-(3, 'Jakeline Alves é a nova integrante da banda de música', 'A musicista chega na sede amanhã(29)', 'profile_68b09862ae6237.54746971.jpg', 'Ela chega para substituir seu primo Giulio', '28-08-2025'),
-(4, 'Banda de Música recebe novo fardamento', 'A blusa casual gola polo vem pro 7 de setembro', 'profile_68b195f906dcc9.05756967.jpg', 'Estreia na sexta feira (6) de setembro no desfile municipal', '29-08-2025'),
-(5, 'Veja o calendário da BMMO no 7 de setembro', 'São 6 tocatas em 4 dias', 'profile_68b97857c76b33.12615076.jpg', '04/09 - Redenção\r\n05/09 - IEMA ( Ocara )\r\n05/09 - Ocara\r\n06/09 - Banabuiú\r\n07/09 - Quixadá\r\n07/09 - Ibicuitinga', '04-09-2025');
-
 -- --------------------------------------------------------
 
 --
@@ -136,22 +83,25 @@ CREATE TABLE `regency` (
   `password` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Despejando dados para a tabela `regency`
+-- Estrutura para tabela `repertoire`
 --
 
-INSERT INTO `regency` (`login`, `password`) VALUES
-('raul', 'raulanderson');
+CREATE TABLE `repertoire` (
+  `id` int(11) NOT NULL,
+  `name` varchar(200) NOT NULL,
+  `date` varchar(30) NOT NULL,
+  `hour` varchar(30) NOT NULL,
+  `local` varchar(200) NOT NULL,
+  `bandGroup` varchar(50) NOT NULL,
+  `songs` varchar(1000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Índices para tabelas despejadas
 --
-
---
--- Índices de tabela `agenda`
---
-ALTER TABLE `agenda`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Índices de tabela `musical_scores`
@@ -178,6 +128,12 @@ ALTER TABLE `regency`
   ADD PRIMARY KEY (`login`);
 
 --
+-- Índices de tabela `repertoire`
+--
+ALTER TABLE `repertoire`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT para tabelas despejadas
 --
 
@@ -185,19 +141,25 @@ ALTER TABLE `regency`
 -- AUTO_INCREMENT de tabela `musical_scores`
 --
 ALTER TABLE `musical_scores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1000;
 
 --
 -- AUTO_INCREMENT de tabela `musicians`
 --
 ALTER TABLE `musicians`
-  MODIFY `idMusician` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `idMusician` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `news`
 --
 ALTER TABLE `news`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1000;
+
+--
+-- AUTO_INCREMENT de tabela `repertoire`
+--
+ALTER TABLE `repertoire`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
