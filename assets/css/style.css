@@ -2,7 +2,7 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
-/* Paleta */
+/* Paleta de cores */
 :root {
   --color-1: #0d6efd;
   --color-2: #0dcaf0;
@@ -28,18 +28,25 @@ body {
   flex-direction: column;
 }
 
-/* Header */
-header {
+/* Navbar */
+.navbar {
   background: rgba(13, 110, 253, 0.95);
   backdrop-filter: blur(6px);
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
-  height: 60px;
-  position: relative;
-  z-index: 10;
+  min-height: 60px;
 }
 
-header a span {
+.navbar-brand span {
   font-weight: 600;
+}
+
+.navbar-toggler {
+  border: 0;
+}
+
+/* Espaçamento padrão mobile */
+.navbar-nav .nav-item {
+  margin: 8px 0;
 }
 
 /* Estilo do botão hamburguer */
@@ -62,50 +69,7 @@ header a span {
   transition: 0.3s;
 }
 
-/* Navbar */
-.navbar {
-  background: rgba(13, 110, 253, 0.95);
-  backdrop-filter: blur(6px);
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
-  min-height: 60px;
-}
-
-.navbar-brand span {
-  font-weight: 600;
-}
-
-.navbar-toggler {
-  border: 0;
-}
-
-/* Espaçamento padrão mobile */
-.navbar-nav .nav-item {
-  margin: 8px 0;
-}
-
-/* Ajustes para telas médias */
-@media (min-width: 768px) {
-  .navbar-nav .nav-item {
-    margin: 10px 0;
-  }
-}
-
-/* Ajustes apenas para menu desktop (evita conflito com offcanvas) */
-@media (min-width: 992px) {
-  .navbar-collapse .navbar-nav {
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .navbar-collapse .navbar-nav .nav-item {
-    margin-left: 25px;
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-}
-
 /* Offcanvas */
-
 .offcanvas-body {
   overflow-y: auto;
 }
@@ -147,4 +111,27 @@ footer a {
 
 footer a:hover {
   opacity: 0.8;
+}
+
+
+
+/* Ajustes para telas médias */
+@media (min-width: 768px) {
+  .navbar-nav .nav-item {
+    margin: 10px 0;
+  }
+}
+
+/* Ajustes apenas para menu desktop */
+@media (min-width: 992px) {
+  .navbar-collapse .navbar-nav {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .navbar-collapse .navbar-nav .nav-item {
+    margin-left: 25px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }
