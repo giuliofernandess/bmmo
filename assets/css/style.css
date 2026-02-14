@@ -20,12 +20,12 @@
 /* Body */
 body {
   font-family: "Roboto", sans-serif;
-  display: flex;
-  flex-direction: column;
   min-height: 100vh;
   background: var(--color-bg);
   color: var(--color-dark);
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Header */
@@ -62,38 +62,60 @@ header a span {
   transition: 0.3s;
 }
 
+/* Navbar */
 .navbar {
   background: rgba(13, 110, 253, 0.95);
   backdrop-filter: blur(6px);
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
-  height: 60px;
+  min-height: 60px;
 }
 
 .navbar-brand span {
   font-weight: 600;
 }
 
+.navbar-toggler {
+  border: 0;
+}
+
+/* Espaçamento padrão mobile */
 .navbar-nav .nav-item {
   margin: 8px 0;
 }
 
+/* Ajustes para telas médias */
 @media (min-width: 768px) {
   .navbar-nav .nav-item {
     margin: 10px 0;
   }
 }
 
+/* Ajustes apenas para menu desktop (evita conflito com offcanvas) */
 @media (min-width: 992px) {
-  .navbar-nav {
+  .navbar-collapse .navbar-nav {
     flex-direction: row;
     align-items: center;
   }
 
-  .navbar-nav .nav-item {
+  .navbar-collapse .navbar-nav .nav-item {
     margin-left: 25px;
     margin-top: 0;
     margin-bottom: 0;
   }
+}
+
+/* Offcanvas */
+
+.offcanvas-body {
+  overflow-y: auto;
+}
+
+.offcanvas .navbar-nav {
+  flex-direction: column !important;
+}
+
+.offcanvas .nav-item {
+  margin: 10px 0;
 }
 
 /* Animação do ícone ao abrir o menu */
@@ -106,7 +128,6 @@ header a span {
 .menu-toggle.active span:nth-child(3) {
   transform: rotate(-45deg) translate(5px, -5px);
 }
-
 
 /* Footer */
 footer {
