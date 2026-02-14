@@ -12,17 +12,19 @@ h1 {
 
 .news-card:hover {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  transition: 0.3s;
+  transform: scale(1.01);
+  transition: 0.3s ease-in-out;
   scale: 1.02;
 }
 
 .news-image {
-  height: 250px;
+  height: 200px;
   object-fit: cover;
 }
 
 .no-news {
   text-align: center;
-  padding: 2rem;
+  font-size: 1.2rem;
   color: #6c757d;
+  margin-top: 2rem;
 }
