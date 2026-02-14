@@ -4,8 +4,8 @@ body {
   background: linear-gradient(to right, #eef2f3, #d9e9ff);
 }
 
-.main-container {
-  background-color: #fff;
+main {
+  flex-grow: 1;
 }
 
 h4 {
@@ -16,14 +16,25 @@ h4 {
   width: 100%;
   max-height: 400px;
   object-fit: cover;
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
 }
 
 .news-text {
   white-space: pre-line;
 }
 
+.aside-card img {
+  height: 100%;
+  object-fit: cover;
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+}
+
+.aside-card {
+  transition: transform 0.2s ease-in-out;
+}
+
 .aside-card:hover {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease-in-out;
+  transform: scale(1.02);
+  text-decoration: none;
 }
