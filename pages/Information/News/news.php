@@ -75,7 +75,7 @@
 
             <!-- Impressão do card -->
             <div class='col-md-6 col-lg-4'>
-              <a href='expandedNews.php?id=<?= htmlspecialchars($newsId) ?>' class='text-decoration-none text-dark'>
+              <a href='expandedNews.php?newsId=<?= htmlspecialchars($newsId) ?>' class='text-decoration-none text-dark'>
                 <div class='card news-card rounded shadow-sm h-100'>
                   <img src='<?= BASE_URL ?>uploads/news-images/<?= htmlspecialchars($newsImage) ?>' class='card-img-top rounded-top news-image'
                     alt="Imagem da notícia: <?= htmlspecialchars($newsTitle) ?>"
