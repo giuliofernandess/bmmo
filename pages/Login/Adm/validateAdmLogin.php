@@ -1,11 +1,11 @@
 <?php
 session_start();
-require_once '../../../general-features/bdConnect.php';
+require_once '../../../config/config.php';
+require_once BASE_PATH . 'utilities/bdConnect.php';
 
 // Valida se os campos foram enviados
 if (!isset($_POST['login'], $_POST['password'])) {
-    echo "<script>alert('Dados incompletos.');</script>";
-    echo "<meta http-equiv='refresh' content='0; url=admLogin.php'>";
+    $_SESSION['error'] = "Preencha todos os campos.";
     exit;
 }
 
@@ -14,7 +14,7 @@ $loginAdm = trim($_POST['login']);
 $passwordAdm = trim($_POST['password']);
 
 // Envio do SQL
-$stmt = $connect->prepare("SELECT login, password FROM regency WHERE login = ?");
+$stmt = $connect->prepare("SELECT regency_login, password FROM regency WHERE regency_login = ?");
 $stmt->bind_param("s", $loginAdm);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -25,17 +25,19 @@ if ($result->num_rows > 0) {
 
     // Verificação de senha
     if ($passwordAdm == $res['password']) {
-        $_SESSION['login'] = $res['login'];
+        $_SESSION['login'] = $res['regency_login'];
 
-        echo "<script>alert('Login concluído com sucesso!');</script>";
-        echo "<meta http-equiv='refresh' content='0; url=../../AdmSession/admPage.php'>";
+        header("Location: ../../AdmSession/admPage.php");
+        exit;
     } else {
-        echo "<script>alert('Senha incorreta.');</script>";
-        echo "<meta http-equiv='refresh' content='0; url=admLogin.php'>";
+        $_SESSION['error'] = "Login ou senha inválidos.";
+        header("Location: admLogin.php");
+        exit;
     }
 } else {
-    echo "<script>alert('[ERRO] Administrador não encontrado!');</script>";
-    echo "<meta http-equiv='refresh' content='0; url=admLogin.php'>";
+    $_SESSION['error'] = "Login ou senha inválidos.";
+    header("Location: admLogin.php");
+    exit;
 }
 
 $stmt->close();
