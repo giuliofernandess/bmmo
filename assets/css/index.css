@@ -1,11 +1,11 @@
 @charset "UTF-8";
 
-/* Fundo do main (Bootstrap não tem esse gradiente pronto) */
+/* Fundo do main com gradiente */
 .main-gradient {
   background: linear-gradient(to right, #eef2f3, #d9e9ff);
 }
 
-/* Card central (blur + borda arredondada + max-width) */
+/* Card central da página inicial */
 .introduction-container {
   background: #fff;
   backdrop-filter: blur(8px);
@@ -13,25 +13,23 @@
   max-width: 800px;
 }
 
-/* Logo com animação */
+/* Logo com animação de pulsar */
 .introduction-logo {
   max-width: 90px;
   animation: pulse 3s infinite;
 }
 
 @media (min-width: 768px) {
-  .introduction-logo {
-    max-width: 120px;
-  }
+  .introduction-logo { max-width: 120px; }
 }
 
-/* Cor do título (usa variável do seu style.css global) */
+/* Título principal */
 .introduction-title {
   color: var(--color-1);
   font-size: clamp(1.8rem, 4vw, 2.5rem);
 }
 
-/* Efeito "shine" e hover avançado (Bootstrap não faz isso nativamente) */
+/* Botões com efeito shine */
 .btn-shine {
   font-weight: 600;
   transition: all 0.35s ease;
@@ -50,26 +48,15 @@
   transition: left 0.4s;
 }
 
-.btn-shine:hover::after {
-  left: 0;
-}
-
+.btn-shine:hover::after { left: 0; }
 .btn-shine:hover {
   transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25);
 }
 
-/* Animação */
+/* Animação de pulsar (logo) */
 @keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.05);
-  }
-
-  100% {
-    transform: scale(1);
-  }
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }

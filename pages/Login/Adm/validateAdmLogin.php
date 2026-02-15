@@ -1,44 +1,40 @@
 <?php
-session_start();
+
+// Carrega config do projeto
 require_once '../../../config/config.php';
-require_once BASE_PATH . 'utilities/bdConnect.php';
 
-// Valida se os campos foram enviados
-if (!isset($_POST['login'], $_POST['password'])) {
-    $_SESSION['error'] = "Preencha todos os campos.";
-    exit;
-}
+// Carrega classe de autenticação (POO)
+require_once BASE_PATH . 'app/Auth/Auth.php';
 
-// Captação de dados
-$loginAdm = trim($_POST['login']);
-$passwordAdm = trim($_POST['password']);
+// Inicia sessão para salvar mensagens de erro
+session_start();
 
-// Envio do SQL
-$stmt = $connect->prepare("SELECT regency_login, password FROM regency WHERE regency_login = ?");
-$stmt->bind_param("s", $loginAdm);
-$stmt->execute();
-$result = $stmt->get_result();
-
-// Verificação de usuário
-if ($result->num_rows > 0) {
-    $res = $result->fetch_assoc();
-
-    // Verificação de senha
-    if ($passwordAdm == $res['password']) {
-        $_SESSION['login'] = $res['regency_login'];
-
-        header("Location: ../../AdmSession/admPage.php");
-        exit;
-    } else {
-        $_SESSION['error'] = "Login ou senha inválidos.";
-        header("Location: admLogin.php");
-        exit;
-    }
-} else {
-    $_SESSION['error'] = "Login ou senha inválidos.";
+// Bloqueia acesso direto via GET
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: admLogin.php");
     exit;
 }
 
-$stmt->close();
-?>
+// Captura os dados do formulário com fallback
+$loginAdm = trim($_POST['login'] ?? '');
+$passwordAdm = trim($_POST['password'] ?? '');
+
+// Validação simples (campos vazios)
+if ($loginAdm === '' || $passwordAdm === '') {
+    $_SESSION['error'] = "Preencha todos os campos.";
+    header("Location: admLogin.php");
+    exit;
+}
+
+// Tenta autenticar via classe Auth
+if (Auth::loginRegency($loginAdm, $passwordAdm)) {
+
+    // Login OK → redireciona para a sessão do maestro
+    header("Location: " . BASE_URL . "pages/AdmSession/admPage.php");
+    exit;
+}
+
+// Login inválido → salva mensagem e volta para o form
+$_SESSION['error'] = "Login ou senha inválidos.";
+header("Location: admLogin.php");
+exit;

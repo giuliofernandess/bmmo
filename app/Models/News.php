@@ -1,28 +1,15 @@
 <?php
 
+// Classe de conexão POO
 require_once BASE_PATH . 'app/Database/Database.php';
 
 class News
 {
-    public int $id;
-    public string $title;
-    public string $subtitle;
-    public string $description;
-    public string $image;
-    public string $publicationDate;
-
-    public function __construct(array $data)
-    {
-        $this->id = (int) ($data['news_id'] ?? 0);
-        $this->title = $data['news_title'] ?? '';
-        $this->subtitle = $data['news_subtitle'] ?? '';
-        $this->description = $data['news_description'] ?? '';
-        $this->image = $data['news_image'] ?? '';
-        $this->publicationDate = $data['publication_date'] ?? '';
-    }
-
-    // Métodos de Banco (SQL)
-
+    /**
+     * Retorna todas as notícias do banco, ordenadas por data de publicação descendente.
+     *
+     * @return array Array de notícias (cada notícia é um array associativo)
+     */
     public static function getAll(): array
     {
         $db = Database::getConnection();
@@ -39,14 +26,20 @@ class News
 
         $newsList = [];
 
-        while ($row = $result->fetch_assoc()) {
-            $newsList[] = new News($row);
+        while ($res = $result->fetch_assoc()) {
+            $newsList[] = $res;
         }
 
         return $newsList;
     }
 
-    public static function getById(int $id): ?News
+    /**
+     * Retorna uma notícia específica pelo ID.
+     *
+     * @param int $newsId ID da notícia
+     * @return array|null Array associativo com os dados ou null se não encontrado
+     */
+    public static function getById(int $newsId): ?array
     {
         $db = Database::getConnection();
 
@@ -57,20 +50,24 @@ class News
             return null;
         }
 
-        $stmt->bind_param("i", $id);
+        $stmt->bind_param("i", $newsId);
         $stmt->execute();
 
         $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
+        $data = $result->fetch_assoc();
 
-        if (!$row) {
-            return null;
-        }
-
-        return new News($row);
+        return $data ?: null;
     }
 
-    public static function getOtherNews(int $currentId, int $limit = 2): array
+    /**
+     * Retorna as últimas N notícias, exceto a notícia passada por parâmetro.
+     * Útil para “outras notícias” na página expandida.
+     *
+     * @param int $excludeId ID da notícia a excluir
+     * @param int $limit Quantidade de notícias a retornar
+     * @return array Array de notícias
+     */
+    public static function getLatestExcept(int $excludeId, int $limit = 2): array
     {
         $db = Database::getConnection();
 
@@ -81,47 +78,16 @@ class News
             return [];
         }
 
-        $stmt->bind_param("ii", $currentId, $limit);
+        $stmt->bind_param("ii", $excludeId, $limit);
         $stmt->execute();
 
         $result = $stmt->get_result();
-
         $newsList = [];
 
-        while ($row = $result->fetch_assoc()) {
-            $newsList[] = new News($row);
+        while ($res = $result->fetch_assoc()) {
+            $newsList[] = $res;
         }
 
         return $newsList;
-    }
-
-    // Métodos auxiliares
-    public function getSafeTitle(): string
-    {
-        return htmlspecialchars($this->title, ENT_QUOTES, 'UTF-8');
-    }
-
-    public function getSafeSubtitle(): string
-    {
-        return htmlspecialchars($this->subtitle, ENT_QUOTES, 'UTF-8');
-    }
-
-    public function getSafeDescription(): string
-    {
-        return nl2br(htmlspecialchars($this->description, ENT_QUOTES, 'UTF-8'));
-    }
-
-    public function getSafeImage(): string
-    {
-        return htmlspecialchars(basename($this->image), ENT_QUOTES, 'UTF-8');
-    }
-
-    public function getFormattedDate(): string
-    {
-        if (empty($this->publicationDate)) {
-            return '';
-        }
-
-        return date('d/m/Y', strtotime($this->publicationDate));
     }
 }

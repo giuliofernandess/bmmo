@@ -1,15 +1,18 @@
 @charset "UTF-8";
 
+/* Fundo da página */
 body {
   background: linear-gradient(to right, #eef2f3, #d9e9ff);
 }
 
+/* Título principal da página de notícias */
 h1 {
   color: #333;
   font-size: clamp(1.8rem, 4vw, 2.5rem);
   font-weight: 700;
 }
 
+/* Card de notícias com hover */
 .news-card:hover {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   transform: scale(1.01);
@@ -17,11 +20,13 @@ h1 {
   scale: 1.02;
 }
 
+/* Imagem da notícia */
 .news-image {
   height: 200px;
   object-fit: cover;
 }
 
+/* Mensagem quando não há notícias */
 .no-news {
   text-align: center;
   font-size: 1.2rem;
