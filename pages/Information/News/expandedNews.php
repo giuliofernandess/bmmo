@@ -1,6 +1,6 @@
 <?php
 require_once '../../../config/config.php';
-require_once BASE_PATH . 'utilities/bdConnect.php';
+require_once BASE_PATH . 'app/Models/News.php';
 
 if (!isset($_GET['newsId'])) {
   die("ID da notícia não fornecido.");
@@ -8,17 +8,12 @@ if (!isset($_GET['newsId'])) {
 
 $newsId = (int) $_GET['newsId'];
 
-$sql = "SELECT * FROM news WHERE news_id = ?";
-$stmt = $connect->prepare($sql);
-$stmt->bind_param("i", $newsId);
-$stmt->execute();
+$news = News::getById($newsId);
 
-$result = $stmt->get_result();
-$res = $result->fetch_array(MYSQLI_ASSOC);
-
-if (!$res) {
+if (!$news) {
   die("Notícia não encontrada.");
 }
+
 ?>
 
 <!doctype html>
@@ -51,12 +46,13 @@ if (!$res) {
       <!-- Notícia Principal -->
       <div class="col-lg-8">
         <article class="card shadow-sm rounded p-4 mb-4 bg-white">
-          <h1 class="mb-3 fw-bold"><?= htmlspecialchars($res['news_title']); ?></h1>
-          <h5 class="text-muted mb-3 fw-bold"><?= htmlspecialchars($res['news_subtitle']); ?></h5>
-          <p class="text-muted small mb-4">Publicado em <?= date('d/m/Y', strtotime($res['publication_date'])); ?></p>
-          <img src="<?= BASE_URL ?>uploads/news-images/<?= htmlspecialchars($res['news_image']); ?>"
-            alt="Imagem da notícia: <?= htmlspecialchars($res['news_title']) ?>" loading="lazy" class="news-image-main mb-4" />
-          <div class="news-text"><?= nl2br(htmlspecialchars($res['news_description'])); ?></div>
+          <h1 class="mb-3 fw-bold"><?= $news->getSafeTitle(); ?></h1>
+          <h5 class="text-muted mb-3 fw-bold"><?= $news->getSafeSubtitle(); ?></h5>
+          <p class="text-muted small mb-4">Publicado em <?= htmlspecialchars($news->getFormattedDate()); ?></p>
+          <img src="<?= BASE_URL ?>uploads/news-images/<?= $news->getSafeImage(); ?>"
+            alt="Imagem da notícia: <?= $news->getSafeTitle(); ?>" loading="lazy"
+            class="news-image-main mb-4" />
+          <div class="news-text"><?= $news->getSafeDescription(); ?></div>
         </article>
       </div>
 
@@ -64,52 +60,47 @@ if (!$res) {
       <div class="col-lg-4">
         <h4 class="mb-3">Outras notícias</h4>
         <?php
-        $sql = "SELECT * FROM news WHERE news_id != ? ORDER BY publication_date DESC LIMIT 2";
-        $stmt = $connect->prepare($sql);
-        $stmt->bind_param("i", $newsId);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        
+        // Chamada do model
+        $otherNews = News::getOtherNews($newsId, 2);
 
-        if ($result && $result->num_rows > 0) {
-
-          while ($news = $result->fetch_array(MYSQLI_ASSOC)) {
-
-            // Definição de variáveis
-            $asideNewsId = (int) $news['news_id'];
-            $asideNewsTitle = htmlspecialchars($news['news_title'] ?? '', ENT_QUOTES, 'UTF-8');
-            $asideNewsSubtitle = htmlspecialchars($news['news_subtitle'] ?? '', ENT_QUOTES, 'UTF-8');
-            $asideNewsImage = basename($news['news_image'] ?? '');
-
-            $publicationDate = '';
-            if (!empty($news['publication_date'])) {
-              $asidePublicationDate = date('d/m/Y', strtotime($news['publication_date']));
-            }
-
-            ?>
-
-            <!-- Impressão dos cards -->
-            <a href='expandedNews.php?newsId=<?= htmlspecialchars($asideNewsId) ?>' class='mb-3 text-decoration-none text-dark d-block'>
-              <div class='card aside-card rounded shadow-sm h-100'>
-                <div class='row g-0'>
-                  <div class='col-4'>
-                    <img src='<?= BASE_URL ?>uploads/news-images/<?= htmlspecialchars($asideNewsImage) ?>' class='img-fluid rounded-start' alt="Imagem da notícia: <?= htmlspecialchars($asideNewsTitle) ?>" loading="lazy" />
+        if (empty($otherNews)) { ?>
+          <p class="text-muted">Nenhuma outra notícia disponível.</p>
+        <?php } else { 
+          
+          foreach ($otherNews as $asideNews) { ?>
+            <a href="expandedNews.php?newsId=<?= $asideNews->id ?>" class="mb-3 text-decoration-none text-dark d-block">
+              <div class="card aside-card rounded shadow-sm h-100">
+                <div class="row g-0">
+                  <div class="col-4">
+                    <img src="<?= BASE_URL ?>uploads/news-images/<?= $asideNews->getSafeImage(); ?>"
+                      class="img-fluid rounded-start" alt="Imagem da notícia: <?= $asideNews->getSafeTitle(); ?>"
+                      loading="lazy" />
                   </div>
-                  <div class='col-8'>
-                    <div class='card-body'>
-                      <h6 class='card-title mb-1'><?= htmlspecialchars($asideNewsTitle) ?></h6>
-                      <p class='card-text small text-muted mb-1'><?= htmlspecialchars($asideNewsSubtitle) ?></p>
-                      <p class='card-text'><small class='text-muted'>Publicado em: <?= htmlspecialchars($asidePublicationDate) ?></small></p>
+
+                  <div class="col-8">
+                    <div class="card-body">
+                      <h6 class="card-title mb-1">
+                        <?= $asideNews->getSafeTitle(); ?>
+                      </h6>
+                      <p class="card-text small text-muted mb-1">
+                        <?= $asideNews->getSafeSubtitle(); ?>
+                      </p>
+                      <p class="card-text">
+                        <small class="text-muted">
+                          Publicado em:
+                          <?= htmlspecialchars($asideNews->getFormattedDate()); ?>
+                        </small>
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
-            </a>";
-            <?php
-          }
-        } else {
-          echo "<p class='text-muted'>Nenhuma outra notícia disponível.</p>";
-        }
-        ?>
+            </a>
+          <?php } ?>
+
+        <?php } ?>
+
       </div>
     </div>
   </main>

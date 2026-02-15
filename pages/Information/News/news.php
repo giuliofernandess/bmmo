@@ -1,4 +1,8 @@
-<?php require_once '../../../config/config.php'; ?>
+<?php
+require_once '../../../config/config.php';
+require_once BASE_PATH . 'app/Models/News.php';
+?>
+
 
 <!doctype html>
 <html lang="pt-br">
@@ -30,69 +34,42 @@
       <section class="row g-4">
         <?php
 
-        // Conexão com o banco
-        require_once BASE_PATH . 'utilities/bdConnect.php';
+        // Chamada do model
+        $newsList = News::getAll();
 
-        if (!$connect) {
-          echo "<div class='alert alert-danger'>Erro ao conectar com o banco de dados.</div>";
-          exit;
-        }
 
-        // Query
-        $sql = "SELECT * FROM news ORDER BY publication_date DESC";
-        $stmt = $connect->prepare($sql);
+        if (empty($newsList)) { ?>
+          <div class="no-news">Nenhuma notícia cadastrada no momento.</div>
+        <?php } else { ?>
 
-        if (!$stmt) {
-          echo "<div class='alert alert-warning'>Erro ao preparar a consulta.</div>";
-          exit;
-        }
-
-        if (!$stmt->execute()) {
-          echo "<div class='alert alert-warning'>Erro ao executar a consulta.</div>";
-          exit;
-        }
-
-        $result = $stmt->get_result();
-
-        if (!$result || $result->num_rows === 0) {
-          echo "<div class='no-news'>Nenhuma notícia cadastrada no momento.</div>";
-        } else {
-
-          while ($res = $result->fetch_array(MYSQLI_ASSOC)) {
-
-            // Definição de variáveis
-            $newsId = (int) $res['news_id'];
-            $newsTitle = htmlspecialchars($res['news_title'] ?? '', ENT_QUOTES, 'UTF-8');
-            $newsSubtitle = htmlspecialchars($res['news_subtitle'] ?? '', ENT_QUOTES, 'UTF-8');
-            $newsImage = basename($res['news_image'] ?? '');
-
-            $publicationDate = '';
-            if (!empty($res['publication_date'])) {
-              $publicationDate = date('d/m/Y', strtotime($res['publication_date']));
-            }
-
-            ?>
-
-            <!-- Impressão do card -->
+          <?php foreach ($newsList as $news) { ?>
             <div class='col-md-6 col-lg-4'>
-              <a href='expandedNews.php?newsId=<?= htmlspecialchars($newsId) ?>' class='text-decoration-none text-dark'>
+              <a href='expandedNews.php?newsId=<?= $news->id ?>' class='text-decoration-none text-dark'>
                 <div class='card news-card rounded shadow-sm h-100'>
-                  <img src='<?= BASE_URL ?>uploads/news-images/<?= htmlspecialchars($newsImage) ?>' class='card-img-top rounded-top news-image'
-                    alt="Imagem da notícia: <?= htmlspecialchars($newsTitle) ?>"
+                  <img src='<?= BASE_URL ?>uploads/news-images/<?= $news->getSafeImage() ?>'
+                    class='card-img-top rounded-top news-image' alt="Imagem da notícia: <?= $news->getSafeTitle() ?>"
                     loading="lazy">
                   <div class='card-body'>
-                    <h5 class='card-title mb-1'><?= htmlspecialchars($newsTitle) ?></h5>
-                    <p class='card-text text-muted small mb-2'><?= htmlspecialchars($newsSubtitle) ?></p>
-                    <p class='card-text'><small class='text-muted'>Publicado em: <?= htmlspecialchars($publicationDate) ?></small></p>
+                    <h5 class='card-title mb-1'>
+                      <?= $news->getSafeTitle() ?>
+                    </h5>
+                    <p class='card-text text-muted small mb-2'>
+                      <?= $news->getSafeSubtitle() ?>
+                    </p>
+                    <p class='card-text'>
+                      <small class='text-muted'>
+                        Publicado em:
+                        <?= htmlspecialchars($news->getFormattedDate()) ?>
+                      </small>
+                    </p>
                   </div>
                 </div>
               </a>
             </div>
+          <?php } ?>
 
-            <?php
-          }
-        }
-        ?>
+        <?php } ?>
+
       </section>
     </div>
   </main>
