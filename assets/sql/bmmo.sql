@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 16/02/2026 às 15:22
+-- Tempo de geração: 16/02/2026 às 19:00
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -20,6 +20,73 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `bmmo`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `band_groups`
+--
+
+CREATE TABLE `band_groups` (
+  `group_id` int(11) NOT NULL,
+  `group_name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `band_groups`
+--
+
+INSERT INTO `band_groups` (`group_id`, `group_name`) VALUES
+(1, 'Banda Principal'),
+(2, 'Banda Auxiliar'),
+(3, 'Escola de Música'),
+(4, 'Fanfarra'),
+(5, 'Flauta Doce');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `instruments`
+--
+
+CREATE TABLE `instruments` (
+  `instrument_id` int(11) NOT NULL,
+  `instrument_name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `instruments`
+--
+
+INSERT INTO `instruments` (`instrument_id`, `instrument_name`) VALUES
+(1, 'Flauta Doce'),
+(2, 'Flauta'),
+(3, 'Lira'),
+(4, '1° Clarinete'),
+(5, '2° Clarinete'),
+(6, '3° Clarinete'),
+(7, '1° Sax Alto'),
+(8, '2° Sax Alto'),
+(9, '3° Sax Alto'),
+(10, '1° Sax Tenor'),
+(11, '2° Sax Tenor'),
+(12, '3° Sax Tenor'),
+(13, '1° Trompete'),
+(14, '2° Trompete'),
+(15, '3° Trompete'),
+(16, '1° Trompa'),
+(17, '2° Trompa'),
+(18, '3° Trompa'),
+(19, '1° Trombone'),
+(20, '2° Trombone'),
+(21, '3° Trombone'),
+(22, 'Bombardino'),
+(23, 'Tuba'),
+(24, 'Percussão'),
+(25, 'Caixa'),
+(26, 'Prato'),
+(27, 'Tarol'),
+(28, 'Bumbo');
 
 -- --------------------------------------------------------
 
@@ -43,18 +110,20 @@ CREATE TABLE `musical_scores` (
 --
 
 CREATE TABLE `musicians` (
-  `idMusician` int(11) NOT NULL,
-  `name` varchar(80) NOT NULL,
-  `login` varchar(20) NOT NULL,
-  `dateOfBirth` varchar(10) NOT NULL,
-  `instrument` varchar(30) NOT NULL,
-  `bandGroup` varchar(30) NOT NULL,
-  `telephone` varchar(20) NOT NULL,
-  `responsible` varchar(60) NOT NULL,
-  `telephoneOfResponsible` varchar(20) NOT NULL,
-  `neighborhood` varchar(40) NOT NULL,
-  `institution` varchar(60) NOT NULL,
-  `password` varchar(20) NOT NULL
+  `musician_id` int(11) NOT NULL,
+  `musician_name` varchar(255) NOT NULL,
+  `musician_login` varchar(50) NOT NULL,
+  `date_of_birth` date NOT NULL,
+  `instrument` int(11) NOT NULL,
+  `band_group` int(11) NOT NULL,
+  `musician_contact` varchar(50) DEFAULT NULL,
+  `responsible_name` varchar(255) DEFAULT NULL,
+  `responsible_contact` varchar(50) DEFAULT NULL,
+  `neighborhood` varchar(50) NOT NULL,
+  `institution` varchar(255) DEFAULT NULL,
+  `password` varchar(50) NOT NULL,
+  `last_login` datetime DEFAULT NULL,
+  `last_logout` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -65,9 +134,9 @@ CREATE TABLE `musicians` (
 
 CREATE TABLE `news` (
   `news_id` int(11) NOT NULL,
-  `news_title` tinytext NOT NULL,
-  `news_subtitle` tinytext NOT NULL,
-  `news_image` tinytext NOT NULL,
+  `news_title` varchar(255) NOT NULL,
+  `news_subtitle` varchar(255) NOT NULL,
+  `news_image` varchar(255) NOT NULL,
   `news_description` text NOT NULL,
   `publication_date` date NOT NULL,
   `publication_hour` time NOT NULL
@@ -80,8 +149,8 @@ CREATE TABLE `news` (
 --
 
 CREATE TABLE `regency` (
-  `regency_login` varchar(20) NOT NULL,
-  `password` varchar(20) NOT NULL
+  `regency_login` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -112,6 +181,18 @@ CREATE TABLE `repertoire` (
 --
 
 --
+-- Índices de tabela `band_groups`
+--
+ALTER TABLE `band_groups`
+  ADD PRIMARY KEY (`group_id`);
+
+--
+-- Índices de tabela `instruments`
+--
+ALTER TABLE `instruments`
+  ADD PRIMARY KEY (`instrument_id`);
+
+--
 -- Índices de tabela `musical_scores`
 --
 ALTER TABLE `musical_scores`
@@ -121,7 +202,9 @@ ALTER TABLE `musical_scores`
 -- Índices de tabela `musicians`
 --
 ALTER TABLE `musicians`
-  ADD PRIMARY KEY (`idMusician`);
+  ADD PRIMARY KEY (`musician_id`),
+  ADD KEY `instrument` (`instrument`),
+  ADD KEY `band_group` (`band_group`);
 
 --
 -- Índices de tabela `news`
@@ -146,6 +229,18 @@ ALTER TABLE `repertoire`
 --
 
 --
+-- AUTO_INCREMENT de tabela `band_groups`
+--
+ALTER TABLE `band_groups`
+  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de tabela `instruments`
+--
+ALTER TABLE `instruments`
+  MODIFY `instrument_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
 -- AUTO_INCREMENT de tabela `musical_scores`
 --
 ALTER TABLE `musical_scores`
@@ -155,19 +250,30 @@ ALTER TABLE `musical_scores`
 -- AUTO_INCREMENT de tabela `musicians`
 --
 ALTER TABLE `musicians`
-  MODIFY `idMusician` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `musician_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `news`
 --
 ALTER TABLE `news`
-  MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `repertoire`
 --
 ALTER TABLE `repertoire`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Restrições para tabelas despejadas
+--
+
+--
+-- Restrições para tabelas `musicians`
+--
+ALTER TABLE `musicians`
+  ADD CONSTRAINT `musicians_ibfk_1` FOREIGN KEY (`instrument`) REFERENCES `instruments` (`instrument_id`),
+  ADD CONSTRAINT `musicians_ibfk_2` FOREIGN KEY (`band_group`) REFERENCES `band_groups` (`group_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
