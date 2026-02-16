@@ -85,12 +85,7 @@ session_start();
   <script src="<?= BASE_URL ?>assets/js/password.js"></script>
 
   <!-- Script para remover toast automaticamente após 5s -->
-  <script>
-    setTimeout(() => {
-      const toast = document.querySelector('.toast-container');
-      if (toast) toast.remove();
-    }, 5000);
-  </script>
+  <script src="<?= BASE_URL ?>assets/js/removeToast.js"></script>
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"

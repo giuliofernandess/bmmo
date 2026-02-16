@@ -29,6 +29,11 @@ if ($loginAdm === '' || $passwordAdm === '') {
 // Tenta autenticar via classe Auth
 if (Auth::loginRegency($loginAdm, $passwordAdm)) {
 
+    $_SESSION['login'] = $res['regency_login'];
+
+    // Adiciona a mensagem de sucesso aqui, apenas no login
+    $_SESSION['login_success'] = "Login efetuado com sucesso!";
+
     // Login OK → redireciona para a sessão do maestro
     header("Location: " . BASE_URL . "pages/AdmSession/admPage.php");
     exit;

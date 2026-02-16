@@ -1,4 +1,7 @@
 <?php
+//Inicia sessão
+session_start();
+
 // Carrega config do projeto (BASE_URL e BASE_PATH)
 require_once '../config/config.php';
 ?>
@@ -25,6 +28,23 @@ require_once '../config/config.php';
 
 <body class="d-flex flex-column min-vh-100">
 
+  <!-- Toast de logout -->
+  <?php if (isset($_SESSION['success'])) { ?>
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+      <div class="toast align-items-center text-bg-success border-0 show" role="alert">
+        <div class="d-flex">
+          <div class="toast-body">
+            <?= htmlspecialchars($_SESSION['success']) ?>
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto"
+            onclick="this.closest('.toast-container').remove()"></button>
+        </div>
+      </div>
+    </div>
+    <?php unset($_SESSION['success']); ?>
+  <?php } ?>
+
+
   <!-- Header do site -->
   <?php require_once BASE_PATH . 'includes/firstHeader.php'; ?>
 
@@ -35,7 +55,7 @@ require_once '../config/config.php';
 
         <!-- Logo da banda -->
         <img src="<?= BASE_URL ?>assets/images/logo_banda.png" width="120" height="120" alt="Logo"
-             class="mb-3 introduction-logo img-fluid">
+          class="mb-3 introduction-logo img-fluid">
 
         <!-- Título principal -->
         <h1 class="fw-bold mb-3 introduction-title">
@@ -52,12 +72,12 @@ require_once '../config/config.php';
         <!-- Botões de login: músico e maestro -->
         <div class="d-flex flex-column flex-md-row gap-3 justify-content-center">
           <a href="Login/Musician/musicianLogin.php"
-             class="btn btn-primary btn-lg rounded-pill px-4 w-100 w-md-auto btn-shine">
+            class="btn btn-primary btn-lg rounded-pill px-4 w-100 w-md-auto btn-shine">
             Entrar como integrante
           </a>
 
           <a href="Login/Adm/admLogin.php"
-             class="btn btn-outline-info btn-lg rounded-pill px-4 w-100 w-md-auto btn-shine">
+            class="btn btn-outline-info btn-lg rounded-pill px-4 w-100 w-md-auto btn-shine">
             Entrar como Maestro
           </a>
         </div>
@@ -69,7 +89,11 @@ require_once '../config/config.php';
   <!-- Footer do site -->
   <?php require_once BASE_PATH . 'includes/footer.php'; ?>
 
+  <!-- Remove o toast de logout -->
+  <script src="<?= BASE_URL ?>assets/js/removeToast.js"></script>
+
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

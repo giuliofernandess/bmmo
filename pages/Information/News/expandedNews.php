@@ -31,7 +31,6 @@ $otherNews = News::getLatestExcept($newsId, 2);
   <link rel="shortcut icon" href="<?= BASE_URL ?>assets/images/logo_banda.png" type="image/x-icon">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/expandedNews.css">
   <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
 </head>
 
@@ -72,9 +71,9 @@ $otherNews = News::getLatestExcept($newsId, 2);
                 <a href='expandedNews.php?newsId=<?= $asideNewsId ?>' class='mb-3 text-decoration-none text-dark d-block'>
                   <div class='card aside-card rounded shadow-sm h-100'>
                     <div class='row g-0'>
-                      <div class='col-4'>
+                      <div class='col-4' style="height: 150px;">
                         <img src='<?= BASE_URL ?>uploads/news-images/<?= $asideNewsImage ?>' 
-                             class='img-fluid rounded-start' 
+                             class='img-fluid rounded-start w-100 h-100' 
                              alt="Imagem da notícia: <?= $asideNewsTitle ?>" loading="lazy" />
                       </div>
                       <div class='col-8'>

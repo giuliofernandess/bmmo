@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 29/01/2026 às 14:28
+-- Tempo de geração: 16/02/2026 às 15:22
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -33,7 +33,7 @@ CREATE TABLE `musical_scores` (
   `instrument` varchar(30) NOT NULL,
   `bandGroup` varchar(30) NOT NULL,
   `musicalGenre` varchar(50) NOT NULL,
-  `file` varchar(100) NOT NULL
+  `file` tinytext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -64,12 +64,13 @@ CREATE TABLE `musicians` (
 --
 
 CREATE TABLE `news` (
-  `id` int(11) NOT NULL,
-  `title` varchar(200) NOT NULL,
-  `subtitle` varchar(500) NOT NULL,
-  `image` varchar(100) NOT NULL,
-  `text` varchar(2000) NOT NULL,
-  `date` varchar(11) NOT NULL
+  `news_id` int(11) NOT NULL,
+  `news_title` tinytext NOT NULL,
+  `news_subtitle` tinytext NOT NULL,
+  `news_image` tinytext NOT NULL,
+  `news_description` text NOT NULL,
+  `publication_date` date NOT NULL,
+  `publication_hour` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -79,9 +80,16 @@ CREATE TABLE `news` (
 --
 
 CREATE TABLE `regency` (
-  `login` varchar(20) NOT NULL,
+  `regency_login` varchar(20) NOT NULL,
   `password` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `regency`
+--
+
+INSERT INTO `regency` (`regency_login`, `password`) VALUES
+('raul', 'raulanderson');
 
 -- --------------------------------------------------------
 
@@ -119,13 +127,13 @@ ALTER TABLE `musicians`
 -- Índices de tabela `news`
 --
 ALTER TABLE `news`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`news_id`);
 
 --
 -- Índices de tabela `regency`
 --
 ALTER TABLE `regency`
-  ADD PRIMARY KEY (`login`);
+  ADD PRIMARY KEY (`regency_login`);
 
 --
 -- Índices de tabela `repertoire`
@@ -153,7 +161,7 @@ ALTER TABLE `musicians`
 -- AUTO_INCREMENT de tabela `news`
 --
 ALTER TABLE `news`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1000;
+  MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `repertoire`

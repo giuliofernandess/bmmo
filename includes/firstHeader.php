@@ -1,3 +1,4 @@
+<!-- Header usado nas páginas iniciais -->
 <nav class="navbar navbar-expand-md navbar-dark">
     <div class="container-fluid">
 

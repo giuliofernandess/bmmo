@@ -6,15 +6,54 @@ require_once BASE_PATH . 'app/Database/Database.php';
 class News
 {
     /**
+     * Insere uma nova notícia no banco de dados.
+     * 
+     * @return bool Booleano (true, false)
+     */
+
+    public static function newsCreate(array $newsInfo): bool
+    {
+        $db = Database::getConnection();
+
+        // Sanitização dos dados
+        $title = htmlspecialchars(trim($newsInfo['title']));
+        $subtitle = htmlspecialchars(trim($newsInfo['subtitle'] ?? ''));
+        $image = $newsInfo['image'] ?? null;
+        $description = htmlspecialchars(trim($newsInfo['description']));
+        $date = $newsInfo['date'];
+        $hour = $newsInfo['hour'];
+
+        // Inserção no bando de dados
+        try {
+
+            $stmt = $db->prepare(
+                "INSERT INTO news (news_title, news_subtitle, news_image, news_description, publication_date, publication_hour) VALUES (?, ?, ?, ?, ?, ?)"
+            );
+            $stmt->bind_param("ssssss", $title, $subtitle, $image, $description, $date, $hour);
+
+            $success = $stmt->execute();
+
+            $stmt->close();
+            $db->close();
+
+            return $success;
+        } catch (\Exception $e) {
+            $db->close();
+            return false;
+        }
+    }
+
+    /**
      * Retorna todas as notícias do banco, ordenadas por data de publicação descendente.
      *
      * @return array Array de notícias (cada notícia é um array associativo)
      */
+
     public static function getAll(): array
     {
         $db = Database::getConnection();
 
-        $sql = "SELECT * FROM news ORDER BY publication_date DESC";
+        $sql = "SELECT * FROM news ORDER BY publication_date, publication_hour DESC";
         $stmt = $db->prepare($sql);
 
         if (!$stmt) {
@@ -71,7 +110,7 @@ class News
     {
         $db = Database::getConnection();
 
-        $sql = "SELECT * FROM news WHERE news_id != ? ORDER BY publication_date DESC LIMIT ?";
+        $sql = "SELECT * FROM news WHERE news_id != ? ORDER BY publication_date, publication_hour DESC LIMIT ?";
         $stmt = $db->prepare($sql);
 
         if (!$stmt) {

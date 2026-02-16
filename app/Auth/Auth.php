@@ -10,19 +10,24 @@ class Auth
      */
     public static function logout(string $redirectUrl): void
     {
-        // Garante que a sessão está ativa
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
 
-        // Remove dados e destrói sessão
-        session_unset();
-        session_destroy();
+        // Mensagem temporária
+        $_SESSION['success_logout'] = "Logout realizado com sucesso!";
 
-        // Redireciona
+        // Remove dados do usuário, mas mantém a mensagem
+        $successMessage = $_SESSION['success_logout'];
+        session_unset();   // limpa tudo
+        session_destroy(); // destrói sessão
+        session_start();   // inicia sessão nova só para a mensagem
+        $_SESSION['success'] = $successMessage;
+
         header("Location: " . $redirectUrl);
         exit;
     }
+
 
     /**
      * Faz login do maestro (regency).
@@ -43,10 +48,6 @@ class Auth
             return false;
         }
 
-        /**
-         * ⚠️ Sua senha no banco está em texto puro.
-         * (mais pra frente podemos migrar para password_hash)
-         */
         if ($password !== $user['password']) {
             return false;
         }
