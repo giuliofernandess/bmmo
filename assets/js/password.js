@@ -1,6 +1,6 @@
 function showPassword() {
-    let inputPass = document.querySelector('#passwordMusician');
-    let btnShowPass = document.querySelector('#passwordBtn');
+    let inputPass = document.querySelector('#password');
+    let btnShowPass = document.querySelector('#password-btn');
 
     if (inputPass.type === 'password') {
         inputPass.setAttribute('type', 'text');

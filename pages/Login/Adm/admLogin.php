@@ -54,17 +54,17 @@ session_start();
       <form action="validateAdmLogin.php" method="post">
         <!-- Campo login -->
         <div class="mb-3">
-          <label for="loginMusic" class="form-label ps-2">Login</label>
-          <input type="text" name="login" id="loginMusic" class="form-control rounded-pill" required />
+          <label for="login" class="form-label ps-2">Login</label>
+          <input type="text" name="login" id="login" class="form-control rounded-pill" required />
         </div>
 
         <!-- Campo senha com botão de mostrar/esconder -->
         <div class="mb-4">
-          <label for="passwordMusician" class="form-label ps-2">Senha</label>
+          <label for="password" class="form-label ps-2">Senha</label>
           <div>
-            <input type="password" name="password" id="passwordMusician" class="form-control rounded-pill"
+            <input type="password" name="password" id="password" class="form-control rounded-pill"
                    minlength="8" maxlength="20" required />
-            <i class="bi bi-eye-fill show-password" id="passwordBtn" onclick="showPassword()"></i>
+            <i class="bi bi-eye-fill show-password" id="password-btn" onclick="showPassword()"></i>
           </div>
         </div>
 

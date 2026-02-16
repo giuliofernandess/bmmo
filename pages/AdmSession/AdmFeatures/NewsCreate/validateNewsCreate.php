@@ -4,8 +4,8 @@ require_once '../../../../config/config.php';
 require_once BASE_PATH . 'app/Models/News.php';
 
 // Recebe dados do formulário
-$newsTitle = trim($_POST['newsTitle'] ?? '');
-$newsSubtitle = trim($_POST['newsSubtitle'] ?? '');
+$newsTitle = trim($_POST['title'] ?? '');
+$newsSubtitle = trim($_POST['subtitle'] ?? '');
 $newsDescription = trim($_POST['description'] ?? '');
 
 // Recebe data e hora

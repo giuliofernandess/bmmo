@@ -72,27 +72,27 @@ Auth::requireRegency();
 
       <!-- Card: Título -->
       <div>
-        <label for="newsTitle" class="form-label">Título da notícia *</label><br>
-        <input type="text" name="newsTitle" id="newsTitle" class="form-control" required>
+        <label for="news-title" class="form-label">Título da notícia *</label><br>
+        <input type="text" name="title" id="news-title" class="form-control" required>
       </div>
 
       <!-- Card: SubTítulo -->
       <div>
-        <label for="newsSubtitle" class="form-label">Subtítulo da notícia *</label>
-        <input type="text" name="newsSubtitle" id="newsSubtitle" class="form-control">
+        <label for="news-subtitle" class="form-label">Subtítulo da notícia *</label>
+        <input type="text" name="subtitle" id="news-subtitle" class="form-control">
       </div>
 
       <!-- Card: Detalhamento -->
       <div>
-        <label for="description" class="form-label">Texto de Detalhamento *</label><br>
-        <textarea name="description" id="description" rows="10" class="form-control" style="height: auto"
+        <label for="news-description" class="form-label">Texto de Detalhamento *</label><br>
+        <textarea name="description" id="news-description" rows="10" class="form-control" style="height: auto"
           required></textarea>
       </div>
 
       <!-- Card: Arquivo -->
       <div>
-        <label for="file" class="form-label">Imagem *</label><br>
-        <input type="file" name="file" id="inputFile" class="form-control" accept="image/*" required>
+        <label for="input-file" class="form-label">Imagem *</label><br>
+        <input type="file" name="file" id="input-file" class="form-control" accept="image/*" required>
       </div>
 
       <!-- Botão: Criar Notícia -->
