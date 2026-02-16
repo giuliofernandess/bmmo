@@ -1,141 +1,120 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
-function ageVerification($dateOfBirth)
-{
-    $birth = DateTime::createFromFormat('Y-m-d', $dateOfBirth);
-    $today = new DateTime();
-    if (!$birth)
-        return false;
+session_start();
+require_once "../../../../config/config.php";
+require_once BASE_PATH . 'app/Models/Musicians.php';
 
-    return $birth < $today;
-}
-
-function verifyLogin($login, $connect)
-{
-    $stmt = $connect->prepare("SELECT `login` FROM musicians WHERE login = ?");
-    if (!$stmt) {
-        error_log("Erro na preparação da query: " . $connect->error);
-        echo "<script>alert('Erro interno no servidor.'); window.history.back();</script>";
-        exit;
+// Função auxiliar para tratar entrada
+function postValue(string $key, string $type = 'string') {
+    if (!isset($_POST[$key]) || $_POST[$key] === '') {
+        return null;
     }
 
-    $stmt->bind_param("s", $login);
-    $stmt->execute();
-
-    $stmt->store_result();
-
-    if ($stmt->num_rows > 0) {
-        $stmt->close();
-        return true;
-    } else {
-        $stmt->close();
-        return false;
-    }
+    return $type === 'int'
+        ? (int) $_POST[$key]
+        : trim($_POST[$key]);
 }
 
-$name = trim($_POST['name'] ?? '');
-$login = trim($_POST['login'] ?? '');
-$dateOfBirth = trim($_POST['dateOfBirth'] ?? '');
-$instrument = trim($_POST['instrument'] ?? '');
-$bandGroup = trim($_POST['bandGroup'] ?? '');
-$telephone = trim($_POST['telephone'] ?? '');
-$responsible = trim($_POST['responsible'] ?? '');
-$contactOfResponsible = trim($_POST['contactOfResponsible'] ?? '');
-$neighborhood = trim($_POST['neighborhood'] ?? '');
-$institution = trim($_POST['institution'] ?? '');
-$password = $_POST['password'] ?? '';
-$confirmPassword = $_POST['confirmPassword'] ?? '';
+// Recebimento de variáveis pelo método POST
+$musicianName = postValue('name');
+$login = postValue('login');
+$dateOfBirth = postValue('date');
+$instrument = postValue('instrument', 'int');
+$bandGroup = postValue('group', 'int');
+$musicianContact = postValue('contact');
+$responsibleName = postValue('responsible');
+$responsibleContact = postValue('contact-of-responsible');
+$neighborhood = postValue('neighborhood');
+$institution = postValue('institution');
+$password = postValue('password');
+$confirmPassword = postValue('confirm-password');
 
-require_once '../../../../general-features/bdConnect.php';
-if ($connect->connect_error) {
-    error_log("Erro de conexão: " . $connect->connect_error);
-    echo "<script>alert('Erro ao conectar ao banco de dados.'); window.history.back();</script>";
-    exit;
-}
-
-// Validação simples da imagem
+// Upload da imagem
 $imageFileName = null;
+
 if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
     $fileTmpPath = $_FILES['file']['tmp_name'];
     $fileName = $_FILES['file']['name'];
     $fileSize = $_FILES['file']['size'];
-    $fileType = $_FILES['file']['type'];
     $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
     $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-
     if (!in_array($fileExtension, $allowedExtensions)) {
-        die('Extensão de arquivo inválida. Permitido apenas jpg, jpeg, png, gif.');
+        $_SESSION['error'] = "Extensão de arquivo inválida. Permitido apenas jpg, jpeg, png, gif.";
+        header("Location: musicianRegister.php");
+        exit;
     }
 
     if ($fileSize > 5 * 1024 * 1024) {
-        die('Arquivo muito grande. Máximo permitido: 5MB.');
+        $_SESSION['error'] = "Arquivo muito grande. Máximo permitido: 5MB.";
+        header("Location: musicianRegister.php");
+        exit;
     }
 
     $newFileName = uniqid('profile_', true) . '.' . $fileExtension;
-    $uploadFileDir = '../../../../assets/images/musicians-images/';
+    $uploadDir = BASE_PATH . 'uploads/musicians-images/';
 
-    if (!is_dir($uploadFileDir)) {
-        mkdir($uploadFileDir, 0755, true);
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0755, true);
     }
 
-    $destPath = $uploadFileDir . $newFileName;
+    $destPath = $uploadDir . $newFileName;
 
     if (move_uploaded_file($fileTmpPath, $destPath)) {
         $imageFileName = $newFileName;
     } else {
-        die('Erro ao mover a imagem para o diretório.');
+        $_SESSION['error'] = "Erro ao enviar a imagem.";
+        header("Location: musicianRegister.php");
+        exit;
     }
 }
 
 /* Valida senha */
 if ($password !== $confirmPassword) {
-    echo "<script>alert('As senhas não conferem!'); window.history.back();</script>";
-    exit;
+        $_SESSION['error'] = "As senhas não conferem.";
+        header("Location: musicianRegister.php");
+        exit;
 }
 
 /* Valida login */
-if (verifyLogin($login, $connect)) {
-    echo "<script>alert('Login já existe!'); window.history.back();</script>";
-    exit;
+if (Musicians::verifyLogin($login)) {
+        $_SESSION['error'] = "Login já existe.";
+        header("Location: musicianRegister.php");
+        exit;
 }
 
 /* Valida datas */
-if (!ageVerification($dateOfBirth)) {
-    echo "<script>alert('Data de nascimento inválida!'); window.history.back();</script>";
-    exit;
+if (!Musicians::ageVerification($dateOfBirth)) {
+        $_SESSION['error'] = "Data de nascimento inválida.";
+        header("Location: musicianRegister.php");
+        exit;
 }
 
-$stmt = $connect->prepare("INSERT INTO musicians (name, login, dateOfBirth, instrument, bandGroup, telephone, responsible, telephoneOfResponsible, neighborhood, institution, image, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-if (!$stmt) {
-    error_log("Erro na preparação da query: " . $connect->error);
-    echo "<script>alert('Erro interno no servidor.'); window.history.back();</script>";
-    exit;
-}
+// Criação da notícia via Model
+$musicianInfo = [
+    'name' => $musicianName,
+    'login' => $login,
+    'birth' => $dateOfBirth,
+    'instrument' => $instrument,
+    'band_group' => $bandGroup,
+    'musician_contact' => $musicianContact,
+    'responsible_name' => $responsibleName,
+    'responsible_contact' => $responsibleContact,
+    'neighborhood' => $neighborhood,
+    'institution' => $institution,
+    'profile_image' => $imageFileName,
+    'password' => $password,
+];
 
-$stmt->bind_param(
-    "ssssssssssss",
-    $name,
-    $login,
-    $dateOfBirth,
-    $instrument,
-    $bandGroup,
-    $telephone,
-    $responsible,
-    $contactOfResponsible,
-    $neighborhood,
-    $institution,
-    $imageFileName,
-    $password
-);
-
-if ($stmt->execute()) {
-    echo "<script>alert('Músico cadastrado com sucesso!'); window.location.href = 'musicianRegister.php';</script>";
+if (Musicians::musicianRegister($musicianInfo)) {
+    $_SESSION['success'] = "Músico criado com sucesso!";
 } else {
-    error_log("Erro ao inserir músico: " . $stmt->error);
-    echo "<script>alert('Erro ao cadastrar músico.'); window.history.back();</script>";
+    $_SESSION['error'] = "Erro ao registrar o músico. Tente novamente.";
 }
 
-$stmt->close();
-$connect->close();
+// Redireciona de volta para o formulário
+header("Location: musicianRegister.php");
+exit;
 ?>
