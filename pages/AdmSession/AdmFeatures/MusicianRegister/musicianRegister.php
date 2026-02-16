@@ -1,11 +1,13 @@
 <?php
-
 session_start();
 
-if (!isset($_SESSION['login'])) {
-  echo "<meta http-equiv='refresh' content='0; url=../../../Index/index.php'>";
-}
+require_once "../../../../config/config.php";
+require_once BASE_PATH . "app/Auth/Auth.php";
 
+require_once BASE_PATH . "app/Models/Instruments.php";
+require_once BASE_PATH . "app/Models/BandGroups.php";
+
+Auth::requireRegency();
 ?>
 
 <!DOCTYPE html>
@@ -16,63 +18,51 @@ if (!isset($_SESSION['login'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Registrar Músico</title>
 
-  <!-- Estilos principais -->
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="<?= BASE_URL ?>assets/images/logo_banda.png" type="image/x-icon" />
+
+  <!-- CSS + Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
-  <link rel="shortcut icon" href="../../../../assets/images/logo_banda.png" type="image/x-icon" />
-  <link rel="stylesheet" href="../../../../assets/css/style.css">
-  <link rel="stylesheet" href="../../../../assets/css/form.css">
-  <style>
-    main {
-      padding: 0 30px
-    }
 
-    .login-container {
-      max-width: 1000px;
-    }
-
-    form i.show-password {
-      bottom: 13.7%;
-    }
-
-    @media screen and (min-width: 481px) {
-      form i.show-password {
-        right: 7%;
-      }
-    }
-
-    @media screen and (min-width: 768px) {
-      form i.show-password {
-        left: 45.5%;
-        bottom: 13%;
-      }
-    }
-
-    @media screen and (min-width: 993px) {
-      form i.show-password {
-        left: 46%;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/form.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/musicianRegister.css">
 </head>
 
 <body class="d-flex flex-column min-vh-100">
+  <?php if (isset($_SESSION['success'])) { ?>
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+      <div class="toast align-items-center text-bg-success border-0 show" role="alert">
+        <div class="d-flex">
+          <div class="toast-body">
+            <?= htmlspecialchars($_SESSION['success']) ?>
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto"
+            onclick="this.closest('.toast-container').remove()"></button>
+        </div>
+      </div>
+    </div>
+    <?php unset($_SESSION['success']); ?>
+  <?php } ?>
+
+  <?php if (isset($_SESSION['error'])) { ?>
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+      <div class="toast align-items-center text-bg-danger border-0 show" role="alert">
+        <div class="d-flex">
+          <div class="toast-body">
+            <?= htmlspecialchars($_SESSION['error']) ?>
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto"
+            onclick="this.closest('.toast-container').remove()"></button>
+        </div>
+      </div>
+    </div>
+    <?php unset($_SESSION['error']); ?>
+  <?php } ?>
 
   <!-- Header -->
-  <header class="d-flex align-items-center justify-content-between px-3 mb-auto">
-    <a href="#" class="d-flex align-items-center text-white text-decoration-none">
-      <img src="../../../../assets/images/logo_banda.png" alt="Logo Banda" width="30" height="30" class="me-2">
-      <span class="fs-5 fw-bold">BMMO Online - Maestro</span>
-    </a>
-    <nav>
-      <ul class="nav">
-        <li class="nav-item">
-          <a href="../../admPage.php" class="nav-link text-white" style="font-size: 1.4rem;"><i
-              class="bi bi-arrow-90deg-left"></i></a>
-        </li>
-      </ul>
-    </nav>
-  </header>
+  <?php require_once BASE_PATH . 'includes/secondHeader.php'; ?>
 
   <!-- Main -->
   <main class="flex-grow-1 d-flex align-items-center justify-content-center flex-column py-5">
@@ -92,8 +82,8 @@ if (!isset($_SESSION['login'])) {
         </div>
 
         <div class="col-md-6">
-          <label for="date" class="form-label ps-2">Data de Nascimento *</label>
-          <input type="date" name="dateOfBirth" id="date" class="form-control" required />
+          <label for="date-of-birth" class="form-label ps-2">Data de Nascimento *</label>
+          <input type="date" name="date" id="date-of-birth" class="form-control" required />
         </div>
 
         <!-- Instrumento + Grupo -->
@@ -101,50 +91,70 @@ if (!isset($_SESSION['login'])) {
           <label for="instrument" class="form-label ps-2">Instrumento *</label>
           <select name="instrument" id="instrument" class="form-control select" required>
             <option value="">Selecione</option>
-            <option value="Flauta Doce">Flauta Doce</option>
-            <option value="Flauta">Flauta</option>
-            <option value="Lira">Lira</option>
-            <option value="Clarinete 1">1° Clarinete</option>
-            <option value="Clarinete 2">2° Clarinete</option>
-            <option value="Clarinete 3">3° Clarinete</option>
-            <option value="Sax Alto 1">1° Sax Alto</option>
-            <option value="Sax Alto 2">2° Sax Alto</option>
-            <option value="Sax Tenor 1">1° Sax Tenor</option>
-            <option value="Sax Tenor 2">2° Sax Tenor</option>
-            <option value="Trompete 1">1° Trompete</option>
-            <option value="Trompete 2">2° Trompete</option>
-            <option value="Trompete 3">3° Trompete</option>
-            <option value="Trompa 1">1° Trompa</option>
-            <option value="Trompa 2">2° Trompa</option>
-            <option value="Trombone 1">1° Trombone</option>
-            <option value="Trombone 2">2° Trombone</option>
-            <option value="Trombone 3">3° Trombone</option>
-            <option value="Bombardino">Bombardino</option>
-            <option value="Tuba">Tuba</option>
-            <option value="Percussão">Percussão</option>
-            <option value="Caixa">Caixa</option>
-            <option value="Prato">Prato</option>
-            <option value="Tarol">Tarol</option>
-            <option value="Bumbo">Bumbo</option>
+
+            <?php
+            // Busca todas as notícias via POO
+            $instrumentsList = Instruments::getAll();
+
+            if (empty($instrumentsList)) {
+              echo "<div class='no-news'>Nenhum instrumento encontrado.</div>";
+            } else {
+              // Itera sobre cada instrumento
+              foreach ($instrumentsList as $res) {
+
+                // Dados do instrumento
+                $instrumentId = (int) $res['instrument_id'];
+                $instrumentName = htmlspecialchars($res['instrument_name'] ?? '', ENT_QUOTES, 'UTF-8');
+                ?>
+
+                <!-- Options -->
+                <option value="<?= htmlspecialchars($instrumentId) ?>"><?= htmlspecialchars($instrumentName) ?></option>
+
+                <?php
+              }
+            }
+            ?>
+
           </select>
         </div>
 
         <div class="col-md-6">
-          <label for="group" class="form-label ps-2">Grupo da Banda *</label>
-          <select name="bandGroup" id="group" class="form-control" required>
+          <label for="band-group" class="form-label ps-2">Grupo da Banda *</label>
+          <select name="group" id="band-group" class="form-control" required>
             <option value="">Selecione</option>
-            <option value="Banda Principal">Banda Principal</option>
-            <option value="Banda Auxiliar">Banda Auxiliar</option>
-            <option value="Escola">Escola de Música</option>
-            <option value="Fanfarra">Fanfarra</option>
-            <option value="Flauta Doce">Flauta Doce</option>
+
+            <?php
+            // Busca todas as notícias via POO
+            $groupsList = BandGroups::getAll();
+
+            if (empty($groupsList)) {
+              echo "<div class='no-news'>Nenhum grupo da banda encontrado.</div>";
+            } else {
+              // Itera sobre cada grupo
+              foreach ($groupsList as $res) {
+
+                // Dados do grupo
+                $groupId = (int) $res['group_id'];
+                $groupName = htmlspecialchars($res['group_name'] ?? '', ENT_QUOTES, 'UTF-8');
+                ?>
+
+                <!-- Options -->
+                <option value="<?= htmlspecialchars($groupId) ?>">
+                  <?= htmlspecialchars($groupName) ?>
+                </option>
+
+                <?php
+              }
+            }
+            ?>
+
           </select>
         </div>
 
         <!-- Contatos -->
         <div class="col-md-6">
-          <label for="tel" class="form-label ps-2">Contato do Músico *</label>
-          <input type="text" name="telephone" id="tel" class="form-control" placeholder="(xx) xxxxx-xxxx" required />
+          <label for="contact" class="form-label ps-2">Contato do Músico *</label>
+          <input type="text" name="contact" id="contact" class="form-control" placeholder="(xx) xxxxx-xxxx" required />
         </div>
 
         <div class="col-md-6">
@@ -154,8 +164,8 @@ if (!isset($_SESSION['login'])) {
         </div>
 
         <div class="col-md-6">
-          <label for="contactOfResponsible" class="form-label ps-2">Contato do Responsável</label>
-          <input type="text" name="contactOfResponsible" id="contactOfResponsible" class="form-control"
+          <label for="contact-of-responsible" class="form-label ps-2">Contato do Responsável</label>
+          <input type="text" name="contact-of-responsible" id="contact-of-responsible" class="form-control"
             placeholder="(xx) xxxxx-xxxx" />
         </div>
 
@@ -188,22 +198,22 @@ if (!isset($_SESSION['login'])) {
         <!-- Upload -->
         <div class="col-md-6">
           <label for="file" class="form-label ps-2">Imagem do músico</label>
-          <input type="file" name="file" id="inputFile" accept="image/*" class="form-control" />
+          <input type="file" name="file" id="file" accept="image/*" class="form-control" />
         </div>
 
         <!-- Senhas -->
         <div class="col-md-6">
-          <label for="passwordMusician" class="form-label ps-2">Senha *</label>
+          <label for="password" class="form-label ps-2">Senha *</label>
           <div>
-            <input type="password" name="password" id="passwordMusician" class="form-control rounded-pill"
+            <input type="password" name="password" id="password" class="form-control rounded-pill"
               placeholder="Digite a senha" minlength="8" maxlength="20" required />
-            <i class="bi bi-eye-fill show-password" id="passwordBtn" onclick="showPassword()"></i>
+            <i class="bi bi-eye-fill show-password" id="password-btn" onclick="showPassword()"></i>
           </div>
         </div>
 
         <div class="col-md-6">
-          <label for="confirmPassword" class="form-label ps-2">Confirmar Senha *</label>
-          <input type="password" name="confirmPassword" id="confirmPassword" class="form-control"
+          <label for="confirm-password" class="form-label ps-2">Confirmar Senha *</label>
+          <input type="password" name="confirm-password" id="confirm-password" class="form-control"
             placeholder="Confirme a senha" minlength="8" maxlength="20" required />
         </div>
 
@@ -217,16 +227,17 @@ if (!isset($_SESSION['login'])) {
   </main>
 
   <!-- Footer -->
-  <?php require_once '../../../../general-features/footer.php'; ?>
+  <?php require_once BASE_PATH . 'includes/footer.php'; ?>
 
   <!-- Scripts -->
-  <script src="../../../../js/password.js"></script>
+  <script src="<?= BASE_URL ?>assets/js/password.js"></script>
+  <script src="<?= BASE_URL ?>assets/js/removeToast.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
   <script>
     $(document).ready(function () {
-      $("#tel").mask("(00) 00000-0000");
-      $("#contactOfResponsible").mask("(00) 00000-0000");
+      $("#contact").mask("(00) 00000-0000");
+      $("#contact-of-responsible").mask("(00) 00000-0000");
     });
   </script>
 </body>

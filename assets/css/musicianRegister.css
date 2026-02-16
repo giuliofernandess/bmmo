@@ -1,0 +1,33 @@
+@charset "UTF-8";
+
+main {
+  padding: 0 30px;
+}
+
+.login-container {
+  max-width: 1000px;
+}
+
+form i.show-password {
+  bottom: 13.7%;
+  width: 30px;
+}
+
+@media screen and (min-width: 481px) {
+  form i.show-password {
+    right: 7%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  form i.show-password {
+    left: 45.5%;
+    bottom: 13%;
+  }
+}
+
+@media screen and (min-width: 993px) {
+  form i.show-password {
+    left: 46%;
+  }
+}
