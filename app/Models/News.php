@@ -53,7 +53,7 @@ class News
     {
         $db = Database::getConnection();
 
-        $sql = "SELECT * FROM news ORDER BY publication_date, publication_hour DESC";
+        $sql = "SELECT * FROM news ORDER BY publication_date DESC, publication_hour DESC";
         $stmt = $db->prepare($sql);
 
         if (!$stmt) {
