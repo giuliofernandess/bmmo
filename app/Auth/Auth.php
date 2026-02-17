@@ -46,17 +46,17 @@ class Auth
         // Usuário não encontrado
         if (!$user) {
             return false;
-        }
-
-        if ($password !== $user['password']) {
+        } else if (!password_verify($password, $user['password'])) {
             return false;
+        } else {
+
+            // Login OK: salva dados na sessão
+            $_SESSION['regency_login'] = $user['regency_login'];
+            $_SESSION['role'] = 'regency';
+
+            return true;
         }
 
-        // Login OK: salva dados na sessão
-        $_SESSION['regency_login'] = $user['regency_login'];
-        $_SESSION['role'] = 'regency';
-
-        return true;
     }
 
     /**
