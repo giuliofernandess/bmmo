@@ -151,6 +151,13 @@ CREATE TABLE `regency` (
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Despejando dados para a tabela `instruments`
+--
+
+INSERT INTO `band_groups` (`regency_login`, `password`) VALUES
+('raul.anderson', 'Maestro@2026');
+
 -- --------------------------------------------------------
 
 --
