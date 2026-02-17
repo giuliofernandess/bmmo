@@ -79,6 +79,103 @@ class Musicians
     }
 
     /**
+     * Retorna todos os músicos do banco, selecionados por grupo da banda, instrumento ou os dois e * ordenados pelos mesmos.
+     *
+     * @param int $bandGroup Grupo da banda
+     * @param int $instrument Instrumento
+     * @return array Array de músicos (cada músico é um array associativo)
+     */
+
+    public static function getAll(int $bandGroup = 0, int $instrument = 0): array
+    {
+        $db = Database::getConnection();
+
+        $sql = "SELECT m.musician_id, m.musician_name, i.instrument_name, bg.group_name, m.profile_image FROM musicians AS m";
+        $conditions = [];
+        $params = [];
+        $types = "";
+
+        $sql .= " JOIN instruments AS i ON i.instrument_id = m.instrument
+                JOIN band_groups AS bg ON bg.group_id = m.band_group";
+
+        if ($bandGroup !== 0) {
+            $conditions[] = "m.band_group = ?";
+            $params[] = $bandGroup;
+            $types .= "i";
+        }
+
+        if ($instrument !== 0) {
+            $conditions[] = "m.instrument = ?";
+            $params[] = $instrument;
+            $types .= "i";
+        }
+
+        if (!empty($conditions)) {
+            $sql .= " WHERE " . implode(" AND ", $conditions);
+        }
+
+        $sql .= " ORDER BY m.instrument, m.band_group, m.musician_name";
+
+        $stmt = $db->prepare($sql);
+
+        if (!$stmt) {
+            return [];
+        }
+
+        if (!empty($params)) {
+            $stmt->bind_param($types, ...$params);
+        }
+
+        if (!$stmt->execute()) {
+            $stmt->close();
+            return [];
+        }
+
+        $result = $stmt->get_result();
+        $musiciansList = [];
+
+        while ($row = $result->fetch_assoc()) {
+            $musiciansList[] = $row;
+        }
+
+        $stmt->close();
+        $db->close();
+
+        return $musiciansList;
+    }
+
+    /**
+     * Retorna um músico específica pelo ID.
+     *
+     * @param int $musicianId ID do músico
+     * @return array|null Array associativo com os dados ou null se não encontrado
+     */
+    public static function getById(int $musicianId): ?array
+    {
+        $db = Database::getConnection();
+
+        $sql = "SELECT m.musician_id, m.musician_name, i.instrument_name, bg.group_name, m.date_of_birth, m.musician_contact, m.neighborhood, m.institution, m.responsible_name, m.responsible_contact, m.profile_image 
+        FROM musicians AS m 
+        JOIN instruments AS i ON i.instrument_id = m.instrument
+        JOIN band_groups AS bg ON bg.group_id = m.band_group
+        WHERE m.musician_id = ?";
+        $stmt = $db->prepare($sql);
+
+        if (!$stmt) {
+            return null;
+        }
+
+        $stmt->bind_param("i", $musicianId);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+
+        return $data ?: null;
+    }
+
+
+    /**
      * Verifica se o login do músico a ser registrado já existe.
      *
      * @param string $musicianLogin Login do músico
