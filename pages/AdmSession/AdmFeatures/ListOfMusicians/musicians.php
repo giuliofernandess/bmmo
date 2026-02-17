@@ -1,13 +1,8 @@
 <?php
+require_once "../../../../config/config.php";
+require_once BASE_PATH . "app/Auth/Auth.php";
 
-session_start();
-
-if (!isset($_SESSION['login'])) {
-  echo "<meta http-equiv='refresh' content='0; url=../../../Index/index.php'>";
-}
-
-$bandGroup = $_GET['bandGroup'];
-
+Auth::requireRegency();
 ?>
 
 <!DOCTYPE html>
@@ -16,92 +11,82 @@ $bandGroup = $_GET['bandGroup'];
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="<?= BASE_URL ?>assets/images/logo_banda.png" type="image/x-icon" />
+
+  <!-- Bootstrap + CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
-  <link rel="shortcut icon" href="../../../../assets/images/logo_banda.png" type="image/x-icon" />
-  <link rel="stylesheet" href="../../../../assets/css/style.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
+
   <title>Relação de músicos</title>
-  <style>
-    .card-img-top {
-      height: 200px;
-      object-fit: cover;
-    }
-
-    .btn {
-      transition: .2s;
-    }
-
-    .btn:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
-    }
-  </style>
 </head>
 
 <body>
   <!-- Header -->
-  <header class="d-flex align-items-center justify-content-between px-3 mb-auto">
-    <a href="#" class="d-flex align-items-center text-white text-decoration-none">
-      <img src="../../../../assets/images/logo_banda.png" alt="Logo Banda" width="30" height="30" class="me-2">
-      <span class="fs-5 fw-bold">BMMO Online - Maestro</span>
-    </a>
-    <nav>
-      <ul class="nav">
-        <li class="nav-item">
-          <a href="bandGroups.php" class="nav-link text-white" style="font-size: 1.4rem;"><i
-              class="bi bi-arrow-90deg-left"></i></a>
-        </li>
-      </ul>
-    </nav>
-  </header>
+  <?php require_once BASE_PATH . "includes/secondHeader.php"; ?>
 
   <main class="container mb-5 p-5">
+    <h1 class="mb-4 text-center">Lista dos músicos BMMO</h1>
+
     <?php
-    require_once '../../../../general-features/bdConnect.php';
 
-    if (!$connect) {
-      echo "<div class='alert alert-danger'>Erro ao conectar com o banco de dados.</div>";
-      exit;
-    }
+    require_once BASE_PATH . "app/Models/Musicians.php";
 
-    $sql = "SELECT * FROM musicians WHERE bandGroup = '$bandGroup' ORDER BY instrument ASC";
-    $result = $connect->query($sql);
+    $musiciansList = Musicians::getAll();
 
-    $instrument = "";
+    if (empty($musiciansList)) {
+      echo "<div class='no-musician'>Nenhum músico cadastrado no momento.</div>";
+    } else {
+      $instrument = '';
 
-    echo "<h1 class='mt-4'>Musicos da {$bandGroup}</h1>";
+      // Itera sobre cada músico
+      foreach ($musiciansList as $res) {
 
-    while ($res = $result->fetch_assoc()) {
-      if ($instrument != $res['instrument']) {
-        $instrument = $res['instrument'];
-        echo "<h2 class='mt-5 border-bottom pb-2 text-primary mb-4'>$instrument</h2>";
-        echo "<div class='row g-4 mt-3'>";
-      }
+        // Dados do músico
+        $musicianId = (int) $res['musician_id'];
+        $musicianName = htmlspecialchars($res['musician_name'] ?? '', ENT_QUOTES, 'UTF-8');
+        $bandGroup = htmlspecialchars($res['group_name'] ?? '', ENT_QUOTES, 'UTF-8');
 
-      $image = !empty($res['image']) && file_exists("../../../../assets/images/musicians-images/{$res['image']}")
-        ? "../../../../assets/images/musicians-images/{$res['image']}"
-        : "../../../../assets/images/musicians-images/default.png";
+        // Verificação de imagem
+        $musicianImage = basename($res['profile_image'] ?? '');
 
-      echo "
-          <div class='col-12 col-md-6 col-lg-3 mt-0 mb-5 w-auto'>
-            <div class='card musician-card h-100 border-0 shadow-sm'>
-            <img src='{$image}' class='card-img-top' alt='Imagem de {$res['name']}'>
-              <a href='Profile/musicianProfile.php?idMusician={$res['idMusician']}' class='card-body d-flex flex-column text-decoration-none'>
-                <h5 class='card-title fw-semibold text-center mb-3'>{$res['name']}</h5>
-                <button class='btn btn-outline-primary mt-auto w-100'>
-                  <i class='bi bi-person-lines-fill me-1'></i> Ver Perfil
-                </button>
-              </a>
-            </div>
+        $imagePath = BASE_PATH . "uploads/musicians-images/{$musicianImage}";
+        $imageUrl = BASE_URL . "uploads/musicians-images/{$musicianImage}";
+
+        $image = (!empty($musicianImage) && file_exists($imagePath))
+          ? $imageUrl
+          : BASE_URL . "uploads/musicians-images/default.png";
+
+        if ($instrument != htmlspecialchars($res['instrument_name'] ?? '', ENT_QUOTES, 'UTF-8')) {
+          $instrument = htmlspecialchars($res['instrument_name'] ?? '', ENT_QUOTES, 'UTF-8');
+          echo "<h2 class='mt-5 border-bottom pb-2 text-primary mb-4'>$instrument</h2>";
+          echo "<div class='row g-4 mt-3'>";
+        } ?>
+
+
+        <div class='col-12 col-md-6 col-lg-3 mb-5'>
+          <div class='card musician-card border-0 shadow-sm'>
+            <img src='<?= $image ?>' class='card-img-top' alt='Imagem de <?= $musicianName ?>'>
+            <a href='Profile/musicianProfile.php?idMusician=<?= $musicianId ?>' class='card-body d-flex flex-column text-decoration-none'>
+              <h4 class='card-title fw-semibold text-center mb-3'><?= $musicianName ?></h4>
+              <p class="text-center text-dark-emphasis mb-3 fs-5"><?= $bandGroup ?></p>
+              <button class='btn btn-outline-primary mt-auto w-100'>
+                <i class='bi bi-person-lines-fill me-1'></i> Ver Perfil
+              </button>
+            </a>
           </div>
-";
-    }
-    ?>
+        </div>
+
+      <?php }
+    } ?>
+
   </main>
 
 
   <!-- Footer -->
-  <?php require_once '../../../../general-features/footer.php'; ?>
+  <?php require_once BASE_PATH . "includes/footer.php"; ?>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 </body>

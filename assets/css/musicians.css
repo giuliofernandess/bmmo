@@ -1,0 +1,30 @@
+@charset "UTF-8";
+
+.no-musician {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #6c757d;
+  margin-top: 2rem;
+}
+
+.musician-card {
+  max-height: 300px;
+}
+
+.card-img-top {
+  height: 150px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+.btn {
+  transition: 0.2s;
+}
+
+.btn:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+}
