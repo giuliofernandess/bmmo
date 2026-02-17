@@ -43,6 +43,9 @@ Facilitar:
 - Upload e atualização de partituras por grupo, instrumento e voz
 - Criação e gerenciamento de notícias
 
+Login do maestro: raul.anderson
+Senha do maestro: Maestro@2026
+
 ---
 
 ## 🛠️ Tecnologias Utilizadas
