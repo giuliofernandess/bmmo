@@ -1,26 +1,51 @@
 <?php
-require_once '../../../../../general-features/bdConnect.php';
+require_once "../../../../../config/config.php";
+require_once BASE_PATH . "app/Auth/Auth.php";
+require_once BASE_PATH . "app/Models/Musicians.php";
 
-session_start();
+Auth::requireRegency();
 
-if (!isset($_SESSION['login'])) {
-  echo "<meta http-equiv='refresh' content='0; url=../../../../Index/index.php'>";
+// Verifica se recebeu o id do músico
+$idMusician = isset($_GET["idMusician"]) ? trim($_GET["idMusician"]) : null;
+
+if (!$idMusician) {
+  header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/ListOfMusicians/musicians.php");
+  exit;
 }
 
-$idMusician = $_GET['idMusician'];
+$res = Musicians::getById($idMusician);
 
-if (!$connect) {
-  die("Erro na conexão com o banco de dados.");
+if (!$res) {
+  echo "<div class='alert alert-warning m-4'>Músico não encontrado.</div>";
+  exit;
 }
 
-$sql = "SELECT * FROM `musicians` WHERE idMusician = '$idMusician'";
-$result = $connect->query($sql);
 
-if (!$result) {
-  die("Erro na consulta: " . $connect->error);
-}
+//Recebimento de variáveis
+$musician_id = trim($res['musician_id'] ?? '') ?: null;
+$musician_name = trim($res['musician_name'] ?? '') ?: null;
+$instrument = trim($res['instrument_name'] ?? '') ?: null;
+$band_group = trim($res['group_name'] ?? '') ?: null;
 
-$res = $result->fetch_assoc();
+//Tratamento de data
+$date_of_birth_raw = trim($res['date_of_birth'] ?? '') ?: null;
+$date = new DateTime($date_of_birth_raw);
+$date_of_birth = htmlspecialchars($date->format('d-m-Y'));
+
+$musician_contact = trim($res['musician_contact'] ?? '') ?: null;
+$neighborhood = trim($res['neighborhood'] ?? '') ?: null;
+$institution = trim($res['institution'] ?? '') ?: null;
+$responsible_name = trim($res['responsible_name'] ?? '') ?: null;
+$responsible_contact = trim($res['responsible_contact'] ?? '') ?: null;
+$profile_image = trim($res['profile_image'] ?? '') ?: null;
+
+
+// Tratamento de possível NULL
+$institution = $institution ? htmlspecialchars($institution) : "Não informado";
+$responsible_name = $responsible_name ? htmlspecialchars($responsible_name) : "Não informado";
+$responsible_contact = $responsible_contact ? htmlspecialchars($responsible_contact) : "Não informado";
+
+$profile_image = $profile_image ? htmlspecialchars($profile_image) : "default.png";
 ?>
 
 <!doctype html>
@@ -30,11 +55,14 @@ $res = $result->fetch_assoc();
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Perfil do Músico</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+  <link rel="shortcut icon" href="<?= BASE_URL ?>/assets/images/logo_banda.png" type="image/x-icon">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
-  <link rel="shortcut icon" href="../../../../../assets/images/logo_banda.png" type="image/x-icon">
-  <link rel="stylesheet" href="../../../../../assets/css/style.css">
+
+  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
+
   <style>
     .btn {
       transition: .2s;
@@ -48,91 +76,67 @@ $res = $result->fetch_assoc();
 </head>
 
 <body>
-  <!-- Header -->
-  <header class="d-flex align-items-center justify-content-between px-3">
-    <a href="#" class="d-flex align-items-center text-white text-decoration-none">
-      <img src="../../../../../assets/images/logo_banda.png" alt="Logo Banda" width="30" height="30" class="me-2">
-      <span class="fs-5 fw-bold">BMMO Online - Maestro</span>
-    </a>
-    <nav>
-      <ul class="nav">
-        <li class="nav-item">
-          <a href="../musicians.php?bandGroup=<?php echo $res['bandGroup'] ?>" class="nav-link text-white"
-            style="font-size: 1.4rem;"><i class="bi bi-arrow-90deg-left"></i></a>
-        </li>
-      </ul>
-    </nav>
-  </header>
+
+  <?php require_once BASE_PATH . "includes/secondHeader.php"; ?>
 
   <main class="flex-fill py-5">
     <div class="container">
       <div class="card shadow mx-auto" style="max-width: 1200px;">
         <div class="row g-0">
+
           <!-- Imagem -->
           <div class="col-md-4 text-center bg-secondary">
-            <img src="../../../../../assets/images/musicians-images/<?php if ($res['image'] == "") {
-              echo 'default.png';
-            } else {
-              echo $res['image'];
-            } ?>" class="img-fluid rounded-start h-100 object-fit-cover"
-              alt="Imagem de <?php echo htmlspecialchars($res['name']) ?>">
+            <img src="<?= BASE_URL ?>uploads/musicians-images/<?= $profile_image; ?>"
+              class="img-fluid rounded-start h-100 object-fit-cover" alt="Imagem de <?= $musician_name; ?>">
           </div>
 
           <!-- Dados do músico -->
           <div class="col-md-8">
             <div class="card-body d-flex flex-column h-100">
-              <h4 class="card-title mb-3"><?php echo htmlspecialchars($res['name']); ?></h4>
+              <h4 class="card-title mb-3"><?= $musician_name; ?></h4>
 
               <ul class="list-group list-group-flush mb-4">
-                <li class="list-group-item"><strong>Instrumento:</strong>
-                  <?php echo htmlspecialchars($res['instrument']); ?></li>
-                <li class="list-group-item"><strong>Grupo:</strong> <?php echo htmlspecialchars($res['bandGroup']); ?>
-                </li>
-                <li class="list-group-item"><strong>Data de Nascimento:</strong>
-                  <?php echo htmlspecialchars($res['dateOfBirth']); ?></li>
-                <li class="list-group-item"><strong>Telefone:</strong>
-                  <?php echo htmlspecialchars($res['telephone']); ?></li>
-                <li class="list-group-item"><strong>Bairro:</strong>
-                  <?php echo htmlspecialchars($res['neighborhood']); ?></li>
-                <li class="list-group-item"><strong>Instituição:</strong>
-                  <?php echo htmlspecialchars($res['institution']); ?></li>
-                  <li class="list-group-item"><strong>Responsável:</strong>
-                  <?php echo htmlspecialchars($res['responsible']); ?></li>
-                  <li class="list-group-item"><strong>Telefone do Responsável:</strong>
-                  <?php echo htmlspecialchars($res['telephoneOfResponsible']); ?></li>
-                  <li class="list-group-item"><strong>Senha:</strong>
-                  <?php echo htmlspecialchars($res['password']); ?></li>
+                <li class="list-group-item"><strong>Instrumento:</strong> <?= $instrument; ?></li>
+                <li class="list-group-item"><strong>Grupo:</strong> <?= $band_group; ?></li>
+                <li class="list-group-item"><strong>Data de Nascimento:</strong> <?= $date_of_birth; ?></li>
+                <li class="list-group-item"><strong>Telefone:</strong> <?= $musician_contact; ?></li>
+                <li class="list-group-item"><strong>Bairro:</strong> <?= $neighborhood; ?></li>
+                <li class="list-group-item"><strong>Instituição:</strong> <?= $institution; ?></li>
+                <li class="list-group-item"><strong>Responsável:</strong> <?= $responsible_name; ?></li>
+                <li class="list-group-item"><strong>Telefone do Responsável:</strong> <?= $responsible_contact; ?></li>
               </ul>
 
-              <!-- Botões de ação -->
+              <!-- Botões -->
               <div class="mt-auto d-flex justify-content-end gap-2">
-                <a href="MusicianEdit/musicianEdit.php?idMusician=<?php echo $res['idMusician']; ?>"
-                  class='btn btn-outline-primary mt-auto'>
+
+                <a href="MusicianEdit/musicianEdit.php?idMusician=<?= $musician_id; ?>" class="btn btn-outline-primary">
                   <i class="bi bi-pencil-square"></i> Editar
                 </a>
+
                 <form action="MusicianEdit/MusicianDelete/validateMusicianDelete.php" method="POST"
                   onsubmit="return confirm('Tem certeza que deseja excluir este músico?');">
-                  <input type="hidden" name="idMusician" value="<?php echo $res['idMusician']; ?>">
-                  <button type="submit" class='btn btn-outline-danger mt-auto'>
+
+                  <input type="hidden" name="idMusician" value="<?= $musician_id; ?>">
+
+                  <button type="submit" class="btn btn-outline-danger">
                     <i class="bi bi-trash"></i> Excluir
                   </button>
                 </form>
+
               </div>
+
             </div>
           </div>
+
         </div>
       </div>
     </div>
   </main>
 
+  <?php require_once BASE_PATH . "includes/footer.php"; ?>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Footer -->
-  <?php require_once '../../../../../general-features/footer.php'; ?>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-    crossorigin="anonymous"></script>
 </body>
 
 </html>
