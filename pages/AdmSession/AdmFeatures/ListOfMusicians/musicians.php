@@ -19,6 +19,7 @@ Auth::requireRegency();
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
   <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/musicians.css">
 
   <title>Relação de músicos</title>
 </head>
