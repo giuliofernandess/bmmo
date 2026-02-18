@@ -234,14 +234,6 @@ $responsible_contact = trim($musicians['responsible_contact'] ?? '');
           <button type="submit" class="btn btn-primary btn-lg rounded-pill w-100">Editar Músico</button>
         </div>
       </form>
-
-      <!-- Formulário para deletar músico -->
-      <form action="MusicianDelete/validateMusicianDelete.php" method="post">
-        <div class="col-12 mt-3">
-          <input type='hidden' name='musician-id' value='<?= $musicianId ?>'>
-          <button type="submit" class="btn btn-danger btn-lg rounded-pill w-100">Deletar Músico</button>
-        </div>
-      </form>
     </div>
   </main>
 
