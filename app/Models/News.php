@@ -95,6 +95,8 @@ class News
         $result = $stmt->get_result();
         $data = $result->fetch_assoc();
 
+        $stmt->close();
+
         return $data ?: null;
     }
 
@@ -126,6 +128,8 @@ class News
         while ($res = $result->fetch_assoc()) {
             $newsList[] = $res;
         }
+
+        $stmt->close();
 
         return $newsList;
     }

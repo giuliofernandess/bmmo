@@ -93,25 +93,23 @@ Auth::requireRegency();
             <option value="">Selecione</option>
 
             <?php
-            // Busca todas as notícias via POO
+            // Busca todas os instrumentos via POO
             $instrumentsList = Instruments::getAll();
 
-            if (empty($instrumentsList)) {
-              echo "<div class='no-news'>Nenhum instrumento encontrado.</div>";
-            } else {
-              // Itera sobre cada instrumento
-              foreach ($instrumentsList as $res) {
+            // Itera sobre cada instrumento
+            foreach ($instrumentsList as $instrumentItem) {
 
-                // Dados do instrumento
-                $instrumentId = (int) $res['instrument_id'];
-                $instrumentName = htmlspecialchars($res['instrument_name'] ?? '', ENT_QUOTES, 'UTF-8');
-                ?>
+              // Dados do instrumento
+              $instrumentId = (int) $instrumentItem['instrument_id'];
+              $instrumentName = htmlspecialchars($instrumentItem['instrument_name'] ?? '', ENT_QUOTES, 'UTF-8');
+              ?>
 
-                <!-- Options -->
-                <option value="<?= htmlspecialchars($instrumentId) ?>"><?= htmlspecialchars($instrumentName) ?></option>
+              <!-- Options -->
+              <option value="<?= htmlspecialchars($instrumentId) ?>" <?= $instrumentId == $instrument ? 'selected' : '' ?>>
+                <?= $instrumentName ?>
+              </option>
 
-                <?php
-              }
+              <?php
             }
             ?>
 
@@ -124,27 +122,24 @@ Auth::requireRegency();
             <option value="">Selecione</option>
 
             <?php
-            // Busca todas as notícias via POO
+            // Busca todas os grupos via POO
             $groupsList = BandGroups::getAll();
 
-            if (empty($groupsList)) {
-              echo "<div class='no-news'>Nenhum grupo da banda encontrado.</div>";
-            } else {
-              // Itera sobre cada grupo
-              foreach ($groupsList as $res) {
 
-                // Dados do grupo
-                $groupId = (int) $res['group_id'];
-                $groupName = htmlspecialchars($res['group_name'] ?? '', ENT_QUOTES, 'UTF-8');
-                ?>
+            // Itera sobre cada grupo
+            foreach ($groupsList as $groupItem) {
 
-                <!-- Options -->
-                <option value="<?= htmlspecialchars($groupId) ?>">
-                  <?= htmlspecialchars($groupName) ?>
-                </option>
+              // Dados do grupo
+              $groupId = (int) $groupItem['group_id'];
+              $groupName = htmlspecialchars($groupItem['group_name'] ?? '', ENT_QUOTES, 'UTF-8');
+              ?>
 
-                <?php
-              }
+              <!-- Options -->
+              <option value="<?= htmlspecialchars($groupId) ?>" <?= $groupId == $band_group ? 'selected' : ''; ?>>
+                <?= $groupName ?>
+              </option>
+
+              <?php
             }
             ?>
 
@@ -234,12 +229,7 @@ Auth::requireRegency();
   <script src="<?= BASE_URL ?>assets/js/removeToast.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-  <script>
-    $(document).ready(function () {
-      $("#contact").mask("(00) 00000-0000");
-      $("#contact-of-responsible").mask("(00) 00000-0000");
-    });
-  </script>
+  <script src="<?= BASE_URL ?>assets/js/mask.js"></script>
 </body>
 
 </html>

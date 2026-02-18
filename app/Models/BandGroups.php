@@ -27,9 +27,11 @@ class BandGroups
 
         $groupsList = [];
 
-        while ($res = $result->fetch_assoc()) {
-            $groupsList[] = $res;
+        while ($row = $result->fetch_assoc()) {
+            $groupsList[] = $row;
         }
+
+        $stmt->close();
 
         return $groupsList;
     }

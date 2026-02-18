@@ -27,9 +27,11 @@ class Instruments
 
         $instrumentsList = [];
 
-        while ($res = $result->fetch_assoc()) {
-            $instrumentsList[] = $res;
+        while ($row = $result->fetch_assoc()) {
+            $instrumentsList[] = $row;
         }
+
+        $stmt->close();
 
         return $instrumentsList;
     }

@@ -6,14 +6,14 @@ require_once BASE_PATH . "app/Models/Musicians.php";
 Auth::requireRegency();
 
 // Verifica se recebeu o id do músico
-$idMusician = isset($_GET["idMusician"]) ? trim($_GET["idMusician"]) : null;
+$musicianId = isset($_GET["musicianId"]) ? (int)$_GET["musicianId"] : null;
 
-if (!$idMusician) {
+if (!$musicianId) {
   header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/ListOfMusicians/musicians.php");
   exit;
 }
 
-$res = Musicians::getById($idMusician);
+$res = Musicians::getById($musicianId);
 
 if (!$res) {
   echo "<div class='alert alert-warning m-4'>Músico não encontrado.</div>";
@@ -22,7 +22,6 @@ if (!$res) {
 
 
 //Recebimento de variáveis
-$musician_id = trim($res['musician_id'] ?? '') ?: null;
 $musician_name = trim($res['musician_name'] ?? '') ?: null;
 $instrument = trim($res['instrument_name'] ?? '') ?: null;
 $band_group = trim($res['group_name'] ?? '') ?: null;
@@ -76,8 +75,24 @@ $profile_image = $profile_image ? htmlspecialchars($profile_image) : "default.pn
 </head>
 
 <body>
+  <!-- Toast de sucesso -->
+  <?php if (isset($_SESSION['success'])): ?>
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+      <div class="toast align-items-center text-bg-success border-0 show" role="alert">
+        <div class="d-flex">
+          <div class="toast-body">
+            <?= htmlspecialchars($_SESSION['success']); ?>
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto"
+            onclick="this.closest('.toast-container').remove()"></button>
+        </div>
+      </div>
+    </div>
+    <?php unset($_SESSION['success']); // remove para não aparecer novamente ?>
+  <?php endif; ?>
 
   <?php require_once BASE_PATH . "includes/secondHeader.php"; ?>
+  
 
   <main class="flex-fill py-5">
     <div class="container">
@@ -109,14 +124,14 @@ $profile_image = $profile_image ? htmlspecialchars($profile_image) : "default.pn
               <!-- Botões -->
               <div class="mt-auto d-flex justify-content-end gap-2">
 
-                <a href="MusicianEdit/musicianEdit.php?idMusician=<?= $musician_id; ?>" class="btn btn-outline-primary">
+                <a href="MusicianEdit/musicianEdit.php?musicianId=<?= $musicianId; ?>" class="btn btn-outline-primary">
                   <i class="bi bi-pencil-square"></i> Editar
                 </a>
 
                 <form action="MusicianEdit/MusicianDelete/validateMusicianDelete.php" method="POST"
                   onsubmit="return confirm('Tem certeza que deseja excluir este músico?');">
 
-                  <input type="hidden" name="idMusician" value="<?= $musician_id; ?>">
+                  <input type="hidden" name="musicianId" value="<?= $musicianId; ?>">
 
                   <button type="submit" class="btn btn-outline-danger">
                     <i class="bi bi-trash"></i> Excluir
@@ -134,6 +149,9 @@ $profile_image = $profile_image ? htmlspecialchars($profile_image) : "default.pn
   </main>
 
   <?php require_once BASE_PATH . "includes/footer.php"; ?>
+
+  <!-- Scripts -->
+   <script src="<?= BASE_URL ?>assets/js/removeToast.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 

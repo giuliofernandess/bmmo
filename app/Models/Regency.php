@@ -34,6 +34,8 @@ class Regency
         $result = $stmt->get_result();
         $data = $result->fetch_assoc();
 
+        $stmt->close();
+
         // Retorna array com dados ou null se vazio
         return $data ?: null;
     }

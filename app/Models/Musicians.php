@@ -5,6 +5,28 @@ require_once BASE_PATH . 'app/Database/Database.php';
 
 class Musicians
 {
+
+    /**
+     * Usada para sanitização de variáveis.
+     * 
+     * @param $value Valor da variável
+     * @param array $type Tipo da variável
+     * @return int|string|null Retorna a variável sanitizada ou null
+     */
+
+    private static function sanitizeValue($value, string $type = 'string')
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        if ($type === 'int') {
+            return (int) $value;
+        }
+
+        return htmlspecialchars(trim($value), ENT_QUOTES, 'UTF-8');
+    }
+
     /**
      * Resgistra um novo músico.
      * 
@@ -16,35 +38,22 @@ class Musicians
     {
         $db = Database::getConnection();
 
-        function sanitizeValue($value, string $type = 'string')
-        {
-            if ($value === null) {
-                return null;
-            }
-
-            if ($type === 'int') {
-                return (int) $value;
-            }
-
-            return htmlspecialchars(trim($value), ENT_QUOTES, 'UTF-8');
-        }
-
         // Sanitização dos dados
-        $musicianName = sanitizeValue($musicianInfo['name'] ?? null);
-        $login = sanitizeValue($musicianInfo['login'] ?? null);
+        $musicianName = self::sanitizeValue($musicianInfo['name'] ?? null);
+        $login = self::sanitizeValue($musicianInfo['login'] ?? null);
 
-        $dateOfBirth = sanitizeValue($musicianInfo['birth'] ?? null);
+        $dateOfBirth = self::sanitizeValue($musicianInfo['birth'] ?? null);
         $birthObj = $dateOfBirth ? DateTime::createFromFormat('Y-m-d', $dateOfBirth) : null;
         $birth = $birthObj ? $birthObj->format('Y-m-d') : null;
 
-        $instrument = sanitizeValue($musicianInfo['instrument'] ?? null, 'int');
-        $bandGroup = sanitizeValue($musicianInfo['band_group'] ?? null, 'int');
+        $instrument = self::sanitizeValue($musicianInfo['instrument'] ?? null, 'int');
+        $bandGroup = self::sanitizeValue($musicianInfo['band_group'] ?? null, 'int');
 
-        $musicianContact = sanitizeValue($musicianInfo['musician_contact'] ?? null);
-        $responsibleName = sanitizeValue($musicianInfo['responsible_name'] ?? null);
-        $responsibleContact = sanitizeValue($musicianInfo['responsible_contact'] ?? null);
-        $neighborhood = sanitizeValue($musicianInfo['neighborhood'] ?? null);
-        $institution = sanitizeValue($musicianInfo['institution'] ?? null);
+        $musicianContact = self::sanitizeValue($musicianInfo['musician_contact'] ?? null);
+        $responsibleName = self::sanitizeValue($musicianInfo['responsible_name'] ?? null);
+        $responsibleContact = self::sanitizeValue($musicianInfo['responsible_contact'] ?? null);
+        $neighborhood = self::sanitizeValue($musicianInfo['neighborhood'] ?? null);
+        $institution = self::sanitizeValue($musicianInfo['institution'] ?? null);
 
         $profileImage = $musicianInfo['profile_image'] ?? null;
 
@@ -69,14 +78,119 @@ class Musicians
             $success = $stmt->execute();
 
             $stmt->close();
-            $db->close();
 
             return $success;
         } catch (\Exception $e) {
-            $db->close();
             return false;
         }
     }
+
+    /**
+     * Edita um músico.
+     * 
+     * @param array $musicianInfo Array de informações do músico
+     * @return bool Booleano (true, false)
+     */
+
+    public static function musicianEdit(array $musicianInfo): bool
+    {
+        $db = Database::getConnection();
+
+        $musicianId = self::sanitizeValue($musicianInfo['id'] ?? null, 'int');
+        $musicianLogin = self::sanitizeValue($musicianInfo['login'] ?? null);
+
+        $instrument = self::sanitizeValue($musicianInfo['instrument'] ?? null, 'int');
+        $bandGroup = self::sanitizeValue($musicianInfo['band_group'] ?? null, 'int');
+
+        $musicianContact = self::sanitizeValue($musicianInfo['musician_contact'] ?? null);
+        $responsibleName = self::sanitizeValue($musicianInfo['responsible_name'] ?? null);
+        $responsibleContact = self::sanitizeValue($musicianInfo['responsible_contact'] ?? null);
+        $neighborhood = self::sanitizeValue($musicianInfo['neighborhood'] ?? null);
+        $institution = self::sanitizeValue($musicianInfo['institution'] ?? null);
+
+        $profileImage = $musicianInfo['profile_image'] ?? null;
+        $passwordRaw = $musicianInfo['password'] ?? null;
+
+        try {
+
+            // Se a senha foi informada, atualiza também
+            if (!empty($passwordRaw)) {
+
+                $password = password_hash($passwordRaw, PASSWORD_DEFAULT);
+
+                $stmt = $db->prepare("
+                UPDATE musicians 
+                SET musician_login = ?, 
+                    instrument = ?, 
+                    band_group = ?, 
+                    musician_contact = ?, 
+                    responsible_name = ?, 
+                    responsible_contact = ?, 
+                    neighborhood = ?, 
+                    institution = ?, 
+                    profile_image = ?, 
+                    password = ?
+                WHERE musician_id = ?
+            ");
+
+                $stmt->bind_param(
+                    "siisssssssi",
+                    $musicianLogin,
+                    $instrument,
+                    $bandGroup,
+                    $musicianContact,
+                    $responsibleName,
+                    $responsibleContact,
+                    $neighborhood,
+                    $institution,
+                    $profileImage,
+                    $password,
+                    $musicianId
+                );
+
+            } else {
+
+                // Atualiza sem mexer na senha
+                $stmt = $db->prepare("
+                UPDATE musicians 
+                SET musician_login = ?, 
+                    instrument = ?, 
+                    band_group = ?, 
+                    musician_contact = ?, 
+                    responsible_name = ?, 
+                    responsible_contact = ?, 
+                    neighborhood = ?, 
+                    institution = ?, 
+                    profile_image = ?
+                WHERE musician_id = ?
+            ");
+
+                $stmt->bind_param(
+                    "siissssssi",
+                    $musicianLogin,
+                    $instrument,
+                    $bandGroup,
+                    $musicianContact,
+                    $responsibleName,
+                    $responsibleContact,
+                    $neighborhood,
+                    $institution,
+                    $profileImage,
+                    $musicianId
+                );
+            }
+
+            $success = $stmt->execute();
+
+            $stmt->close();
+
+            return $success;
+
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
 
     /**
      * Retorna todos os músicos do banco, selecionados por grupo da banda, instrumento ou os dois e * ordenados pelos mesmos.
@@ -146,7 +260,6 @@ class Musicians
         }
 
         $stmt->close();
-        $db->close();
 
         return $musiciansList;
     }
@@ -161,7 +274,7 @@ class Musicians
     {
         $db = Database::getConnection();
 
-        $sql = "SELECT m.musician_id, m.musician_name, i.instrument_name, bg.group_name, m.date_of_birth, m.musician_contact, m.neighborhood, m.institution, m.responsible_name, m.responsible_contact, m.profile_image 
+        $sql = "SELECT m.musician_name, m.musician_login, m.instrument, i.instrument_name, m.band_group, bg.group_name, m.date_of_birth, m.musician_contact, m.neighborhood, m.institution, m.responsible_name, m.responsible_contact, m.profile_image 
         FROM musicians AS m 
         JOIN instruments AS i ON i.instrument_id = m.instrument
         JOIN band_groups AS bg ON bg.group_id = m.band_group
@@ -178,7 +291,32 @@ class Musicians
         $result = $stmt->get_result();
         $data = $result->fetch_assoc();
 
+        $stmt->close();
+
         return $data ?: null;
+    }
+
+    /**
+     * Recebe a imagem do músico.
+     *
+     * @param int $musicianId Id do músico
+     * @return string Imagem do músico
+     */
+
+    public static function getProfileImage(int $musicianId): string
+    {
+        $db = Database::getConnection();
+
+        $stmt = $db->prepare("SELECT profile_image FROM musicians WHERE musician_id = ?");
+        $stmt->bind_param("i", $musicianId);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+
+        $stmt->close();
+
+        return $data['profile_image'] ?? '';
     }
 
 

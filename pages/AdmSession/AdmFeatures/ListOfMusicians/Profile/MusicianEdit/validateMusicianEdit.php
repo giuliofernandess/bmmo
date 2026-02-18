@@ -1,46 +1,47 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
+require_once "../../../../../../config/config.php";
+require_once BASE_PATH . 'app/Models/Musicians.php';
 
-$requiredFields = ['idMusician', 'instrument', 'telephone', 'responsible', 'contactOfResponsible', 'neighborhood', 'institution'];
+// Função auxiliar para tratar entrada
+function postValue(string $key, string $type = 'string')
+{
+    if (!isset($_POST[$key]) || $_POST[$key] === '') {
+        return null;
+    }
 
-$idMusician = (int) $_POST['idMusician'];
-$login = trim($_POST['login']);
-$instrument = trim($_POST['instrument']);
-$bandGroup = trim($_POST['bandGroup']);
-$telephone = trim($_POST['telephone']);
-$responsible = trim($_POST['responsible']);
-$telephoneOfResponsible = trim($_POST['contactOfResponsible']);
-$neighborhood = trim($_POST['neighborhood']);
-$institution = trim($_POST['institution']);
-$password = $_POST['password'] ?? '';
-$confirmPassword = $_POST['confirmPassword'] ?? '';
-
-// Conexão com banco
-require_once '../../../../../../general-features/bdConnect.php';
-if ($connect->connect_error) {
-    error_log("Erro de conexão: " . $connect->connect_error);
-    echo "<script>alert('Erro ao conectar com o banco de dados.'); window.location.href = '../musicians.php';</script>";
-    exit;
+    return $type === 'int'
+        ? (int) $_POST[$key]
+        : trim($_POST[$key]);
 }
 
-if ($password !== $confirmPassword) {
-    echo "<script>alert('As senhas não conferem!'); window.history.back();</script>";
-    exit;
-}
+// Recebimento de variáveis pelo método POST
+$musicianId = postValue('musician-id');
+$musicianLogin = postValue('login');
+$musicianName = postValue('name');
+$login = postValue('login');
+$instrument = postValue('instrument', 'int');
+$bandGroup = postValue('group', 'int');
+$musicianContact = postValue('contact');
+$responsibleName = postValue('responsible');
+$responsibleContact = postValue('contact-of-responsible');
+$neighborhood = postValue('neighborhood');
+$institution = postValue('institution');
+$password = postValue('password');
+$confirmPassword = postValue('confirm-password');
 
-$query = "SELECT image FROM musicians WHERE idMusician = ?";
-$stmt = $connect->prepare($query);
-$stmt->bind_param("i", $idMusician);
-$stmt->execute();
-$result = $stmt->get_result();
-$currentImage = $result->fetch_assoc()['image'];
-$stmt->close();
+//Validação de imagem
+$currentImage = Musicians::getProfileImage($musicianId);
 
 $imageFileName = $currentImage;
 
 if (!empty($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
-    if ($currentImage && file_exists('../../../../../../assets/images/musicians-images/' . $currentImage)) {
-        unlink('../../../../../../assets/images/musicians-images/' . $currentImage);
+    if ($currentImage && file_exists(BASE_PATH . 'uploads/musicians-images/' . $currentImage)) {
+        unlink(BASE_PATH . 'uploads/musicians-images/' . $currentImage);
     }
 
     $fileTmpPath = $_FILES['file']['tmp_name'];
@@ -52,15 +53,19 @@ if (!empty($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
     $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
 
     if (!in_array($fileExtension, $allowedExtensions)) {
-        die('Extensão de arquivo inválida. Permitido apenas jpg, jpeg, png, gif.');
+        $_SESSION['error'] = "Extensão de arquivo inválida. Permitido apenas jpg, jpeg, png, gif.";
+        header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/ListOfMusicians/Profile/MusicianEdit/MusicianEdit.php?musicianId={$musicianId}");
+        exit;
     }
 
     if ($fileSize > 5 * 1024 * 1024) {
-        die('Arquivo muito grande. Máximo permitido: 5MB.');
+        $_SESSION['error'] = "Arquivo muito grande. Máximo permitido: 5MB.";
+        header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/ListOfMusicians/Profile/MusicianEdit/MusicianEdit.php?musicianId={$musicianId}");
+        exit;
     }
 
     $newFileName = uniqid('profile_', true) . '.' . $fileExtension;
-    $uploadFileDir = '../../../../../../assets/images/musicians-images/';
+    $uploadFileDir = BASE_PATH . 'uploads/musicians-images/';
 
     if (!is_dir($uploadFileDir)) {
         mkdir($uploadFileDir, 0755, true);
@@ -71,32 +76,44 @@ if (!empty($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
     if (move_uploaded_file($fileTmpPath, $destPath)) {
         $imageFileName = $newFileName;
     } else {
-        die('Erro ao mover a imagem para o diretório.');
+        $_SESSION['error'] = "Erro ao enviar a imagem.";
+        header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/ListOfMusicians/Profile/MusicianEdit/MusicianEdit.php?musicianId={$musicianId}");
+        exit;
     }
 }
 
-$stmt = $connect->prepare("UPDATE musicians SET login = ?, instrument = ?, bandGroup = ?, telephone = ?, responsible = ?, telephoneOfResponsible = ?, neighborhood = ?, institution = ?, image = ?, password = ? WHERE idMusician = ?");
-if (!$stmt) {
-    error_log("Erro na preparação da query: " . $connect->error);
-    echo "<script>alert('Erro interno no servidor.'); window.location.href = '../musicianProfile.php?idMusician={$idMusician}';</script>";
-    exit;
+/* Valida senha */
+if (!empty($password) || !empty($confirmPassword)) {
+    if ($password !== $confirmPassword) {
+        $_SESSION['error'] = "As senhas não conferem.";
+        header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/ListOfMusicians/Profile/MusicianEdit/musicianEdit.php?musicianId={$musicianId}");
+        exit;
+    }
 }
 
-$stmt->bind_param("ssssssssssi", $login, $instrument, $bandGroup, $telephone, $responsible, $telephoneOfResponsible, $neighborhood, $institution, $imageFileName, $password, $idMusician);
+// Criação da notícia via Model
+$musicianInfo = [
+    'id' => $musicianId,
+    'login' => $musicianLogin,
+    'instrument' => $instrument,
+    'band_group' => $bandGroup,
+    'musician_contact' => $musicianContact,
+    'responsible_name' => $responsibleName,
+    'responsible_contact' => $responsibleContact,
+    'neighborhood' => $neighborhood,
+    'institution' => $institution,
+    'profile_image' => $imageFileName,
+    'password' => $password
+];
 
-if ($stmt->execute()) {
-    if ($stmt->affected_rows > 0) {
-        echo "<script>alert('O músico foi editado com sucesso!'); window.location.href = '../musicianProfile.php?idMusician={$idMusician}';</script>";
-    } else {
-        echo "<script>alert(' [ERRO] Nenhum dado editado!'); window.history.back();</script>";
-    }
-
+if (Musicians::musicianEdit($musicianInfo)) {
+    $_SESSION['success'] = "Músico editado com sucesso!";
 } else {
-    error_log("Erro ao executar a query: " . $stmt->error);
-    echo "<script>alert('Erro ao editar o músico.'); window.history.back();</script>";
+    $_SESSION['error'] = "Erro ao editar o músico. Tente novamente.";
 }
 
-$stmt->close();
-$connect->close();
+// Redireciona de volta para a página musicians
+header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/ListOfMusicians/Profile/musicianProfile.php?musicianId={$musicianId}");
+exit;
 
 ?>
