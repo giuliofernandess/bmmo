@@ -1,6 +1,9 @@
 <?php
 require_once "../../../../config/config.php";
+
 require_once BASE_PATH . "app/Auth/Auth.php";
+require_once BASE_PATH . "app/Models/BandGroups.php";
+require_once BASE_PATH . "app/Models/Instruments.php";
 
 Auth::requireRegency();
 ?>
@@ -32,13 +35,75 @@ Auth::requireRegency();
     <h1 class="mb-4 text-center">Lista dos músicos BMMO</h1>
 
     <?php
+    $groups = BandGroups::getAll();
+    $instruments = Instruments::getAll();
+
+    $filterName = $_GET['name'] ?? '';
+    $filterGroup = isset($_GET['group']) ? (int) $_GET['group'] : 0;
+    $filterInstrument = isset($_GET['instrument']) ? (int) $_GET['instrument'] : 0;
+    ?>
+
+    <div class="card shadow-sm border-0 mb-5">
+      <div class="card-body">
+        <form method="GET" class="row g-3 align-items-end">
+
+          <!-- Nome -->
+          <div class="col-12 col-md-4">
+            <label class="form-label fw-semibold">Nome do músico</label>
+            <input type="text" name="name" value="<?= htmlspecialchars($filterName) ?>" class="form-control"
+              placeholder="Digite o nome">
+          </div>
+
+          <!-- Grupo -->
+          <div class="col-12 col-md-3">
+            <label class="form-label fw-semibold">Grupo da banda</label>
+            <select name="group" class="form-select">
+              <option value="0">Todos</option>
+              <?php foreach ($groups as $group): ?>
+                <option value="<?= $group['group_id'] ?>" <?= $filterGroup == $group['group_id'] ? 'selected' : '' ?>>
+                  <?= htmlspecialchars($group['group_name']) ?>
+                </option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+
+          <!-- Instrumento -->
+          <div class="col-12 col-md-3">
+            <label class="form-label fw-semibold">Instrumento</label>
+            <select name="instrument" class="form-select">
+              <option value="0">Todos</option>
+              <?php foreach ($instruments as $inst): ?>
+                <option value="<?= $inst['instrument_id'] ?>" <?= $filterInstrument == $inst['instrument_id'] ? 'selected' : '' ?>>
+                  <?= htmlspecialchars($inst['instrument_name']) ?>
+                </option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+
+          <!-- Botão submit -->
+          <div class="col-12 col-md-2 d-grid">
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-search me-1"></i> Filtrar
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+
+    <?php
 
     require_once BASE_PATH . "app/Models/Musicians.php";
 
-    $musiciansList = Musicians::getAll();
+    $musiciansList = Musicians::getAll(
+      $filterName,
+      $filterGroup,
+      $filterInstrument
+    );
 
     if (empty($musiciansList)) {
-      echo "<div class='no-musician'>Nenhum músico cadastrado no momento.</div>";
+      echo "<div class='no-musician'>Nenhum músico encontrado.</div>";
     } else {
       $instrument = '';
 
@@ -70,7 +135,8 @@ Auth::requireRegency();
         <div class='col-12 col-md-6 col-lg-3 mb-5'>
           <div class='card musician-card border-0 shadow-sm'>
             <img src='<?= $image ?>' class='card-img-top' alt='Imagem de <?= $musicianName ?>'>
-            <a href='Profile/musicianProfile.php?idMusician=<?= $musicianId ?>' class='card-body d-flex flex-column text-decoration-none'>
+            <a href='Profile/musicianProfile.php?idMusician=<?= $musicianId ?>'
+              class='card-body d-flex flex-column text-decoration-none'>
               <h4 class='card-title fw-semibold text-center mb-3'><?= $musicianName ?></h4>
               <p class="text-center text-dark-emphasis mb-3 fs-5"><?= $bandGroup ?></p>
               <button class='btn btn-outline-primary mt-auto w-100'>
