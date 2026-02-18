@@ -81,12 +81,13 @@ class Musicians
     /**
      * Retorna todos os músicos do banco, selecionados por grupo da banda, instrumento ou os dois e * ordenados pelos mesmos.
      *
-     * @param int $bandGroup Grupo da banda
-     * @param int $instrument Instrumento
+     * @param string $musicianName nome do músico
+     * @param int $bandGroup grupo da banda
+     * @param int $instrument instrumento
      * @return array Array de músicos (cada músico é um array associativo)
      */
 
-    public static function getAll(int $bandGroup = 0, int $instrument = 0): array
+    public static function getAll(string $musicianName = '', int $bandGroup = 0, int $instrument = 0): array
     {
         $db = Database::getConnection();
 
@@ -97,6 +98,12 @@ class Musicians
 
         $sql .= " JOIN instruments AS i ON i.instrument_id = m.instrument
                 JOIN band_groups AS bg ON bg.group_id = m.band_group";
+
+        if ($musicianName !== '') {
+            $conditions[] = "m.musician_name LIKE ?";
+            $params[] = "%$musicianName%";
+            $types .= "s";
+        }
 
         if ($bandGroup !== 0) {
             $conditions[] = "m.band_group = ?";
