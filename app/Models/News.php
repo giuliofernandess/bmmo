@@ -34,11 +34,9 @@ class News
             $success = $stmt->execute();
 
             $stmt->close();
-            $db->close();
 
             return $success;
         } catch (\Exception $e) {
-            $db->close();
             return false;
         }
     }
