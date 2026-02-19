@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../../../../../../../config/config.php";
+require_once "../../../../../../config/config.php";
 require_once BASE_PATH . 'app/Models/Musicians.php';
 
 $musicianId = isset($_POST['musicianId']) ? (int) $_POST['musicianId'] : null;
