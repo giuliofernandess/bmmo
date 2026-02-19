@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 16/02/2026 às 19:00
+-- Tempo de geração: 19/02/2026 às 16:58
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -152,11 +152,11 @@ CREATE TABLE `regency` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `instruments`
+-- Despejando dados para a tabela `regency`
 --
 
 INSERT INTO `regency` (`regency_login`, `password`) VALUES
-('raul.anderson', 'Maestro@2026');
+('raul.anderson', '$2y$10$hZWNXejXKRn4gFOnWMR7pO.ZbDszPJM.clGqi2OsKgp1G.QQNLGqG');
 
 -- --------------------------------------------------------
 
@@ -230,13 +230,13 @@ ALTER TABLE `repertoire`
 -- AUTO_INCREMENT de tabela `band_groups`
 --
 ALTER TABLE `band_groups`
-  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `instruments`
 --
 ALTER TABLE `instruments`
-  MODIFY `instrument_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `instrument_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de tabela `musical_scores`
