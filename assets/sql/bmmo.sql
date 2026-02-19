@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 19/02/2026 às 16:58
+-- Tempo de geração: 19/02/2026 às 20:03
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -62,31 +62,37 @@ INSERT INTO `instruments` (`instrument_id`, `instrument_name`) VALUES
 (1, 'Flauta Doce'),
 (2, 'Flauta'),
 (3, 'Lira'),
-(4, '1° Clarinete'),
-(5, '2° Clarinete'),
-(6, '3° Clarinete'),
-(7, '1° Sax Alto'),
-(8, '2° Sax Alto'),
-(9, '3° Sax Alto'),
-(10, '1° Sax Tenor'),
-(11, '2° Sax Tenor'),
-(12, '3° Sax Tenor'),
-(13, '1° Trompete'),
-(14, '2° Trompete'),
-(15, '3° Trompete'),
-(16, '1° Trompa'),
-(17, '2° Trompa'),
-(18, '3° Trompa'),
-(19, '1° Trombone'),
-(20, '2° Trombone'),
-(21, '3° Trombone'),
-(22, 'Bombardino'),
-(23, 'Tuba'),
-(24, 'Percussão'),
-(25, 'Caixa'),
-(26, 'Prato'),
-(27, 'Tarol'),
-(28, 'Bumbo');
+(4, 'Clarinete'),
+(5, 'Sax Alto'),
+(6, 'Sax Tenor'),
+(7, 'Trompete'),
+(8, 'Trompa'),
+(9, 'Trombone'),
+(10, '1° Clarinete'),
+(11, '2° Clarinete'),
+(12, '3° Clarinete'),
+(13, '1° Sax Alto'),
+(14, '2° Sax Alto'),
+(15, '3° Sax Alto'),
+(16, '1° Sax Tenor'),
+(17, '2° Sax Tenor'),
+(18, '3° Sax Tenor'),
+(19, '1° Trompete'),
+(20, '2° Trompete'),
+(21, '3° Trompete'),
+(22, '1° Trompa'),
+(23, '2° Trompa'),
+(24, '3° Trompa'),
+(25, '1° Trombone'),
+(26, '2° Trombone'),
+(27, '3° Trombone'),
+(28, 'Bombardino'),
+(29, 'Tuba'),
+(30, 'Percussão'),
+(31, 'Caixa'),
+(32, 'Prato'),
+(33, 'Tarol'),
+(34, 'Bumbo');
 
 -- --------------------------------------------------------
 
@@ -95,10 +101,10 @@ INSERT INTO `instruments` (`instrument_id`, `instrument_name`) VALUES
 --
 
 CREATE TABLE `musical_scores` (
-  `id` int(11) NOT NULL,
+  `music_id` int(11) NOT NULL,
   `music_name` varchar(100) NOT NULL,
   `instrument` int(11) NOT NULL,
-  `band_group` int(11) NOT NULL,
+  `band_groups` int(11) NOT NULL,
   `musical_genre` varchar(100) NOT NULL,
   `file` tinytext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -122,6 +128,18 @@ CREATE TABLE `musicians` (
   `neighborhood` varchar(50) NOT NULL,
   `institution` varchar(255) DEFAULT NULL,
   `password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `music_group`
+--
+
+CREATE TABLE `music_group` (
+  `id` int(11) NOT NULL,
+  `musical_score` int(11) NOT NULL,
+  `band_group` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -194,7 +212,9 @@ ALTER TABLE `instruments`
 -- Índices de tabela `musical_scores`
 --
 ALTER TABLE `musical_scores`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`music_id`),
+  ADD KEY `musical_scores_ibfk_1` (`instrument`),
+  ADD KEY `musical_scores_ibfk_2` (`band_groups`);
 
 --
 -- Índices de tabela `musicians`
@@ -203,6 +223,14 @@ ALTER TABLE `musicians`
   ADD PRIMARY KEY (`musician_id`),
   ADD KEY `instrument` (`instrument`),
   ADD KEY `band_group` (`band_group`);
+
+--
+-- Índices de tabela `music_group`
+--
+ALTER TABLE `music_group`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `music_group_ibfk_1` (`musical_score`),
+  ADD KEY `music_group_ibfk_2` (`band_group`);
 
 --
 -- Índices de tabela `news`
@@ -236,19 +264,25 @@ ALTER TABLE `band_groups`
 -- AUTO_INCREMENT de tabela `instruments`
 --
 ALTER TABLE `instruments`
-  MODIFY `instrument_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `instrument_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT de tabela `musical_scores`
 --
 ALTER TABLE `musical_scores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `music_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `musicians`
 --
 ALTER TABLE `musicians`
   MODIFY `musician_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `music_group`
+--
+ALTER TABLE `music_group`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `news`
@@ -271,7 +305,7 @@ ALTER TABLE `repertoire`
 --
 ALTER TABLE `musical_scores`
   ADD CONSTRAINT `musical_scores_ibfk_1` FOREIGN KEY (`instrument`) REFERENCES `instruments` (`instrument_id`),
-  ADD CONSTRAINT `musical_scores_ibfk_2` FOREIGN KEY (`band_group`) REFERENCES `band_groups` (`group_id`);
+  ADD CONSTRAINT `musical_scores_ibfk_2` FOREIGN KEY (`band_groups`) REFERENCES `music_group` (`id`);
 
 --
 -- Restrições para tabelas `musicians`
@@ -279,6 +313,13 @@ ALTER TABLE `musical_scores`
 ALTER TABLE `musicians`
   ADD CONSTRAINT `musicians_ibfk_1` FOREIGN KEY (`instrument`) REFERENCES `instruments` (`instrument_id`),
   ADD CONSTRAINT `musicians_ibfk_2` FOREIGN KEY (`band_group`) REFERENCES `band_groups` (`group_id`);
+
+--
+-- Restrições para tabelas `music_group`
+--
+ALTER TABLE `music_group`
+  ADD CONSTRAINT `music_group_ibfk_1` FOREIGN KEY (`musical_score`) REFERENCES `musical_scores` (`music_id`),
+  ADD CONSTRAINT `music_group_ibfk_2` FOREIGN KEY (`band_group`) REFERENCES `band_groups` (`group_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
