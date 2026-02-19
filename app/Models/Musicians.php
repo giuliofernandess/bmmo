@@ -193,6 +193,29 @@ class Musicians
 
 
     /**
+     * Apaga uma linha do banco de dados.
+     *
+     * @param int $musicianId Id do músico
+     * @return bool Booleano (true, false)
+     */
+
+    public static function deleteMusician(int $musicianId): bool
+    {
+        $db = Database::getConnection();
+
+        $stmt = $db->prepare("DELETE FROM musicians WHERE musician_id = ?");
+        $stmt->bind_param("i", $musicianId);
+        $stmt->execute();
+
+        $affected = $stmt->affected_rows;
+
+        $stmt->close();
+
+        return $affected > 0;
+    }
+
+
+    /**
      * Retorna todos os músicos do banco, selecionados por grupo da banda, instrumento ou os dois e * ordenados pelos mesmos.
      *
      * @param string $musicianName nome do músico
