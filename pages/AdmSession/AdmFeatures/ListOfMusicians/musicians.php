@@ -142,6 +142,10 @@ Auth::requireRegency();
           : BASE_URL . "uploads/musicians-images/default.png";
 
         if ($instrument != htmlspecialchars($res['instrument_name'] ?? '', ENT_QUOTES, 'UTF-8')) {
+          if ($instrument != '') {
+            echo "</div>";
+          }
+          
           $instrument = htmlspecialchars($res['instrument_name'] ?? '', ENT_QUOTES, 'UTF-8');
           echo "<h2 class='mt-5 border-bottom pb-2 text-primary mb-4'>$instrument</h2>";
           echo "<div class='row g-4 mt-3'>";
@@ -162,7 +166,8 @@ Auth::requireRegency();
           </div>
         </div>
 
-      <?php }
+        <?php 
+      } echo "</div>";
     } ?>
 
   </main>
