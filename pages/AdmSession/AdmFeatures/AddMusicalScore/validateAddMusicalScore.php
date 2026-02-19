@@ -1,10 +1,25 @@
 <?php
-require_once '../../../../../../general-features/bdConnect.php';
+session_start();
+require_once '../../../../config/config.php';
+require_once BASE_PATH . 'app/Models/MusicalScores.php';
 
-$name = trim($_POST['name']);
-$instrument = trim($_POST['instrument']);
-$bandGroup = trim($_POST['bandGroup']);
-$musicalGenre = trim($_POST['musicalGenre']);
+// Recebe dados do formulário
+$musicName = trim($_POST['name'] ?? null);
+$instrument = (int) $_POST['instrument'] ?? null;
+
+// Tratamento de grupos
+$bandGroups = $_POST['band-group'] ?? [];
+$stringBandGroups = implode('', $bandGroups);
+$intBandGroups = (int)$stringBandGroups;
+
+$musicalGenre = trim($_POST['musical-genre'] ?? null);
+
+// Validação de grupos
+if (empty($bandGroups)) {
+    $_SESSION['error'] = "Selecione pelo menos um grupo.";
+    header("Location: addMusicalScore.php");
+    exit;
+}
 
 // Validação simples do arquivo
 $FileName = null;
@@ -18,15 +33,19 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
     $allowedExtensions = ['pdf'];
 
     if (!in_array($fileExtension, $allowedExtensions)) {
-        die('Extensão de arquivo inválida. Permitido apenas pdf');
+        $_SESSION['error'] = "Extensão de arquivo inválida. Permitido apenas pdf.";
+        header("Location: addMusicalScore.php");
+        exit;
     }
 
     if ($fileSize > 5 * 1024 * 1024) {
-        die('Arquivo muito grande. Máximo permitido: 5MB.');
+        $_SESSION['error'] = "Arquivo muito grande. Máximo permitido: 5MB.";
+        header("Location: addMusicalScore.php");
+        exit;
     }
 
-    $newFileName = uniqid('profile_', true) . '.' . $fileExtension;
-    $uploadFileDir = '../../../../../../assets/musical-scores/';
+    $newFileName = uniqid('music_', true) . '.' . $fileExtension;
+    $uploadFileDir = BASE_PATH . 'uploads/musical-scores/';
 
     if (!is_dir($uploadFileDir)) {
         mkdir($uploadFileDir, 0755, true);
@@ -37,19 +56,28 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
     if (move_uploaded_file($fileTmpPath, $destPath)) {
         $FileName = $newFileName;
     } else {
-        die('Erro ao mover o arquivo para o diretório.');
+        $_SESSION['error'] = "Erro ao enviar a imagem.";
+        header("Location: addMusicalScore.php");
+        exit;
     }
 }
 
-$stmt = $connect->prepare("INSERT INTO `musical_scores` (`name`, `instrument`, `file`, `bandGroup`, `musicalGenre`) VALUES (?, ?, ?, ?, ?)");
-$stmt->bind_param("sssss", $name, $instrument, $FileName, $bandGroup, $musicalGenre);
+// Criação da notícia via Model
+$musicInfo = [
+    'music_name' => $musicName,
+    'instrument' => $instrument,
+    'band_groups' => $intBandGroups,
+    'musical_genre' => $musicalGenre,
+    'file' => $FileName
+];
 
-if ($stmt->execute()) {
-    echo "<script>alert('Partitura adicionada com sucesso!'); window.location.href='addMusicalScore.php';</script>";
+if (MusicalScores::musicalScoreCreate($musicInfo)) {
+    $_SESSION['success'] = "Partitura cadastrada com sucesso!";
 } else {
-    echo "<script>alert('Erro ao adicionar.'); window.location.href='newsCreate.php';</script>";
+    $_SESSION['error'] = "Erro ao cadastrar partitura. Tente novamente.";
 }
 
-$stmt->close();
-$connect->close();
+// Redireciona de volta para o formulário
+header("Location:" . BASE_PATH . "pages/AdmSession/AdmFeatures/ListOfMusicalScores/listOfMusicalScores.php");
+exit;
 ?>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 19/02/2026 às 20:03
+-- Tempo de geração: 19/02/2026 às 20:44
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -133,18 +133,6 @@ CREATE TABLE `musicians` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `music_group`
---
-
-CREATE TABLE `music_group` (
-  `id` int(11) NOT NULL,
-  `musical_score` int(11) NOT NULL,
-  `band_group` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Estrutura para tabela `news`
 --
 
@@ -213,8 +201,7 @@ ALTER TABLE `instruments`
 --
 ALTER TABLE `musical_scores`
   ADD PRIMARY KEY (`music_id`),
-  ADD KEY `musical_scores_ibfk_1` (`instrument`),
-  ADD KEY `musical_scores_ibfk_2` (`band_groups`);
+  ADD KEY `musical_scores_ibfk_1` (`instrument`);
 
 --
 -- Índices de tabela `musicians`
@@ -223,14 +210,6 @@ ALTER TABLE `musicians`
   ADD PRIMARY KEY (`musician_id`),
   ADD KEY `instrument` (`instrument`),
   ADD KEY `band_group` (`band_group`);
-
---
--- Índices de tabela `music_group`
---
-ALTER TABLE `music_group`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `music_group_ibfk_1` (`musical_score`),
-  ADD KEY `music_group_ibfk_2` (`band_group`);
 
 --
 -- Índices de tabela `news`
@@ -279,12 +258,6 @@ ALTER TABLE `musicians`
   MODIFY `musician_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `music_group`
---
-ALTER TABLE `music_group`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de tabela `news`
 --
 ALTER TABLE `news`
@@ -304,8 +277,7 @@ ALTER TABLE `repertoire`
 -- Restrições para tabelas `musical_scores`
 --
 ALTER TABLE `musical_scores`
-  ADD CONSTRAINT `musical_scores_ibfk_1` FOREIGN KEY (`instrument`) REFERENCES `instruments` (`instrument_id`),
-  ADD CONSTRAINT `musical_scores_ibfk_2` FOREIGN KEY (`band_groups`) REFERENCES `music_group` (`id`);
+  ADD CONSTRAINT `musical_scores_ibfk_1` FOREIGN KEY (`instrument`) REFERENCES `instruments` (`instrument_id`);
 
 --
 -- Restrições para tabelas `musicians`
@@ -313,13 +285,6 @@ ALTER TABLE `musical_scores`
 ALTER TABLE `musicians`
   ADD CONSTRAINT `musicians_ibfk_1` FOREIGN KEY (`instrument`) REFERENCES `instruments` (`instrument_id`),
   ADD CONSTRAINT `musicians_ibfk_2` FOREIGN KEY (`band_group`) REFERENCES `band_groups` (`group_id`);
-
---
--- Restrições para tabelas `music_group`
---
-ALTER TABLE `music_group`
-  ADD CONSTRAINT `music_group_ibfk_1` FOREIGN KEY (`musical_score`) REFERENCES `musical_scores` (`music_id`),
-  ADD CONSTRAINT `music_group_ibfk_2` FOREIGN KEY (`band_group`) REFERENCES `band_groups` (`group_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

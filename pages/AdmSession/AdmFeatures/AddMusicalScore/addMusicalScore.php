@@ -1,11 +1,11 @@
 <?php
+require_once "../../../../config/config.php";
+require_once BASE_PATH . "app/Auth/Auth.php";
 
-session_start();
+require_once BASE_PATH . "app/Models/Instruments.php";
+require_once BASE_PATH . "app/Models/BandGroups.php";
 
-if (!isset($_SESSION['login'])) {
-  echo "<meta http-equiv='refresh' content='0; url=../../../../Index/index.php'>";
-}
-
+Auth::requireRegency();
 ?>
 
 <!DOCTYPE html>
@@ -15,34 +15,40 @@ if (!isset($_SESSION['login'])) {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Adicionar Partitura</title>
-  <script src="../../../../../../js/jquery.js"></script>
-  <link rel="shortcut icon" href="../../../../../../assets/images/logo_banda.png" type="image/x-icon">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="<?= BASE_URL ?>assets/images/logo_banda.png" type="image/x-icon">
+
+  <!-- Bootstrap + CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-  <link rel="stylesheet" href="../../../../../../assets/css/style.css">
-  <link rel="stylesheet" href="../../../../../../assets/css/form.css">
+
+  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/form.css">
 </head>
 
 <body>
+  <!-- Toast de erro -->
+  <?php if (isset($_SESSION['error'])): ?>
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+      <div class="toast align-items-center text-bg-danger border-0 show" role="alert">
+        <div class="d-flex">
+          <div class="toast-body">
+            <?= htmlspecialchars($_SESSION['error']); ?>
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto"
+            onclick="this.closest('.toast-container').remove()"></button>
+        </div>
+      </div>
+    </div>
+    <?php unset($_SESSION['error']); // remove para não aparecer novamente ?>
+  <?php endif; ?>
 
   <!-- Header -->
-  <header class="d-flex align-items-center justify-content-between px-3 mb-auto">
-    <a href="#" class="d-flex align-items-center text-white text-decoration-none">
-      <img src="../../../../../../assets/images/logo_banda.png" alt="Logo Banda" width="30" height="30" class="me-2">
-      <span class="fs-5 fw-bold">BMMO Online - Maestro</span>
-    </a>
-    <nav>
-      <ul class="nav">
-        <li class="nav-item">
-          <a href="../../musicalScores.php" class="nav-link text-white" style="font-size: 1.4rem;"><i
-              class="bi bi-arrow-90deg-left"></i></a>
-        </li>
-      </ul>
-    </nav>
-  </header>
+  <?php require_once BASE_PATH . "includes/secondHeader.php"; ?>
 
   <main class="flex-grow-1 d-flex align-items-center justify-content-center flex-column py-5">
-    <div class="container login-container">
+    <div class="container login-container" style="max-width: 800px;">
       <h1 class="text-center mb-4">Criar Partitura</h1>
       <form method="post" action="validateAddMusicalScore.php" enctype="multipart/form-data" class="row g-3">
 
@@ -55,51 +61,60 @@ if (!isset($_SESSION['login'])) {
         <div>
           <label for="instrument" class="form-label ps-2">Instrumento *</label>
           <select name="instrument" id="instrument" class="form-control" required>
-            <option value="">Selecione</option>
-            <option value="Flauta Doce">Flauta Doce</option>
-            <option value="Flauta">Flauta</option>
-            <option value="Lira">Lira</option>
-            <option value="Clarinete 1 Clarinete 2 Clarinete 3">Clarinete</option>
-            <option value="Clarinete 1">1° Clarinete</option>
-            <option value="Clarinete 2">2° Clarinete</option>
-            <option value="Clarinete 3">3° Clarinete</option>
-            <option value="Sax Alto 1 Sax Alto 2">Sax Alto</option>
-            <option value="Sax Alto 1">1° Sax Alto</option>
-            <option value="Sax Alto 2">2° Sax Alto</option>
-            <option value="Sax Tenor 1 Sax Tenor 1">Sax Tenor</option>
-            <option value="Sax Tenor 1">1° Sax Tenor</option>
-            <option value="Sax Tenor 2">2° Sax Tenor</option>
-            <option value="Trompete 1 Trompete 2 Trompete 3">Trompete</option>
-            <option value="Trompete 1">1° Trompete</option>
-            <option value="Trompete 2">2° Trompete</option>
-            <option value="Trompete 3">3° Trompete</option>
-            <option value="Trompa 1 Trompa 2">Trompa</option>
-            <option value="Trompa 1">1° Trompa</option>
-            <option value="Trompa 2">2° Trompa</option>
-            <option value="Trombone 1 Trombone 2 Trombone 3">Trombone</option>
-            <option value="Trombone 1">1° Trombone</option>
-            <option value="Trombone 2">2° Trombone</option>
-            <option value="Trombone 3">3° Trombone</option>
-            <option value="Bombardino">Bombardino</option>
-            <option value="Tuba">Tuba</option>
+            <option value="0">Selecione</option>
+
+            <?php
+            // Busca todas os instrumentos via POO
+            $instrumentsList = Instruments::getAll(true);
+
+            // Itera sobre cada instrumento
+            foreach ($instrumentsList as $instrumentItem) {
+
+              // Dados do instrumento
+              $instrumentId = (int) $instrumentItem['instrument_id'];
+              $instrumentName = htmlspecialchars($instrumentItem['instrument_name'] ?? '', ENT_QUOTES, 'UTF-8');
+              ?>
+
+              <!-- Options -->
+              <option value="<?= htmlspecialchars($instrumentId) ?>" <?= $instrumentId == $instrument ? 'selected' : '' ?>>
+                <?= $instrumentName ?>
+              </option>
+
+              <?php
+            }
+            ?>
+
           </select>
         </div>
 
         <!-- Grupo pertencente + Tipo de Música -->
         <div>
-          <label for="group" class="form-label ps-2">Grupo da Banda *</label>
-          <select name="bandGroup" id="group" class="form-control" required>
-            <option value="">Selecione</option>
-            <option value="Banda Principal">Banda Principal</option>
-            <option value="Banda Auxiliar">Banda Auxiliar</option>
-            <option value="Escola">Escola de Música</option>
-            <option value="Flauta Doce">Flauta Doce</option>
-          </select>
+          <label for="group" class="form-label ps-2">Grupo da Banda *</label><br>
+
+            <?php
+            // Busca todas os grupos via POO
+            $groupsList = BandGroups::getAll();
+
+
+            // Itera sobre cada grupo
+            foreach ($groupsList as $groupItem) {
+
+              // Dados do grupo
+              $groupId = (int) $groupItem['group_id'];
+              $groupName = htmlspecialchars($groupItem['group_name'] ?? '', ENT_QUOTES, 'UTF-8');
+              ?>
+
+              <!-- Checkboxs -->
+              <input type="checkbox" name="band-group[]" class="ms-2" value="<?= htmlspecialchars($groupId) ?>"> <?= $groupName ?><br>
+
+              <?php
+            }
+            ?>
         </div>
 
         <div>
-          <label for="musicalGenre" class="form-label ps-2">Categoria *</label>
-          <select name="musicalGenre" id="musicalGenre" class="form-control" required>
+          <label for="musical-genre" class="form-label ps-2">Categoria *</label>
+          <select name="musical-genre" id="musical-genre" class="form-control" required>
             <option value="">Selecione</option>
             <option value="Carnaval">Carnaval</option>
             <option value="Datas Comemorativas">Datas Comemorativas</option>
@@ -118,8 +133,8 @@ if (!isset($_SESSION['login'])) {
 
         <!-- Arquivo -->
         <div>
-          <label for="inputFile" class="form-label ps-2">Arquivo *</label>
-          <input type="file" name="file" id="inputFile" class="form-control" accept="application/pdf" required>
+          <label for="input-file" class="form-label ps-2">Arquivo *</label>
+          <input type="file" name="file" id="input-file" class="form-control" accept="application/pdf" required>
         </div>
 
         <!-- Botão de adicionar -->
@@ -132,9 +147,12 @@ if (!isset($_SESSION['login'])) {
   </main>
 
   <!-- Footer -->
-  <?php require_once '../../../../../../general-features/footer.php'; ?>
+  <?php require_once BASE_PATH . "includes/footer.php"; ?>
 
+  <!-- Scripts -->
+   <script src="<?= BASE_URL ?>assets/js/removeToast.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="<?= BASE_URL ?>assets/js/jquery.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
 </body>
 
