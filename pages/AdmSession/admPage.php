@@ -105,7 +105,7 @@ Auth::requireRegency();
 
         <!-- Card: Cadastrar Partitura -->
         <div class="col">
-          <a href="AddMusicalScores/addMusicalScore.php" class="text-decoration-none text-dark">
+          <a href="AdmFeatures/AddMusicalScore/addMusicalScore.php" class="text-decoration-none text-dark">
             <div class="card h-100 shadow-sm border-0 p-3">
               <i class="bi bi-music-note-beamed fs-2 text-success mb-2"></i>
               <h5 class="fw-bold">Adicionar Partitura</h5>
@@ -116,7 +116,7 @@ Auth::requireRegency();
 
         <!-- Card: Lista de paritituras -->
         <div class="col">
-          <a href="ListOfMusicalScores/listOfMusicalScores.php"
+          <a href="AdmFeatures/ListOfMusicalScores/listOfMusicalScores.php"
             class="text-decoration-none text-dark">
             <div class="card h-100 shadow-sm border-0 p-3">
               <i class="bi bi-music-note-list fs-2 text-danger mb-2"></i>
