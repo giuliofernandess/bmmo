@@ -61,16 +61,10 @@ $profile_image = $profile_image ? htmlspecialchars($profile_image) : "default.pn
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
 
   <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/musicianProfile.css">
 
   <style>
-    .btn {
-      transition: .2s;
-    }
-
-    .btn:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
-    }
+    
   </style>
 </head>
 
@@ -96,13 +90,13 @@ $profile_image = $profile_image ? htmlspecialchars($profile_image) : "default.pn
 
   <main class="flex-fill py-5">
     <div class="container">
-      <div class="card shadow mx-auto" style="max-width: 1200px;">
+      <div class="card shadow mx-auto">
         <div class="row g-0">
 
           <!-- Imagem -->
           <div class="col-md-4 text-center bg-secondary">
             <img src="<?= BASE_URL ?>uploads/musicians-images/<?= $profile_image; ?>"
-              class="img-fluid rounded-start h-100 object-fit-cover" alt="Imagem de <?= $musician_name; ?>">
+              class="img-fluid rounded-start w-100 h-100 object-fit-cover card-image" alt="Imagem de <?= $musician_name; ?>">
           </div>
 
           <!-- Dados do músico -->
