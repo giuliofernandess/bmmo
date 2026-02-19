@@ -96,11 +96,11 @@ INSERT INTO `instruments` (`instrument_id`, `instrument_name`) VALUES
 
 CREATE TABLE `musical_scores` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `instrument` varchar(30) NOT NULL,
-  `bandGroup` varchar(30) NOT NULL,
-  `musicalGenre` varchar(50) NOT NULL,
-  `file` tinytext DEFAULT NULL
+  `music_name` varchar(100) NOT NULL,
+  `instrument` int(11) NOT NULL,
+  `band_group` int(11) NOT NULL,
+  `musical_genre` varchar(100) NOT NULL,
+  `file` tinytext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -265,6 +265,13 @@ ALTER TABLE `repertoire`
 --
 -- Restrições para tabelas despejadas
 --
+
+--
+-- Restrições para tabelas `musical_scores`
+--
+ALTER TABLE `musical_scores`
+  ADD CONSTRAINT `musical_scores_ibfk_1` FOREIGN KEY (`instrument`) REFERENCES `instruments` (`instrument_id`),
+  ADD CONSTRAINT `musical_scores_ibfk_2` FOREIGN KEY (`band_group`) REFERENCES `band_groups` (`group_id`);
 
 --
 -- Restrições para tabelas `musicians`
