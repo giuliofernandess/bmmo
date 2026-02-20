@@ -104,7 +104,7 @@ CREATE TABLE `musical_scores` (
   `music_id` int(11) NOT NULL,
   `music_name` varchar(100) NOT NULL,
   `instrument` int(11) NOT NULL,
-  `band_groups` int(11) NOT NULL,
+  `band_groups` varchar(100) NOT NULL,
   `musical_genre` varchar(100) NOT NULL,
   `file` tinytext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
