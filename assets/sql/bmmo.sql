@@ -127,7 +127,8 @@ CREATE TABLE `musicians` (
   `responsible_contact` varchar(50) DEFAULT NULL,
   `neighborhood` varchar(50) NOT NULL,
   `institution` varchar(255) DEFAULT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `profile_image` tinytext,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
