@@ -2,6 +2,8 @@
 require_once "../../../../config/config.php";
 
 require_once BASE_PATH . "app/Auth/Auth.php";
+
+require_once BASE_PATH . "app/Models/Musicians.php";
 require_once BASE_PATH . "app/Models/BandGroups.php";
 require_once BASE_PATH . "app/Models/Instruments.php";
 
@@ -97,8 +99,6 @@ Auth::requireRegency();
 
     <?php
 
-    require_once BASE_PATH . "app/Models/Musicians.php";
-
     $musiciansList = Musicians::getAll(
       $filterName,
       $filterGroup,
@@ -132,7 +132,7 @@ Auth::requireRegency();
           if ($instrument != '') {
             echo "</div>";
           }
-          
+
           $instrument = htmlspecialchars($res['instrument_name'] ?? '', ENT_QUOTES, 'UTF-8');
           echo "<h2 class='mt-5 border-bottom pb-2 text-primary mb-4'>$instrument</h2>";
           echo "<div class='row g-4 mt-3'>";
@@ -153,8 +153,9 @@ Auth::requireRegency();
           </div>
         </div>
 
-        <?php 
-      } echo "</div>";
+      <?php
+      }
+      echo "</div>";
     } ?>
 
   </main>
