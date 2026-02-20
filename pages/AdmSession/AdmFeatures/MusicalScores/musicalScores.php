@@ -27,6 +27,10 @@ $groups = BandGroups::getAll();
 </head>
 
 <body>
+  <!-- Toasts -->
+  <?php require BASE_PATH . "includes/sucessToast.php"; ?>
+  <?php require BASE_PATH . "includes/errorToast.php"; ?>
+
   <!-- Header -->
   <?php require BASE_PATH . "includes/secondHeader.php"; ?>
 
@@ -40,15 +44,15 @@ $groups = BandGroups::getAll();
         title="Adicionar Partitura"></i>
     </div>
 
-    <!-- Formulário de cadastro de partitura-->
+    <!-- Formulário de adição de partitura-->
     <div class="bg-white p-4 rounded shadow-sm mb-4" style="display: none;" id="presentationForm">
-      <h4 class="mb-3">Cadastrar Partitura</h4>
+      <h4 class="mb-3">Adicionar Partitura</h4>
 
-      <form action="#" method="post">
+      <form action="validateAddMusicalScore.php" method="post">
 
         <div class="mb-3">
           <label for="iname" class="form-label">Nome</label>
-          <input type="text" name="name" id="iname" class="form-control" required>
+          <input type="text" name="name-add" id="iname" class="form-control" required>
         </div>
 
         <div class="mb-3">
@@ -65,6 +69,11 @@ $groups = BandGroups::getAll();
             <label class="form-check-label"><?= $group['group_name'] ?></label><br>
           <?php endforeach; ?>
         </div>
+
+        <div class="res mb-3"></div>
+
+        <input type="submit" class="btn btn-outline-primary btn-lg rounded-pill w-100 mt-3" style="padding-top: 6px;"
+          id="ibutton" value="Adicionar Partitura">
 
       </form>
     </div>
@@ -83,8 +92,8 @@ $groups = BandGroups::getAll();
 
           <!-- Nome -->
           <div class="col-12 col-md-4">
-            <label class="form-label fw-semibold">Nome do músico</label>
-            <input type="text" name="name" value="<?= htmlspecialchars($filterName) ?>" class="form-control"
+            <label class="form-label fw-semibold">Nome da partitura</label>
+            <input type="text" name="name-filter" value="<?= htmlspecialchars($filterName) ?>" class="form-control"
               placeholder="Digite o nome">
           </div>
 
