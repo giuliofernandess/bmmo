@@ -297,7 +297,7 @@ class Musicians
     {
         $db = Database::getConnection();
 
-        $sql = "SELECT m.musician_name, m.musician_login, m.instrument, i.instrument_name, m.band_group, bg.group_name, m.date_of_birth, m.musician_contact, m.neighborhood, m.institution, m.responsible_name, m.responsible_contact, m.profile_image 
+        $sql = "SELECT m.*, i.instrument_name, bg.group_name  
         FROM musicians AS m 
         JOIN instruments AS i ON i.instrument_id = m.instrument
         JOIN band_groups AS bg ON bg.group_id = m.band_group
