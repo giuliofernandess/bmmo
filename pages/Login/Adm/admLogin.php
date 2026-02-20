@@ -29,20 +29,7 @@ session_start();
 <body class="d-flex flex-column min-vh-100">
 
   <!-- Toast de erro (aparece se $_SESSION['error'] estiver setado) -->
-  <?php if (isset($_SESSION['error'])) { ?>
-    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
-      <div class="toast align-items-center text-bg-danger border-0 show" role="alert">
-        <div class="d-flex">
-          <div class="toast-body">
-            <?= htmlspecialchars($_SESSION['error']) ?>
-          </div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto"
-            onclick="this.closest('.toast-container').remove()"></button>
-        </div>
-      </div>
-    </div>
-    <?php unset($_SESSION['error']); // Remove a mensagem de erro após exibir ?>
-  <?php } ?>
+  <?php require_once BASE_PATH . 'includes/errorToast.php'; ?>
 
   <!-- Header do site -->
   <?php require_once BASE_PATH . 'includes/firstHeader.php'; ?>
@@ -83,9 +70,6 @@ session_start();
 
   <!-- Script para mostrar/esconder senha -->
   <script src="<?= BASE_URL ?>assets/js/password.js"></script>
-
-  <!-- Script para remover toast automaticamente após 5s -->
-  <script src="<?= BASE_URL ?>assets/js/removeToast.js"></script>
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
