@@ -92,7 +92,7 @@ Auth::requireRegency();
 
         <!-- Card: Lista de Partituras -->
         <div class="col">
-          <a href="AdmFeatures/ListOfMusicalScores/listOfMusicalScores.php"
+          <a href="AdmFeatures/MusicalScores/musicalScores.php"
             class="text-decoration-none text-dark">
             <div class="card h-100 shadow-sm border-0 p-3">
               <i class="bi bi-music-note-list fs-2 text-danger mb-2"></i>
