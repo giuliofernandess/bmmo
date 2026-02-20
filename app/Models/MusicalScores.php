@@ -42,9 +42,9 @@ class MusicalScores
     }
 
     /**
-     * Retorna todas as notícias do banco, ordenadas por data de publicação descendente.
+     * Retorna todas as partituras do banco, ordenadas por gênero e nome.
      *
-     * @return array Array de notícias (cada notícia é um array associativo)
+     * @return array Array de partituras (cada partitura é um array associativo)
      */
 
     public static function getAll(): array
@@ -61,13 +61,15 @@ class MusicalScores
         $stmt->execute();
         $result = $stmt->get_result();
 
-        $newsList = [];
+        $musics = [];
 
         while ($res = $result->fetch_assoc()) {
-            $newsList[] = $res;
+            $musics[] = $res;
         }
 
-        return $newsList;
+        $stmt->close();
+
+        return $musics;
     }
 
     /**
