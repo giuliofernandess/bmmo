@@ -55,13 +55,12 @@ $profile_image = $profile_image ? htmlspecialchars($profile_image) : "default.pn
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Perfil do Músico</title>
 
-  <link rel="shortcut icon" href="<?= BASE_URL ?>/assets/images/logo_banda.png" type="image/x-icon">
+  <!-- Configurações Básicas -->
+  <?php require_once BASE_PATH . "includes/basicHead.php"; ?>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
-
-  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
+  <!-- CSS da página -->
   <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/musicianProfile.css">
+  
 </head>
 
 <body>

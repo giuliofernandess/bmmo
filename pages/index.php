@@ -14,16 +14,10 @@ require_once '../config/config.php';
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>BMMO Online</title>
 
-  <!-- Favicon -->
-  <link rel="shortcut icon" href="<?= BASE_URL ?>assets/images/logo_banda.png" type="image/x-icon">
+  <!-- Configurações Básicas -->
+  <?php require_once BASE_PATH . "includes/basicHead.php"; ?>
 
-  <!-- Bootstrap + Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
-  <!-- CSS do projeto -->
   <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/index.css">
-  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
 </head>
 
 <body class="d-flex flex-column min-vh-100">

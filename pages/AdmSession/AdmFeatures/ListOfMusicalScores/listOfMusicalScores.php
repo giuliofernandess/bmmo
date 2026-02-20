@@ -16,15 +16,12 @@ Auth::requireRegency();
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Lista de Partituras</title>
 
-  <!-- Favicon -->
-  <link rel="shortcut icon" href="<?= BASE_URL ?>assets/images/logo_banda.png" type="image/x-icon" />
+  <!-- Configurações Básicas -->
+  <?php require_once BASE_PATH . "includes/basicHead.php"; ?>
 
-  <!-- Bootstrap + CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
-
-  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
+  <!-- CSS da página -->
   <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/listOfMusicalScores.css">
+
 </head>
 
 <body>
@@ -40,7 +37,7 @@ Auth::requireRegency();
 
     $filterName = trim($_GET['name'] ?? '');
     $filterGroup = trim($_GET['group'] ?? '');
-    $filterGenre = trim($_GET['genre'] ?? '');
+    $filterGenre = trim($_GET['musical-genre'] ?? '');
     ?>
 
     <div class="card shadow-sm border-0 mb-5">
@@ -70,21 +67,7 @@ Auth::requireRegency();
           <!-- Gênero -->
           <div class="col-12 col-md-3">
             <label class="form-label fw-semibold">Gênero</label>
-            <select name="genre" class="form-select">
-              <option value="">Todos</option>
-              <option value="Carnaval">Carnaval</option>
-              <option value="Datas Comemorativas">Datas Comemorativas</option>
-              <option value="Dobrados">Dobrados</option>
-              <option value="Festa Junina">Festa Junina</option>
-              <option value="Hinos">Hinos</option>
-              <option value="Infantil">Infantil</option>
-              <option value="Internacionais">Internacionais</option>
-              <option value="Medleys">Medleys</option>
-              <option value="Nacionais">Nacionais</option>
-              <option value="Natal">Natal</option>
-              <option value="Religiosas">Religiosas</option>
-              <option value="Outras">Outras</option>
-            </select>
+            <?php require_once BASE_PATH . "includes/selectMusicalGenre.php"; ?>
           </div>
 
           <!-- Botão submit -->
