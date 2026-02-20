@@ -79,29 +79,18 @@ Auth::requireRegency();
           </a>
         </div>
 
-        <!-- Card: Repertórios -->
+        <!-- Card: Apresentações -->
         <div class="col">
           <a href="AdmFeatures/Repertoire/repertoire.php" class="text-decoration-none text-dark">
             <div class="card h-100 shadow-sm border-0 p-3">
               <i class="bi bi-calendar-week-fill fs-2 text-warning mb-2"></i>
-              <h5 class="fw-bold">Repertório</h5>
+              <h5 class="fw-bold">Apresentações</h5>
               <p class="text-muted">Divulgue as músicas à ser tocadas.</p>
             </div>
           </a>
         </div>
 
-        <!-- Card: Cadastrar Partitura -->
-        <div class="col">
-          <a href="AdmFeatures/AddMusicalScore/addMusicalScore.php" class="text-decoration-none text-dark">
-            <div class="card h-100 shadow-sm border-0 p-3">
-              <i class="bi bi-music-note-beamed fs-2 text-success mb-2"></i>
-              <h5 class="fw-bold">Adicionar Partitura</h5>
-              <p class="text-muted">Adicione partituras à seus músicos</p>
-            </div>
-          </a>
-        </div>
-
-        <!-- Card: Lista de paritituras -->
+        <!-- Card: Lista de Partituras -->
         <div class="col">
           <a href="AdmFeatures/ListOfMusicalScores/listOfMusicalScores.php"
             class="text-decoration-none text-dark">

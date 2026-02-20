@@ -3,7 +3,7 @@ require_once "../../../../config/config.php";
 require_once BASE_PATH . "app/Auth/Auth.php";
 
 require_once BASE_PATH . "app/Models/BandGroups.php";
-require_once BASE_PATH . "app/Models/MusicalScores.php";
+// require_once BASE_PATH . "app/Models/MusicalScores.php";
 
 Auth::requireRegency();
 ?>
@@ -81,7 +81,9 @@ Auth::requireRegency();
       </div>
     </div>
 
+    
     <?php
+    /*
     $musicsList = MusicalScores::getAll(
       $filterName,
       $filterGroup,
@@ -139,6 +141,8 @@ Auth::requireRegency();
       echo "<div class='no-musics'>Nenhuma partitura encontrada.</div>";
     }
     ?>
+    
+  */ ?>
   </main>
 
   <!-- Footer -->

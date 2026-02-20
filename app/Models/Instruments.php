@@ -8,20 +8,14 @@ class Instruments
     /**
      * Retorna todos os instrumentos do banco, ordenados por id.
      *
-     * @param bool $instrumentsVoiceOff Booleano (true, false), define se vai ser imprimido os instrumentos sem vozes ou não. 
      * @return array Array de instrumentos (cada instrumento é um array associativo)
      */
 
-    public static function getAll(bool $instrumentsVoiceOff = false): array
+    public static function getAll(): array
     {
         $db = Database::getConnection();
 
-        $sql = "SELECT * FROM instruments";
-
-        if (!$instrumentsVoiceOff)
-            $sql .= " WHERE instrument_id <= 3 or instrument_id >= 10";            
-
-        $sql .= " ORDER BY instrument_id";
+        $sql = "SELECT * FROM instruments ORDER BY instrument_id";
 
         $stmt = $db->prepare($sql);
         if (!$stmt) {
