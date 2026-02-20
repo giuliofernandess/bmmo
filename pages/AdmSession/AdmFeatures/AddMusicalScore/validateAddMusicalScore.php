@@ -7,10 +7,16 @@ require_once BASE_PATH . 'app/Models/MusicalScores.php';
 $musicName = trim($_POST['name'] ?? null);
 $instrument = (int) $_POST['instrument'] ?? null;
 
-// Tratamento de grupos
 $bandGroups = $_POST['band-group'] ?? [];
-$stringBandGroups = implode('', $bandGroups);
-$intBandGroups = (int)$stringBandGroups;
+
+// Validação de grupos
+if (empty($bandGroups)) {
+    $_SESSION['error'] = "Selecione pelo menos um grupo.";
+    header("Location: addMusicalScore.php");
+    exit;
+}
+
+$stringBandGroups = implode(',', array_map('intval', $bandGroups));
 
 $musicalGenre = trim($_POST['musical-genre'] ?? null);
 
@@ -66,7 +72,7 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
 $musicInfo = [
     'music_name' => $musicName,
     'instrument' => $instrument,
-    'band_groups' => $intBandGroups,
+    'band_groups' => $stringBandGroups,
     'musical_genre' => $musicalGenre,
     'file' => $FileName
 ];
