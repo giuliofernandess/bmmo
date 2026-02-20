@@ -67,6 +67,8 @@ class News
             $newsList[] = $res;
         }
 
+        $stmt->close();
+
         return $newsList;
     }
 
