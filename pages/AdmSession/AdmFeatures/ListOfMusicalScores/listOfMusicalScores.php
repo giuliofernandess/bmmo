@@ -53,7 +53,7 @@ $groups = BandGroups::getAll();
 
         <div class="mb-3">
           <label for="musical-genre" class="form-label">Gênero</label>
-          <select name="musical-genre-add" id="musical-genre" class="form-control" required>
+          <select name="musical-genre-add" id="musical-genre" class="form-select" required>
             <?php require BASE_PATH . "includes/optionsMusicalGenre.php"; ?>
           </select>
         </div>
@@ -91,7 +91,7 @@ $groups = BandGroups::getAll();
           <!-- Grupo -->
           <div class="col-12 col-md-3">
             <label class="form-label fw-semibold">Grupo da banda</label>
-            <select name="group" class="form-control">
+            <select name="group" class="form-select">
               <option value="">Todos</option>
               <?php foreach ($groups as $group): ?>
                 <option value="<?= $group['group_id'] ?>" <?= $filterGroup == $group['group_id'] ? 'selected' : '' ?>>
@@ -104,7 +104,7 @@ $groups = BandGroups::getAll();
           <!-- Gênero -->
           <div class="col-12 col-md-3">
             <label class="form-label fw-semibold">Gênero</label>
-            <select name="musical-genre-filter" id="musical-genre" class="form-control" required>
+            <select name="musical-genre-filter" id="musical-genre" class="form-select" required>
               <?php require BASE_PATH . "includes/optionsMusicalGenre.php"; ?>
             </select>
           </div>

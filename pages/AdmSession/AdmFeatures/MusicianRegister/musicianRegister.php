@@ -60,7 +60,7 @@ Auth::requireRegency();
         <!-- Instrumento + Grupo -->
         <div class="col-md-6">
           <label for="instrument" class="form-label ps-2">Instrumento *</label>
-          <select name="instrument" id="instrument" class="form-control select" required>
+          <select name="instrument" id="instrument" class="form-select select" required>
             <option value="">Selecione</option>
 
             <?php
@@ -89,7 +89,7 @@ Auth::requireRegency();
 
         <div class="col-md-6">
           <label for="band-group" class="form-label ps-2">Grupo da Banda *</label>
-          <select name="group" id="band-group" class="form-control" required>
+          <select name="group" id="band-group" class="form-select" required>
             <option value="">Selecione</option>
 
             <?php
@@ -138,7 +138,7 @@ Auth::requireRegency();
         <!-- Bairro + Instituição -->
         <div class="col-md-6">
           <label for="neighborhood" class="form-label ps-2">Bairro *</label>
-          <select name="neighborhood" id="neighborhood" class="form-control" required>
+          <select name="neighborhood" id="neighborhood" class="form-select" required>
             <option value="">Selecione</option>
             <option value="Boa Esperança">Boa Esperança</option>
             <option value="Centro">Centro</option>

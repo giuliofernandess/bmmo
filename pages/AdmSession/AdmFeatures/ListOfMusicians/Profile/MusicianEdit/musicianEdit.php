@@ -87,7 +87,7 @@ $responsible_contact = trim($musicians['responsible_contact'] ?? '');
         <!-- Instrumento -->
         <div class="col-md-6">
           <label for="instrument" class="form-label ps-2">Instrumento</label>
-          <select name="instrument" id="instrument" class="form-control">
+          <select name="instrument" id="instrument" class="form-select">
 
             <?php
             // Busca todas os instrumentos via POO
@@ -116,7 +116,7 @@ $responsible_contact = trim($musicians['responsible_contact'] ?? '');
         <!-- Grupo da Banda -->
         <div class="col-md-6">
           <label for="group" class="form-label ps-2">Grupo da Banda</label>
-          <select name="group" id="band-group" class="form-control">
+          <select name="group" id="band-group" class="form-select">
 
             <?php
             // Busca todas os grupos via POO
@@ -166,7 +166,7 @@ $responsible_contact = trim($musicians['responsible_contact'] ?? '');
         <!-- Bairro -->
         <div class="col-md-6">
           <label for="neighborhood" class="form-label ps-2">Bairro</label>
-          <select name="neighborhood" id="neighborhood" class="form-control">
+          <select name="neighborhood" id="neighborhood" class="form-select">
             <option value="<?= $neighborhood ?>"><?= $neighborhood ?></option>
             <option value="Boa Esperança">Boa Esperança</option>
             <option value="Centro">Centro</option>
