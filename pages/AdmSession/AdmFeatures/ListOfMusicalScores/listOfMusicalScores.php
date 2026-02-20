@@ -2,6 +2,7 @@
 require_once "../../../../config/config.php";
 require_once BASE_PATH . "app/Auth/Auth.php";
 
+require_once BASE_PATH . "app/Models/BandGroups.php";
 require_once BASE_PATH . "app/Models/MusicalScores.php";
 
 Auth::requireRegency();
@@ -33,8 +34,76 @@ Auth::requireRegency();
   <!-- Main -->
   <main class="container mb-5 p-5">
     <h1 class="mt-4 text-center">Lista de Partituras</h1>
+
     <?php
-    $musicsList = MusicalScores::getAll();
+    $groups = BandGroups::getAll();
+
+    $filterName = trim($_GET['name'] ?? '');
+    $filterGroup = trim($_GET['group'] ?? '');
+    $filterGenre = trim($_GET['genre'] ?? '');
+    ?>
+
+    <div class="card shadow-sm border-0 mb-5">
+      <div class="card-body">
+        <form method="GET" class="row g-3 align-items-end">
+
+          <!-- Nome -->
+          <div class="col-12 col-md-4">
+            <label class="form-label fw-semibold">Nome do músico</label>
+            <input type="text" name="name" value="<?= htmlspecialchars($filterName) ?>" class="form-control"
+              placeholder="Digite o nome">
+          </div>
+
+          <!-- Grupo -->
+          <div class="col-12 col-md-3">
+            <label class="form-label fw-semibold">Grupo da banda</label>
+            <select name="group" class="form-select">
+              <option value="">Todos</option>
+              <?php foreach ($groups as $group): ?>
+                <option value="<?= $group['group_id'] ?>" <?= $filterGroup == $group['group_id'] ? 'selected' : '' ?>>
+                  <?= htmlspecialchars($group['group_name']) ?>
+                </option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+
+          <!-- Gênero -->
+          <div class="col-12 col-md-3">
+            <label class="form-label fw-semibold">Gênero</label>
+            <select name="genre" class="form-select">
+              <option value="">Todos</option>
+              <option value="Carnaval">Carnaval</option>
+              <option value="Datas Comemorativas">Datas Comemorativas</option>
+              <option value="Dobrados">Dobrados</option>
+              <option value="Festa Junina">Festa Junina</option>
+              <option value="Hinos">Hinos</option>
+              <option value="Infantil">Infantil</option>
+              <option value="Internacionais">Internacionais</option>
+              <option value="Medleys">Medleys</option>
+              <option value="Nacionais">Nacionais</option>
+              <option value="Natal">Natal</option>
+              <option value="Religiosas">Religiosas</option>
+              <option value="Outras">Outras</option>
+            </select>
+          </div>
+
+          <!-- Botão submit -->
+          <div class="col-12 col-md-2 d-grid">
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-search me-1"></i> Filtrar
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <?php
+    $musicsList = MusicalScores::getAll(
+      $filterName,
+      $filterGroup,
+      $filterGenre
+    );
 
     if (!empty($musicsList)) {
       $currentGenre = "";
@@ -59,24 +128,23 @@ Auth::requireRegency();
         }
 
         if ($lastName != $musicName) {
-           ?>
-      <div class='col-12 col-sm-6 col-lg-3'>
-        <div class='card musician-card h-100 border-0 shadow-sm'>
-          <a href="MusicalScoreDetails/musicalScoreDetails.php?musicName=<?= htmlspecialchars($musicName) ?> ">
-            <img src='<?= BASE_URL ?>assets/images/musical_score.jpg'
-                 class='card-img-top musical-score-img'
-                 alt='Capa de Partitura'>
-          </a>
-          <a href="MusicalScoreEdit/musicalScoreEdit.php?musicName=<?= htmlspecialchars($musicName) ?> "
-             class='card-body d-flex flex-column text-decoration-none'>
-            <h5 class='card-title fw-semibold text-center mb-3'><?= htmlspecialchars($musicName) ?></h5>
-            <button class='btn btn-outline-primary mt-auto w-100'>
-              <i class='bi bi-person-lines-fill me-1'></i> Editar Partitura
-            </button>
-          </a>
-        </div>
-      </div>
-      <?php
+          ?>
+          <div class='col-12 col-sm-6 col-lg-3'>
+            <div class='card musician-card h-100 border-0 shadow-sm'>
+              <a href="MusicalScoreDetails/musicalScoreDetails.php?musicName=<?= htmlspecialchars($musicName) ?> ">
+                <img src='<?= BASE_URL ?>assets/images/musical_score.jpg' class='card-img-top musical-score-img'
+                  alt='Capa de Partitura'>
+              </a>
+              <a href="MusicalScoreEdit/musicalScoreEdit.php?musicName=<?= htmlspecialchars($musicName) ?> "
+                class='card-body d-flex flex-column text-decoration-none'>
+                <h5 class='card-title fw-semibold text-center mb-3'><?= htmlspecialchars($musicName) ?></h5>
+                <button class='btn btn-outline-primary mt-auto w-100'>
+                  <i class='bi bi-person-lines-fill me-1'></i> Editar Partitura
+                </button>
+              </a>
+            </div>
+          </div>
+          <?php
         }
 
         $lastName = $musicName;

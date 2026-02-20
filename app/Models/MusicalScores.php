@@ -17,8 +17,8 @@ class MusicalScores
 
         // Sanitização dos dados
         $musicName = htmlspecialchars(trim($musicInfo['music_name'] ?? null));
-        $instrument = (int)$musicInfo['instrument'] ?? null;
-        $bandGroups = (int)$musicInfo['band_groups'] ?? null;
+        $instrument = (int) $musicInfo['instrument'] ?? null;
+        $bandGroups = htmlspecialchars(($musicInfo['band_groups']));
         $musicalGenre = htmlspecialchars(trim($musicInfo['musical_genre'] ?? null));
         $file = htmlspecialchars(trim($musicInfo['file'] ?? null));
 
@@ -28,7 +28,7 @@ class MusicalScores
             $stmt = $db->prepare(
                 "INSERT INTO musical_scores (music_name, instrument, band_groups, musical_genre, file) VALUES (?, ?, ?, ?, ?)"
             );
-            $stmt->bind_param("siiss", $musicName, $instrument, $bandGroups, $musicalGenre, $file);
+            $stmt->bind_param("sisss", $musicName, $instrument, $bandGroups, $musicalGenre, $file);
 
             $success = $stmt->execute();
 
@@ -44,32 +44,70 @@ class MusicalScores
     /**
      * Retorna todas as partituras do banco, ordenadas por gênero e nome.
      *
+     * @param string $musicName nome da música
+     * @param string $bandGroup grupo da banda
+     * @param string $musicalGenre gênero da música
      * @return array Array de partituras (cada partitura é um array associativo)
      */
 
-    public static function getAll(): array
+    public static function getAll(string $musicianName = '', string $bandGroup = '', string $musicalGenre = ''): array
     {
         $db = Database::getConnection();
 
-        $sql = "SELECT * FROM musical_scores ORDER BY musical_genre, music_name";
+        $sql = "SELECT music_name, band_groups, musical_genre FROM musical_scores";
+        $conditions = [];
+        $params = [];
+        $types = "";
+
+        if ($musicianName !== '') {
+            $conditions[] = "music_name LIKE ?";
+            $params[] = "%$musicianName%";
+            $types .= "s";
+        }
+
+        if ($bandGroup !== '') {
+            $conditions[] = "FIND_IN_SET(?, band_groups)";
+            $params[] = $bandGroup;
+            $types .= "s";
+        }
+
+        if ($musicalGenre !== '') {
+            $conditions[] = "musical_genre = ?";
+            $params[] = $musicalGenre;
+            $types .= "s";
+        }
+
+        if (!empty($conditions)) {
+            $sql .= " WHERE " . implode(" AND ", $conditions);
+        }
+
+        $sql .= " ORDER BY musical_genre, music_name";
+
         $stmt = $db->prepare($sql);
 
         if (!$stmt) {
             return [];
         }
 
-        $stmt->execute();
+        if (!empty($params)) {
+            $stmt->bind_param($types, ...$params);
+        }
+
+        if (!$stmt->execute()) {
+            $stmt->close();
+            return [];
+        }
+
         $result = $stmt->get_result();
+        $musicalScores = [];
 
-        $musics = [];
-
-        while ($res = $result->fetch_assoc()) {
-            $musics[] = $res;
+        while ($row = $result->fetch_assoc()) {
+            $musicalScores[] = $row;
         }
 
         $stmt->close();
 
-        return $musics;
+        return $musicalScores;
     }
 
     /**
