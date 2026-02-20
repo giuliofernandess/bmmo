@@ -97,8 +97,30 @@ INSERT INTO `instruments` (`instrument_id`, `instrument_name`) VALUES
 CREATE TABLE `musical_scores` (
   `music_id` int(11) NOT NULL,
   `music_name` varchar(100) NOT NULL,
-  `band_groups` int(11) NOT NULL,
   `musical_genre` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `musical_scores_groups`
+--
+
+CREATE TABLE `musical_scores_groups` (
+  `music_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `musical_scores_instruments`
+--
+
+CREATE TABLE `musical_scores_instruments` (
+  `music_id` int(11) NOT NULL,
+  `instrument_id` int(11) NOT NULL,
+  `file` tinytext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -193,8 +215,19 @@ ALTER TABLE `instruments`
 -- Índices de tabela `musical_scores`
 --
 ALTER TABLE `musical_scores`
-  ADD PRIMARY KEY (`music_id`),
-  ADD KEY `musical_scores_ibfk_1` (`instrument`);
+  ADD PRIMARY KEY (`music_id`);
+
+--
+-- Índices de tabela `musical_scores_groups`
+--
+ALTER TABLE `musical_scores_groups`
+  ADD PRIMARY KEY (`music_id`, `group_id`);  
+
+--
+-- Índices de tabela `musical_scores_instruments`
+--
+ALTER TABLE `musical_scores_instruments`
+  ADD PRIMARY KEY (`music_id`, `instrument_id`);  
 
 --
 -- Índices de tabela `musicians`
@@ -259,6 +292,20 @@ ALTER TABLE `repertoire`
 --
 ALTER TABLE `musical_scores`
   ADD CONSTRAINT `musical_scores_ibfk_1` FOREIGN KEY (`instrument`) REFERENCES `instruments` (`instrument_id`);
+
+--
+-- Restrições para tabelas `musical_scores_groups`
+--
+ALTER TABLE `musical_scores_groups`
+  ADD CONSTRAINT `musical_scores_groups_ibfk_1` FOREIGN KEY (`music_id`) REFERENCES `musical_scores` (`music_id`),
+  ADD CONSTRAINT `musical_scores_groups_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `band_groups` (`group_id`);
+
+--
+-- Restrições para tabelas `musical_scores_instruments`
+--
+ALTER TABLE `musical_scores_instruments`
+  ADD CONSTRAINT `musical_scores_instruments_ibfk_1` FOREIGN KEY (`music_id`) REFERENCES `musical_scores` (`music_id`),
+  ADD CONSTRAINT `musical_scores_instruments_ibfk_2` FOREIGN KEY (`instrument_id`) REFERENCES `instruments` (`instrument_id`);
 
 --
 -- Restrições para tabelas `musicians`
