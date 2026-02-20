@@ -29,21 +29,7 @@ require_once '../config/config.php';
 <body class="d-flex flex-column min-vh-100">
 
   <!-- Toast de logout -->
-  <?php if (isset($_SESSION['success'])) { ?>
-    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
-      <div class="toast align-items-center text-bg-success border-0 show" role="alert">
-        <div class="d-flex">
-          <div class="toast-body">
-            <?= htmlspecialchars($_SESSION['success']) ?>
-          </div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto"
-            onclick="this.closest('.toast-container').remove()"></button>
-        </div>
-      </div>
-    </div>
-    <?php unset($_SESSION['success']); ?>
-  <?php } ?>
-
+  <?php require_once BASE_PATH . 'includes/sucessToast.php'; ?>
 
   <!-- Header do site -->
   <?php require_once BASE_PATH . 'includes/firstHeader.php'; ?>
@@ -88,9 +74,6 @@ require_once '../config/config.php';
 
   <!-- Footer do site -->
   <?php require_once BASE_PATH . 'includes/footer.php'; ?>
-
-  <!-- Remove o toast de logout -->
-  <script src="<?= BASE_URL ?>assets/js/removeToast.js"></script>
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>

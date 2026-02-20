@@ -31,35 +31,9 @@ Auth::requireRegency();
 </head>
 
 <body class="d-flex flex-column min-vh-100">
-  <?php if (isset($_SESSION['success'])) { ?>
-    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
-      <div class="toast align-items-center text-bg-success border-0 show" role="alert">
-        <div class="d-flex">
-          <div class="toast-body">
-            <?= htmlspecialchars($_SESSION['success']) ?>
-          </div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto"
-            onclick="this.closest('.toast-container').remove()"></button>
-        </div>
-      </div>
-    </div>
-    <?php unset($_SESSION['success']); ?>
-  <?php } ?>
-
-  <?php if (isset($_SESSION['error'])) { ?>
-    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
-      <div class="toast align-items-center text-bg-danger border-0 show" role="alert">
-        <div class="d-flex">
-          <div class="toast-body">
-            <?= htmlspecialchars($_SESSION['error']) ?>
-          </div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto"
-            onclick="this.closest('.toast-container').remove()"></button>
-        </div>
-      </div>
-    </div>
-    <?php unset($_SESSION['error']); ?>
-  <?php } ?>
+  <!-- Toasts -->
+  <?php require_once BASE_PATH . "includes/sucessToast.php"; ?>
+  <?php require_once BASE_PATH . "includes/errorToast.php"; ?>
 
   <!-- Header -->
   <?php require_once BASE_PATH . 'includes/secondHeader.php'; ?>
@@ -226,7 +200,6 @@ Auth::requireRegency();
 
   <!-- Scripts -->
   <script src="<?= BASE_URL ?>assets/js/password.js"></script>
-  <script src="<?= BASE_URL ?>assets/js/removeToast.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
   <script src="<?= BASE_URL ?>assets/js/mask.js"></script>

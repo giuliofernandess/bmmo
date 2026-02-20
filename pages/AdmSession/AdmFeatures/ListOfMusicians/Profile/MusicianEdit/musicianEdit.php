@@ -65,20 +65,7 @@ $responsible_contact = trim($musicians['responsible_contact'] ?? '');
 
 <body>
   <!-- Toast de erro -->
-  <?php if (isset($_SESSION['error'])): ?>
-    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
-      <div class="toast align-items-center text-bg-danger border-0 show" role="alert">
-        <div class="d-flex">
-          <div class="toast-body">
-            <?= htmlspecialchars($_SESSION['error']); ?>
-          </div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto"
-            onclick="this.closest('.toast-container').remove()"></button>
-        </div>
-      </div>
-    </div>
-    <?php unset($_SESSION['error']); // remove para não aparecer novamente ?>
-  <?php endif; ?>
+  <?php require_once BASE_PATH . "includes/errorToast.php"; ?>
 
   <!-- Header -->
   <?php require_once BASE_PATH . "includes/secondHeader.php"; ?>

@@ -28,35 +28,9 @@ Auth::requireRegency();
 </head>
 
 <body>
-  <?php if (isset($_SESSION['success'])) { ?>
-    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
-      <div class="toast align-items-center text-bg-success border-0 show" role="alert">
-        <div class="d-flex">
-          <div class="toast-body">
-            <?= htmlspecialchars($_SESSION['success']) ?>
-          </div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto"
-            onclick="this.closest('.toast-container').remove()"></button>
-        </div>
-      </div>
-    </div>
-    <?php unset($_SESSION['success']); ?>
-  <?php } ?>
-
-  <?php if (isset($_SESSION['error'])) { ?>
-    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
-      <div class="toast align-items-center text-bg-danger border-0 show" role="alert">
-        <div class="d-flex">
-          <div class="toast-body">
-            <?= htmlspecialchars($_SESSION['error']) ?>
-          </div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto"
-            onclick="this.closest('.toast-container').remove()"></button>
-        </div>
-      </div>
-    </div>
-    <?php unset($_SESSION['error']); ?>
-  <?php } ?>
+  <!-- Toasts -->
+  <?php require_once BASE_PATH . "includes/sucessToast.php"; ?>
+  <?php require_once BASE_PATH . "includes/errorToast.php"; ?>
 
 
   <!-- Header -->
@@ -102,8 +76,6 @@ Auth::requireRegency();
 
   <!-- Footer -->
   <?php require_once BASE_PATH . 'includes/footer.php'; ?>
-
-  <script src="<?= BASE_URL ?>assets/js/removeToast.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
