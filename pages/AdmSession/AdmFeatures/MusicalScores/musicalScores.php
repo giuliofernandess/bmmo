@@ -3,7 +3,7 @@ require_once "../../../../config/config.php";
 require_once BASE_PATH . "app/Auth/Auth.php";
 
 require_once BASE_PATH . "app/Models/BandGroups.php";
-// require_once BASE_PATH . "app/Models/MusicalScores.php";
+require_once BASE_PATH . "app/Models/MusicalScores.php";
 
 Auth::requireRegency();
 
@@ -57,7 +57,7 @@ $groups = BandGroups::getAll();
 
         <div class="mb-3">
           <label for="musical-genre" class="form-label">Gênero</label>
-          <select name="musical-genre-add" id="musical-genre" class="form-select" required>
+          <select name="musical-genre-add" id="musical-genre-add" class="form-select" required>
             <?php require BASE_PATH . "includes/optionsMusicalGenre.php"; ?>
           </select>
         </div>
@@ -79,9 +79,9 @@ $groups = BandGroups::getAll();
     </div>
 
     <?php
-    $filterName = trim($_GET['name'] ?? '');
-    $filterGroup = trim($_GET['group'] ?? '');
-    $filterGenre = trim($_GET['musical-genre'] ?? '');
+    $filterName = trim($_GET['name-filter'] ?? '');
+    $filterGroup = (int) ($_GET['group'] ?? 0);
+    $filterGenre = trim($_GET['musical-genre-filter'] ?? '');
     ?>
 
     <div class="card shadow-sm border-0 mb-5">
@@ -113,7 +113,7 @@ $groups = BandGroups::getAll();
           <!-- Gênero -->
           <div class="col-12 col-md-3">
             <label class="form-label fw-semibold">Gênero</label>
-            <select name="musical-genre-filter" id="musical-genre" class="form-select" required>
+            <select name="musical-genre-filter" id="musical-genre-filter" class="form-select" required>
               <?php require BASE_PATH . "includes/optionsMusicalGenre.php"; ?>
             </select>
           </div>
@@ -130,7 +130,7 @@ $groups = BandGroups::getAll();
     </div>
 
     <?php
-    /*
+
     $musicsList = MusicalScores::getAll(
       $filterName,
       $filterGroup,
@@ -141,55 +141,49 @@ $groups = BandGroups::getAll();
       $currentGenre = "";
       $lastName = "";
 
-      echo "<div class='row g-4'>";
-
       // Itera sobre cada músico
       foreach ($musicsList as $res) {
 
         // Dados do músico
         $musicName = htmlspecialchars($res['music_name'] ?? '', ENT_QUOTES, 'UTF-8');
+        $musicId = (int)$res['music_id'] ?? null;
 
-        if ($currentGenre != htmlspecialchars($res['musical_genre'] ?? '', ENT_QUOTES, 'UTF-8')) {
+        if ($currentGenre != htmlspecialchars($res['music_genre'] ?? '', ENT_QUOTES, 'UTF-8')) {
           if ($currentGenre != "") {
             echo "</div>";
           }
 
-          $currentGenre = htmlspecialchars($res['musical_genre'] ?? '', ENT_QUOTES, 'UTF-8');
+          $currentGenre = htmlspecialchars($res['music_genre'] ?? '', ENT_QUOTES, 'UTF-8');
           echo "<h2 class='mt-5 border-bottom pb-2 text-primary mb-4'>$currentGenre</h2>";
           echo "<div class='row g-4'>";
         }
 
-        if ($lastName != $musicName) {
-          ?>
+        if ($lastName != htmlspecialchars($res['music_name'] ?? '', ENT_QUOTES, 'UTF-8')) { ?>
           <div class='col-12 col-sm-6 col-lg-3'>
-            <div class='card musician-card h-100 border-0 shadow-sm'>
-              <a href="MusicalScoreDetails/musicalScoreDetails.php?musicName=<?= htmlspecialchars($musicName) ?> ">
-                <img src='<?= BASE_URL ?>assets/images/musical_score.jpg' class='card-img-top musical-score-img'
-                  alt='Capa de Partitura'>
-              </a>
-              <a href="MusicalScoreEdit/musicalScoreEdit.php?musicName=<?= htmlspecialchars($musicName) ?> "
-                class='card-body d-flex flex-column text-decoration-none'>
-                <h5 class='card-title fw-semibold text-center mb-3'><?= htmlspecialchars($musicName) ?></h5>
-                <button class='btn btn-outline-primary mt-auto w-100'>
-                  <i class='bi bi-person-lines-fill me-1'></i> Editar Partitura
-                </button>
-              </a>
-            </div>
+          <div class='card musician-card h-100 border-0 shadow-sm'>
+            <a href="MusicalScoreDetails/musicalScoreDetails.php?musicId=<?= htmlspecialchars($musicId) ?>">
+              <img src='<?= BASE_URL ?>assets/images/musical_score.jpg' class='card-img-top musical-score-img'
+                alt='Capa de Partitura'>
+            </a>
+            <a href="MusicalScoreEdit/musicalScoreEdit.php?musicId=<?= htmlspecialchars($musicId) ?>"
+              class='card-body d-flex flex-column text-decoration-none'>
+              <h5 class='card-title fw-semibold text-center mb-3'><?= htmlspecialchars($musicName) ?></h5>
+              <button class='btn btn-outline-primary mt-auto w-100'>
+                <i class='bi bi-person-lines-fill me-1'></i> Editar Partitura
+              </button>
+            </a>
           </div>
-          <?php
+        </div>
+        <?php
         }
-
-        $lastName = $musicName;
+        $lastName = htmlspecialchars($res['music_name'] ?? '', ENT_QUOTES,);
       }
 
-      echo "</div>";
       echo "</div>";
     } else {
       echo "<div class='no-musics'>Nenhuma partitura encontrada.</div>";
     }
     ?>
-
-  */ ?>
   </main>
 
   <!-- Footer -->

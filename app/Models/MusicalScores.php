@@ -73,4 +73,75 @@ class MusicalScores
             return false;
         }
     }
+
+    /**
+     * Retorna todos as partituras do banco, selecionados por grupos da banda, gênero ou os dois e * ordenados pelos mesmos.
+     *
+     * @param string $musicName nome da partitura
+     * @param int $bandGroup grupo da banda
+     * @param string $musicGenre gênero da partitura
+     * @return array Array de músicos (cada músico é um array associativo)
+     */
+
+    public static function getAll(string $musicName = '', int $bandGroup = 0, string $musicGenre = ''): array
+    {
+        $db = Database::getConnection();
+
+        $sql = "SELECT ms.*, msg.group_id 
+            FROM musical_scores ms
+            LEFT JOIN musical_scores_groups msg ON ms.music_id = msg.music_id";
+
+        $conditions = [];
+        $params = [];
+        $types = "";
+
+        if ($musicName !== '') {
+            $conditions[] = "ms.music_name LIKE ?";
+            $params[] = "%$musicName%";
+            $types .= "s";
+        }
+
+        if ($musicGenre !== '') {
+            $conditions[] = "ms.music_genre = ?";
+            $params[] = $musicGenre;
+            $types .= "s";
+        }
+
+        if ($bandGroup > 0) {
+            $conditions[] = "msg.group_id = ?";
+            $params[] = $bandGroup;
+            $types .= "i";
+        }
+
+        if (!empty($conditions)) {
+            $sql .= " WHERE " . implode(" AND ", $conditions);
+        }
+
+        $sql .= " ORDER BY ms.music_genre, ms.music_name";
+
+        $stmt = $db->prepare($sql);
+        if (!$stmt) {
+            return [];
+        }
+
+        if (!empty($params)) {
+            $stmt->bind_param($types, ...$params);
+        }
+
+        if (!$stmt->execute()) {
+            $stmt->close();
+            return [];
+        }
+
+        $result = $stmt->get_result();
+        $musicsList = [];
+
+        while ($row = $result->fetch_assoc()) {
+            $musicsList[] = $row;
+        }
+
+        $stmt->close();
+
+        return $musicsList;
+    }
 }
