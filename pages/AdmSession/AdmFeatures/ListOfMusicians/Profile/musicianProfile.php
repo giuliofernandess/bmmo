@@ -64,14 +64,12 @@ $profile_image = $profile_image ? htmlspecialchars($profile_image) : "default.pn
 </head>
 
 <body>
-  <!-- Toast de sucesso -->
-  <?php require_once BASE_PATH . "includes/sucessToast.php"; ?>
-
-  <!-- Toast de erro -->
-  <?php require_once BASE_PATH . "includes/errorToast.php"; ?>
+  <!-- Toasts de sucesso -->
+  <?php require BASE_PATH . "includes/sucessToast.php"; ?>
+  <?php require BASE_PATH . "includes/errorToast.php"; ?>
 
   <!-- Header -->
-  <?php require_once BASE_PATH . "includes/secondHeader.php"; ?>
+  <?php require BASE_PATH . "includes/secondHeader.php"; ?>
   
 
   <main class="flex-fill py-5">
@@ -129,7 +127,7 @@ $profile_image = $profile_image ? htmlspecialchars($profile_image) : "default.pn
   </main>
 
   <!-- Footer -->
-  <?php require_once BASE_PATH . "includes/footer.php"; ?>
+  <?php require BASE_PATH . "includes/footer.php"; ?>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 

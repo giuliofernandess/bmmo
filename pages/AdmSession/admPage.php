@@ -25,7 +25,7 @@ Auth::requireRegency();
 
 <body>
   <!-- Toast de sucesso -->
-  <?php require_once BASE_PATH ."includes/sucessToast.php"; ?>
+  <?php require BASE_PATH ."includes/sucessToast.php"; ?>
 
   <!-- Header -->
   <header class="d-flex align-items-center justify-content-between px-3 bg-primary">
@@ -118,7 +118,7 @@ Auth::requireRegency();
   </main>
 
   <!-- Footer -->
-  <?php require_once BASE_PATH . 'includes/footer.php'; ?>
+  <?php require BASE_PATH . 'includes/footer.php'; ?>
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>

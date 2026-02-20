@@ -24,7 +24,7 @@ require_once BASE_PATH . 'app/Models/News.php';
 <body class="d-flex flex-column min-vh-100">
 
   <!-- Header -->
-  <?php require_once BASE_PATH . 'includes/firstHeader.php'; ?>
+  <?php require BASE_PATH . 'includes/firstHeader.php'; ?>
 
   <!-- Conteúdo principal -->
   <main class="py-5 flex-grow-1">
@@ -78,7 +78,7 @@ require_once BASE_PATH . 'app/Models/News.php';
   </main>
 
   <!-- Footer -->
-  <?php require_once BASE_PATH . 'includes/footer.php'; ?>
+  <?php require BASE_PATH . 'includes/footer.php'; ?>
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>

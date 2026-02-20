@@ -30,12 +30,12 @@ Auth::requireRegency();
 
 <body>
   <!-- Toasts -->
-  <?php require_once BASE_PATH . "includes/sucessToast.php"; ?>
-  <?php require_once BASE_PATH . "includes/errorToast.php"; ?>
+  <?php require BASE_PATH . "includes/sucessToast.php"; ?>
+  <?php require BASE_PATH . "includes/errorToast.php"; ?>
 
 
   <!-- Header -->
-  <?php require_once BASE_PATH . 'includes/secondHeader.php'; ?>
+  <?php require BASE_PATH . 'includes/secondHeader.php'; ?>
 
   <main style="padding: 20px;">
 
@@ -76,7 +76,7 @@ Auth::requireRegency();
   </main>
 
   <!-- Footer -->
-  <?php require_once BASE_PATH . 'includes/footer.php'; ?>
+  <?php require BASE_PATH . 'includes/footer.php'; ?>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"

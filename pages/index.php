@@ -23,10 +23,10 @@ require_once '../config/config.php';
 <body class="d-flex flex-column min-vh-100">
 
   <!-- Toast de logout -->
-  <?php require_once BASE_PATH . 'includes/sucessToast.php'; ?>
+  <?php require BASE_PATH . 'includes/sucessToast.php'; ?>
 
   <!-- Header do site -->
-  <?php require_once BASE_PATH . 'includes/firstHeader.php'; ?>
+  <?php require BASE_PATH . 'includes/firstHeader.php'; ?>
 
   <!-- Conteúdo principal: Card introdutório centralizado -->
   <main class="flex-grow-1 d-flex align-items-center justify-content-center py-5 px-3 main-gradient">
@@ -67,7 +67,7 @@ require_once '../config/config.php';
   </main>
 
   <!-- Footer do site -->
-  <?php require_once BASE_PATH . 'includes/footer.php'; ?>
+  <?php require BASE_PATH . 'includes/footer.php'; ?>
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>

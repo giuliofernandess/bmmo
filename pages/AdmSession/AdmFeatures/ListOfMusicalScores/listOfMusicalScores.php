@@ -184,7 +184,7 @@ $groups = BandGroups::getAll();
   </main>
 
   <!-- Footer -->
-  <?php require_once BASE_PATH . "includes/footer.php"; ?>
+  <?php require BASE_PATH . "includes/footer.php"; ?>
 
   <!-- Scripts -->
   <script src="<?= BASE_URL ?>assets/js/showForm.js"></script>

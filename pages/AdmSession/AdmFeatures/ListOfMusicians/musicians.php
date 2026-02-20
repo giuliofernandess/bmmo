@@ -28,10 +28,10 @@ Auth::requireRegency();
 
 <body>
   <!-- Toast de sucesso -->
-  <?php require_once BASE_PATH . "includes/sucessToast.php"; ?>
+  <?php require BASE_PATH . "includes/sucessToast.php"; ?>
 
   <!-- Header -->
-  <?php require_once BASE_PATH . "includes/secondHeader.php"; ?>
+  <?php require BASE_PATH . "includes/secondHeader.php"; ?>
 
   <main class="container mb-5 p-5">
     <h1 class="mb-4 text-center">Lista dos músicos BMMO</h1>
@@ -159,7 +159,7 @@ Auth::requireRegency();
 
 
   <!-- Footer -->
-  <?php require_once BASE_PATH . "includes/footer.php"; ?>
+  <?php require BASE_PATH . "includes/footer.php"; ?>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>

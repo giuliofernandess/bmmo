@@ -35,7 +35,7 @@ $otherNews = News::getLatestExcept($newsId, 2);
 <body class="d-flex flex-column min-vh-100">
 
   <!-- Header -->
-  <?php require_once BASE_PATH . 'includes/firstHeader.php'; ?>
+  <?php require BASE_PATH . 'includes/firstHeader.php'; ?>
 
   <!-- Conteúdo principal -->
   <main class="container my-5">
@@ -94,7 +94,7 @@ $otherNews = News::getLatestExcept($newsId, 2);
   </main>
 
   <!-- Footer -->
-  <?php require_once BASE_PATH . 'includes/footer.php'; ?>
+  <?php require BASE_PATH . 'includes/footer.php'; ?>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>

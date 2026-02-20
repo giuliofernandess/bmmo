@@ -60,10 +60,10 @@ $responsible_contact = trim($musicians['responsible_contact'] ?? '');
 
 <body>
   <!-- Toast de erro -->
-  <?php require_once BASE_PATH . "includes/errorToast.php"; ?>
+  <?php require BASE_PATH . "includes/errorToast.php"; ?>
 
   <!-- Header -->
-  <?php require_once BASE_PATH . "includes/secondHeader.php"; ?>
+  <?php require BASE_PATH . "includes/secondHeader.php"; ?>
 
   <main class="flex-grow-1 d-flex align-items-center justify-content-center flex-column py-5">
 
@@ -220,7 +220,7 @@ $responsible_contact = trim($musicians['responsible_contact'] ?? '');
   </main>
 
   <!-- Footer -->
-  <?php require_once BASE_PATH . "includes/footer.php"; ?>
+  <?php require BASE_PATH . "includes/footer.php"; ?>
 
   <!-- Scripts -->
   <script src="<?= BASE_URL ?>assets/js/password.js"></script>
