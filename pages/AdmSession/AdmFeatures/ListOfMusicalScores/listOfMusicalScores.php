@@ -1,11 +1,10 @@
 <?php
+require_once "../../../../config/config.php";
+require_once BASE_PATH . "app/Auth/Auth.php";
 
-session_start();
+require_once BASE_PATH . "app/Models/MusicalScores.php";
 
-if (!isset($_SESSION['login'])) {
-  echo "<meta http-equiv='refresh' content='0; url=../../../../../Index/index.php'>";
-}
-
+Auth::requireRegency();
 ?>
 
 <!doctype html>
@@ -15,58 +14,29 @@ if (!isset($_SESSION['login'])) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Lista de Partituras</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="<?= BASE_URL ?>/images/logo_banda.png" type="image/x-icon" />
+
+  <!-- Bootstrap + CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
-  <link rel="shortcut icon" href="../../../../../../assets/images/logo_banda.png" type="image/x-icon" />
-  <link rel="stylesheet" href="../../../../../../assets/css/style.css">
-  <style>
-    .card-img-top {
-      height: 200px;
-      object-fit: cover;
-    }
 
-    .btn {
-      transition: .2s;
-    }
-
-    .btn:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
-    }
-  </style>
+  <link rel="stylesheet" href="<?= BASE_URL ?>/css/style.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>/css/listOfMusicalScores.css">
 </head>
 
 <body>
   <!-- Header -->
-  <header class="d-flex align-items-center justify-content-between px-3 mb-auto">
-    <a href="#" class="d-flex align-items-center text-white text-decoration-none">
-      <img src="../../../../../../assets/images/logo_banda.png" alt="Logo Banda" width="30" height="30" class="me-2">
-      <span class="fs-5 fw-bold">BMMO Online - Maestro</span>
-    </a>
-    <nav>
-      <ul class="nav">
-        <li class="nav-item">
-          <a href="../../musicalScores.php" class="nav-link text-white" style="font-size: 1.4rem;"><i
-              class="bi bi-arrow-90deg-left"></i></a>
-        </li>
-      </ul>
-    </nav>
-  </header>
+  <?php require_once BASE_PATH . "includes/secondHeader.php"; ?>
 
   <!-- Main -->
   <main class="container mb-5 p-5">
-    <h1 class="mt-4">Partituras</h1>
+    <h1 class="mt-4 text-center">Partituras</h1>
     <?php
-    require_once '../../../../../../general-features/bdConnect.php';
+    $musicsList = MusicalScores::getAll();
 
-    if (!$connect) {
-      die('Erro de conexão: ' . mysqli_connect_error());
-    }
-
-    $sql = "SELECT * FROM musical_scores ORDER BY musicalGenre ASC, name ASC";
-    $result = $connect->query($sql);
-
-    if ($result && $result->num_rows > 0) {
+    if (!empty($musicisList)) {
       $currentGenre = "";
       $lastName = "";
 
@@ -109,7 +79,7 @@ if (!isset($_SESSION['login'])) {
       echo "</div>";
       echo "</div>";
     } else {
-      echo "<p>Nenhuma partitura encontrada.</p>";
+      echo "<div class='no-musics'>Nenhuma partitura encontrada.</div>";
     }
     ?>
 
@@ -117,7 +87,7 @@ if (!isset($_SESSION['login'])) {
   </main>
 
   <!-- Footer -->
-  <?php require_once '../../../../../../general-features/footer.php'; ?>
+  <?php require_once BASE_PATH . "includes/footer.php"; ?>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
