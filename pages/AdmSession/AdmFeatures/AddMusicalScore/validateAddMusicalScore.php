@@ -78,6 +78,6 @@ if (MusicalScores::musicalScoreCreate($musicInfo)) {
 }
 
 // Redireciona de volta para o formulário
-header("Location:" . BASE_PATH . "pages/AdmSession/AdmFeatures/ListOfMusicalScores/listOfMusicalScores.php");
+header("Location: addMusicalScore.php");
 exit;
 ?>

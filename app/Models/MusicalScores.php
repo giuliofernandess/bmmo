@@ -51,7 +51,7 @@ class MusicalScores
     {
         $db = Database::getConnection();
 
-        $sql = "SELECT * FROM news ORDER BY publication_date DESC, publication_hour DESC";
+        $sql = "SELECT * FROM musical_scores ORDER BY musical_genre, music_name";
         $stmt = $db->prepare($sql);
 
         if (!$stmt) {
