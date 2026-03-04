@@ -113,7 +113,7 @@ $groups = BandGroups::getAll();
           <!-- Gênero -->
           <div class="col-12 col-md-3">
             <label class="form-label fw-semibold">Gênero</label>
-            <select name="musical-genre-filter" id="musical-genre-filter" class="form-select" required>
+            <select name="musical-genre-filter" id="musical-genre-filter" class="form-select">
               <?php require BASE_PATH . "includes/optionsMusicalGenre.php"; ?>
             </select>
           </div>
