@@ -68,7 +68,7 @@ $group_name = trim($musicalScores['group_name'] ?? '');
           <option value="<?= $music_genre ?>"><?= $music_genre ?></option>
           <?php require BASE_PATH . "includes/optionsMusicalGenre.php"; ?>
         </select>
-      </div>
+      </div> 
 
       <!-- Grupo -->
       <div class="col-12 col-md-3">
