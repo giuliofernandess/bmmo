@@ -28,5 +28,5 @@ if ($addMusicalScore !== false) {
 }
 
 // Redireciona de volta para a página principal
-header("Location: musicalScores.php");
+header("Location: MusicalScoreEdit/musicalScoreEdit.php?musicId={$addMusicalScore}");
 exit;
