@@ -65,7 +65,7 @@ class MusicalScores
             // Commit final
             $db->commit();
 
-            return true;
+            return $musicId;
 
         } catch (\Exception $e) {
 
