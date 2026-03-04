@@ -57,7 +57,7 @@ $group_name = trim($musicalScores['group_name'] ?? '');
 
       <!-- Nome -->
       <div class="col-12 col-md-4 mb-3">
-        <label for="iname" class="form-label">Nome</label>
+        <label for="iname" class="form-label fw-semibold">Nome</label>
         <input type="text" name="name" id="iname" class="form-control" value="<?= $music_name ?>">
       </div>
 
@@ -68,19 +68,17 @@ $group_name = trim($musicalScores['group_name'] ?? '');
           <option value="<?= $music_genre ?>"><?= $music_genre ?></option>
           <?php require BASE_PATH . "includes/optionsMusicalGenre.php"; ?>
         </select>
-      </div> 
+      </div>
 
       <!-- Grupo -->
-      <div class="col-12 col-md-3">
-        <label class="form-label fw-semibold">Grupo da banda</label>
-        <select name="group" class="form-select">
-          <option value="<?= $group_name ?>"><?= $group_name ?></option>
-          <?php foreach ($groups as $group): ?>
-            <option value="<?= $group['group_id'] ?>" <?= $filterGroup == $group['group_id'] ? 'selected' : '' ?>>
-              <?= htmlspecialchars($group['group_name']) ?>
-            </option>
-          <?php endforeach; ?>
-        </select>
+      <div class="mb-3 col-12 col-md-4">
+        <label class="form-label fw-semibold">Grupo da Banda</label><br>
+        <?php foreach ($groups as $group): ?>
+          <input type="checkbox" class="form-check-input" name="groups[]" value="<?= $group['group_id'] ?>">
+          <label class="form-check-label">
+            <?= $group['group_name'] ?>
+          </label><br>
+        <?php endforeach; ?>
       </div>
 
     </form>
