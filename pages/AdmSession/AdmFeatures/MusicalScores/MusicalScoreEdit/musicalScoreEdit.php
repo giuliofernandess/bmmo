@@ -17,6 +17,18 @@ if (!$musicId) {
   exit;
 }
 
+$musicalScores = MusicalScores::getById($musicId);
+
+if (!$musicalScores) {
+  echo "<div class='alert alert-warning m-4'>Partitura não encontrada.</div>";
+  exit;
+}
+
+// Recebimento de variáveis
+$music_name = trim($musicalScores['music_name'] ?? '');
+$music_genre = trim($musicalScores['music_genre'] ?? '');
+$group_name = trim($musicalScores['group_name'] ?? '');
+
 ?>
 
 <!doctype html>
@@ -35,6 +47,44 @@ if (!$musicId) {
 <body>
   <!-- Header -->
   <?php require BASE_PATH . "includes/secondHeader.php"; ?>
+
+  <main class="container mb-5 p-5">
+    <!-- Título -->
+    <h1 class="mb-3">Edição de partituras</h1>
+
+    <!-- Form -->
+    <form method="post" action="validateMusicalScoreEdit.php" enctype="multipart/form-data" class="row g-3">
+
+      <!-- Nome -->
+      <div class="col-12 col-md-4 mb-3">
+        <label for="iname" class="form-label">Nome</label>
+        <input type="text" name="name" id="iname" class="form-control" value="<?= $music_name ?>">
+      </div>
+
+      <!-- Gênero -->
+      <div class="col-12 col-md-4 mb-3">
+        <label for="igenre" class="form-label fw-semibold">Gênero</label>
+        <select name="genre" id="igenre" class="form-select">
+          <option value="<?= $music_genre ?>"><?= $music_genre ?></option>
+          <?php require BASE_PATH . "includes/optionsMusicalGenre.php"; ?>
+        </select>
+      </div>
+
+      <!-- Grupo -->
+      <div class="col-12 col-md-3">
+        <label class="form-label fw-semibold">Grupo da banda</label>
+        <select name="group" class="form-select">
+          <option value="<?= $group_name ?>"><?= $group_name ?></option>
+          <?php foreach ($groups as $group): ?>
+            <option value="<?= $group['group_id'] ?>" <?= $filterGroup == $group['group_id'] ? 'selected' : '' ?>>
+              <?= htmlspecialchars($group['group_name']) ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+
+    </form>
+  </main>
 
   <!-- Footer -->
   <?php require BASE_PATH . "includes/footer.php"; ?>

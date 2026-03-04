@@ -144,4 +144,36 @@ class MusicalScores
 
         return $musicsList;
     }
+
+    /**
+     * Retorna uma partitura específica pelo ID.
+     *
+     * @param int $musicId ID da partitura
+     * @return array|null Array associativo com os dados ou null se não encontrado
+     */
+    public static function getById(int $musicId): ?array
+    {
+        $db = Database::getConnection();
+
+        $sql = "SELECT ms.music_name, ms.music_genre, msg.music_id, msg.group_id, bg.group_id, bg.group_name 
+        FROM musical_scores AS ms
+        JOIN musical_scores_groups AS msg ON ms.music_id = msg.music_id
+        JOIN band_groups AS bg ON msg.group_id = bg.group_id
+        WHERE ms.music_id = ?";
+        $stmt = $db->prepare($sql);
+
+        if (!$stmt) {
+            return null;
+        }
+
+        $stmt->bind_param("i", $musicId);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+
+        $stmt->close();
+
+        return $data ?: null;
+    }
 }

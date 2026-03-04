@@ -80,7 +80,7 @@ $groups = BandGroups::getAll();
 
     <?php
     $filterName = trim($_GET['name-filter'] ?? '');
-    $filterGroup = (int) ($_GET['group'] ?? 0);
+    $filterGroup = (int)($_GET['group'] ?? 0);
     $filterGenre = trim($_GET['musical-genre-filter'] ?? '');
     ?>
 
@@ -146,7 +146,7 @@ $groups = BandGroups::getAll();
 
         // Dados do músico
         $musicName = htmlspecialchars($res['music_name'] ?? '', ENT_QUOTES, 'UTF-8');
-        $musicId = (int)$res['music_id'] ?? null;
+        $musicId = (int) $res['music_id'] ?? null;
 
         if ($currentGenre != htmlspecialchars($res['music_genre'] ?? '', ENT_QUOTES, 'UTF-8')) {
           if ($currentGenre != "") {
@@ -160,21 +160,19 @@ $groups = BandGroups::getAll();
 
         if ($lastName != htmlspecialchars($res['music_name'] ?? '', ENT_QUOTES, 'UTF-8')) { ?>
           <div class='col-12 col-sm-6 col-lg-3'>
-          <div class='card musician-card h-100 border-0 shadow-sm'>
-            <a href="MusicalScoreDetails/musicalScoreDetails.php?musicId=<?= htmlspecialchars($musicId) ?>">
+            <div class='card musician-card h-100 border-0 shadow-sm'>
               <img src='<?= BASE_URL ?>assets/images/musical_score.jpg' class='card-img-top musical-score-img'
                 alt='Capa de Partitura'>
-            </a>
-            <a href="MusicalScoreEdit/musicalScoreEdit.php?musicId=<?= htmlspecialchars($musicId) ?>"
-              class='card-body d-flex flex-column text-decoration-none'>
-              <h5 class='card-title fw-semibold text-center mb-3'><?= htmlspecialchars($musicName) ?></h5>
-              <button class='btn btn-outline-primary mt-auto w-100'>
-                <i class='bi bi-person-lines-fill me-1'></i> Editar Partitura
-              </button>
-            </a>
+              <a href="MusicalScoreEdit/musicalScoreEdit.php?musicId=<?= htmlspecialchars($musicId) ?>"
+                class='card-body d-flex flex-column text-decoration-none'>
+                <h5 class='card-title fw-semibold text-center mb-3'><?= htmlspecialchars($musicName) ?></h5>
+                <button class='btn btn-outline-primary mt-auto w-100'>
+                  <i class='bi bi-person-lines-fill me-1'></i> Editar Partitura
+                </button>
+              </a>
+            </div>
           </div>
-        </div>
-        <?php
+          <?php
         }
         $lastName = htmlspecialchars($res['music_name'] ?? '', ENT_QUOTES,);
       }
