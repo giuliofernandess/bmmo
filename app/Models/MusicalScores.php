@@ -159,7 +159,7 @@ class MusicalScores
         FROM musical_scores AS ms
         JOIN musical_scores_groups AS msg ON ms.music_id = msg.music_id
         JOIN band_groups AS bg ON msg.group_id = bg.group_id
-        WHERE ms.music_id = ?";
+        WHERE ms.music_id = ?"; 
         $stmt = $db->prepare($sql);
 
         if (!$stmt) {
