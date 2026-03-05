@@ -27,6 +27,6 @@ if ($addMusicalScore !== false) {
     $_SESSION['error'] = "Erro ao criar partitura.";
 }
 
-// Redireciona de volta para a página principal
+// Redireciona para a página de inserção de instrumentos
 header("Location: MusicalScoreEdit/musicalScoreEdit.php?musicId={$addMusicalScore}");
 exit;
