@@ -48,7 +48,8 @@ $group_name = trim($musicalScores['group_name'] ?? '');
   <!-- Header -->
   <?php require BASE_PATH . "includes/secondHeader.php"; ?>
 
-  <main class="container mb-5 p-5">
+  <main class="container mb-5 pt-5">
+
     <!-- Título -->
     <h1 class="mb-3">Edição de partituras</h1>
 
@@ -56,13 +57,13 @@ $group_name = trim($musicalScores['group_name'] ?? '');
     <form method="post" action="validateMusicalScoreEdit.php" enctype="multipart/form-data" class="row g-3">
 
       <!-- Nome -->
-      <div class="col-12 col-md-4 mb-3">
+      <div class="col-12 col-md-6 mb-3">
         <label for="iname" class="form-label fw-semibold">Nome</label>
         <input type="text" name="name" id="iname" class="form-control" value="<?= $music_name ?>">
       </div>
 
       <!-- Gênero -->
-      <div class="col-12 col-md-4 mb-3">
+      <div class="col-12 col-md-6 mb-3">
         <label for="igenre" class="form-label fw-semibold">Gênero</label>
         <select name="genre" id="igenre" class="form-select">
           <option value="<?= $music_genre ?>"><?= $music_genre ?></option>
@@ -71,14 +72,49 @@ $group_name = trim($musicalScores['group_name'] ?? '');
       </div>
 
       <!-- Grupo -->
-      <div class="mb-3 col-12 col-md-4">
+      <div class="mb-3 col-12">
         <label class="form-label fw-semibold">Grupo da Banda</label><br>
         <?php foreach ($groups as $group): ?>
-          <input type="checkbox" class="form-check-input" name="groups[]" value="<?= $group['group_id'] ?>">
+          <input type="checkbox" class="form-check-input" name="groups[]" value="<?= $group['group_id'] ?>" <?= MusicalScores::verifyGroup($musicId, $group['group_id']) ? 'checked' : ''; ?>>
           <label class="form-check-label">
             <?= $group['group_name'] ?>
           </label><br>
         <?php endforeach; ?>
+      </div>
+
+      <!-- Instrumentos sem Vozes -->
+      <div class="mb-4 col-12">
+        <h3 class="mb-3">Instrumentos sem Vozes</h3>
+
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped align-middle">
+
+            <thead>
+              <tr class="table-primary">
+                <th>Instrumento</th>
+                <th class="text-center">Arquivo Atual</th>
+                <th>Adicionar Arquivo</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="fw-semibold">Clarinete</td>
+
+                <td class="text-center">
+                  <a href="#" class="fs-4 text-decoration-none">
+                    <i class="bi bi-file-earmark-music"></i>
+                  </a>
+                </td>
+
+                <td>
+                  <input type="file" class="form-control" name="voiceOff[]">
+                </td>
+              </tr>
+            </tbody>
+
+          </table>
+        </div>
       </div>
 
     </form>
