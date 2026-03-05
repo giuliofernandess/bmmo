@@ -159,7 +159,7 @@ class MusicalScores
         FROM musical_scores AS ms
         JOIN musical_scores_groups AS msg ON ms.music_id = msg.music_id
         JOIN band_groups AS bg ON msg.group_id = bg.group_id
-        WHERE ms.music_id = ?"; 
+        WHERE ms.music_id = ?";
         $stmt = $db->prepare($sql);
 
         if (!$stmt) {
@@ -179,6 +179,34 @@ class MusicalScores
     }
 
     /**
+     * Retorna o arquivo da partitura de acordo com o id da partitura e o id do instrumento.
+     *
+     * @param int $musicId
+     * @param int $instrumentId
+     * @return string|null
+     */
+    public static function getFile(int $musicId, int $instrumentId): ?string
+    {
+        $db = Database::getConnection();
+
+        $sql = "SELECT file 
+            FROM musical_scores_instruments 
+            WHERE music_id = ? AND instrument_id = ?
+            LIMIT 1";
+
+        $stmt = $db->prepare($sql);
+        $stmt->bind_param("ii", $musicId, $instrumentId);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+
+        $stmt->close();
+
+        return $row['file'] ?? null;
+    }
+
+    /**
      * Verifica se existe determinado grupo de acordo com o id da música.
      *
      * @param int $musicId ID da partitura
@@ -190,7 +218,7 @@ class MusicalScores
 
         $db = Database::getConnection();
 
-        $sql = "SELECT * FROM musical_scores_groups WHERE music_id = ? and group_id = ?"; 
+        $sql = "SELECT * FROM musical_scores_groups WHERE music_id = ? and group_id = ?";
         $stmt = $db->prepare($sql);
 
         if (!$stmt) {
@@ -204,11 +232,38 @@ class MusicalScores
 
         $stmt->close();
 
-        if ($result -> num_rows == 0) {
+        if ($result->num_rows == 0) {
             return false;
         } else {
             return true;
         }
-        
+
+    }
+
+    public static function verifyInstrument(int $musicId, int $instrumentId): ?bool
+    {
+
+        $db = Database::getConnection();
+
+        $sql = "SELECT * FROM musical_scores_instruments WHERE music_id = ? and instrument_id = ? ";
+        $stmt = $db->prepare($sql);
+
+        if (!$stmt) {
+            return null;
+        }
+
+        $stmt->bind_param("ii", $musicId, $instrumentId);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        $stmt->close();
+
+        if ($result->num_rows == 0) {
+            return false;
+        } else {
+            return true;
+        }
+
     }
 }
