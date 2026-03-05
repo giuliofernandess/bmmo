@@ -175,5 +175,40 @@ class MusicalScores
         $stmt->close();
 
         return $data ?: null;
+
+    }
+
+    /**
+     * Verifica se existe determinado grupo de acordo com o id da música.
+     *
+     * @param int $musicId ID da partitura
+     * @param int $groupId ID do grupo
+     * @return bool Booleano(true, false)
+     */
+    public static function verifyGroup(int $musicId, int $groupId): ?bool
+    {
+
+        $db = Database::getConnection();
+
+        $sql = "SELECT * FROM musical_scores_groups WHERE music_id = ? and group_id = ?"; 
+        $stmt = $db->prepare($sql);
+
+        if (!$stmt) {
+            return null;
+        }
+
+        $stmt->bind_param("ii", $musicId, $groupId);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        $stmt->close();
+
+        if ($result -> num_rows == 0) {
+            return false;
+        } else {
+            return true;
+        }
+        
     }
 }
