@@ -3,11 +3,13 @@ require_once "../../../../../config/config.php";
 require_once BASE_PATH . "app/Auth/Auth.php";
 
 require_once BASE_PATH . "app/Models/BandGroups.php";
+require_once BASE_PATH . "app/Models/Instruments.php";
 require_once BASE_PATH . "app/Models/MusicalScores.php";
 
 Auth::requireRegency();
 
 $groups = BandGroups::getAll();
+$instruments = Instruments::getAll();
 
 // Verifica se recebeu o id do músico
 $musicId = isset($_GET["musicId"]) ? (int) $_GET["musicId"] : null;
@@ -75,42 +77,56 @@ $group_name = trim($musicalScores['group_name'] ?? '');
       <div class="mb-3 col-12">
         <label class="form-label fw-semibold">Grupo da Banda</label><br>
         <?php foreach ($groups as $group): ?>
-          <input type="checkbox" class="form-check-input" name="groups[]" value="<?= $group['group_id'] ?>" <?= MusicalScores::verifyGroup($musicId, $group['group_id']) ? 'checked' : ''; ?>>
+          <input type="checkbox" class="form-check-input" name="groups[]" value="<?= $group['group_id'] ?>"
+            <?= MusicalScores::verifyGroup($musicId, $group['group_id']) ? 'checked' : ''; ?>>
           <label class="form-check-label">
             <?= $group['group_name'] ?>
           </label><br>
         <?php endforeach; ?>
       </div>
 
-      <!-- Instrumentos sem Vozes -->
+      <!-- Instrumentos com Vozes -->
       <div class="mb-4 col-12">
-        <h3 class="mb-3">Instrumentos sem Vozes</h3>
+        <h3 class="mb-3">Instrumentos com Vozes</h3>
 
         <div class="table-responsive">
-          <table class="table table-bordered table-striped align-middle">
+          <table class="table table-bordered table-hover align-middle shadow-sm">
 
-            <thead>
-              <tr class="table-primary">
-                <th>Instrumento</th>
-                <th class="text-center">Arquivo Atual</th>
-                <th>Adicionar Arquivo</th>
+            <thead class="table-primary text-center">
+              <tr>
+                <th style="width:40%">Instrumento</th>
+                <th style="width:20%">Arquivo Atual</th>
+                <th style="width:40%">Adicionar Arquivo</th>
               </tr>
             </thead>
 
             <tbody>
-              <tr>
-                <td class="fw-semibold">Clarinete</td>
+              <?php foreach ($instruments as $instrument): ?>
+                <?php $hasFile = MusicalScores::verifyInstrument($musicId, $instrument['instrument_id']); ?>
 
-                <td class="text-center">
-                  <a href="#" class="fs-4 text-decoration-none">
-                    <i class="bi bi-file-earmark-music"></i>
-                  </a>
-                </td>
+                <tr>
+                  <td class="fw-semibold">
+                    <?= $instrument['instrument_name']; ?>
+                  </td>
 
-                <td>
-                  <input type="file" class="form-control" name="voiceOff[]">
-                </td>
-              </tr>
+                  <td class="text-center">
+                    <?php if ($hasFile): ?>
+                      <a href="<?= BASE_URL . "uploads/musical-scores/" ?>"
+                        class="btn btn-sm btn-outline-primary" target="_blank">
+                        <i class="bi bi-file-earmark-music"></i> Ver
+                      </a>
+                    <?php else: ?>
+                      <span class="text-muted">
+                        <i class="bi bi-dash-circle"></i> Nenhum
+                      </span>
+                    <?php endif; ?>
+                  </td>
+
+                  <td>
+                    <input type="file" name="instruments[]" class="form-control form-control-sm">
+                  </td>
+                </tr>
+              <?php endforeach ?>
             </tbody>
 
           </table>
