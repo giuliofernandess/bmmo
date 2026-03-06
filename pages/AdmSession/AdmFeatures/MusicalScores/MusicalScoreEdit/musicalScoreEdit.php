@@ -60,6 +60,10 @@ $group_name = trim($musicalScores['group_name'] ?? '');
 </head>
 
 <body>
+  <!-- Toasts -->
+  <?php require BASE_PATH . "includes/sucessToast.php"; ?>
+  <?php require BASE_PATH . "includes/errorToast.php"; ?>
+
   <!-- Header -->
   <?php require BASE_PATH . "includes/secondHeader.php"; ?>
 
@@ -70,6 +74,8 @@ $group_name = trim($musicalScores['group_name'] ?? '');
 
     <!-- Form -->
     <form method="post" action="validateMusicalScoreEdit.php" enctype="multipart/form-data" class="row g-3">
+
+      <input type="hidden" name="id" value="<?= $musicId ?>">
 
       <!-- Nome -->
       <div class="col-12 col-md-6 mb-3">
