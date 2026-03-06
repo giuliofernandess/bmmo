@@ -188,7 +188,7 @@ class MusicalScores
             return false;
         }
     }
-
+    
     /**
      * Retorna todos as partituras do banco, selecionados por grupos da banda, gênero ou os dois e * ordenados pelos mesmos.
      *

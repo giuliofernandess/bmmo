@@ -160,10 +160,9 @@ $group_name = trim($musicalScores['group_name'] ?? '');
 
             <thead class="table-primary text-center">
               <tr>
-                <th style="width:30%">Instrumento</th>
+                <th style="width:40%">Instrumento</th>
                 <th style="width:20%">Arquivo Atual</th>
                 <th style="width:40%">Adicionar Arquivo</th>
-                <th style="width:10%">Ações</th>
               </tr>
             </thead>
 
@@ -201,24 +200,6 @@ $group_name = trim($musicalScores['group_name'] ?? '');
                       class="form-control form-control-sm">
                   </td>
 
-                  <td class="text-center">
-                    <?php if ($hasFile): ?>
-                      <form action="#" method="post" class="d-inline">
-
-                        <input type="hidden" name="music_id" value="<?= $musicId ?>">
-                        <input type="hidden" name="instrument_id" value="<?= $instrument['instrument_id'] ?>">
-
-                        <button type="submit" class="btn btn-sm btn-outline-danger"
-                          onclick="return confirm('Deseja remover este arquivo?')" title="Excluir arquivo">
-
-                          <i class="bi bi-trash"></i>
-                        </button>
-
-                      </form>
-                    <?php else: ?>
-                      <span class="text-muted">—</span>
-                    <?php endif; ?>
-                  </td>
                 </tr>
               <?php endforeach ?>
             </tbody>
@@ -227,21 +208,11 @@ $group_name = trim($musicalScores['group_name'] ?? '');
         </div>
       </div>
 
-      <div class="col-12 col-md-6 d-grid">
+      <div class="col-12 d-grid">
         <button type="submit" class="btn btn-primary">
           Enviar Alterações
         </button>
       </div>
-
-      <form class="col-12 col-md-6 d-grid" action="#" method="POST"
-        onsubmit="return confirm('Tem certeza que deseja excluir esta partitura?');">
-
-        <input type="hidden" name="musicId" value="<?= $musicId; ?>">
-
-        <button type="submit" class="btn btn-danger">
-          <i class="bi bi-trash"></i> Excluir
-        </button>
-      </form>
 
     </form>
   </main>
