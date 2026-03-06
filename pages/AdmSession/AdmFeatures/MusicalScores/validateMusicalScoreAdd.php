@@ -28,5 +28,5 @@ if ($musicalScoreAdd !== false) {
 }
 
 // Redireciona para a página de inserção de instrumentos
-header("Location: MusicalScoreEdit/musicalScoreEdit.php?musicId={$addMusicalScore}");
+header("Location: MusicalScoreEdit/musicalScoreEdit.php?musicId={$musicalScoreAdd}");
 exit;
