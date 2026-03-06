@@ -203,7 +203,7 @@ $group_name = trim($musicalScores['group_name'] ?? '');
 
                   <td class="text-center">
                     <?php if ($hasFile): ?>
-                      <form action="MusicalScoreDelete/validateMusicalScoreDelete.php" method="post" class="d-inline">
+                      <form action="#" method="post" class="d-inline">
 
                         <input type="hidden" name="music_id" value="<?= $musicId ?>">
                         <input type="hidden" name="instrument_id" value="<?= $instrument['instrument_id'] ?>">
@@ -227,11 +227,21 @@ $group_name = trim($musicalScores['group_name'] ?? '');
         </div>
       </div>
 
-      <div class="col-12 d-grid">
+      <div class="col-12 col-md-6 d-grid">
         <button type="submit" class="btn btn-primary">
           Enviar Alterações
         </button>
       </div>
+
+      <form class="col-12 col-md-6 d-grid" action="#" method="POST"
+        onsubmit="return confirm('Tem certeza que deseja excluir esta partitura?');">
+
+        <input type="hidden" name="musicId" value="<?= $musicId; ?>">
+
+        <button type="submit" class="btn btn-danger">
+          <i class="bi bi-trash"></i> Excluir
+        </button>
+      </form>
 
     </form>
   </main>
