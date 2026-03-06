@@ -85,7 +85,7 @@ class MusicalScores
      * @return bool Booleano (true, false)
      */
 
-    public static function editMusicalScore(
+    public static function musicalScoreEdit(
         int $musicId,
         string $musicName,
         string $musicGenre,

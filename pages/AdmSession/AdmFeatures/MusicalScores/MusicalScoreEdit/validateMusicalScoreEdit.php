@@ -24,7 +24,7 @@ foreach ($_FILES['instruments']['name'] as $instrumentId => $name) {
     }
 }
 
-$editMusicalScore = MusicalScores::editMusicalScore(
+$musicalScoreEdit = MusicalScores::musicalScoreEdit(
     $musicId,
     $musicName,
     $musicGenre,
@@ -32,7 +32,7 @@ $editMusicalScore = MusicalScores::editMusicalScore(
     $instruments
 );
 
-if ($editMusicalScore !== false) {
+if ($musicalScoreEdit !== false) {
     $_SESSION['success'] = "Partitura editada com sucesso!";
 } else {
     $_SESSION['error'] = "Erro ao editar partitura.";
