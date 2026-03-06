@@ -9,13 +9,20 @@ class Instruments
      * Retorna todos os instrumentos do banco, ordenados por id.
      *
      * @return array Array de instrumentos (cada instrumento é um array associativo)
+     * @param bool Booleano que seleciona a consulta com in 
      */
 
-    public static function getAll(): array
+    public static function getAll(bool $voiceOff = false): array
     {
         $db = Database::getConnection();
 
-        $sql = "SELECT * FROM instruments ORDER BY instrument_id";
+        $sql = "SELECT * FROM instruments";
+
+        if ($voiceOff) {
+            $sql .= " WHERE instrument_id IN (4,7,10,13,16,19)";
+        }
+
+        $sql .= " ORDER BY instrument_id";
 
         $stmt = $db->prepare($sql);
         if (!$stmt) {
