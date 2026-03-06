@@ -81,6 +81,7 @@ class MusicalScores
      * @param string $musicName String com o nome da partitura
      * @param string $musicGenre String com o gênero da partitura
      * @param array $musicGroups Array contendo os grupos selecionados
+     * @param array $instruments Array contendo os arquivos dos instrumentos sem vozes
      * @return bool Booleano (true, false)
      */
 
@@ -88,7 +89,8 @@ class MusicalScores
         int $musicId,
         string $musicName,
         string $musicGenre,
-        array $musicGroups
+        array $musicGroups,
+        array $instruments
     ): bool {
 
         $db = Database::getConnection();
@@ -97,7 +99,7 @@ class MusicalScores
 
         try {
 
-            // Atualizar partitura
+            // Edição de características gerais
             $stmt = $db->prepare(
                 "UPDATE musical_scores SET music_name= ?, music_genre= ? WHERE music_id = ?"
             );
@@ -132,6 +134,44 @@ class MusicalScores
 
                 $stmtGroups->close();
             }
+
+
+
+            $stmt = $db->prepare("INSERT INTO musical_scores_instruments VALUES (?, ?, ?)");
+
+            // Inserir instrumentos com vozes
+            foreach ($instruments as $instrument => $file) {
+                $instrument = (int) $instrument;
+
+                if (self::verifyInstrument($musicId, $instrument)) {
+
+                    // Deleta os arquivos antigos
+                    $oldFile = self::getFile($musicId, $instrument);
+
+                    if ($oldFile) {
+                        $path = BASE_PATH . "uploads/musical-scores/" . $oldFile;
+
+                        if (file_exists($path)) {
+                            unlink($path);
+                        }
+                    }
+
+                    $stmtDel = $db->prepare("DELETE FROM musical_scores_instruments WHERE music_id = ? and instrument_id = ?");
+                    $stmtDel->bind_param("ii", $musicId, $instrument);
+                    $stmtDel->execute();
+                    $stmtDel->close();
+
+                }
+
+                $stmt->bind_param("iis", $musicId, $instrument, $file);
+
+                if (!$stmt->execute()) {
+                    throw new Exception("Erro ao editar partitura.");
+                }
+
+            }
+
+            $stmt->close();
 
             // Commit final
             $db->commit();

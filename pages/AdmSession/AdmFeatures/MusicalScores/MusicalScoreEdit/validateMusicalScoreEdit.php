@@ -9,11 +9,27 @@ $musicName = trim($_POST['name'] ?? '');
 $musicGenre = trim($_POST['genre'] ?? '');
 $musicGroups = $_POST['groups'] ?? [];
 
+// Validação de instrumentos sem vozes
+$instruments = [];
+
+foreach ($_FILES['instruments']['name'] as $instrumentId => $name) {
+
+    if ($_FILES['instruments']['error'][$instrumentId] === UPLOAD_ERR_OK) {
+
+        $tmp = $_FILES['instruments']['tmp_name'][$instrumentId];
+
+        move_uploaded_file($tmp, BASE_PATH . "uploads/musical-scores/" . $name);
+
+        $instruments[$instrumentId] = $name;
+    }
+}
+
 $editMusicalScore = MusicalScores::editMusicalScore(
     $musicId,
     $musicName,
     $musicGenre,
-    $musicGroups
+    $musicGroups,
+    $instruments
 );
 
 if ($editMusicalScore !== false) {
