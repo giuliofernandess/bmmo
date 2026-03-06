@@ -15,13 +15,13 @@ if (empty($musicName) || empty($musicGenre)) {
     exit;
 }
 
-$addMusicalScore = MusicalScores::addMusicalScore(
+$musicalScoreAdd = MusicalScores::musicalScoreAdd(
     $musicName,
     $musicGenre,
     $musicGroups
 );
 
-if ($addMusicalScore !== false) {
+if ($musicalScoreAdd !== false) {
     $_SESSION['success'] = "Partitura criada com sucesso!";
 } else {
     $_SESSION['error'] = "Erro ao criar partitura.";

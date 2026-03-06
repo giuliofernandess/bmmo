@@ -48,7 +48,7 @@ $groups = BandGroups::getAll();
     <div class="bg-white p-4 rounded shadow-sm mb-4" style="display: none;" id="presentationForm">
       <h4 class="mb-3">Adicionar Partitura</h4>
 
-      <form action="validateAddMusicalScore.php" method="post">
+      <form action="validateMusicalScoreAdd.php" method="post">
 
         <div class="mb-3">
           <label for="iname" class="form-label">Nome</label>

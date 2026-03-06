@@ -45,18 +45,8 @@ $group_name = trim($musicalScores['group_name'] ?? '');
   <!-- Configurações Básicas -->
   <?php require_once BASE_PATH . "includes/basicHead.php"; ?>
 
-  <style>
-    .btn {
-      transition: 0.2s;
-      height: 40px;
-    }
-
-    .btn:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
-    }
-  </style>
-
+  <!-- CSS da página -->
+  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/musicalScoreEdit.css">
 </head>
 
 <body>
@@ -121,7 +111,12 @@ $group_name = trim($musicalScores['group_name'] ?? '');
 
             <tbody>
               <?php foreach ($instrumentsVoiceOff as $instrument): ?>
-                <?php $hasFile = MusicalScores::verifyInstrument($musicId, $instrument['instrument_id']); ?>
+                <?php $hasFile = MusicalScores::verifyInstrument($musicId, $instrument['instrument_id']);
+
+                $musicFile = MusicalScores::getFile($musicId, $instrument['instrument_id'])
+                  ?>
+
+
 
                 <tr>
                   <td class="fw-semibold">
@@ -130,14 +125,17 @@ $group_name = trim($musicalScores['group_name'] ?? '');
 
                   <td class="text-center">
                     <?php if ($hasFile): ?>
-                      <a href="<?= BASE_URL . "uploads/musical-scores/" ?>" class="btn btn-sm btn-outline-primary"
-                        target="_blank">
-                        <i class="bi bi-file-earmark-music"></i> Ver
-                      </a>
+                      <div class="file-cell">
+                        <i class="bi bi-file-earmark-text text-secondary"></i>
+
+                        <a class="file-link file-name" href="<?= BASE_URL . "uploads/musical-scores/{$musicFile}" ?>"
+                          target="_blank">
+
+                          <?= basename($musicFile) ?>
+                        </a>
+                      </div>
                     <?php else: ?>
-                      <span class="text-muted">
-                        <i class="bi bi-dash-circle"></i> Nenhum
-                      </span>
+                      <span class="text-muted small">—</span>
                     <?php endif; ?>
                   </td>
 
@@ -162,15 +160,20 @@ $group_name = trim($musicalScores['group_name'] ?? '');
 
             <thead class="table-primary text-center">
               <tr>
-                <th style="width:40%">Instrumento</th>
+                <th style="width:30%">Instrumento</th>
                 <th style="width:20%">Arquivo Atual</th>
                 <th style="width:40%">Adicionar Arquivo</th>
+                <th style="width:10%">Ações</th>
               </tr>
             </thead>
 
             <tbody>
               <?php foreach ($instruments as $instrument): ?>
-                <?php $hasFile = MusicalScores::verifyInstrument($musicId, $instrument['instrument_id']); ?>
+                <?php
+                $hasFile = MusicalScores::verifyInstrument($musicId, $instrument['instrument_id']);
+
+                $musicFile = MusicalScores::getFile($musicId, $instrument['instrument_id'])
+                  ?>
 
                 <tr>
                   <td class="fw-semibold">
@@ -179,20 +182,42 @@ $group_name = trim($musicalScores['group_name'] ?? '');
 
                   <td class="text-center">
                     <?php if ($hasFile): ?>
-                      <a href="<?= BASE_URL . "uploads/musical-scores/" ?>" class="btn btn-sm btn-outline-primary"
-                        target="_blank">
-                        <i class="bi bi-file-earmark-music"></i> Ver
-                      </a>
+                      <div class="file-cell">
+                        <i class="bi bi-file-earmark-text text-secondary"></i>
+
+                        <a class="file-link file-name" href="<?= BASE_URL . "uploads/musical-scores/{$musicFile}" ?>"
+                          target="_blank">
+
+                          <?= basename($musicFile) ?>
+                        </a>
+                      </div>
                     <?php else: ?>
-                      <span class="text-muted">
-                        <i class="bi bi-dash-circle"></i> Nenhum
-                      </span>
+                      <span class="text-muted small">—</span>
                     <?php endif; ?>
                   </td>
 
                   <td>
                     <input type="file" name="instruments[<?= $instrument['instrument_id'] ?>]"
                       class="form-control form-control-sm">
+                  </td>
+
+                  <td class="text-center">
+                    <?php if ($hasFile): ?>
+                      <form action="MusicalScoreDelete/validateMusicalScoreDelete.php" method="post" class="d-inline">
+
+                        <input type="hidden" name="music_id" value="<?= $musicId ?>">
+                        <input type="hidden" name="instrument_id" value="<?= $instrument['instrument_id'] ?>">
+
+                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                          onclick="return confirm('Deseja remover este arquivo?')" title="Excluir arquivo">
+
+                          <i class="bi bi-trash"></i>
+                        </button>
+
+                      </form>
+                    <?php else: ?>
+                      <span class="text-muted">—</span>
+                    <?php endif; ?>
                   </td>
                 </tr>
               <?php endforeach ?>

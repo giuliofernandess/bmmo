@@ -15,7 +15,7 @@ class MusicalScores
      * @return bool Booleano (true, false)
      */
 
-    public static function addMusicalScore(
+    public static function MusicalScoreAdd(
         string $musicName,
         string $musicGenre,
         array $musicGroups
