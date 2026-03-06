@@ -24,7 +24,7 @@ foreach ($_FILES['instruments']['name'] as $instrumentId => $name) {
     }
 }
 
-$musicalScoreEdit = MusicalScores::musicalScoreEdit(
+$musicalScoreEdit = MusicalScores::MusicalScoreEdit(
     $musicId,
     $musicName,
     $musicGenre,

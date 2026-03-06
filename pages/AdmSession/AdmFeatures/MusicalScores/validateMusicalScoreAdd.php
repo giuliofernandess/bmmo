@@ -15,7 +15,7 @@ if (empty($musicName) || empty($musicGenre)) {
     exit;
 }
 
-$musicalScoreAdd = MusicalScores::musicalScoreAdd(
+$musicalScoreAdd = MusicalScores::MusicalScoreAdd(
     $musicName,
     $musicGenre,
     $musicGroups
