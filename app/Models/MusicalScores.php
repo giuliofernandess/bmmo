@@ -240,6 +240,14 @@ class MusicalScores
 
     }
 
+    /**
+     * Verifica se existe determinado instrumento de acordo com o id da música.
+     *
+     * @param int $musicId ID da partitura
+     * @param int $instrumentId ID do instrumento
+     * @return bool Booleano(true, false)
+     */
+
     public static function verifyInstrument(int $musicId, int $instrumentId): ?bool
     {
 
