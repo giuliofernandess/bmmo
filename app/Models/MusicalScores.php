@@ -75,6 +75,76 @@ class MusicalScores
     }
 
     /**
+     * Edita uma partitura de acordo com o id.
+     * 
+     * @param int ID da partitura 
+     * @param string $musicName String com o nome da partitura
+     * @param string $musicGenre String com o gênero da partitura
+     * @param array $musicGroups Array contendo os grupos selecionados
+     * @return bool Booleano (true, false)
+     */
+
+    public static function editMusicalScore(
+        int $musicId,
+        string $musicName,
+        string $musicGenre,
+        array $musicGroups
+    ): bool {
+
+        $db = Database::getConnection();
+
+        $db->begin_transaction();
+
+        try {
+
+            // Atualizar partitura
+            $stmt = $db->prepare(
+                "UPDATE musical_scores SET music_name= ?, music_genre= ? WHERE music_id = ?"
+            );
+            $stmt->bind_param("ssi", $musicName, $musicGenre, $musicId);
+
+            if (!$stmt->execute()) {
+                throw new Exception("Erro ao editar partitura.");
+            }
+
+            $stmt->close();
+
+            // Limpar grupos antigos
+            $stmtDel = $db->prepare("DELETE FROM musical_scores_groups WHERE music_id = ?");
+            $stmtDel->bind_param("i", $musicId);
+            $stmtDel->execute();
+            $stmtDel->close();
+
+            // Inserir grupos novos
+            if (!empty($musicGroups)) {
+                $stmtGroups = $db->prepare(
+                    "INSERT INTO musical_scores_groups (music_id, group_id) VALUES (?, ?)"
+                );
+
+                foreach ($musicGroups as $groupId) {
+                    $groupId = (int) $groupId;
+                    $stmtGroups->bind_param("ii", $musicId, $groupId);
+
+                    if (!$stmtGroups->execute()) {
+                        throw new Exception("Erro ao vincular grupo.");
+                    }
+                }
+
+                $stmtGroups->close();
+            }
+
+            // Commit final
+            $db->commit();
+
+            return true;
+
+        } catch (\Exception $e) {
+            $db->rollback();
+            return false;
+        }
+    }
+
+    /**
      * Retorna todos as partituras do banco, selecionados por grupos da banda, gênero ou os dois e * ordenados pelos mesmos.
      *
      * @param string $musicName nome da partitura
