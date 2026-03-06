@@ -10,6 +10,7 @@ Auth::requireRegency();
 
 $groups = BandGroups::getAll();
 $instruments = Instruments::getAll();
+$instrumentsVoiceOff = Instruments::getAll(true);
 
 // Verifica se recebeu o id do músico
 $musicId = isset($_GET["musicId"]) ? (int) $_GET["musicId"] : null;
@@ -43,6 +44,18 @@ $group_name = trim($musicalScores['group_name'] ?? '');
 
   <!-- Configurações Básicas -->
   <?php require_once BASE_PATH . "includes/basicHead.php"; ?>
+
+  <style>
+    .btn {
+      transition: 0.2s;
+      height: 40px;
+    }
+
+    .btn:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+    }
+  </style>
 
 </head>
 
@@ -85,6 +98,55 @@ $group_name = trim($musicalScores['group_name'] ?? '');
         <?php endforeach; ?>
       </div>
 
+      <!-- Instrumentos sem Vozes -->
+      <div class="mb-4 col-12">
+        <h3 class="mb-3">Instrumentos sem Vozes</h3>
+
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover align-middle shadow-sm">
+
+            <thead class="table-primary text-center">
+              <tr>
+                <th style="width:40%">Instrumento</th>
+                <th style="width:20%">Arquivo Atual</th>
+                <th style="width:40%">Adicionar Arquivo</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <?php foreach ($instrumentsVoiceOff as $instrument): ?>
+                <?php $hasFile = MusicalScores::verifyInstrument($musicId, $instrument['instrument_id']); ?>
+
+                <tr>
+                  <td class="fw-semibold">
+                    <?= substr($instrument['instrument_name'], 3); ?>
+                  </td>
+
+                  <td class="text-center">
+                    <?php if ($hasFile): ?>
+                      <a href="<?= BASE_URL . "uploads/musical-scores/" ?>" class="btn btn-sm btn-outline-primary"
+                        target="_blank">
+                        <i class="bi bi-file-earmark-music"></i> Ver
+                      </a>
+                    <?php else: ?>
+                      <span class="text-muted">
+                        <i class="bi bi-dash-circle"></i> Nenhum
+                      </span>
+                    <?php endif; ?>
+                  </td>
+
+                  <td>
+                    <input type="file" name="instrumentsVoiceOff[<?= $instrument['instrument_id'] ?>]"
+                      class="form-control form-control-sm">
+                  </td>
+                </tr>
+              <?php endforeach ?>
+            </tbody>
+
+          </table>
+        </div>
+      </div>
+
       <!-- Instrumentos com Vozes -->
       <div class="mb-4 col-12">
         <h3 class="mb-3">Instrumentos com Vozes</h3>
@@ -111,8 +173,8 @@ $group_name = trim($musicalScores['group_name'] ?? '');
 
                   <td class="text-center">
                     <?php if ($hasFile): ?>
-                      <a href="<?= BASE_URL . "uploads/musical-scores/" ?>"
-                        class="btn btn-sm btn-outline-primary" target="_blank">
+                      <a href="<?= BASE_URL . "uploads/musical-scores/" ?>" class="btn btn-sm btn-outline-primary"
+                        target="_blank">
                         <i class="bi bi-file-earmark-music"></i> Ver
                       </a>
                     <?php else: ?>
@@ -123,7 +185,8 @@ $group_name = trim($musicalScores['group_name'] ?? '');
                   </td>
 
                   <td>
-                    <input type="file" name="instruments[]" class="form-control form-control-sm">
+                    <input type="file" name="instruments[<?= $instrument['instrument_id'] ?>]"
+                      class="form-control form-control-sm">
                   </td>
                 </tr>
               <?php endforeach ?>
@@ -131,6 +194,12 @@ $group_name = trim($musicalScores['group_name'] ?? '');
 
           </table>
         </div>
+      </div>
+
+      <div class="col-12 d-grid">
+        <button type="submit" class="btn btn-primary">
+          Enviar Alterações
+        </button>
       </div>
 
     </form>
