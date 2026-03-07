@@ -160,9 +160,10 @@ $group_name = trim($musicalScores['group_name'] ?? '');
 
             <thead class="table-primary text-center">
               <tr>
-                <th style="width:40%">Instrumento</th>
-                <th style="width:20%">Arquivo Atual</th>
+                <th style="width:35%">Instrumento</th>
+                <th style="width:25%">Arquivo Atual</th>
                 <th style="width:40%">Adicionar Arquivo</th>
+                <th style="width:10%">Excluir</th>
               </tr>
             </thead>
 
@@ -198,6 +199,18 @@ $group_name = trim($musicalScores['group_name'] ?? '');
                   <td>
                     <input type="file" name="instruments[<?= $instrument['instrument_id'] ?>]"
                       class="form-control form-control-sm">
+                  </td>
+
+                  <td class=" d-flex align-items-center justify-content-center">
+                    <?php if ($hasFile): ?>
+                      <a href="MusicalScoreDelete/validateMusicalScoreInstrumentDelete.php?music_id=<?= $musicId ?>&instrument_id=<?= $instrument['instrument_id'] ?>"
+                        class="btn btn-sm btn-danger d-flex align-items-center justify-content-center"
+                        onclick="return confirm('Deseja excluir este arquivo?');">
+                        <i class="bi bi-trash"></i>
+                      </a>
+                    <?php else: ?>
+                      <span class="text-muted small">—</span>
+                    <?php endif; ?>
                   </td>
 
                 </tr>
