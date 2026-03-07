@@ -11,7 +11,6 @@ if (!$musicId) {
     exit;
 }
 
-//Recebe a imagem do músico
 $currentFile = MusicalScores::getFile($musicId, $instrumentId);
 
 $musicalScoreInstrumentDelete = MusicalScores::MusicalScoreInstrumentDelete($musicId, $instrumentId);
