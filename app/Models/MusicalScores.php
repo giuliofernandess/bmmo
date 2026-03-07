@@ -188,6 +188,30 @@ class MusicalScores
             return false;
         }
     }
+
+    /**
+     * Apaga o instrumento de uma partitura do banco de dados.
+     *
+     * @param int $musicId Id do músico
+     * @param int $instrumentId Id da partitura
+     * @return bool Booleano (true, false)
+     */
+
+    public static function MusicalScoreInstrumentDelete(int $musicId, int $instrumentId): bool
+    {
+        $db = Database::getConnection();
+
+        $stmt = $db->prepare("DELETE FROM musical_scores_instruments 
+        WHERE music_id = ? and instrument_id = ?");
+        $stmt->bind_param("ii", $musicId, $instrumentId);
+        $stmt->execute();
+
+        $affected = $stmt->affected_rows;
+
+        $stmt->close();
+
+        return $affected > 0;
+    }
     
     /**
      * Retorna todos as partituras do banco, selecionados por grupos da banda, gênero ou os dois e * ordenados pelos mesmos.
