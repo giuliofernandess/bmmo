@@ -96,9 +96,13 @@ $group_name = trim($musicalScores['group_name'] ?? '');
 
       <!-- Instrumentos sem Vozes -->
       <div class="mb-4 col-12">
-        <h3 class="mb-3">Instrumentos sem Vozes</h3>
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h3>Instrumentos sem Vozes</h3>
+          <i class="bi bi-plus-square-fill fs-3 text-primary cursor-pointer" id="addIcon" onclick="showForm()"
+        title="Instrumentos sem Vozes"></i>
+        </div>
 
-        <div class="table-responsive">
+        <div class="table-responsive" id="presentationForm" style="display: none;">
           <table class="table table-bordered table-hover align-middle shadow-sm">
 
             <thead class="table-primary text-center">
@@ -221,10 +225,17 @@ $group_name = trim($musicalScores['group_name'] ?? '');
         </div>
       </div>
 
-      <div class="col-12 d-grid">
+      <div class="col-12 col-md-6 d-grid">
         <button type="submit" class="btn btn-primary">
           Enviar Alterações
         </button>
+      </div>
+
+      <div class="col-12 col-md-6 d-grid">
+        <a href="MusicalScoreDelete/validateMusicalScoreGeneralDelete.php?music_id=<?= $musicId ?>"
+          class="btn btn-danger" onclick="return confirm('Deseja excluir esta partitura?');">
+          Excluir Partitura
+        </a>
       </div>
 
     </form>
