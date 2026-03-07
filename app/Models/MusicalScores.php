@@ -190,6 +190,66 @@ class MusicalScores
     }
 
     /**
+     * Apaga uma partitura do banco de dados.
+     *
+     * @param int $musicId Id do músico
+     * @return bool Booleano (true, false)
+     */
+
+    public static function MusicalScoreGeneralDelete(int $musicId): bool
+    {
+        $db = Database::getConnection();
+
+        $db->begin_transaction();
+
+
+        try {
+            $stmtDelInstruments = $db->prepare("SELECT file FROM musical_scores_instruments WHERE music_id = ?");
+            $stmtDelInstruments->bind_param("i", $musicId);
+            $stmtDelInstruments->execute();
+
+            $result = $stmtDelInstruments->get_result();
+
+            $files = [];
+            while ($row = $result->fetch_assoc()) {
+                $files[] = $row['file'];
+            }
+
+            $stmtDelInstruments->close();
+
+            self::MusicalScoreInstrumentDelete($musicId);
+
+            $stmtDelGroups = $db->prepare("DELETE FROM musical_scores_groups 
+            WHERE music_id = ?");
+            $stmtDelGroups->bind_param("i", $musicId);
+            $stmtDelGroups->execute();
+            $stmtDelGroups->close();
+
+            $stmt = $db->prepare("DELETE FROM musical_scores 
+            WHERE music_id = ?");
+            $stmt->bind_param("i", $musicId);
+            $stmt->execute();
+            $stmt->close();
+
+            // Commit final
+            $db->commit();
+
+            foreach ($files as $file) {
+                $path = BASE_PATH . 'uploads/musical-scores/' . $file;
+
+                if ($file && file_exists($path)) {
+                    unlink($path);
+                }
+            }
+
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+
+    }
+
+    /**
      * Apaga o instrumento de uma partitura do banco de dados.
      *
      * @param int $musicId Id do músico
@@ -197,13 +257,20 @@ class MusicalScores
      * @return bool Booleano (true, false)
      */
 
-    public static function MusicalScoreInstrumentDelete(int $musicId, int $instrumentId): bool
+    public static function MusicalScoreInstrumentDelete(int $musicId, int $instrumentId = 0): bool
     {
         $db = Database::getConnection();
 
-        $stmt = $db->prepare("DELETE FROM musical_scores_instruments 
-        WHERE music_id = ? and instrument_id = ?");
-        $stmt->bind_param("ii", $musicId, $instrumentId);
+        if ($instrumentId == 0) {
+            $stmt = $db->prepare("DELETE FROM musical_scores_instruments 
+            WHERE music_id = ?");
+            $stmt->bind_param("i", $musicId);
+        } else {
+            $stmt = $db->prepare("DELETE FROM musical_scores_instruments 
+            WHERE music_id = ? and instrument_id = ?");
+            $stmt->bind_param("ii", $musicId, $instrumentId);
+        }
+
         $stmt->execute();
 
         $affected = $stmt->affected_rows;
@@ -212,7 +279,7 @@ class MusicalScores
 
         return $affected > 0;
     }
-    
+
     /**
      * Retorna todos as partituras do banco, selecionados por grupos da banda, gênero ou os dois e * ordenados pelos mesmos.
      *
