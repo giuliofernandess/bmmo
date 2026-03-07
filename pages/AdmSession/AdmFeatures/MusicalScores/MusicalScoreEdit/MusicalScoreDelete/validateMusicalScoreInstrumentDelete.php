@@ -20,9 +20,9 @@ if ($musicalScoreInstrumentDelete) {
         unlink(BASE_PATH . 'uploads/musical-scores/' . $currentFile);
     }
 
-    $_SESSION['success'] = "Partitura excluído com sucesso.";
+    $_SESSION['success'] = "Arquivo excluído com sucesso.";
 } else {
-    $_SESSION['error'] = "Não foi possível deletar o partitura.";
+    $_SESSION['error'] = "Não foi possível deletar o arquivo.";
 }
 
 header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/MusicalScores/MusicalScoreEdit/musicalScoreEdit.php?musicId={$musicId}");
