@@ -26,12 +26,16 @@ sessionStorage.setItem("lastPage", currentPage);
 
 function safeBack() {
 
-    if (!lastPage) {
+    const last = sessionStorage.getItem("lastPage");
+
+    if (!last) {
         history.back();
         return;
     }
 
-    if (lastPage.includes("validate")) {
+    const file = last.split("/").pop();
+
+    if (file.includes("validate") || last.includes("?")) {
         return;
     }
 
