@@ -10,6 +10,21 @@ $musicGenre = trim($_POST['genre'] ?? '');
 $musicGroups = $_POST['groups'] ?? [];
 
 // Validação de instrumentos sem vozes
+$instrumentsVoiceOff = [];
+
+foreach ($_FILES['instrumentsVoiceOff']['name'] as $instrumentId => $nameVoiceOff) {
+
+    if ($_FILES['instrumentsVoiceOff']['error'][$instrumentId] === UPLOAD_ERR_OK) {
+
+        $tmp = $_FILES['instrumentsVoiceOff']['tmp_name'][$instrumentId];
+
+        move_uploaded_file($tmp, BASE_PATH . "uploads/musical-scores/" . $nameVoiceOff);
+
+        $instrumentsVoiceOff[$instrumentId] = $nameVoiceOff;
+    }
+}
+
+// Validação de instrumentos com vozes
 $instruments = [];
 
 foreach ($_FILES['instruments']['name'] as $instrumentId => $name) {
@@ -29,6 +44,7 @@ $musicalScoreEdit = MusicalScores::MusicalScoreEdit(
     $musicName,
     $musicGenre,
     $musicGroups,
+    $instrumentsVoiceOff,
     $instruments
 );
 
