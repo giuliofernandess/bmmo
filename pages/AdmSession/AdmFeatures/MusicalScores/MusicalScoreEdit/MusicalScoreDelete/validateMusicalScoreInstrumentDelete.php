@@ -5,6 +5,7 @@ require_once BASE_PATH . 'app/Models/MusicalScores.php';
 
 $musicId = isset($_GET['music_id']) ? (int) $_GET['music_id'] : null;
 $instrumentId = isset($_GET['instrument_id']) ? (int) $_GET['instrument_id'] : null;
+$voiceOff = $_GET['voice_off'] ? $_GET['voice_off'] : null;
 
 if (!$musicId) {
     header("Location: " . BASE_URL . "pages/AdmSession/MusicalScores/MusicalScoresEdit/musicalScoreEdit.php?musicId={$musicId}");
@@ -13,7 +14,11 @@ if (!$musicId) {
 
 $currentFile = MusicalScores::getFile($musicId, $instrumentId);
 
-$musicalScoreInstrumentDelete = MusicalScores::MusicalScoreInstrumentDelete($musicId, $instrumentId);
+if ($voiceOff) {
+    $musicalScoreInstrumentDelete = MusicalScores::MusicalScoreInstrumentDelete($musicId, $instrumentId, true);
+} else {
+    $musicalScoreInstrumentDelete = MusicalScores::MusicalScoreInstrumentDelete($musicId, $instrumentId);
+}
 
 if ($musicalScoreInstrumentDelete) {
     if ($currentFile && file_exists(BASE_PATH . 'uploads/musical-scores/' . $currentFile)) {
