@@ -86,7 +86,8 @@ class MusicalScores
      * @param string $musicName String com o nome da partitura
      * @param string $musicGenre String com o gênero da partitura
      * @param array $musicGroups Array contendo os grupos selecionados
-     * @param array $instruments Array contendo os arquivos dos instrumentos sem vozes
+     * @param array $instrumentsVoiceOff Array contendo os arquivos dos instrumentos sem vozes
+     * @param array $instruments Array contendo os arquivos dos instrumentos com vozes
      * @return bool Booleano (true, false)
      */
 
@@ -95,6 +96,7 @@ class MusicalScores
         string $musicName,
         string $musicGenre,
         array $musicGroups,
+        array $instrumentsVoiceOff,
         array $instruments
     ): bool {
 
@@ -140,7 +142,43 @@ class MusicalScores
                 $stmtGroups->close();
             }
 
+            $stmtVoiceOff = $db->prepare("INSERT INTO musical_scores_instruments VALUES (?, ?, ?)");
 
+            // Inserir instrumentos sem vozes
+            foreach ($instrumentsVoiceOff as $instrumentVoiceOff => $file) {
+
+                $baseInstrument = (int) $instrumentVoiceOff;
+
+                for ($i = 0; $i < 3; $i++) {
+                    $instrumentId = $baseInstrument + $i;
+
+                    if (self::verifyInstrument($musicId, $instrumentId)) {
+
+                        $oldFile = self::getFile($musicId, $instrumentId);
+
+                        if ($oldFile) {
+                            $path = BASE_PATH . "uploads/musical-scores/" . $oldFile;
+
+                            if (file_exists($path)) {
+                                unlink($path);
+                            }
+                        }
+
+                        $stmtDel = $db->prepare("DELETE FROM musical_scores_instruments WHERE music_id = ? and instrument_id = ?");
+                        $stmtDel->bind_param("ii", $musicId, $instrumentId);
+                        $stmtDel->execute();
+                        $stmtDel->close();
+                    }
+
+                    $stmtVoiceOff->bind_param("iis", $musicId, $instrumentId, $file);
+
+                    if (!$stmtVoiceOff->execute()) {
+                        throw new Exception("Erro ao editar partitura.");
+                    }
+                }
+            }
+
+            $stmtVoiceOff->close();
 
             $stmt = $db->prepare("INSERT INTO musical_scores_instruments VALUES (?, ?, ?)");
 
@@ -254,10 +292,11 @@ class MusicalScores
      *
      * @param int $musicId Id do músico
      * @param int $instrumentId Id da partitura
+     * @param bool $voiceOff Se os instrumentos vão ter voz ou não
      * @return bool Booleano (true, false)
      */
 
-    public static function MusicalScoreInstrumentDelete(int $musicId, int $instrumentId = 0): bool
+    public static function MusicalScoreInstrumentDelete(int $musicId,  int $instrumentId = 0, bool $voiceOff = false): bool
     {
         $db = Database::getConnection();
 
@@ -266,9 +305,18 @@ class MusicalScores
             WHERE music_id = ?");
             $stmt->bind_param("i", $musicId);
         } else {
-            $stmt = $db->prepare("DELETE FROM musical_scores_instruments 
-            WHERE music_id = ? and instrument_id = ?");
-            $stmt->bind_param("ii", $musicId, $instrumentId);
+            if (!$voiceOff) {
+                $stmt = $db->prepare("DELETE FROM musical_scores_instruments 
+                WHERE music_id = ? and instrument_id = ?");
+                $stmt->bind_param("ii", $musicId, $instrumentId);
+            } else {
+                    $secondVoice = $instrumentId + 1;
+                    $thirdVoice = $instrumentId + 2;
+
+                    $stmt = $db->prepare("DELETE FROM musical_scores_instruments 
+                    WHERE music_id = ? and instrument_id IN (?, ?, ?)");
+                    $stmt->bind_param("iiii", $musicId, $instrumentId, $secondVoice, $thirdVoice);
+            }
         }
 
         $stmt->execute();
