@@ -107,9 +107,9 @@ $group_name = trim($musicalScores['group_name'] ?? '');
 
             <thead class="table-primary text-center">
               <tr>
-                <th style="width:40%">Instrumento</th>
-                <th style="width:20%">Arquivo Atual</th>
-                <th style="width:40%">Adicionar Arquivo</th>
+                <th style="width:45%">Instrumento</th>
+                <th style="width:50%">Adicionar Arquivo</th>
+                <th style="width:5%">Excluir</th>
               </tr>
             </thead>
 
@@ -127,26 +127,23 @@ $group_name = trim($musicalScores['group_name'] ?? '');
                     <?= substr($instrument['instrument_name'], 3); ?>
                   </td>
 
-                  <td class="text-center">
+                  <td>
+                    <input type="file" name="instrumentsVoiceOff[<?= $instrument['instrument_id'] ?>]"
+                      class="form-control form-control-sm">
+                  </td>
+
+                  <td class=" d-flex align-items-center justify-content-center">
                     <?php if ($hasFile): ?>
-                      <div class="file-cell">
-                        <i class="bi bi-file-earmark-text text-secondary"></i>
-
-                        <a class="file-link file-name" href="<?= BASE_URL . "uploads/musical-scores/{$musicFile}" ?>"
-                          target="_blank">
-
-                          <?= basename($musicFile) ?>
-                        </a>
-                      </div>
+                      <a href="MusicalScoreDelete/validateMusicalScoreInstrumentDelete.php?music_id=<?= $musicId ?>&instrument_id=<?= $instrument['instrument_id'] ?>&voice_off=<?= true ?>"
+                        class="btn btn-sm btn-danger d-flex align-items-center justify-content-center"
+                        onclick="return confirm('Deseja excluir este arquivo?');">
+                        <i class="bi bi-trash"></i>
+                      </a>
                     <?php else: ?>
                       <span class="text-muted small">—</span>
                     <?php endif; ?>
                   </td>
 
-                  <td>
-                    <input type="file" name="instrumentsVoiceOff[<?= $instrument['instrument_id'] ?>]"
-                      class="form-control form-control-sm">
-                  </td>
                 </tr>
               <?php endforeach ?>
             </tbody>
@@ -164,10 +161,10 @@ $group_name = trim($musicalScores['group_name'] ?? '');
 
             <thead class="table-primary text-center">
               <tr>
-                <th style="width:35%">Instrumento</th>
-                <th style="width:25%">Arquivo Atual</th>
+                <th style="width:25%">Instrumento</th>
+                <th style="width:30%">Arquivo Atual</th>
                 <th style="width:40%">Adicionar Arquivo</th>
-                <th style="width:10%">Excluir</th>
+                <th style="width:5%">Excluir</th>
               </tr>
             </thead>
 
@@ -207,7 +204,7 @@ $group_name = trim($musicalScores['group_name'] ?? '');
 
                   <td class=" d-flex align-items-center justify-content-center">
                     <?php if ($hasFile): ?>
-                      <a href="MusicalScoreDelete/validateMusicalScoreInstrumentDelete.php?music_id=<?= $musicId ?>&instrument_id=<?= $instrument['instrument_id'] ?>"
+                      <a href="MusicalScoreDelete/validateMusicalScoreInstrumentDelete.php?music_id=<?= $musicId ?>&instrument_id=<?= $instrument['instrument_id'] ?>&voice_off=<?= false ?>"
                         class="btn btn-sm btn-danger d-flex align-items-center justify-content-center"
                         onclick="return confirm('Deseja excluir este arquivo?');">
                         <i class="bi bi-trash"></i>
