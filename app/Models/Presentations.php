@@ -19,25 +19,66 @@ class Presentations
         $db->begin_transaction();
 
         // Sanitização dos dados
-        $name = htmlspecialchars(trim($presentationInfo['name']));
-        $date = htmlspecialchars(trim($presentationInfo['date']));
+        $name = trim($presentationInfo['name']);
+        $date = $presentationInfo['date'];
         $hour = $presentationInfo['hour'];
-        $local = htmlspecialchars(trim($presentationInfo['local']));
+        $local = trim($presentationInfo['local']);
+        $musicGroups = $presentationInfo['groups'];
+        $songGroups = $presentationInfo['songs'];
 
         // Inserção no bando de dados
         try {
 
-            $stmt = $db->prepare("INSERT INTO presentations ('presentation_name', 'presentation_date', 'presentation_hour', 'local_of_presentation') VALUES (?, ?, ?, ?)");
+            $stmt = $db->prepare("INSERT INTO presentations (presentation_name, presentation_date, presentation_hour, local_of_presentation) VALUES (?, ?, ?, ?)");
             $stmt->bind_param("ssss", $name, $date, $hour, $local);
 
-            $success = $stmt->execute();
+            $stmt->execute();
 
-            $db->commit();
+            $presentationId = $db->insert_id;
 
             $stmt->close();
 
-            return $success;
+            // Inserir grupos
+            $stmtGroups = $db->prepare(
+                "INSERT INTO presentations_groups (presentation_id, group_id) VALUES (?, ?)"
+            );
+
+            $stmtGroups->bind_param("ii", $presentationId, $groupId);
+
+            foreach ($musicGroups as $group => $groupId) {
+
+                $groupId = (int) $groupId;
+
+                if (!$stmtGroups->execute()) {
+                    throw new Exception("Erro ao vincular grupo.");
+                }
+            }
+
+            $stmtGroups->close();
+
+            //Inserir Músicas
+            $stmtSongs = $db->prepare(
+                "INSERT INTO presentations_songs (presentation_id, song_id) VALUES (?, ?)"
+            );
+
+            $stmtSongs->bind_param("ii", $presentationId, $songId);
+
+            foreach ($songGroups as $song => $songId) {
+
+                $songId = (int) $songId;
+
+                if (!$stmtSongs->execute()) {
+                    throw new Exception("Erro ao vincular grupo.");
+                }
+            }
+
+            $stmtSongs->close();
+
+            $db->commit();
+
+            return true;
         } catch (\Exception $e) {
+            $db->rollback();
             return false;
         }
     }
