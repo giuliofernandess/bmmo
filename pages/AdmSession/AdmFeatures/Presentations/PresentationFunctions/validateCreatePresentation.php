@@ -40,19 +40,19 @@ if (empty($songs)) {
 
 $presentationInfo = [
     "name" => $name,
-    "date"=> $inputDate,
+    "date"=> $date,
     "hour"=> $hour,
-    "local"=> $local
+    "local"=> $local,
+    "groups"=> $bandGroups,
+    "songs"=> $songs
 ];
 
 $createPresentation = Presentations::createPresentation($presentationInfo);
 
 if ($createPresentation) {
     $_SESSION['success'] = "Apresentação inserida com sucesso!";
-    exit;
 } else {
     $_SESSION['error'] = "Erro ao inserir apresentação!";
-    exit;
 }
 
 // Redireciona para a página principal de partituras
