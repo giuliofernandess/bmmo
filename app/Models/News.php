@@ -16,10 +16,10 @@ class News
         $db = Database::getConnection();
 
         // Sanitização dos dados
-        $title = htmlspecialchars(trim($newsInfo['title']));
-        $subtitle = htmlspecialchars(trim($newsInfo['subtitle'] ?? ''));
+        $title = trim($newsInfo['title']);
+        $subtitle = trim($newsInfo['subtitle'] ?? '');
         $image = $newsInfo['image'] ?? null;
-        $description = htmlspecialchars(trim($newsInfo['description']));
+        $description = trim($newsInfo['description']);
         $date = $newsInfo['date'];
         $hour = $newsInfo['hour'];
 
