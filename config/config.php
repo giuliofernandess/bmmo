@@ -1,4 +1,6 @@
 <?php
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
 define('BASE_URL', '/bmmo/');
 define('BASE_PATH', $_SERVER['DOCUMENT_ROOT'] . '/bmmo/');
 
