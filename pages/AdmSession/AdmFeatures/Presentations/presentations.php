@@ -107,7 +107,7 @@ $groups = BandGroups::getAll();
                                         echo "<option disabled>-- {$musics['music_genre']} --</option>";
                                     }
                                     if ($lastName != $musics['music_name']) {
-                                        echo "<option value='{$musics['music_name']}'>
+                                        echo "<option value='{$musics['music_id']}'>
                                             {$musics['music_name']}
                                         </option>";
                                     }
