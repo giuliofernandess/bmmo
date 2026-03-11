@@ -100,7 +100,7 @@ class Musicians
         $musicianLogin = self::sanitizeValue($musicianInfo['login'] ?? null);
 
         $instrument = self::sanitizeValue($musicianInfo['instrument'] ?? null, 'int');
-        $bandGroup = self:: else {} else {}sanitizeValue($musicianInfo['band_group'] ?? null, 'int');
+        $bandGroup = self::sanitizeValue($musicianInfo['band_group'] ?? null, 'int');
 
         $musicianContact = self::sanitizeValue($musicianInfo['musician_contact'] ?? null);
         $responsibleName = self::sanitizeValue($musicianInfo['responsible_name'] ?? null);
