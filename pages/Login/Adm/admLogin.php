@@ -22,7 +22,7 @@ session_start();
   
 </head>
 
-<body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100" style="background: linear-gradient(to right, #eef2f3, #d9e9ff);">
 
   <!-- Toast de erro (aparece se $_SESSION['error'] estiver setado) -->
   <?php require BASE_PATH . 'includes/errorToast.php'; ?>
