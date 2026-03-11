@@ -296,7 +296,7 @@ class MusicalScores
      * @return bool Booleano (true, false)
      */
 
-    public static function MusicalScoreInstrumentDelete(int $musicId,  int $instrumentId = 0, bool $voiceOff = false): bool
+    public static function MusicalScoreInstrumentDelete(int $musicId, int $instrumentId = 0, bool $voiceOff = false): bool
     {
         $db = Database::getConnection();
 
@@ -310,12 +310,12 @@ class MusicalScores
                 WHERE music_id = ? and instrument_id = ?");
                 $stmt->bind_param("ii", $musicId, $instrumentId);
             } else {
-                    $secondVoice = $instrumentId + 1;
-                    $thirdVoice = $instrumentId + 2;
+                $secondVoice = $instrumentId + 1;
+                $thirdVoice = $instrumentId + 2;
 
-                    $stmt = $db->prepare("DELETE FROM musical_scores_instruments 
+                $stmt = $db->prepare("DELETE FROM musical_scores_instruments 
                     WHERE music_id = ? and instrument_id IN (?, ?, ?)");
-                    $stmt->bind_param("iiii", $musicId, $instrumentId, $secondVoice, $thirdVoice);
+                $stmt->bind_param("iiii", $musicId, $instrumentId, $secondVoice, $thirdVoice);
             }
         }
 
@@ -395,6 +395,33 @@ class MusicalScores
         }
 
         $stmt->close();
+
+        return $musicsList;
+    }
+
+    /**
+     * Retorna todos as partituras do banco, selecionados por gênero e nome.
+     *
+     * @return array Array contendo todas as partituras do banco
+     */
+    public static function ordenedGetAll(): ?array
+    {
+        $db = Database::getConnection();
+
+        $sql = "SELECT * FROM musical_scores 
+            ORDER BY music_genre ASC, music_name ASC";
+
+        $result = $db->query($sql);
+
+        if (!$result) {
+            return null;
+        }
+
+        $musicsList = [];
+
+        while ($row = $result->fetch_assoc()) {
+            $musicsList[] = $row;
+        }
 
         return $musicsList;
     }
