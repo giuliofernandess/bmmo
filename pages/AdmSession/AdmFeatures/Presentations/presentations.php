@@ -160,23 +160,25 @@ $groups = BandGroups::getAll();
 
                                 <p class="mb-1"><strong>Data:</strong>
                                     <?= (new DateTime($presentations['presentation_date']))->format("d/m/Y") ?></p>
-                                <p class="mb-1"><strong>Horário:</strong> <?= $presentations['presentation_hour'] ?></p>
+                                <p class="mb-1">
+                                    <strong>Horário:</strong> <?= date('H:i', strtotime($presentations['presentation_hour'])) ?>
+                                </p>
                                 <p class="mb-1"><strong>Local:</strong> <?= $presentations['local_of_presentation'] ?></p>
 
                                 <p class="mb-1"><strong>Grupo(s):</strong><br>
                                     <?php foreach ($presentationGroups as $presentationGroup):
-                                            ?>
+                                        ?>
 
-                                                <span><?= htmlspecialchars($presentationGroup['group_name']); ?></span><br>
+                                        <span><?= htmlspecialchars($presentationGroup['group_name']); ?></span><br>
 
                                     <?php endforeach ?>
                                 </p>
 
                                 <p class="mb-1"><strong>Músicas:</strong><br>
                                     <?php foreach ($presentationSongs as $presentationSong):
-                                            ?>
+                                        ?>
 
-                                                <span><?= htmlspecialchars($presentationSong['music_name']); ?></span><br>
+                                        <span><?= htmlspecialchars($presentationSong['music_name']); ?></span><br>
 
                                     <?php endforeach ?>
                                 </p>
