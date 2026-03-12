@@ -11,6 +11,8 @@ require_once BASE_PATH . "app/Auth/Auth.php";
 
 Auth::requireRegency();
 
+Presentations::automaticallyDelete();
+
 $groups = BandGroups::getAll();
 ?>
 
@@ -140,6 +142,10 @@ $groups = BandGroups::getAll();
 
             if (!empty($presentationsList)) {
                 foreach ($presentationsList as $presentations) {
+
+                    $presentationGroups = Presentations::getPresentationGroups($presentations['presentation_id']);
+                    $presentationSongs = Presentations::getPresentationSongs($presentations['presentation_id']);
+
                     ?>
                     <div class="col-12 col-md-6 col-lg-3">
                         <div class="card shadow-sm h-100">
@@ -148,11 +154,9 @@ $groups = BandGroups::getAll();
                                 data-name="<?= htmlspecialchars($presentations['presentation_name']) ?>"
                                 data-date="<?= htmlspecialchars($presentations['presentation_date']) ?>"
                                 data-hour="<?= htmlspecialchars($presentations['presentation_hour']) ?>"
-                                data-local="<?= htmlspecialchars($presentations['local_of_presentation']) ?>"
-                                data-group="<?= htmlspecialchars($presentations['band_groups']) ?>"
-                                data-songs="<?= htmlspecialchars($presentations['songs']) ?>">
+                                data-local="<?= htmlspecialchars($presentations['local_of_presentation']) ?>">
 
-                                <h5 class="card-title"><?= htmlspecialchars($presentations['presentation_name']) ?></h5>
+                                <h4 class="card-title"><?= htmlspecialchars($presentations['presentation_name']) ?></h4>
 
                                 <p class="mb-1"><strong>Data:</strong>
                                     <?= (new DateTime($presentations['presentation_date']))->format("d/m/Y") ?></p>
@@ -160,11 +164,21 @@ $groups = BandGroups::getAll();
                                 <p class="mb-1"><strong>Local:</strong> <?= $presentations['local_of_presentation'] ?></p>
 
                                 <p class="mb-1"><strong>Grupo(s):</strong><br>
-                                    <?= str_replace('-', '<br>', $presentations['band_groups']) ?>
+                                    <?php foreach ($presentationGroups as $presentationGroup):
+                                            ?>
+
+                                                <span><?= htmlspecialchars($presentationGroup['group_name']); ?></span><br>
+
+                                    <?php endforeach ?>
                                 </p>
 
                                 <p class="mb-1"><strong>Músicas:</strong><br>
-                                    <?= str_replace('-', '<br>', $presentations['songs']) ?>
+                                    <?php foreach ($presentationSongs as $presentationSong):
+                                            ?>
+
+                                                <span><?= htmlspecialchars($presentationSong['music_name']); ?></span><br>
+
+                                    <?php endforeach ?>
                                 </p>
 
                                 <div class="mt-auto d-flex justify-content-end gap-2">
