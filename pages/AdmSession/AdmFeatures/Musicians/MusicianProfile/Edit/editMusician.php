@@ -55,7 +55,7 @@ $responsible_contact = trim($musicians['responsible_contact'] ?? '');
 
   <!-- CSS da página -->
   <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/form.css">
-  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/musicianEdit.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/editMusician.css">
 </head>
 
 <body>
@@ -70,7 +70,7 @@ $responsible_contact = trim($musicians['responsible_contact'] ?? '');
     <!-- Formulário -->
     <div class="container login-container">
       <h1 class="text-center mb-4">Editar Músico</h1>
-      <form method="post" action="validateMusicianEdit.php" enctype="multipart/form-data" class="row g-3">
+      <form method="post" action="validateEditMusician.php" enctype="multipart/form-data" class="row g-3">
 
         <!-- Nome -->
         <div class="col-md-6">

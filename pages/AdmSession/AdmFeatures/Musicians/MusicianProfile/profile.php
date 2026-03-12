@@ -59,7 +59,7 @@ $profile_image = $profile_image ? htmlspecialchars($profile_image) : "default.pn
   <?php require_once BASE_PATH . "includes/basicHead.php"; ?>
 
   <!-- CSS da página -->
-  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/musicianProfile.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/profile.css">
   
 </head>
 
@@ -102,11 +102,11 @@ $profile_image = $profile_image ? htmlspecialchars($profile_image) : "default.pn
               <!-- Botões -->
               <div class="mt-auto d-flex justify-content-end gap-2">
 
-                <a href="MusicianEdit/musicianEdit.php?musicianId=<?= $musicianId; ?>" class="btn btn-outline-primary">
+                <a href="Edit/editMusician.php?musicianId=<?= $musicianId; ?>" class="btn btn-outline-primary">
                   <i class="bi bi-pencil-square"></i> Editar
                 </a>
 
-                <form action="DeleteMusician/validateDeleteMusician.php" method="POST"
+                <form action="Delete/validateDeleteMusician.php" method="POST"
                   onsubmit="return confirm('Tem certeza que deseja excluir este músico?');">
 
                   <input type="hidden" name="musicianId" value="<?= $musicianId; ?>">

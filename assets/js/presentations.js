@@ -84,7 +84,7 @@ function addInput() {
   });
 }
 
-function editRepertoire(btn) {
+function editPresentation(btn) {
 
   if (formCard.style.display === "block") {
     alert("[ERRO] Não é possível editar uma tocata enquanto cria ou edita outra!");
@@ -93,7 +93,7 @@ function editRepertoire(btn) {
 
   showForm();
 
-  const info = btn.closest(".repertoire-info");
+  const info = btn.closest(".presentation-info");
 
   const idInput = document.createElement("input");
   idInput.type = "hidden";

@@ -52,7 +52,7 @@ Auth::requireRegency();
 
         <!-- Card: Registrar Músico -->
         <div class="col">
-          <a href="AdmFeatures/MusicianRegister/musicianRegister.php" class="text-decoration-none text-dark">
+          <a href="AdmFeatures/RegisterMusician/registerMusician.php" class="text-decoration-none text-dark">
             <div class="card h-100 shadow-sm border-0 p-3">
               <i class="bi bi-person-plus-fill fs-2 text-primary mb-2"></i>
               <h5 class="fw-bold">Cadastrar Músico</h5>
@@ -63,7 +63,7 @@ Auth::requireRegency();
 
         <!-- Card: Lista de Músicos -->
         <div class="col">
-          <a href="AdmFeatures/ListOfMusicians/musicians.php" class="text-decoration-none text-dark">
+          <a href="AdmFeatures/Musicians/musiciansList.php" class="text-decoration-none text-dark">
             <div class="card h-100 shadow-sm border-0 p-3">
               <i class="bi bi-people-fill fs-2 text-success mb-2"></i>
               <h5 class="fw-bold">Relação de Músicos</h5>
@@ -97,7 +97,7 @@ Auth::requireRegency();
 
         <!-- Card: Criar Notícias -->
         <div class="col">
-          <a href="AdmFeatures/NewsCreate/newsCreate.php" class="text-decoration-none text-dark">
+          <a href="AdmFeatures/CreateNews/createNews.php" class="text-decoration-none text-dark">
             <div class="card h-100 shadow-sm border-0 p-3">
               <i class="bi bi-megaphone-fill fs-2 text-info mb-2"></i>
               <h5 class="fw-bold">Notícias</h5>

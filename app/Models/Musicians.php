@@ -34,7 +34,7 @@ class Musicians
      * @return bool Booleano (true, false)
      */
 
-    public static function musicianRegister(array $musicianInfo): bool
+    public static function registerMusician(array $musicianInfo): bool
     {
         $db = Database::getConnection();
 
@@ -92,7 +92,7 @@ class Musicians
      * @return bool Booleano (true, false)
      */
 
-    public static function musicianEdit(array $musicianInfo): bool
+    public static function editMusician(array $musicianInfo): bool
     {
         $db = Database::getConnection();
 

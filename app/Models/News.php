@@ -11,7 +11,7 @@ class News
      * @return bool Booleano (true, false)
      */
 
-    public static function newsCreate(array $newsInfo): bool
+    public static function createNews(array $newsInfo): bool
     {
         $db = Database::getConnection();
 

@@ -23,7 +23,7 @@ Auth::requireRegency();
 
   <!-- CSS da página -->
   <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/form.css">
-  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/musicianRegister.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/registerMusician.css">
   
 </head>
 
@@ -39,7 +39,7 @@ Auth::requireRegency();
   <main class="flex-grow-1 d-flex align-items-center justify-content-center flex-column py-5">
     <div class="container login-container">
       <h1 class="text-center mb-4">Cadastrar Músico</h1>
-      <form method="post" action="validateMusicianRegister.php" enctype="multipart/form-data" class="row g-3">
+      <form method="post" action="validateRegisterMusician.php" enctype="multipart/form-data" class="row g-3">
 
         <!-- Nome + Login + Nascimento -->
         <div class="col-md-12">

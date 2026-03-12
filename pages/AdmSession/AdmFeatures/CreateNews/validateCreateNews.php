@@ -16,7 +16,7 @@ $currentHour = date('H:i:s');
 // Validação rápida
 if (empty($newsTitle) || empty($newsDescription)) {
     $_SESSION['error'] = "Título e descrição são obrigatórios.";
-    header("Location: newsCreate.php");
+    header("Location: createNews.php");
     exit;
 }
 
@@ -32,13 +32,13 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
     $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
     if (!in_array($fileExtension, $allowedExtensions)) {
         $_SESSION['error'] = "Extensão de arquivo inválida. Permitido apenas jpg, jpeg, png, gif.";
-        header("Location: newsCreate.php");
+        header("Location: createNews.php");
         exit;
     }
 
     if ($fileSize > 5 * 1024 * 1024) {
         $_SESSION['error'] = "Arquivo muito grande. Máximo permitido: 5MB.";
-        header("Location: newsCreate.php");
+        header("Location: createNews.php");
         exit;
     }
 
@@ -55,7 +55,7 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
         $imageFileName = $newFileName;
     } else {
         $_SESSION['error'] = "Erro ao enviar a imagem.";
-        header("Location: newsCreate.php");
+        header("Location: createNews.php");
         exit;
     }
 }
@@ -70,12 +70,12 @@ $newsInfo = [
     'hour' => $currentHour
 ];
 
-if (News::newsCreate($newsInfo)) {
+if (News::createNews($newsInfo)) {
     $_SESSION['success'] = "Notícia criada com sucesso!";
 } else {
     $_SESSION['error'] = "Erro ao criar a notícia. Tente novamente.";
 }
 
 // Redireciona de volta para o formulário
-header("Location: newsCreate.php");
+header("Location: createNews.php");
 exit;

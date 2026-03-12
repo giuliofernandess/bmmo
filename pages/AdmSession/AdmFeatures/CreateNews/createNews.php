@@ -41,7 +41,7 @@ Auth::requireRegency();
 
     <!-- Início Formulário -->
 
-    <form action="validateNewsCreate.php" method="post" enctype="multipart/form-data"
+    <form action="validateCreateNews.php" method="post" enctype="multipart/form-data"
       class="container login-container my-5" style="max-width: 800px;">
       <h1 class="text-center mb-4">Adicionar Notícia</h1>
 

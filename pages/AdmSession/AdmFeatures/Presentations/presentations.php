@@ -149,7 +149,7 @@ $groups = BandGroups::getAll();
                     ?>
                     <div class="col-12 col-md-6 col-lg-3">
                         <div class="card shadow-sm h-100">
-                            <div class="card-body d-flex flex-column repertoire-info"
+                            <div class="card-body d-flex flex-column presentation-info"
                                 data-id="<?= htmlspecialchars($presentations['presentation_id']) ?>"
                                 data-name="<?= htmlspecialchars($presentations['presentation_name']) ?>"
                                 data-date="<?= htmlspecialchars($presentations['presentation_date']) ?>"
@@ -192,7 +192,7 @@ $groups = BandGroups::getAll();
                                     </a>
 
                                     <a class="btn btn-success btn-sm d-flex align-items-center justify-content-center editRepertoire"
-                                        style="width:38px;height:38px;" onclick="editRepertoire(this)">
+                                        style="width:38px;height:38px;" onclick="editPresentation(this)">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                 </div>
