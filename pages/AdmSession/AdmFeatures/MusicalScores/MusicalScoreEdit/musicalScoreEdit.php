@@ -9,7 +9,7 @@ require_once BASE_PATH . "app/Models/MusicalScores.php";
 Auth::requireRegency();
 
 $groups = BandGroups::getAll();
-$instruments = Instruments::getAll();
+$instruments = Instruments::getAll(false, true);
 $instrumentsVoiceOff = Instruments::getAll(true);
 
 // Verifica se recebeu o id do músico
