@@ -4,7 +4,7 @@ main {
   padding: 0 30px;
 }
 
-.login-container {
+.form-container {
   max-width: 1000px;
 }
 
@@ -27,6 +27,7 @@ form i.show-password {
 @media screen and (min-width: 768px) {
   form i.show-password {
     left: 45.5%;
+    bottom: 13%;
   }
 }
 

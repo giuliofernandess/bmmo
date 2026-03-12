@@ -68,7 +68,7 @@ $responsible_contact = trim($musicians['responsible_contact'] ?? '');
   <main class="flex-grow-1 d-flex align-items-center justify-content-center flex-column py-5">
 
     <!-- Formulário -->
-    <div class="container login-container">
+    <div class="container form-container">
       <h1 class="text-center mb-4">Editar Músico</h1>
       <form method="post" action="validateEditMusician.php" enctype="multipart/form-data" class="row g-3">
 

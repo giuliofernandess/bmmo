@@ -40,7 +40,7 @@ $groups = BandGroups::getAll();
     <!-- Título -->
     <div class="d-flex align-items-center justify-content-between mb-4">
       <h1 class="mb-0">Lista de partituras</h1>
-      <i class="bi bi-plus-square-fill fs-3 text-primary cursor-pointer" id="addIcon" onclick="showForm()"
+      <i class="bi bi-plus-square-fill fs-3 text-primary" id="addIcon" style="cursor: pointer;" onclick="showForm()"
         title="Adicionar Partitura"></i>
     </div>
 

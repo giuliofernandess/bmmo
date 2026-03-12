@@ -32,7 +32,7 @@ session_start();
 
   <!-- Formulário de login centralizado -->
   <main class="d-flex flex-grow-1 align-items-center justify-content-center px-3 py-5">
-    <div class="container login-container" style="max-width: 420px;">
+    <div class="container form-container" style="max-width: 420px;">
 
       <form action="validateAdmLogin.php" method="post">
         <!-- Campo login -->
