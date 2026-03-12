@@ -19,7 +19,7 @@ class Instruments
         $sql = "SELECT * FROM instruments";
 
         if ($voiceOff) {
-            $sql .= " WHERE instrument_id IN (4,7,10,13,16,19)";
+            $sql .= " WHERE instrument_id IN (5,8,11,14,17,20)";
         }
 
         $sql .= " ORDER BY instrument_id";
