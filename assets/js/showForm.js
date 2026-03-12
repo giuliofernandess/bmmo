@@ -1,6 +1,6 @@
 function showForm() {
-  const formCard = document.querySelector("#presentationForm");  
-  const icon = document.querySelector("#addIcon");
+  const formCard = document.querySelector("#presentation-form");  
+  const icon = document.querySelector("#add-icon");
   
   if (formCard.style.display == "none") {
     formCard.style.display = "block";

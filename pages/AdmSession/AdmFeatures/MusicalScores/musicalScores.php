@@ -40,12 +40,12 @@ $groups = BandGroups::getAll();
     <!-- Título -->
     <div class="d-flex align-items-center justify-content-between mb-4">
       <h1 class="mb-0">Lista de partituras</h1>
-      <i class="bi bi-plus-square-fill fs-3 text-primary" id="addIcon" style="cursor: pointer;" onclick="showForm()"
+      <i class="bi bi-plus-square-fill fs-3 text-primary" id="add-icon" style="cursor: pointer;" onclick="showForm()"
         title="Adicionar Partitura"></i>
     </div>
 
     <!-- Formulário de adição de partitura-->
-    <div class="bg-white p-4 rounded shadow-sm mb-4" style="display: none;" id="presentationForm">
+    <div class="bg-white p-4 rounded shadow-sm mb-4" style="display: none;" id="presentation-form">
       <h4 class="mb-3">Adicionar Partitura</h4>
 
       <form action="validateAddMusicalScore.php" method="post">

@@ -3,10 +3,10 @@ session_start();
 require_once "../../../../../../config/config.php";
 require_once BASE_PATH . 'app/Models/Musicians.php';
 
-$musicianId = isset($_POST['musicianId']) ? (int) $_POST['musicianId'] : null;
+$musicianId = isset($_POST['musician_id']) ? (int) $_POST['musician_id'] : null;
 
 if (!$musicianId) {
-    header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/ListOfMusicians/Profile/musicianProfile.php?musicianId={$musicianId}");
+    header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/Musicians/MusicianProfile/profile.php?musician_id={$musicianId}");
     exit;
 }
 
@@ -21,10 +21,10 @@ if ($deleteMusician) {
     }
 
     $_SESSION['success'] = "Músico excluído com sucesso.";
-    header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/ListOfMusicians/musicians.php");
+    header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/Musicians/musiciansList.php");
 } else {
     $_SESSION['error'] = "Não foi possível deletar o músico.";
-    header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/ListOfMusicians/Profile/musicianProfile.php?musicianId={$musicianId}");
+    header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/Musicians/MusicianProfile/profile.php?musician_id={$musicianId}");
 }
 
 ?>

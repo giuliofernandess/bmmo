@@ -9,10 +9,10 @@ require_once BASE_PATH . "app/Models/Instruments.php";
 Auth::requireRegency();
 
 // Verifica se recebeu o id do músico
-$musicianId = isset($_GET["musicianId"]) ? (int) $_GET["musicianId"] : null;
+$musicianId = isset($_GET["musician_id"]) ? (int) $_GET["musician_id"] : null;
 
 if (!$musicianId) {
-  header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/ListOfMusicians/musicians.php");
+  header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/Musicians/musiciansList.php");
   exit;
 }
 

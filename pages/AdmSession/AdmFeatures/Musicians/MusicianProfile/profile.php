@@ -6,7 +6,7 @@ require_once BASE_PATH . "app/Models/Musicians.php";
 Auth::requireRegency();
 
 // Verifica se recebeu o id do músico
-$musicianId = isset($_GET["musicianId"]) ? (int)$_GET["musicianId"] : null;
+$musicianId = isset($_GET["musician_id"]) ? (int)$_GET["musician_id"] : null;
 
 if (!$musicianId) {
   header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/ListOfMusicians/musicians.php");
@@ -22,29 +22,29 @@ if (!$res) {
 
 
 //Recebimento de variáveis
-$musician_name = trim($res['musician_name'] ?? '') ?: null;
+$musicianName = trim($res['musician_name'] ?? '') ?: null;
 $instrument = trim($res['instrument_name'] ?? '') ?: null;
-$band_group = trim($res['group_name'] ?? '') ?: null;
+$bandGroup = trim($res['group_name'] ?? '') ?: null;
 
 //Tratamento de data
-$date_of_birth_raw = trim($res['date_of_birth'] ?? '') ?: null;
-$date = new DateTime($date_of_birth_raw);
-$date_of_birth = htmlspecialchars($date->format('d-m-Y'));
+$dateOfBirthRaw = trim($res['date_of_birth'] ?? '') ?: null;
+$date = new DateTime($dateOfBirthRaw);
+$dateOfBirth = htmlspecialchars($date->format('d-m-Y'));
 
-$musician_contact = trim($res['musician_contact'] ?? '') ?: null;
+$musicianContact = trim($res['musician_contact'] ?? '') ?: null;
 $neighborhood = trim($res['neighborhood'] ?? '') ?: null;
 $institution = trim($res['institution'] ?? '') ?: null;
-$responsible_name = trim($res['responsible_name'] ?? '') ?: null;
-$responsible_contact = trim($res['responsible_contact'] ?? '') ?: null;
-$profile_image = trim($res['profile_image'] ?? '') ?: null;
+$responsibleName = trim($res['responsible_name'] ?? '') ?: null;
+$responsibleContact = trim($res['responsible_contact'] ?? '') ?: null;
+$profileImage = trim($res['profile_image'] ?? '') ?: null;
 
 
 // Tratamento de possível NULL
 $institution = $institution ? htmlspecialchars($institution) : "Não informado";
-$responsible_name = $responsible_name ? htmlspecialchars($responsible_name) : "Não informado";
-$responsible_contact = $responsible_contact ? htmlspecialchars($responsible_contact) : "Não informado";
+$responsibleName = $responsibleName ? htmlspecialchars($responsibleName) : "Não informado";
+$responsibleContact = $responsibleContact ? htmlspecialchars($responsibleContact) : "Não informado";
 
-$profile_image = $profile_image ? htmlspecialchars($profile_image) : "default.png";
+$profileImage = $profileImage ? htmlspecialchars($profileImage) : "default.png";
 ?>
 
 <!doctype html>
@@ -79,37 +79,37 @@ $profile_image = $profile_image ? htmlspecialchars($profile_image) : "default.pn
 
           <!-- Imagem -->
           <div class="col-md-4 text-center bg-secondary">
-            <img src="<?= BASE_URL ?>uploads/musicians-images/<?= $profile_image; ?>"
-              class="img-fluid rounded-start w-100 h-100 object-fit-cover card-image" alt="Imagem de <?= $musician_name; ?>">
+            <img src="<?= BASE_URL ?>uploads/musicians-images/<?= $profileImage; ?>"
+              class="img-fluid rounded-start w-100 h-100 object-fit-cover card-image" alt="Imagem de <?= $musicianName; ?>">
           </div>
 
           <!-- Dados do músico -->
           <div class="col-md-8">
             <div class="card-body d-flex flex-column h-100">
-              <h4 class="card-title mb-3"><?= $musician_name; ?></h4>
+              <h4 class="card-title mb-3"><?= $musicianName; ?></h4>
 
               <ul class="list-group list-group-flush mb-4">
                 <li class="list-group-item"><strong>Instrumento:</strong> <?= $instrument; ?></li>
-                <li class="list-group-item"><strong>Grupo:</strong> <?= $band_group; ?></li>
-                <li class="list-group-item"><strong>Data de Nascimento:</strong> <?= $date_of_birth; ?></li>
-                <li class="list-group-item"><strong>Telefone:</strong> <?= $musician_contact; ?></li>
+                <li class="list-group-item"><strong>Grupo:</strong> <?= $bandGroup; ?></li>
+                <li class="list-group-item"><strong>Data de Nascimento:</strong> <?= $dateOfBirth; ?></li>
+                <li class="list-group-item"><strong>Telefone:</strong> <?= $musicianContact; ?></li>
                 <li class="list-group-item"><strong>Bairro:</strong> <?= $neighborhood; ?></li>
                 <li class="list-group-item"><strong>Instituição:</strong> <?= $institution; ?></li>
-                <li class="list-group-item"><strong>Responsável:</strong> <?= $responsible_name; ?></li>
-                <li class="list-group-item"><strong>Telefone do Responsável:</strong> <?= $responsible_contact; ?></li>
+                <li class="list-group-item"><strong>Responsável:</strong> <?= $responsibleName; ?></li>
+                <li class="list-group-item"><strong>Telefone do Responsável:</strong> <?= $responsibleContact; ?></li>
               </ul>
 
               <!-- Botões -->
               <div class="mt-auto d-flex justify-content-end gap-2">
 
-                <a href="Edit/editMusician.php?musicianId=<?= $musicianId; ?>" class="btn btn-outline-primary">
+                <a href="Edit/editMusician.php?musician_id=<?= $musicianId; ?>" class="btn btn-outline-primary">
                   <i class="bi bi-pencil-square"></i> Editar
                 </a>
 
                 <form action="Delete/validateDeleteMusician.php" method="POST"
                   onsubmit="return confirm('Tem certeza que deseja excluir este músico?');">
 
-                  <input type="hidden" name="musicianId" value="<?= $musicianId; ?>">
+                  <input type="hidden" name="musician_id" value="<?= $musicianId; ?>">
 
                   <button type="submit" class="btn btn-outline-danger">
                     <i class="bi bi-trash"></i> Excluir

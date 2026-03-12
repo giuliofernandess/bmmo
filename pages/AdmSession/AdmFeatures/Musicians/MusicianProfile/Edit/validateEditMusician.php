@@ -50,13 +50,13 @@ if (!empty($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
 
     if (!in_array($fileExtension, $allowedExtensions)) {
         $_SESSION['error'] = "Extensão de arquivo inválida. Permitido apenas jpg, jpeg, png, gif.";
-        header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/Musicians/MusicianProfile/Edit/editMusician.php?musicianId={$musicianId}");
+        header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/Musicians/MusicianProfile/Edit/editMusician.php?musician_id={$musicianId}");
         exit;
     }
 
     if ($fileSize > 5 * 1024 * 1024) {
         $_SESSION['error'] = "Arquivo muito grande. Máximo permitido: 5MB.";
-        header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/Musicians/MusicianProfile/Edit/editMusician.php?musicianId={$musicianId}");
+        header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/Musicians/MusicianProfile/Edit/editMusician.php?musician_id={$musicianId}");
         exit;
     }
 
@@ -73,7 +73,7 @@ if (!empty($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
         $imageFileName = $newFileName;
     } else {
         $_SESSION['error'] = "Erro ao enviar a imagem.";
-        header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/Musicians/MusicianProfile/Edit/editMusician.php?musicianId={$musicianId}");
+        header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/Musicians/MusicianProfile/Edit/editMusician.php?musician_id={$musicianId}");
         exit;
     }
 }
@@ -109,7 +109,7 @@ if (Musicians::editMusician($musicianInfo)) {
 }
 
 // Redireciona de volta para a página musicians
-header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/MusiciansList/MusicianProfile/profile.php?musicianId={$musicianId}");
+header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/MusiciansList/MusicianProfile/profile.php?musician_id={$musicianId}");
 exit;
 
 ?>
