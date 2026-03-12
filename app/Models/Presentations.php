@@ -84,6 +84,25 @@ class Presentations
     }
 
     /**
+     * Apaga uma partitura do banco de dados quando a data da mesma é menor que a data de hoje.
+     *
+     */
+
+    public static function automaticallyDelete(): void
+    {
+        $db = Database::getConnection();
+
+        $today = (new DateTime())->format('Y-m-d');
+
+        $sql = "DELETE FROM presentations WHERE presentation_date < '$today'";
+        $stmt = $db->prepare($sql);
+
+        $stmt->execute();
+
+        $stmt->close();
+    }
+
+    /**
      * Retorna todas as apresenações do banco, ordenadas por data de publicação descendente.
      *
      * @return array Array de apresenações (cada apresentação é um array associativo)
@@ -112,5 +131,73 @@ class Presentations
         $stmt->close();
 
         return $presentationsList;
+    }
+
+    /**
+     * Retorna todas os grupos referidos a uma apresentação.
+     * 
+     * @param int $presentationId ID da apresentação
+     * @return array Array contendo todos os nomes dos grupos relacionados a um id
+     */
+
+    public static function getPresentationGroups(int $presentationId): array
+    {
+        $db = Database::getConnection();
+
+        $stmt = $db->prepare("SELECT pg.group_id, bg.group_name FROM presentations_groups AS pg 
+        JOIN band_groups AS bg ON pg.group_id = bg.group_id
+        WHERE pg.presentation_id = ?");
+        $stmt->bind_param('i', $presentationId);
+
+        if (!$stmt) {
+            return [];
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $groupsList = [];
+
+        while ($res = $result->fetch_assoc()) {
+            $groupsList[] = $res;
+        }
+
+        $stmt->close();
+
+        return $groupsList;
+    }
+
+    /**
+     * Retorna todas os grupos referidos a uma apresentação.
+     * 
+     * @param int $presentationId ID da apresentação
+     * @return array Array contendo todos os nomes dos grupos relacionados a um id
+     */
+
+    public static function getPresentationSongs(int $presentationId): array
+    {
+        $db = Database::getConnection();
+
+        $stmt = $db->prepare("SELECT ps.song_id, ms.music_name FROM presentations_songs AS ps 
+        JOIN musical_scores AS ms ON ps.song_id = ms.music_id
+        WHERE ps.presentation_id = ?");
+        $stmt->bind_param('i', $presentationId);
+
+        if (!$stmt) {
+            return [];
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $songsList = [];
+
+        while ($res = $result->fetch_assoc()) {
+            $songsList[] = $res;
+        }
+
+        $stmt->close();
+
+        return $songsList;
     }
 }
