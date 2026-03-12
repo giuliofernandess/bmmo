@@ -13,7 +13,7 @@ Auth::requireRegency();
 <!DOCTYPE html>
 <html lang="pt-br">
 
-<head>
+<head>sucessToast
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Registrar Músico</title>
@@ -29,7 +29,7 @@ Auth::requireRegency();
 
 <body class="d-flex flex-column min-vh-100">
   <!-- Toasts -->
-  <?php require BASE_PATH . "includes/sucessToast.php"; ?>
+  <?php require BASE_PATH . "includes/successToast.php"; ?>
   <?php require BASE_PATH . "includes/errorToast.php"; ?>
 
   <!-- Header -->

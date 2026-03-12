@@ -81,6 +81,6 @@ form i.show-password {
 
 /* Ajustes para tablets e telas maiores */
 @media (min-width: 768px) {
-  .login-container { padding: 40px; }
-  form i.show-password { right: 13%; bottom: 36.5%; }
+  .form-container { padding: 40px; }
+  form i.show-password { right: 11%; bottom: 36.5%; }
 }

@@ -28,7 +28,7 @@ $groups = BandGroups::getAll();
 
 <body>
   <!-- Toasts -->
-  <?php require BASE_PATH . "includes/sucessToast.php"; ?>
+  <?php require BASE_PATH . "includes/successToast.php"; ?>
   <?php require BASE_PATH . "includes/errorToast.php"; ?>
 
   <!-- Header -->

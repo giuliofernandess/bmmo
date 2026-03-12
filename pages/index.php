@@ -23,7 +23,7 @@ require_once '../config/config.php';
 <body class="d-flex flex-column min-vh-100">
 
   <!-- Toast de logout -->
-  <?php require BASE_PATH . 'includes/sucessToast.php'; ?>
+  <?php require BASE_PATH . 'includes/successToast.php'; ?>
 
   <!-- Header do site -->
   <?php require BASE_PATH . 'includes/firstHeader.php'; ?>

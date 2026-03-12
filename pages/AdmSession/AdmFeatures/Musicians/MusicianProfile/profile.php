@@ -65,7 +65,7 @@ $profile_image = $profile_image ? htmlspecialchars($profile_image) : "default.pn
 
 <body>
   <!-- Toasts de sucesso -->
-  <?php require BASE_PATH . "includes/sucessToast.php"; ?>
+  <?php require BASE_PATH . "includes/successToast.php"; ?>
   <?php require BASE_PATH . "includes/errorToast.php"; ?>
 
   <!-- Header -->

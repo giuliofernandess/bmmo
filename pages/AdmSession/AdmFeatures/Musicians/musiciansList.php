@@ -28,7 +28,7 @@ Auth::requireRegency();
 
 <body>
   <!-- Toast de sucesso -->
-  <?php require BASE_PATH . "includes/sucessToast.php"; ?>
+  <?php require BASE_PATH . "includes/successToast.php"; ?>
 
   <!-- Header -->
   <?php require BASE_PATH . "includes/secondHeader.php"; ?>
