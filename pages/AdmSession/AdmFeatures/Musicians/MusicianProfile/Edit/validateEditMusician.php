@@ -109,7 +109,7 @@ if (Musicians::editMusician($musicianInfo)) {
 }
 
 // Redireciona de volta para a página musicians
-header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/MusiciansList/MusicianProfile/profile.php?musician_id={$musicianId}");
+header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/Musicians/MusicianProfile/profile.php?musician_id={$musicianId}");
 exit;
 
 ?>

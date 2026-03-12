@@ -13,7 +13,7 @@ Auth::requireRegency();
 <!DOCTYPE html>
 <html lang="pt-br">
 
-<head>sucessToast
+<head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Registrar Músico</title>
