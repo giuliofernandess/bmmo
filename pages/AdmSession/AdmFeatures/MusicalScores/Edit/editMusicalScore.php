@@ -46,7 +46,7 @@ $group_name = trim($musicalScores['group_name'] ?? '');
   <?php require_once BASE_PATH . "includes/basicHead.php"; ?>
 
   <!-- CSS da página -->
-  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/musicalScoreEdit.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/editMusicalScore.css">
 </head>
 
 <body>
@@ -63,7 +63,7 @@ $group_name = trim($musicalScores['group_name'] ?? '');
     <h1 class="mb-3">Edição de partituras</h1>
 
     <!-- Form -->
-    <form method="post" action="validateMusicalScoreEdit.php" enctype="multipart/form-data" class="row g-3">
+    <form method="post" action="validateEditMusicalScore.php" enctype="multipart/form-data" class="row g-3">
 
       <input type="hidden" name="id" value="<?= $musicId ?>">
 
@@ -204,7 +204,7 @@ $group_name = trim($musicalScores['group_name'] ?? '');
 
                   <td class=" d-flex align-items-center justify-content-center">
                     <?php if ($hasFile): ?>
-                      <a href="MusicalScoreDelete/validateMusicalScoreInstrumentDelete.php?music_id=<?= $musicId ?>&instrument_id=<?= $instrument['instrument_id'] ?>&voice_off=<?= false ?>"
+                      <a href="Delete/validateDeleteMusicalScoreInstrument.php?music_id=<?= $musicId ?>&instrument_id=<?= $instrument['instrument_id'] ?>&voice_off=<?= false ?>"
                         class="btn btn-sm btn-danger d-flex align-items-center justify-content-center"
                         onclick="return confirm('Deseja excluir este arquivo?');">
                         <i class="bi bi-trash"></i>
@@ -229,7 +229,7 @@ $group_name = trim($musicalScores['group_name'] ?? '');
       </div>
 
       <div class="col-12 col-md-6 d-grid">
-        <a href="MusicalScoreDelete/validateMusicalScoreGeneralDelete.php?music_id=<?= $musicId ?>"
+        <a href="Delete/validateDeleteMusicalScoreGeneral.php?music_id=<?= $musicId ?>"
           class="btn btn-danger" onclick="return confirm('Deseja excluir esta partitura?');">
           Excluir Partitura
         </a>

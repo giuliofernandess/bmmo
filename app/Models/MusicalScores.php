@@ -15,7 +15,7 @@ class MusicalScores
      * @return int|false Retorna o id se a inserção for concluída ou false se não for
      */
 
-    public static function MusicalScoreAdd(
+    public static function AddMusicalScore(
         string $musicName,
         string $musicGenre,
         array $musicGroups
@@ -91,7 +91,7 @@ class MusicalScores
      * @return bool Booleano (true, false)
      */
 
-    public static function MusicalScoreEdit(
+    public static function EditMusicalScore(
         int $musicId,
         string $musicName,
         string $musicGenre,
@@ -234,7 +234,7 @@ class MusicalScores
      * @return bool Booleano (true, false)
      */
 
-    public static function MusicalScoreGeneralDelete(int $musicId): bool
+    public static function DeleteMusicalScoreGeneral(int $musicId): bool
     {
         $db = Database::getConnection();
 
@@ -255,7 +255,7 @@ class MusicalScores
 
             $stmtDelInstruments->close();
 
-            self::MusicalScoreInstrumentDelete($musicId);
+            self::DeleteMusicalScoreInstrument($musicId);
 
             $stmtDelGroups = $db->prepare("DELETE FROM musical_scores_groups 
             WHERE music_id = ?");
@@ -296,7 +296,7 @@ class MusicalScores
      * @return bool Booleano (true, false)
      */
 
-    public static function MusicalScoreInstrumentDelete(int $musicId, int $instrumentId = 0, bool $voiceOff = false): bool
+    public static function DeleteMusicalScoreInstrument(int $musicId, int $instrumentId = 0, bool $voiceOff = false): bool
     {
         $db = Database::getConnection();
 

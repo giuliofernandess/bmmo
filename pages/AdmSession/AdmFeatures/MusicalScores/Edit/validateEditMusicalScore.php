@@ -39,7 +39,7 @@ foreach ($_FILES['instruments']['name'] as $instrumentId => $name) {
     }
 }
 
-$musicalScoreEdit = MusicalScores::MusicalScoreEdit(
+$musicalScoreEdit = MusicalScores::EditMusicalScore(
     $musicId,
     $musicName,
     $musicGenre,
@@ -55,5 +55,5 @@ if ($musicalScoreEdit !== false) {
 }
 
 // Redireciona para a página de edição de instrumentos
-header("Location: musicalScoreEdit.php?musicId={$musicId}");
+header("Location: editMusicalScore.php?musicId={$musicId}");
 exit;

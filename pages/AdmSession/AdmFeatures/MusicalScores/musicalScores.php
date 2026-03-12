@@ -22,7 +22,7 @@ $groups = BandGroups::getAll();
   <?php require_once BASE_PATH . "includes/basicHead.php"; ?>
 
   <!-- CSS da página -->
-  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/listOfMusicalScores.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/musicalScores.css">
 
 </head>
 
@@ -48,7 +48,7 @@ $groups = BandGroups::getAll();
     <div class="bg-white p-4 rounded shadow-sm mb-4" style="display: none;" id="presentationForm">
       <h4 class="mb-3">Adicionar Partitura</h4>
 
-      <form action="validateMusicalScoreAdd.php" method="post">
+      <form action="validateAddMusicalScore.php" method="post">
 
         <div class="mb-3">
           <label for="iname" class="form-label">Nome</label>
@@ -163,7 +163,7 @@ $groups = BandGroups::getAll();
             <div class='card musician-card h-100 border-0 shadow-sm'>
               <img src='<?= BASE_URL ?>assets/images/musical_score.jpg' class='card-img-top musical-score-img'
                 alt='Capa de Partitura'>
-              <a href="MusicalScoreEdit/musicalScoreEdit.php?musicId=<?= htmlspecialchars($musicId) ?>"
+              <a href="Edit/editMusicalScore.php?musicId=<?= htmlspecialchars($musicId) ?>"
                 class='card-body d-flex flex-column text-decoration-none'>
                 <h5 class='card-title fw-semibold text-center mb-3'><?= htmlspecialchars($musicName) ?></h5>
                 <button class='btn btn-outline-primary mt-auto w-100'>

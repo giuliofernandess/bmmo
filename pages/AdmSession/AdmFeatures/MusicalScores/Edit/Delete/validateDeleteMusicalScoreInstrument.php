@@ -8,16 +8,16 @@ $instrumentId = isset($_GET['instrument_id']) ? (int) $_GET['instrument_id'] : n
 $voiceOff = $_GET['voice_off'] ? $_GET['voice_off'] : null;
 
 if (!$musicId) {
-    header("Location: " . BASE_URL . "pages/AdmSession/MusicalScores/MusicalScoresEdit/musicalScoreEdit.php?musicId={$musicId}");
+    header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/MusicalScores/Edit/editMusicalScore.php?musicId={$musicId}");
     exit;
 }
 
 $currentFile = MusicalScores::getFile($musicId, $instrumentId);
 
 if ($voiceOff) {
-    $musicalScoreInstrumentDelete = MusicalScores::MusicalScoreInstrumentDelete($musicId, $instrumentId, true);
+    $musicalScoreInstrumentDelete = MusicalScores::DeleteMusicalScoreInstrument($musicId, $instrumentId, true);
 } else {
-    $musicalScoreInstrumentDelete = MusicalScores::MusicalScoreInstrumentDelete($musicId, $instrumentId);
+    $musicalScoreInstrumentDelete = MusicalScores::DeleteMusicalScoreInstrument($musicId, $instrumentId);
 }
 
 if ($musicalScoreInstrumentDelete) {
@@ -30,7 +30,7 @@ if ($musicalScoreInstrumentDelete) {
     $_SESSION['error'] = "Não foi possível deletar o arquivo.";
 }
 
-header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/MusicalScores/MusicalScoreEdit/musicalScoreEdit.php?musicId={$musicId}");
+header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/MusicalScores/Edit/editMusicalScore.php?musicId={$musicId}");
 exit;
 
 ?>

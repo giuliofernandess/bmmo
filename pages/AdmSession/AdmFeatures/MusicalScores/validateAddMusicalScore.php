@@ -15,7 +15,7 @@ if (empty($musicName) || empty($musicGenre)) {
     exit;
 }
 
-$musicalScoreAdd = MusicalScores::MusicalScoreAdd(
+$musicalScoreAdd = MusicalScores::AddMusicalScore(
     $musicName,
     $musicGenre,
     $musicGroups
@@ -31,5 +31,5 @@ if ($musicalScoreAdd !== false) {
 }
 
 // Redireciona para a página de inserção de instrumentos
-header("Location: MusicalScoreEdit/musicalScoreEdit.php?musicId={$musicalScoreAdd}");
+header("Location: Edit/editMusicalScore.php?musicId={$musicalScoreAdd}");
 exit;

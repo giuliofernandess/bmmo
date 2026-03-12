@@ -10,7 +10,7 @@ if (!$musicId) {
     exit;
 }
 
-$musicalScoreGeneralDelete = MusicalScores::MusicalScoreGeneralDelete($musicId);
+$musicalScoreGeneralDelete = MusicalScores::DeleteMusicalScoreGeneral($musicId);
 
 if ($musicalScoreGeneralDelete) {
     $_SESSION['success'] = "Partitura excluída com sucesso.";
