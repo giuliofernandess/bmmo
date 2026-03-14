@@ -51,11 +51,11 @@ $group_name = trim($musicalScores['group_name'] ?? '');
 
 <body>
   <!-- Toasts -->
-  <?php require BASE_PATH . "includes/successToast.php"; ?>
-  <?php require BASE_PATH . "includes/errorToast.php"; ?>
+  <?php include_once BASE_PATH . "includes/successToast.php"; ?>
+  <?php include_once BASE_PATH . "includes/errorToast.php"; ?>
 
   <!-- Header -->
-  <?php require BASE_PATH . "includes/secondHeader.php"; ?>
+  <?php include_once BASE_PATH . "includes/secondHeader.php"; ?>
 
   <main class="container mb-5 pt-5">
 
@@ -78,7 +78,7 @@ $group_name = trim($musicalScores['group_name'] ?? '');
         <label for="igenre" class="form-label fw-semibold">Gênero</label>
         <select name="genre" id="igenre" class="form-select">
           <option value="<?= $music_genre ?>"><?= $music_genre ?></option>
-          <?php require BASE_PATH . "includes/optionsMusicalGenre.php"; ?>
+          <?php require_once BASE_PATH . "includes/optionsMusicalGenre.php"; ?>
         </select>
       </div>
 
@@ -239,7 +239,7 @@ $group_name = trim($musicalScores['group_name'] ?? '');
   </main>
 
   <!-- Footer -->
-  <?php require BASE_PATH . "includes/footer.php"; ?>
+  <?php include_once BASE_PATH . "includes/footer.php"; ?>
 
   <!-- Scripts -->
   <script src="<?= BASE_URL ?>assets/js/showForm.js"></script>

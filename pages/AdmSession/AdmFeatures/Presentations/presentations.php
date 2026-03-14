@@ -39,11 +39,11 @@ $groups = BandGroups::getAll();
 
 <body>
     <!-- Toasts -->
-    <?php require BASE_PATH . "includes/successToast.php" ?>
-    <?php require BASE_PATH . "includes/errorToast.php" ?>
+    <?php include_once BASE_PATH . "includes/successToast.php" ?>
+    <?php include_once BASE_PATH . "includes/errorToast.php" ?>
 
     <!-- Header -->
-    <?php require BASE_PATH . "includes/secondHeader.php" ?>
+    <?php include_once BASE_PATH . "includes/secondHeader.php" ?>
 
     <main class="p-5">
 
@@ -210,7 +210,7 @@ $groups = BandGroups::getAll();
 
     </main>
 
-    <?php require BASE_PATH . "includes/footer.php" ?>
+    <?php include_once BASE_PATH . "includes/footer.php" ?>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>

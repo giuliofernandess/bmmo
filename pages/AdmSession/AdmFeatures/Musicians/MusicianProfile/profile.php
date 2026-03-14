@@ -65,11 +65,11 @@ $profileImage = $profileImage ? htmlspecialchars($profileImage) : "default.png";
 
 <body>
   <!-- Toasts de sucesso -->
-  <?php require BASE_PATH . "includes/successToast.php"; ?>
-  <?php require BASE_PATH . "includes/errorToast.php"; ?>
+  <?php include_once BASE_PATH . "includes/successToast.php"; ?>
+  <?php include_once BASE_PATH . "includes/errorToast.php"; ?>
 
   <!-- Header -->
-  <?php require BASE_PATH . "includes/secondHeader.php"; ?>
+  <?php include_once BASE_PATH . "includes/secondHeader.php"; ?>
   
 
   <main class="flex-fill py-5">
@@ -127,7 +127,7 @@ $profileImage = $profileImage ? htmlspecialchars($profileImage) : "default.png";
   </main>
 
   <!-- Footer -->
-  <?php require BASE_PATH . "includes/footer.php"; ?>
+  <?php include_once BASE_PATH . "includes/footer.php"; ?>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 

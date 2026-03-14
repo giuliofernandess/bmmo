@@ -29,11 +29,11 @@ Auth::requireRegency();
 
 <body class="d-flex flex-column min-vh-100">
   <!-- Toasts -->
-  <?php require BASE_PATH . "includes/successToast.php"; ?>
-  <?php require BASE_PATH . "includes/errorToast.php"; ?>
+  <?php include_once BASE_PATH . "includes/successToast.php"; ?>
+  <?php include_once BASE_PATH . "includes/errorToast.php"; ?>
 
   <!-- Header -->
-  <?php require BASE_PATH . 'includes/secondHeader.php'; ?>
+  <?php include_once BASE_PATH . 'includes/secondHeader.php'; ?>
 
   <!-- Main -->
   <main class="flex-grow-1 d-flex align-items-center justify-content-center flex-column py-5">
@@ -193,7 +193,7 @@ Auth::requireRegency();
   </main>
 
   <!-- Footer -->
-  <?php require BASE_PATH . 'includes/footer.php'; ?>
+  <?php include_once BASE_PATH . 'includes/footer.php'; ?>
 
   <!-- Scripts -->
   <script src="<?= BASE_URL ?>assets/js/password.js"></script>

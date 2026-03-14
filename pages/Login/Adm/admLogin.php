@@ -25,10 +25,10 @@ session_start();
 <body class="d-flex flex-column min-vh-100" style="background: linear-gradient(to right, #eef2f3, #d9e9ff);">
 
   <!-- Toast de erro (aparece se $_SESSION['error'] estiver setado) -->
-  <?php require BASE_PATH . 'includes/errorToast.php'; ?>
+  <?php include_once BASE_PATH . 'includes/errorToast.php'; ?>
 
   <!-- Header do site -->
-  <?php require BASE_PATH . 'includes/firstHeader.php'; ?>
+  <?php include_once BASE_PATH . 'includes/firstHeader.php'; ?>
 
   <!-- Formulário de login centralizado -->
   <main class="d-flex flex-grow-1 align-items-center justify-content-center px-3 py-5">
@@ -62,7 +62,7 @@ session_start();
   </main>
 
   <!-- Footer do site -->
-  <?php require BASE_PATH . 'includes/footer.php'; ?>
+  <?php include_once BASE_PATH . 'includes/footer.php'; ?>
 
   <!-- Script para mostrar/esconder senha -->
   <script src="<?= BASE_URL ?>assets/js/password.js"></script>

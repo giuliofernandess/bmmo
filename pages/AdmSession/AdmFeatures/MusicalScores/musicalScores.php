@@ -28,11 +28,11 @@ $groups = BandGroups::getAll();
 
 <body>
   <!-- Toasts -->
-  <?php require BASE_PATH . "includes/successToast.php"; ?>
-  <?php require BASE_PATH . "includes/errorToast.php"; ?>
+  <?php include_once BASE_PATH . "includes/successToast.php"; ?>
+  <?php include_once BASE_PATH . "includes/errorToast.php"; ?>
 
   <!-- Header -->
-  <?php require BASE_PATH . "includes/secondHeader.php"; ?>
+  <?php include_once BASE_PATH . "includes/secondHeader.php"; ?>
 
   <!-- Main -->
   <main class="container mb-5 p-5">
@@ -185,7 +185,7 @@ $groups = BandGroups::getAll();
   </main>
 
   <!-- Footer -->
-  <?php require BASE_PATH . "includes/footer.php"; ?>
+  <?php include_once BASE_PATH . "includes/footer.php"; ?>
 
   <!-- Scripts -->
   <script src="<?= BASE_URL ?>assets/js/showForm.js"></script>

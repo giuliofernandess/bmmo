@@ -21,7 +21,7 @@ require_once '../../../config/config.php';
 <body class="d-flex flex-column min-vh-100">
 
   <!-- Header -->
-  <?php require BASE_PATH . 'includes/firstHeader.php'; ?>
+  <?php include_once BASE_PATH . 'includes/firstHeader.php'; ?>
 
   <!-- Conteúdo principal -->
   <main class="container my-5">
@@ -83,7 +83,7 @@ require_once '../../../config/config.php';
   </main>
 
   <!-- Footer -->
-  <?php require BASE_PATH . 'includes/footer.php'; ?>
+  <?php include_once BASE_PATH . 'includes/footer.php'; ?>
 
   <!-- Scripts Bootstrap -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
