@@ -55,7 +55,7 @@ if ($createPresentation) {
     $_SESSION['error'] = "Erro ao inserir apresentação!";
 }
 
-// Redireciona para a página principal de partituras
+// Redireciona para a página principal de apresentações
 header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/Presentations/presentations.php");
 exit;
 
