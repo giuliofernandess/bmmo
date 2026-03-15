@@ -97,7 +97,7 @@ $groups = BandGroups::getAll();
                         <select id="isongs" class="form-select">
                             <option value="">Selecione</option>
                             <?php
-                            $musicsList = MusicalScores::ordenedGetAll();
+                            $musicsList = MusicalScores::getAll();
 
                             if (!empty($musicsList)) {
                                 $currentGenre = "";

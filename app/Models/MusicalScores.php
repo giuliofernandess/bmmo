@@ -400,33 +400,6 @@ class MusicalScores
     }
 
     /**
-     * Retorna todos as partituras do banco, selecionados por gênero e nome.
-     *
-     * @return array Array contendo todas as partituras do banco
-     */
-    public static function ordenedGetAll(): ?array
-    {
-        $db = Database::getConnection();
-
-        $sql = "SELECT * FROM musical_scores 
-            ORDER BY music_genre ASC, music_name ASC";
-
-        $result = $db->query($sql);
-
-        if (!$result) {
-            return null;
-        }
-
-        $musicsList = [];
-
-        while ($row = $result->fetch_assoc()) {
-            $musicsList[] = $row;
-        }
-
-        return $musicsList;
-    }
-
-    /**
      * Retorna uma partitura específica pelo ID.
      *
      * @param int $musicId ID da partitura
