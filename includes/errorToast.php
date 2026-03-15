@@ -10,8 +10,9 @@
         </div>
       </div>
     </div>
-    <?php unset($_SESSION['error']);?>
-<?php endif; ?>
+   
+    <!-- Remove toast em 5 segundos -->
+    <script src="<?= BASE_URL ?>assets/js/removeToast.js"></script>
 
-<!-- Remove toast em 5 segundos -->
-<script src="<?= BASE_URL ?>assets/js/removeToast.js"></script>
+    <?php unset($_SESSION['error']); ?>
+<?php endif ?>
