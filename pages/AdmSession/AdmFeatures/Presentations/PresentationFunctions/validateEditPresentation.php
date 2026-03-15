@@ -63,13 +63,4 @@ if ($editPresentation) {
 header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/Presentations/presentations.php");
 exit;
 
-$stmt = $connect->prepare("");
-$stmt->bind_param("ssssssi", $name, $date, $hour, $local, $bandGroup, $songs, $id);
-
-if ($stmt->execute()) {
-    echo "<script>alert('Tocata editada com sucesso!'); window.location.href='../repertoire.php';</script>";
-} else {
-    echo "<script>alert('Erro ao editar.'); window.location.href='../repertoire.php';</script>";
-}
-
 ?>
