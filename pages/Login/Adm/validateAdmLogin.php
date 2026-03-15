@@ -27,7 +27,7 @@ if ($loginAdm === '' || $passwordAdm === '') {
 }
 
 // Tenta autenticar via classe Auth
-if (Auth::loginRegency($loginAdm, $passwordAdm)) {
+if (Auth::regencyLogin($loginAdm, $passwordAdm)) {
 
     $_SESSION['login'] = $res['regency_login'];
 
