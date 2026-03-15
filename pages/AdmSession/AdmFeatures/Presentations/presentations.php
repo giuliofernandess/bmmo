@@ -196,7 +196,7 @@ $groups = BandGroups::getAll();
                                 </p>
 
                                 <div class="mt-auto d-flex justify-content-end gap-2">
-                                    <a href="RepertoireFunctions/deleteRepertoire.php?presentation_id=<?= $presentations['presentation_id'] ?>"
+                                    <a href="RepertoireFunctions/validateDeleteRepertoire.php?presentation_id=<?= $presentations['presentation_id'] ?>"
                                         class="btn btn-danger btn-sm d-flex align-items-center justify-content-center"
                                         style="width:38px;height:38px;"
                                         onclick="return confirm('Tem certeza que deseja excluir esta tocata?');">
