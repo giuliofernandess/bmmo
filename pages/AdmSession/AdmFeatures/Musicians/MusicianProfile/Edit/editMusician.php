@@ -206,7 +206,6 @@ $responsible_contact = trim($musicians['responsible_contact'] ?? '');
           <div>
             <input type="password" name="confirm-password" id="confirm-password" placeholder="Confirme a nova senha"
               class="form-control" minlength="8" maxlength="20" />
-            <i class="bi bi-eye-fill show-password" id="password-btn" onclick="showPassword()"></i>
           </div>
         </div>
 
@@ -223,7 +222,6 @@ $responsible_contact = trim($musicians['responsible_contact'] ?? '');
   <?php include_once BASE_PATH . "includes/footer.php"; ?>
 
   <!-- Scripts -->
-  <script src="<?= BASE_URL ?>assets/js/password.js"></script>
   <script src="<?= BASE_URL ?>assets/js/removeToast.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
   <script src="<?= BASE_URL ?>assets/js/jquery.js"></script>
