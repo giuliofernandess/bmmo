@@ -146,6 +146,16 @@ $groups = BandGroups::getAll();
                     $presentationGroups = Presentations::getPresentationGroups($presentations['presentation_id']);
                     $presentationSongs = Presentations::getPresentationSongs($presentations['presentation_id']);
 
+                    $idGroups = [];
+                    foreach ($presentationGroups as $presentationGroup) {
+                        $idGroups[] = $presentationGroup['group_id'];
+                    }
+
+                    $idSongs = [];
+                    foreach ($presentationSongs as $presentationSong) {
+                        $idSongs[] = $presentationSong['song_id'];
+                    }
+
                     ?>
                     <div class="col-12 col-md-6 col-lg-3">
                         <div class="card shadow-sm h-100">
@@ -154,7 +164,9 @@ $groups = BandGroups::getAll();
                                 data-name="<?= htmlspecialchars($presentations['presentation_name']) ?>"
                                 data-date="<?= htmlspecialchars($presentations['presentation_date']) ?>"
                                 data-hour="<?= htmlspecialchars($presentations['presentation_hour']) ?>"
-                                data-local="<?= htmlspecialchars($presentations['local_of_presentation']) ?>">
+                                data-local="<?= htmlspecialchars($presentations['local_of_presentation']) ?>"
+                                data-groups="<?= htmlspecialchars(json_encode($idGroups)) ?>"
+                                data-songs="<?= htmlspecialchars(json_encode($idSongs)) ?>">
 
                                 <h4 class="card-title"><?= htmlspecialchars($presentations['presentation_name']) ?></h4>
 
@@ -191,7 +203,7 @@ $groups = BandGroups::getAll();
                                         <i class="bi bi-trash"></i>
                                     </a>
 
-                                    <a class="btn btn-success btn-sm d-flex align-items-center justify-content-center editRepertoire"
+                                    <a class="btn btn-success btn-sm d-flex align-items-center justify-content-center"
                                         style="width:38px;height:38px;" onclick="editPresentation(this)">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
