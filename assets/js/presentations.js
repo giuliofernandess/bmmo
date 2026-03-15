@@ -27,14 +27,14 @@ function addSong() {
     return;
   }
 
-  if (selectedSongs.some(song => song.id === selectedId)) {
+  if (selectedSongs.some((song) => song.id === selectedId)) {
     alert("[ERRO] Música já adicionada!");
     return;
   }
 
   selectedSongs.push({
     id: selectedId,
-    name: selectedName
+    name: selectedName,
   });
 
   showSongs();
@@ -57,7 +57,7 @@ function showSongs() {
     trash.role = "button";
 
     trash.addEventListener("click", () => {
-      selectedSongs = selectedSongs.filter(s => s.id !== song.id);
+      selectedSongs = selectedSongs.filter((s) => s.id !== song.id);
       showSongs();
       addInput();
     });
@@ -70,9 +70,9 @@ function showSongs() {
 }
 
 function addInput() {
-  document.querySelectorAll(".song-hidden").forEach(el => el.remove());
+  document.querySelectorAll(".song-hidden").forEach((el) => el.remove());
 
-  selectedSongs.forEach(song => {
+  selectedSongs.forEach((song) => {
     const input = document.createElement("input");
 
     input.type = "hidden";
@@ -85,9 +85,10 @@ function addInput() {
 }
 
 function editPresentation(btn) {
-
   if (formCard.style.display === "block") {
-    alert("[ERRO] Não é possível editar uma tocata enquanto cria ou edita outra!");
+    alert(
+      "[ERRO] Não é possível editar uma tocata enquanto cria ou edita outra!",
+    );
     return;
   }
 
@@ -97,7 +98,7 @@ function editPresentation(btn) {
 
   const idInput = document.createElement("input");
   idInput.type = "hidden";
-  idInput.name = "iid";
+  idInput.name = "id";
   idInput.value = info.dataset.id;
 
   form.appendChild(idInput);
@@ -108,30 +109,28 @@ function editPresentation(btn) {
   document.querySelector("#ilocal").value = info.dataset.local;
 
   // grupos
-  const bandGroups = info.dataset.group.split("-");
+  const bandGroups = JSON.parse(info.dataset.groups);
   const checkboxes = document.querySelectorAll('input[name="groups[]"]');
 
-  checkboxes.forEach(cb => {
-    cb.checked = bandGroups.includes(cb.value);
+  checkboxes.forEach((cb) => {
+    cb.checked = bandGroups.includes(Number(cb.value));
   });
 
   selectedSongs = [];
 
-  const songs = info.dataset.songs.split("-");
+  const songs = JSON.parse(info.dataset.songs);
 
   const select = document.querySelector("#isongs");
 
-  songs.forEach(songName => {
-
+  songs.forEach((songId) => {
     for (let option of select.options) {
-      if (option.text === songName) {
+      if (option.value == songId) {
         selectedSongs.push({
           id: option.value,
-          name: option.text
+          name: option.text,
         });
       }
     }
-
   });
 
   showSongs();
