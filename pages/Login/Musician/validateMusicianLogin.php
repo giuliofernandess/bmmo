@@ -1,44 +1,45 @@
 <?php
-session_start();
-require_once '../../../general-features/bdConnect.php';
 
-// Valida se os campos foram enviados
-if (!isset($_POST['login'], $_POST['password'])) {
-    echo "<script>alert('Dados incompletos.');</script>";
-    echo "<meta http-equiv='refresh' content='0; url=musicianLogin.php'>";
+// Carrega config do projeto
+require_once '../../../config/config.php';
+
+// Carrega classe de autenticação (POO)
+require_once BASE_PATH . 'app/Auth/Auth.php';
+
+// Inicia sessão para salvar mensagens de erro
+session_start();
+
+// Bloqueia acesso direto via GET
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header("Location: musicianLogin.php");
     exit;
 }
 
-// Captação de dados
-$login = trim($_POST['login']);
-$password = trim($_POST['password']);
+// Captura os dados do formulário com fallback
+$musiciansLogin = trim($_POST['login'] ?? '');
+$musicianPassword = trim($_POST['password'] ?? '');
 
-// Envio do SQL
-$stmt = $connect->prepare("SELECT login, password, instrument, bandGroup FROM musicians WHERE login = ? and password = ?");
-$stmt->bind_param("ss", $login, $password);
-$stmt->execute();
-$result = $stmt->get_result();
-
-// Verificação de usuário
-if ($result->num_rows > 0) {
-    $res = $result->fetch_assoc();
-
-    // Verificação de senha
-    if ($password == $res['password']) {
-        $_SESSION['login'] = $res['login'];
-        $_SESSION['bandGroup'] = $res['bandGroup'];
-        $_SESSION['instrument'] = $res['instrument'];
-
-        echo "<script>alert('Login concluído com sucesso!');</script>";
-        echo "<meta http-equiv='refresh' content='0; url=../../MusicianSession/musicianPage.php'>";
-    } else {
-        echo "<script>alert('Senha incorreta.');</script>";
-        echo "<meta http-equiv='refresh' content='0; url=musicianLogin.php'>";
-    }
-} else {
-    echo "<script>alert('[ERRO] Músico não encontrado!');</script>";
-    echo "<meta http-equiv='refresh' content='0; url=musicianLogin.php'>";
+// Validação simples (campos vazios)
+if ($musiciansLogin === '' || $musicianPassword === '') {
+    $_SESSION['error'] = "Preencha todos os campos.";
+    header("Location: musicianLogin.php");
+    exit;
 }
 
-$stmt->close();
-?>
+// Tenta autenticar via classe Auth
+if (Auth::musicianLogin($musiciansLogin, $musicianPassword)) {
+
+    $_SESSION['login'] = $res['musician_login'];
+
+    // Adiciona a mensagem de sucesso aqui, apenas no login
+    $_SESSION['success'] = "Login efetuado com sucesso!";
+
+    // Login OK → redireciona para a sessão do músico
+    header("Location: " . BASE_URL . "pages/MusicianSession/musicianPage.php");
+    exit;
+}
+
+// Login inválido → salva mensagem e volta para o form
+$_SESSION['error'] = "Login ou senha inválidos.";
+header("Location: musicianLogin.php");
+exit;
