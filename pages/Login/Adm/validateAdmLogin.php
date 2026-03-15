@@ -16,18 +16,18 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // Captura os dados do formulário com fallback
-$loginAdm = trim($_POST['login'] ?? '');
-$passwordAdm = trim($_POST['password'] ?? '');
+$admLogin = trim($_POST['login'] ?? '');
+$admPassword = trim($_POST['password'] ?? '');
 
 // Validação simples (campos vazios)
-if ($loginAdm === '' || $passwordAdm === '') {
+if ($admLogin === '' || $admPassword === '') {
     $_SESSION['error'] = "Preencha todos os campos.";
     header("Location: admLogin.php");
     exit;
 }
 
 // Tenta autenticar via classe Auth
-if (Auth::regencyLogin($loginAdm, $passwordAdm)) {
+if (Auth::regencyLogin($admLogin, $admPassword)) {
 
     $_SESSION['login'] = $res['regency_login'];
 
