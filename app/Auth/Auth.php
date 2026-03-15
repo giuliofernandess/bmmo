@@ -1,7 +1,8 @@
 <?php
 
-// Model responsável por consultar o maestro no banco
+// Model responsável por consultar maestros e músicos no banco
 require_once BASE_PATH . 'app/Models/Regency.php';
+require_once BASE_PATH . 'app/Models/Musicians.php';
 
 class Auth
 {
@@ -33,7 +34,7 @@ class Auth
      * Faz login do maestro (regency).
      * Retorna true se autenticou, false se falhou.
      */
-    public static function loginRegency(string $login, string $password): bool
+    public static function regencyLogin(string $login, string $password): bool
     {
         // Garante sessão ativa
         if (session_status() === PHP_SESSION_NONE) {
@@ -60,6 +61,36 @@ class Auth
     }
 
     /**
+     * Faz login do maestro (regency).
+     * Retorna true se autenticou, false se falhou.
+     */
+    public static function musicianLogin(string $login, string $password): bool
+    {
+        // Garante sessão ativa
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Busca o usuário no banco
+        $user = Musicians::findByLogin($login);
+
+        // Usuário não encontrado
+        if (!$user) {
+            return false;
+        } else if (!password_verify($password, $user['password'])) {
+            return false;
+        } else {
+
+            // Login OK: salva dados na sessão
+            $_SESSION['musician_login'] = $user['musician_login'];
+            $_SESSION['role'] = 'musician';
+
+            return true;
+        }
+
+    }
+
+    /**
      * Protege páginas do maestro.
      * Se não estiver logado, manda para o login.
      */
@@ -73,6 +104,24 @@ class Auth
         // Se não estiver logado corretamente, redireciona
         if (!isset($_SESSION['regency_login']) || ($_SESSION['role'] ?? '') !== 'regency') {
             header("Location: " . BASE_URL . "pages/Login/Adm/admLogin.php");
+            exit;
+        }
+    }
+
+    /**
+     * Protege páginas do maestro.
+     * Se não estiver logado, manda para o login.
+     */
+    public static function requireMusician(): void
+    {
+        // Garante sessão ativa
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Se não estiver logado corretamente, redireciona
+        if (!isset($_SESSION['musician_login']) || ($_SESSION['role'] ?? '') !== 'musician') {
+            header("Location: " . BASE_URL . "pages/Login/Musician/musicianLogin.php");
             exit;
         }
     }
