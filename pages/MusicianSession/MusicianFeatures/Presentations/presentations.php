@@ -28,7 +28,7 @@ Presentations::automaticallyDelete();
     <main class="p-5">
         <!-- Título -->
         <div class="d-flex align-items-center justify-content-between mb-4">
-            <h1 class="mb-0 text-primary">Próximas tocatas</h1>
+            <h1 class="mb-0 text-primary fw-bold">Próximas tocatas</h1>
         </div>
 
         <!-- Cards -->
