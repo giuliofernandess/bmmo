@@ -141,10 +141,10 @@ $groups = BandGroups::getAll();
       $currentGenre = "";
       $lastName = "";
 
-      // Itera sobre cada músico
+      // Itera sobre cada partitura
       foreach ($musicsList as $res) {
 
-        // Dados do músico
+        // Dados do partitura
         $musicName = htmlspecialchars($res['music_name'] ?? '', ENT_QUOTES, 'UTF-8');
         $musicId = (int) $res['music_id'] ?? null;
 
