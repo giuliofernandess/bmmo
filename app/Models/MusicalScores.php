@@ -329,7 +329,7 @@ class MusicalScores
     }
 
     /**
-     * Retorna todos as partituras do banco, selecionados por grupos da banda, gênero ou os dois e * ordenados pelos mesmos.
+     * Retorna todos as partituras do banco, selecionados por nome, grupos da banda, gênero ou os três e ordenados pelos mesmos.
      *
      * @param string $musicName nome da partitura
      * @param int $bandGroup grupo da banda
@@ -369,6 +369,73 @@ class MusicalScores
 
         if (!empty($conditions)) {
             $sql .= " WHERE " . implode(" AND ", $conditions);
+        }
+
+        $sql .= " ORDER BY ms.music_genre, ms.music_name";
+
+        $stmt = $db->prepare($sql);
+        if (!$stmt) {
+            return [];
+        }
+
+        if (!empty($params)) {
+            $stmt->bind_param($types, ...$params);
+        }
+
+        if (!$stmt->execute()) {
+            $stmt->close();
+            return [];
+        }
+
+        $result = $stmt->get_result();
+        $musicsList = [];
+
+        while ($row = $result->fetch_assoc()) {
+            $musicsList[] = $row;
+        }
+
+        $stmt->close();
+
+        return $musicsList;
+    }
+
+    /**
+     * Retorna todos as partituras do banco, selecionados por nome, grupos da banda, gênero ou os três e ordenados pelos mesmos.
+     *
+     * @param int $instrumentId id da partitura
+     * @param int $groupId id do grupo
+     * @param string $name nome da partitura
+     * @param string $musicGenre gênero da partitura
+     * @return array Array de músicos (cada músico é um array associativo)
+     */
+
+    public static function getAllByInstrument(int $instrumentId, int $groupId, string $musicName = '', string $musicGenre = ''): array
+    {
+        $db = Database::getConnection();
+
+        $sql = "SELECT msg.*, ms.*, msi.* FROM musical_scores_groups AS msg
+                JOIN musical_scores_instruments AS msi ON msg.music_id = msi.music_id
+                JOIN musical_scores AS ms ON msg.music_id = ms.music_id
+                WHERE msg.group_id = ? AND msi.instrument_id = ?";
+
+        $conditions = [];
+        $params = [$groupId, $instrumentId];
+        $types = "ii";
+
+        if ($musicName !== '') {
+            $conditions[] = "ms.music_name LIKE ?";
+            $params[] = "%$musicName%";
+            $types .= "s";
+        }
+
+        if ($musicGenre !== '') {
+            $conditions[] = "ms.music_genre = ?";
+            $params[] = $musicGenre;
+            $types .= "s";
+        }
+
+        if (!empty($conditions)) {
+            $sql .= " AND " . implode(" AND ", $conditions);
         }
 
         $sql .= " ORDER BY ms.music_genre, ms.music_name";
