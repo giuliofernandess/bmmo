@@ -51,7 +51,7 @@ $musicianInfo = Musicians::findByLogin($login);
       <img src="<?= BASE_URL ?>assets/images/logo_banda.png" width="160" height="160" alt="Logo" class="mb-3">
       <h1 class="fw-bold">Bem-vindo(a), <?= htmlspecialchars($musicianInfo['musician_name']); ?></h1>
       <p class="mb-4">
-        Aqui você pode acessar suas informações, ensaios, partituras e muito mais.
+        Aqui você pode acessar suas informações, apresentações e partituras.
       </p>
 
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 justify-content-center">
