@@ -16,18 +16,18 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // Captura os dados do formulário com fallback
-$musiciansLogin = trim($_POST['login'] ?? '');
+$musicianLogin = trim($_POST['login'] ?? '');
 $musicianPassword = trim($_POST['password'] ?? '');
 
 // Validação simples (campos vazios)
-if ($musiciansLogin === '' || $musicianPassword === '') {
+if ($musicianLogin === '' || $musicianPassword === '') {
     $_SESSION['error'] = "Preencha todos os campos.";
     header("Location: musicianLogin.php");
     exit;
 }
 
 // Tenta autenticar via classe Auth
-if (Auth::musicianLogin($musiciansLogin, $musicianPassword)) {
+if (Auth::musicianLogin($musicianLogin, $musicianPassword)) {
 
     // Adiciona a mensagem de sucesso aqui, apenas no login
     $_SESSION['success'] = "Login efetuado com sucesso!";
