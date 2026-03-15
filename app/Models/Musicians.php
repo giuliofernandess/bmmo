@@ -227,7 +227,7 @@ class Musicians
         $db = Database::getConnection();
 
         // SQL preparado
-        $sql = "SELECT musician_login, password FROM musicians WHERE musician_login = ?";
+        $sql = "SELECT * FROM musicians WHERE musician_login = ?";
         $stmt = $db->prepare($sql);
 
         // Falha ao preparar → retorna null
