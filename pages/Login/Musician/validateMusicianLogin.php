@@ -29,7 +29,7 @@ if ($musiciansLogin === '' || $musicianPassword === '') {
 // Tenta autenticar via classe Auth
 if (Auth::musicianLogin($musiciansLogin, $musicianPassword)) {
 
-    $_SESSION['login'] = $res['musician_login'];
+    $_SESSION['musician_login'] = $res['musician_login'];
 
     // Adiciona a mensagem de sucesso aqui, apenas no login
     $_SESSION['success'] = "Login efetuado com sucesso!";
