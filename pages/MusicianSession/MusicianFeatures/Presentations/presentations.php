@@ -1,102 +1,99 @@
 <?php
-require_once '../../../../general-features/bdConnect.php';
+require_once "../../../../config/config.php";
+require_once BASE_PATH . "app/Auth/Auth.php";
+require_once BASE_PATH . "app/Models/Presentations.php";
 
-session_start();
+Auth::requireMusician();
 
-if (!isset($_SESSION['login'])) {
-    header("Location: ../../../Index/index.php");
-    exit;
-} else {
-    if (!$connect) {
-        die('Erro de conexão: ' . mysqli_connect_error());
-    }
+$login = $_SESSION["musician_login"] ? trim($_SESSION["musician_login"]) : null;
+$musicianInfo = Musicians::findByLogin($login);
 
-    $today = (new DateTime())->format('Y-m-d');
-    $connect->query("DELETE FROM repertoire WHERE date < '$today'");
-}
+Presentations::automaticallyDelete();
+
 ?>
 
 <!doctype html>
 <html lang="pt-br">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Repertórios</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
-  <link rel="shortcut icon" href="../../../../assets/images/logo_banda.png" type="image/x-icon">
-  <link rel="stylesheet" href="../../../../assets/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apresentações</title>
+
+    <!-- Configurações Básicas -->
+    <?php require_once BASE_PATH . "includes/basicHead.php"; ?>
 </head>
 
 <body>
-  <!-- Header -->
-  <header class="d-flex align-items-center justify-content-between px-3">
-    <a href="#" class="d-flex align-items-center text-white text-decoration-none">
-      <img src="../../../../assets/images/logo_banda.png" alt="Logo Banda" width="30" height="30" class="me-2">
-      <span class="fs-5 fw-bold">BMMO Online - Músico</span>
-    </a>
-    <nav>
-      <ul class="nav">
-        <li class="nav-item">
-          <a href="../../musicianPage.php" class="nav-link text-white" style="font-size: 1.4rem;"><i
-              class="bi bi-arrow-90deg-left"></i></a>
-        </li>
-      </ul>
-    </nav>
-  </header>
+    <!-- Header -->
+    <?php include_once BASE_PATH . "includes/secondHeader.php"; ?>
 
-  <main class="p-5">
-    <!-- Título -->
-    <div class="d-flex align-items-center justify-content-between mb-4">
-        <h1 class="mb-0 text-primary">Próximas tocatas</h1>
-    </div>
-
-    <!-- Cards -->
-    <div class="row g-3">
-        <?php
-        $sql = "SELECT * FROM repertoire ORDER BY date ASC, hour ASC";
-        $result = $connect->query($sql);
-
-        if ($result && $result->num_rows > 0) {
-            while ($res = $result->fetch_assoc()) {
-        ?>
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body d-flex flex-column">
-
-                    <h5 class="card-title"><?= htmlspecialchars($res['presentationName']) ?></h5>
-
-                    <p class="mb-1"><strong>Data:</strong> <?= htmlspecialchars($res['date']) ?></p>
-                    <p class="mb-1"><strong>Horário:</strong> <?= htmlspecialchars($res['hour']) ?></p>
-                    <p class="mb-1"><strong>Local:</strong> <?= htmlspecialchars($res['local']) ?></p>
-
-                    <p class="mb-1"><strong>Grupo(s):</strong><br>
-                        <?= htmlspecialchars(str_replace('-', '<br>', $res['bandGroup'])) ?>
-                    </p>
-
-                    <p class="mb-1"><strong>Músicas:</strong><br>
-                        <?= htmlspecialchars(str_replace('-', '<br>', $res['songs'])) ?>
-                    </p>
-                </div>
-            </div>
+    <main class="p-5">
+        <!-- Título -->
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h1 class="mb-0 text-primary">Próximas tocatas</h1>
         </div>
-        <?php
+
+        <!-- Cards -->
+        <div class="row g-3">
+            <?php
+            $presentationsList = Presentations::getAll();
+
+            if (!empty($presentationsList)) {
+                foreach ($presentationsList as $presentationInfo):
+
+                    $presentationGroups = Presentations::getPresentationGroups($presentationInfo['presentation_id']);
+                    $presentationSongs = Presentations::getPresentationSongs($presentationInfo['presentation_id']);
+
+                    ?>
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-body d-flex flex-column">
+
+                                <h5 class="card-title"><?= htmlspecialchars($presentationInfo['presentation_name']) ?></h5>
+
+                                <p class="mb-1"><strong>Data:</strong>
+                                    <?= (new DateTime($presentationInfo['presentation_date']))->format("d/m/Y") ?></p>
+                                <p class="mb-1"><strong>Horário:</strong>
+                                    <?= date('H:i', strtotime($presentationInfo['presentation_hour'])) ?></p>
+                                <p class="mb-1"><strong>Local:</strong>
+                                    <?= htmlspecialchars($presentationInfo['local_of_presentation']) ?></p>
+
+                                <p class="mb-1"><strong>Grupo(s):</strong><br>
+                                    <?php foreach ($presentationGroups as $presentationGroup):
+                                        ?>
+
+                                        <span><?= htmlspecialchars($presentationGroup['group_name']); ?></span><br>
+
+                                    <?php endforeach ?>
+                                </p>
+
+                                <p class="mb-1"><strong>Músicas:</strong><br>
+                                    <?php foreach ($presentationSongs as $presentationSong):
+                                        ?>
+
+                                        <span><?= htmlspecialchars($presentationSong['music_name']); ?></span><br>
+
+                                    <?php endforeach ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                endforeach;
+            } else {
+                echo "<p>Nenhuma tocata cadastrada.</p>";
             }
-        } else {
-            echo "<p>Nenhuma tocata cadastrada.</p>";
-        }
-        ?>
-    </div>
-  </main>
+            ?>
+        </div>
+    </main>
 
-  <!-- Footer -->
-  <?php require_once '../../../../general-features/footer.php'; ?>
+    <!-- Footer -->
+    <?php include_once BASE_PATH . "includes/footer.php"; ?>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-    crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
