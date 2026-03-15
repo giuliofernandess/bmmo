@@ -29,8 +29,6 @@ if ($admLogin === '' || $admPassword === '') {
 // Tenta autenticar via classe Auth
 if (Auth::regencyLogin($admLogin, $admPassword)) {
 
-    $_SESSION['login'] = $res['regency_login'];
-
     // Adiciona a mensagem de sucesso aqui, apenas no login
     $_SESSION['success'] = "Login efetuado com sucesso!";
 
