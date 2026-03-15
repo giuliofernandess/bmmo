@@ -297,18 +297,6 @@ ALTER TABLE `regency`
 --
 
 --
--- AUTO_INCREMENT de tabela `band_groups`
---
-ALTER TABLE `band_groups`
-  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de tabela `instruments`
---
-ALTER TABLE `instruments`
-  MODIFY `instrument_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
-
---
 -- AUTO_INCREMENT de tabela `musical_scores`
 --
 ALTER TABLE `musical_scores`
