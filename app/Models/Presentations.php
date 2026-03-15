@@ -173,6 +173,46 @@ class Presentations
     }
 
     /**
+     * Insere uma nova apresentação no banco de dados.
+     * 
+     * @param int $presentationId Id da apresentação
+     * @return bool Booleano (true, false)
+     */
+
+    public static function deletePresentation(int $presentationId): bool
+    {
+        $db = Database::getConnection();
+
+        $db->begin_transaction();
+
+        // Inserção no bando de dados
+        try {
+
+            $stmtDeleteGroups = $db->prepare("DELETE FROM presentations_groups WHERE presentation_id = ?");
+            $stmtDeleteGroups->bind_param("i", $presentationId);
+            $stmtDeleteGroups->execute();
+            $stmtDeleteGroups->close();
+
+            $stmtDeleteSongs = $db->prepare("DELETE FROM presentations_songs WHERE presentation_id = ?");
+            $stmtDeleteSongs->bind_param("i", $presentationId);
+            $stmtDeleteSongs->execute();
+            $stmtDeleteSongs->close();
+
+            $stmtDeleteMainTable = $db->prepare("DELETE FROM presentations WHERE presentation_id = ?");
+            $stmtDeleteMainTable->bind_param("i", $presentationId);
+            $stmtDeleteMainTable->execute();
+            $stmtDeleteMainTable->close();
+
+            $db->commit();
+
+            return true;
+        } catch (\Exception $e) {
+            $db->rollback();
+            return false;
+        }
+    }
+
+    /**
      * Apaga uma partitura do banco de dados quando a data da mesma é menor que a data de hoje.
      *
      */
