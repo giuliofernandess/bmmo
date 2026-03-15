@@ -227,7 +227,10 @@ class Musicians
         $db = Database::getConnection();
 
         // SQL preparado
-        $sql = "SELECT * FROM musicians WHERE musician_login = ?";
+        $sql = "SELECT m.musician_id, m.musician_name, i.instrument_name, bg.group_name, m.date_of_birth, m.musician_contact, m.neighborhood, m.profile_image FROM musicians AS m 
+        JOIN instruments AS i ON i.instrument_id = m.instrument
+        JOIN band_groups AS bg ON bg.group_id = m.band_group
+        WHERE musician_login = ?";
         $stmt = $db->prepare($sql);
 
         // Falha ao preparar → retorna null
