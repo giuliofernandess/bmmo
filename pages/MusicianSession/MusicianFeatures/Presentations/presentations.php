@@ -1,12 +1,10 @@
 <?php
 require_once "../../../../config/config.php";
 require_once BASE_PATH . "app/Auth/Auth.php";
-require_once BASE_PATH . "app/Models/Presentations.php";
 
 Auth::requireMusician();
 
-$login = $_SESSION["musician_login"] ? trim($_SESSION["musician_login"]) : null;
-$musicianInfo = Musicians::findByLogin($login);
+require_once BASE_PATH ."includes/getMusicianInfo.php";
 
 Presentations::automaticallyDelete();
 
