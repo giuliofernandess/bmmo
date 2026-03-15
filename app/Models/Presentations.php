@@ -9,6 +9,7 @@ class Presentations
     /**
      * Insere uma nova apresentação no banco de dados.
      * 
+     * @param array $presentationInfo Array de informações da apresentação
      * @return bool Booleano (true, false)
      */
 
@@ -68,7 +69,95 @@ class Presentations
                 $songId = (int) $songId;
 
                 if (!$stmtSongs->execute()) {
+                    throw new Exception("Erro ao vincular música.");
+                }
+            }
+
+            $stmtSongs->close();
+
+            $db->commit();
+
+            return true;
+        } catch (\Exception $e) {
+            $db->rollback();
+            return false;
+        }
+    }
+
+    /**
+     * Insere uma nova apresentação no banco de dados.
+     * 
+     * @param array $presentationInfo Array de informações da apresentação
+     * @return bool Booleano (true, false)
+     */
+
+    public static function editPresentation(array $presentationInfo): bool
+    {
+        $db = Database::getConnection();
+
+        $db->begin_transaction();
+
+        // Sanitização dos dados
+        $presentationId = (int) $presentationInfo["id"];
+        $name = trim($presentationInfo['name']);
+        $date = $presentationInfo['date'];
+        $hour = $presentationInfo['hour'];
+        $local = trim($presentationInfo['local']);
+        $musicGroups = $presentationInfo['groups'];
+        $songGroups = $presentationInfo['songs'];
+
+        // Inserção no bando de dados
+        try {
+
+            $stmt = $db->prepare("UPDATE presentations SET presentation_name = ?, presentation_date = ?, presentation_hour = ?, local_of_presentation = ? WHERE presentation_id = ?");
+            $stmt->bind_param("ssssi", $name, $date, $hour, $local, $presentationId);
+
+            $stmt->execute();
+
+            $stmt->close();
+
+            // Limpar grupos e músicas
+            $stmtDeleteGroups = $db->prepare("DELETE FROM presentations_groups WHERE presentation_id = ?");
+            $stmtDeleteGroups->bind_param("i", $presentationId);
+            $stmtDeleteGroups->execute();
+            $stmtDeleteGroups->close();
+
+            $stmtDeleteSongs = $db->prepare("DELETE FROM presentations_songs WHERE presentation_id = ?");
+            $stmtDeleteSongs->bind_param("i", $presentationId);
+            $stmtDeleteSongs->execute();
+            $stmtDeleteSongs->close();
+
+            // Editar grupos
+            $stmtGroups = $db->prepare(
+                "INSERT INTO presentations_groups (presentation_id, group_id) VALUES (?, ?)"
+            );
+
+            $stmtGroups->bind_param("ii", $presentationId, $groupId);
+
+            foreach ($musicGroups as $group => $groupId) {
+
+                $groupId = (int) $groupId;
+
+                if (!$stmtGroups->execute()) {
                     throw new Exception("Erro ao vincular grupo.");
+                }
+            }
+
+            $stmtGroups->close();
+
+            //Inserir Músicas
+            $stmtSongs = $db->prepare(
+                "INSERT INTO presentations_songs (presentation_id, song_id) VALUES (?, ?)"
+            );
+
+            $stmtSongs->bind_param("ii", $presentationId, $songId);
+
+            foreach ($songGroups as $song => $songId) {
+
+                $songId = (int) $songId;
+
+                if (!$stmtSongs->execute()) {
+                    throw new Exception("Erro ao vincular música.");
                 }
             }
 
