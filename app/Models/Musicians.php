@@ -214,6 +214,41 @@ class Musicians
         return $affected > 0;
     }
 
+    /**
+     * Busca um músico (musician) pelo login no banco.
+     * Retorna array associativo com os dados ou null se não existir.
+     *
+     * @param string $login Login do músico
+     * @return array|null
+     */
+    public static function findByLogin(string $login): ?array
+    {
+        // Pega a conexão ativa
+        $db = Database::getConnection();
+
+        // SQL preparado
+        $sql = "SELECT musician_login, password FROM musicians WHERE musician_login = ?";
+        $stmt = $db->prepare($sql);
+
+        // Falha ao preparar → retorna null
+        if (!$stmt) {
+            return null;
+        }
+
+        // Bind do parâmetro e execução
+        $stmt->bind_param("s", $login);
+        $stmt->execute();
+
+        // Resultado
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+
+        $stmt->close();
+
+        // Retorna array com dados ou null se vazio
+        return $data ?: null;
+    }
+
 
     /**
      * Retorna todos os músicos do banco, selecionados por grupo da banda, instrumento ou os dois e * ordenados pelos mesmos.
