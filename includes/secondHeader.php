@@ -1,7 +1,7 @@
 <header class="d-flex align-items-center justify-content-between px-3 bg-primary">
     <a href="<?= BASE_URL ?><?= $_SESSION['musician_login'] ? 'pages/MusicianSession/musicianPage.php' : 'pages/AdmSession/admPage.php';?>" class="d-flex align-items-center text-white text-decoration-none">
         <img src="<?= BASE_URL ?>assets/images/logo_banda.png" alt="Logo Banda" width="30" height="30" class="me-2">
-        <span class="fs-5 fw-bold">BMMO Online - Maestro</span>
+        <span class="fs-5 fw-bold"><?= $_SESSION['musician_login'] ? 'BMMO Online - Músico' : 'BMMO Online - Maestro';?></span>
     </a>
 
     <nav>
