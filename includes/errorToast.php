@@ -1,5 +1,5 @@
 <?php if (isset($_SESSION['error'])): ?>
-    <div class="toast-container position-fixed top-0 start-0 p-3" style="z-index: 9999;">
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999;">
       <div class="toast align-items-center text-bg-danger border-0 show" role="alert">
         <div class="d-flex">
           <div class="toast-body">
