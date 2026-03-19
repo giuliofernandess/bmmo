@@ -222,7 +222,6 @@ $responsible_contact = trim($musicians['responsible_contact'] ?? '');
   <?php include_once BASE_PATH . "includes/footer.php"; ?>
 
   <!-- Scripts -->
-  <script src="<?= BASE_URL ?>assets/js/removeToast.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
   <script src="<?= BASE_URL ?>assets/js/jquery.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
