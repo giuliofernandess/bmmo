@@ -18,8 +18,6 @@ function postValue(string $key, string $type = 'string')
 // Recebimento de variáveis pelo método POST
 $musicianId = postValue('musician-id');
 $musicianLogin = postValue('login');
-$musicianName = postValue('name');
-$login = postValue('login');
 $instrument = postValue('instrument', 'int');
 $bandGroup = postValue('group', 'int');
 $musicianContact = postValue('contact');
