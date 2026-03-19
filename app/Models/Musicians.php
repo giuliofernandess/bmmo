@@ -191,6 +191,91 @@ class Musicians
         }
     }
 
+    /**
+     * Edita um músico.
+     * 
+     * @param array $musicianInfo Array de informações do músico
+     * @return bool Booleano (true, false)
+     */
+
+    public static function editMusicianByMusician(array $musicianInfo): bool
+    {
+        $db = Database::getConnection();
+
+        $musicianId = self::sanitizeValue($musicianInfo['id'] ?? null, 'int');
+
+        $musicianContact = self::sanitizeValue($musicianInfo['musician_contact'] ?? null);
+        $responsibleName = self::sanitizeValue($musicianInfo['responsible_name'] ?? null);
+        $responsibleContact = self::sanitizeValue($musicianInfo['responsible_contact'] ?? null);
+        $neighborhood = self::sanitizeValue($musicianInfo['neighborhood'] ?? null);
+        $institution = self::sanitizeValue($musicianInfo['institution'] ?? null);
+
+        $passwordRaw = $musicianInfo['password'] ?? null;
+
+        try {
+
+            // Se a senha foi informada, atualiza também
+            if (!empty($passwordRaw)) {
+
+                $password = password_hash($passwordRaw, PASSWORD_DEFAULT);
+
+                $stmt = $db->prepare("
+                UPDATE musicians 
+                SET musician_contact = ?, 
+                    responsible_name = ?, 
+                    responsible_contact = ?, 
+                    neighborhood = ?, 
+                    institution = ?, 
+                    password = ?
+                WHERE musician_id = ?
+            ");
+
+                $stmt->bind_param(
+                    "ssssssi",
+                    $musicianContact,
+                    $responsibleName,
+                    $responsibleContact,
+                    $neighborhood,
+                    $institution,
+                    $password,
+                    $musicianId
+                );
+
+            } else {
+
+                // Atualiza sem mexer na senha
+                $stmt = $db->prepare("
+                UPDATE musicians 
+                SET musician_contact = ?, 
+                    responsible_name = ?, 
+                    responsible_contact = ?, 
+                    neighborhood = ?, 
+                    institution = ?
+                WHERE musician_id = ?
+            ");
+
+                $stmt->bind_param(
+                    "sssssi",
+                    $musicianContact,
+                    $responsibleName,
+                    $responsibleContact,
+                    $neighborhood,
+                    $institution,
+                    $musicianId
+                );
+            }
+
+            $success = $stmt->execute();
+
+            $stmt->close();
+
+            return $success;
+
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
 
     /**
      * Apaga uma linha do banco de dados.

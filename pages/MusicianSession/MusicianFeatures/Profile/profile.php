@@ -18,15 +18,21 @@ require_once BASE_PATH ."includes/getMusicianInfo.php";
 
   <!-- Configurações Básicas -->
   <?php require_once BASE_PATH . "includes/basicHead.php"; ?>
+
+  <!-- CSS da página -->
+  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/profile.css">
 </head>
 
 <body>
+  <!-- Toast de sucesso -->
+   <?php include_once BASE_PATH . "includes/successToast.php"; ?>
+
   <!-- Header -->
   <?php include_once BASE_PATH . "includes/secondHeader.php"; ?>
 
   <main class="flex-fill d-flex align-items-center justify-content-center">
     <div class="container">
-      <div class="card shadow mx-auto my-5" style="max-width: 800px;">
+      <div class="card shadow mx-auto my-5" style="max-width: 1000px;">
         <div class="row g-0">
           <!-- Imagem -->
           <div class="col-md-4 text-center bg-secondary">
@@ -45,9 +51,24 @@ require_once BASE_PATH ."includes/getMusicianInfo.php";
                   <?= htmlspecialchars($musicianInfo['date_of_birth']); ?></li>
                 <li class="list-group-item"><strong>Telefone:</strong>
                   <?= htmlspecialchars($musicianInfo['musician_contact']); ?></li>
+                <li class="list-group-item"><strong>Nome do responsável:</strong>
+                  <?= htmlspecialchars($musicianInfo['responsible_name']); ?></li>
+                <li class="list-group-item"><strong>Contato do responsável:</strong>
+                  <?= htmlspecialchars($musicianInfo['responsible_contact']); ?></li>
                 <li class="list-group-item"><strong>Bairro:</strong>
                   <?= htmlspecialchars($musicianInfo['neighborhood']); ?></li>
+                <li class="list-group-item"><strong>Instituição:</strong>
+                  <?= htmlspecialchars($musicianInfo['institution']); ?></li>
               </ul>
+
+              <!-- Botão editar -->
+              <div class="mt-auto d-flex justify-content-end gap-2">
+
+                <a href="Edit/editMusician.php" class="btn btn-outline-primary">
+                  <i class="bi bi-pencil-square"></i> Editar
+                </a>
+
+              </div>
             </div>
           </div>
         </div>
