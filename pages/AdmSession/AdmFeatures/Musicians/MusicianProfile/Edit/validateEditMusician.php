@@ -80,7 +80,7 @@ if (!empty($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
 if (!empty($password) || !empty($confirmPassword)) {
     if ($password !== $confirmPassword) {
         $_SESSION['error'] = "As senhas não conferem.";
-        header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/Musicians/MusicianProfile/Edit/editMusician.php?musicianId={$musicianId}");
+        header("Location: " . BASE_URL . "pages/AdmSession/AdmFeatures/Musicians/MusicianProfile/Edit/editMusician.php?musician_id={$musicianId}");
         exit;
     }
 }
