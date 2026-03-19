@@ -85,7 +85,7 @@ if (!empty($password) || !empty($confirmPassword)) {
     }
 }
 
-// Criação da notícia via Model
+// Informações do músico via Model
 $musicianInfo = [
     'id' => $musicianId,
     'login' => $musicianLogin,
