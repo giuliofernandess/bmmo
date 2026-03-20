@@ -1,7 +1,7 @@
 <?php
 
 // Model responsável por consultar maestros e músicos no banco
-require_once BASE_PATH . 'app/Models/Regency.php';
+require_once BASE_PATH . 'app/Controllers/RegencyController.php';
 require_once BASE_PATH . 'app/Models/Musicians.php';
 
 class Auth
@@ -42,17 +42,18 @@ class Auth
         }
 
         // Busca o usuário no banco
-        $user = Regency::findByLogin($login);
+        $controller = new RegencyController();
+        $user = $controller->findByLogin($login);
 
         // Usuário não encontrado
         if (!$user) {
             return false;
-        } else if (!password_verify($password, $user['password'])) {
+        } else if (!password_verify($password, $user->getPassword())) {
             return false;
         } else {
 
             // Login OK: salva dados na sessão
-            $_SESSION['regency_login'] = $user['regency_login'];
+            $_SESSION['regency_login'] = $login;
             $_SESSION['role'] = 'regency';
 
             return true;

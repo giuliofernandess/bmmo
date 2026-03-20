@@ -1,42 +1,21 @@
 <?php
 
-// Classe de conexão POO
-require_once BASE_PATH . 'app/Database/Database.php';
-
 class Regency
 {
-    /**
-     * Busca um maestro (regency) pelo login no banco.
-     * Retorna array associativo com os dados ou null se não existir.
-     *
-     * @param string $login Login do maestro
-     * @return array|null
-     */
-    public static function findByLogin(string $login): ?array
+    private string $login;
+    private string $password;
+
+    public function hydrate(array $data): void
     {
-        // Pega a conexão ativa
-        $db = Database::getConnection();
-
-        // SQL preparado
-        $sql = "SELECT regency_login, password FROM regency WHERE regency_login = ?";
-        $stmt = $db->prepare($sql);
-
-        // Falha ao preparar → retorna null
-        if (!$stmt) {
-            return null;
-        }
-
-        // Bind do parâmetro e execução
-        $stmt->bind_param("s", $login);
-        $stmt->execute();
-
-        // Resultado
-        $result = $stmt->get_result();
-        $data = $result->fetch_assoc();
-
-        $stmt->close();
-
-        // Retorna array com dados ou null se vazio
-        return $data ?: null;
+        $this->login = $data['regency_login'];
+        $this->password = $data['password'];
     }
+
+    // Getters
+    public function getLogin() { return $this->login; }
+    public function getPassword() { return $this->password; }
+
+    // Setters
+    public function setLogin($v) { $this->login = trim($v); }
+    public function setPassword($v) { $this->password = $v; }
 }
