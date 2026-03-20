@@ -1,16 +1,13 @@
 <?php
 require_once BASE_PATH . "app/Services/NewsService.php";
-require_once BASE_PATH . "app/Repositories/NewsRepository.php";
 
 class NewsController
 {
     private NewsService $service;
-    private NewsRepository $repo;
 
     public function __construct()
     {
         $this->service = new NewsService();
-        $this->repo = new NewsRepository();
     }
 
     public function store()
