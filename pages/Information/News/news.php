@@ -1,14 +1,13 @@
-<?php
+<?php 
 // Carrega config do projeto (BASE_URL e BASE_PATH)
 require_once '../../../config/config.php';
 
 // Carrega a classe de notícias POO
-require_once BASE_PATH . 'app/Controllers/NewsController.php';
+require_once BASE_PATH . 'app/Models/News.php';
 ?>
 
 <!doctype html>
 <html lang="pt-br">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,7 +18,7 @@ require_once BASE_PATH . 'app/Controllers/NewsController.php';
 
   <!-- CSS da página -->
   <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/news.css">
-
+  
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -35,41 +34,42 @@ require_once BASE_PATH . 'app/Controllers/NewsController.php';
       <section class="row g-4">
 
         <?php
-
-        $controller = new NewsController();
-        $newsList = $controller->index();
+        // Busca todas as notícias via POO
+        $newsList = News::getAll();
 
         if (empty($newsList)) {
-          echo "<div class='no-news'>Nenhuma notícia cadastrada no momento.</div>";
+            echo "<div class='no-news'>Nenhuma notícia cadastrada no momento.</div>";
         } else {
-          // Itera sobre cada notícia
-          foreach ($newsList as $news) {
+            // Itera sobre cada notícia
+            foreach ($newsList as $res) {
 
-            // Dados da notícia
-            $newsId = $news->getId();
-            $newsTitle = htmlspecialchars($news->getTitle(), ENT_QUOTES, 'UTF-8');
-            $newsSubtitle = htmlspecialchars($news->getSubtitle(), ENT_QUOTES, 'UTF-8');
-            $newsImage = basename($news->getImage());
-            $publicationDate = date('d/m/Y', strtotime($news->getDate()));
-            ?>
+                // Dados da notícia
+                $newsId = (int)$res['news_id'];
+                $newsTitle = htmlspecialchars($res['news_title'] ?? '', ENT_QUOTES, 'UTF-8');
+                $newsSubtitle = htmlspecialchars($res['news_subtitle'] ?? '', ENT_QUOTES, 'UTF-8');
+                $newsImage = basename($res['news_image'] ?? '');
+                $publicationDate = !empty($res['publication_date']) ? date('d/m/Y', strtotime($res['publication_date'])) : '';
+        ?>
 
-            <!-- Card da notícia -->
-            <div class='col-md-6 col-lg-4'>
-              <a href='expandedNews.php?newsId=<?= htmlspecialchars($newsId) ?>' class='text-decoration-none text-dark'>
-                <div class='card news-card rounded shadow-sm h-100'>
-                  <img src='<?= BASE_URL ?>uploads/news-images/<?= htmlspecialchars($newsImage) ?>'
-                    class='card-img-top rounded-top news-image' alt="Imagem da notícia: <?= $newsTitle ?>" loading="lazy">
-                  <div class='card-body'>
-                    <h5 class='card-title mb-1'><?= $newsTitle ?></h5>
-                    <p class='card-text text-muted small mb-2'><?= $newsSubtitle ?></p>
-                    <p class='card-text'><small class='text-muted'>Publicado em: <?= $publicationDate ?></small></p>
-                  </div>
+                <!-- Card da notícia -->
+                <div class='col-md-6 col-lg-4'>
+                  <a href='expandedNews.php?newsId=<?= htmlspecialchars($newsId) ?>' class='text-decoration-none text-dark'>
+                    <div class='card news-card rounded shadow-sm h-100'>
+                      <img src='<?= BASE_URL ?>uploads/news-images/<?= htmlspecialchars($newsImage) ?>' 
+                           class='card-img-top rounded-top news-image'
+                           alt="Imagem da notícia: <?= $newsTitle ?>"
+                           loading="lazy">
+                      <div class='card-body'>
+                        <h5 class='card-title mb-1'><?= $newsTitle ?></h5>
+                        <p class='card-text text-muted small mb-2'><?= $newsSubtitle ?></p>
+                        <p class='card-text'><small class='text-muted'>Publicado em: <?= $publicationDate ?></small></p>
+                      </div>
+                    </div>
+                  </a>
                 </div>
-              </a>
-            </div>
 
-            <?php
-          }
+        <?php
+            }
         }
         ?>
 
@@ -83,5 +83,4 @@ require_once BASE_PATH . 'app/Controllers/NewsController.php';
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
