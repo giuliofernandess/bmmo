@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 require_once '../../../config/config.php';
 require_once BASE_PATH . 'app/Controllers/NewsController.php';
 
-$newsId = $_GET['newsId'] ? (int)$_GET['newsId'] : null;
+$newsId = isset($_GET['newsId']) ? (int)$_GET['newsId'] : null;
 
 $controller = new NewsController();
 
