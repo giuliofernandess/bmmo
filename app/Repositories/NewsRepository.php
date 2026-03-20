@@ -25,7 +25,7 @@ class NewsRepository
             $news->getImage(),
             $news->getDescription(),
             $news->getDate(),
-            date('H:i:s')
+            $news->getHour()
         );
 
         return $stmt->execute();

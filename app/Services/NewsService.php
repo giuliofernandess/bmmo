@@ -1,6 +1,7 @@
 <?php
 require_once BASE_PATH . "app/Models/News.php";
 require_once BASE_PATH . "app/Repositories/NewsRepository.php";
+require_once "UploadFileService.php";
 
 class NewsService
 {
@@ -17,7 +18,7 @@ class NewsService
             throw new Exception("Dados incompletos");
         }
 
-        $image = $this->upload($files);
+        $image = UploadFileService::uploadNewsImage($files);
 
         $news = new News();
         $news->setTitle($data['title']);
@@ -28,50 +29,19 @@ class NewsService
         return $this->repo->save($news);
     }
 
-    private function upload(array $files): ?string
+    public function getAll(): array
     {
-        if (!isset($files['file']) || $files['file']['error'] !== UPLOAD_ERR_OK) {
-            return null;
-        }
-
-        $file = $files['file'];
-
-        $allowedMimeTypes = [
-            'image/jpeg',
-            'image/png',
-            'image/gif',
-            'image/webp'
-        ];
-
-        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $mimeType = finfo_file($finfo, $file['tmp_name']);
-
-        if (!in_array($mimeType, $allowedMimeTypes)) {
-            throw new Exception("Arquivo inválido. Apenas imagens são permitidas.");
-        }
-
-        // Valida extensão
-        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-
-        if (!in_array($ext, $allowedExtensions)) {
-            throw new Exception("Extensão não permitida.");
-        }
-
-        $maxSize = 5 * 1024 * 1024;
-        if ($file['size'] > $maxSize) {
-            throw new Exception("Arquivo muito grande. Máximo 5MB.");
-        }
-
-        $name = uniqid() . "." . $ext;
-
-        $destination = BASE_PATH . "uploads/news-images/" . $name;
-
-        if (!move_uploaded_file($file['tmp_name'], $destination)) {
-            throw new Exception("Erro ao mover o arquivo.");
-        }
-
-        return $name;
+        return $this->repo->getAll();
     }
+
+    public function findById(int $id): News|null
+    {
+        return $this->repo->findById($id);
+    }
+
+    public function getLatestExcept(int $id): array
+    {
+        return $this->repo->getLatestExcept($id);
+    }
+    
 }

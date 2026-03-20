@@ -38,6 +38,7 @@ class News
     public function getDescription() { return $this->description; }
     public function getImage() { return $this->image; }
     public function getDate() { return $this->date; }
+    public function getHour() { return $this->hour; }
 
     // Setters
     public function setTitle($v) { $this->title = trim($v); }

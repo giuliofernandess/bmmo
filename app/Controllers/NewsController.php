@@ -29,16 +29,16 @@ class NewsController
 
     public function index()
     {
-        return $this->repo->getAll();
+        return $this->service->getAll();
     }
 
     public function show($id)
     {
-        return $this->repo->findById($id);
+        return $this->service->findById($id);
     }
 
     public function latestExcept($id)
     {
-        return $this->repo->getLatestExcept($id);
+        return $this->service->getLatestExcept($id);
     }
 }
