@@ -101,6 +101,60 @@ class News
     }
 
     /**
+     * Atualiza os dados de uma notícia existente.
+     *
+     * @param array $newsInfo Array de informações da notícia
+     * @return bool Booleano (true, false)
+     */
+    public static function editNews(array $newsInfo): bool
+    {
+        $db = Database::getConnection();
+
+        $newsId = (int) ($newsInfo['id'] ?? 0);
+        $title = trim($newsInfo['title']);
+        $subtitle = trim($newsInfo['subtitle'] ?? '');
+        $image = $newsInfo['image'] ?? null;
+        $description = trim($newsInfo['description']);
+
+        try {
+            $stmt = $db->prepare(
+                "UPDATE news SET news_title = ?, news_subtitle = ?, news_image = ?, news_description = ? WHERE news_id = ?"
+            );
+            $stmt->bind_param("ssssi", $title, $subtitle, $image, $description, $newsId);
+
+            $success = $stmt->execute();
+            $stmt->close();
+
+            return $success;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Deleta uma notícia pelo ID.
+     *
+     * @param int $newsId ID da notícia
+     * @return bool Booleano (true, false)
+     */
+    public static function deleteNews(int $newsId): bool
+    {
+        $db = Database::getConnection();
+
+        try {
+            $stmt = $db->prepare("DELETE FROM news WHERE news_id = ?");
+            $stmt->bind_param("i", $newsId);
+
+            $success = $stmt->execute();
+            $stmt->close();
+
+            return $success;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    /**
      * Retorna as últimas N notícias, exceto a notícia passada por parâmetro.
      * Útil para “outras notícias” na página expandida.
      *

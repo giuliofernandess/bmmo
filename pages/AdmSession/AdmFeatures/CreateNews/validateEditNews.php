@@ -3,35 +3,34 @@ session_start();
 require_once '../../../../config/config.php';
 require_once BASE_PATH . 'app/Models/News.php';
 
-// Recebe dados do formulário
+$newsId = (int)($_POST['id'] ?? 0);
 $newsTitle = trim($_POST['title'] ?? '');
 $newsSubtitle = trim($_POST['subtitle'] ?? '');
 $newsDescription = trim($_POST['description'] ?? '');
 
-// Recebe data e hora
-date_default_timezone_set('America/Sao_Paulo');
-$currentDate = date('Y-m-d');
-$currentHour = date('H:i:s');
+if ($newsId <= 0) {
+    $_SESSION['error'] = "Notícia inválida.";
+    header("Location: createNews.php");
+    exit;
+}
 
-// Validação rápida
 if (empty($newsTitle) || empty($newsDescription)) {
     $_SESSION['error'] = "Título e descrição são obrigatórios.";
     header("Location: createNews.php");
     exit;
 }
 
-// Upload da imagem
-$imageFileName = null;
-
-if (!isset($_FILES['file']) || $_FILES['file']['error'] !== UPLOAD_ERR_OK) {
-    $_SESSION['error'] = "A imagem é obrigatória para criar notícia.";
+$existingNews = News::getById($newsId);
+if (!$existingNews) {
+    $_SESSION['error'] = "Notícia não encontrada.";
     header("Location: createNews.php");
     exit;
 }
 
+$imageFileName = $existingNews['news_image'];
+
 if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
     $fileTmpPath = $_FILES['file']['tmp_name'];
-    $fileName = $_FILES['file']['name'];
     $fileName = $_FILES['file']['name'];
     $fileSize = $_FILES['file']['size'];
     $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
@@ -59,6 +58,12 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
     $destPath = $uploadDir . $newFileName;
 
     if (move_uploaded_file($fileTmpPath, $destPath)) {
+        if (!empty($existingNews['news_image'])) {
+            $oldPath = $uploadDir . basename($existingNews['news_image']);
+            if (file_exists($oldPath)) {
+                @unlink($oldPath);
+            }
+        }
         $imageFileName = $newFileName;
     } else {
         $_SESSION['error'] = "Erro ao enviar a imagem.";
@@ -67,22 +72,19 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
     }
 }
 
-// Criação da notícia via Model
 $newsInfo = [
+    'id' => $newsId,
     'title' => $newsTitle,
     'subtitle' => $newsSubtitle,
     'image' => $imageFileName,
-    'description' => $newsDescription,
-    'date' => $currentDate,
-    'hour' => $currentHour
+    'description' => $newsDescription
 ];
 
-if (News::createNews($newsInfo)) {
-    $_SESSION['success'] = "Notícia criada com sucesso!";
+if (News::editNews($newsInfo)) {
+    $_SESSION['success'] = "Notícia editada com sucesso!";
 } else {
-    $_SESSION['error'] = "Erro ao criar a notícia. Tente novamente.";
+    $_SESSION['error'] = "Erro ao editar a notícia. Tente novamente.";
 }
 
-// Redireciona de volta para o formulário
 header("Location: createNews.php");
 exit;

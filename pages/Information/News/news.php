@@ -49,6 +49,7 @@ require_once BASE_PATH . 'app/Models/News.php';
                 $newsSubtitle = htmlspecialchars($res['news_subtitle'] ?? '', ENT_QUOTES, 'UTF-8');
                 $newsImage = basename($res['news_image'] ?? '');
                 $publicationDate = !empty($res['publication_date']) ? date('d/m/Y', strtotime($res['publication_date'])) : '';
+                $publicationHour = !empty($res['publication_hour']) ? date('H:i', strtotime($res['publication_hour'])) : '';
         ?>
 
                 <!-- Card da notícia -->
@@ -62,7 +63,7 @@ require_once BASE_PATH . 'app/Models/News.php';
                       <div class='card-body'>
                         <h5 class='card-title mb-1'><?= $newsTitle ?></h5>
                         <p class='card-text text-muted small mb-2'><?= $newsSubtitle ?></p>
-                        <p class='card-text'><small class='text-muted'>Publicado em: <?= $publicationDate ?></small></p>
+                        <p class='card-text'><small class='text-muted'>Publicado em: <?= $publicationDate ?> às <?= $publicationHour ?></small></p>
                       </div>
                     </div>
                   </a>
