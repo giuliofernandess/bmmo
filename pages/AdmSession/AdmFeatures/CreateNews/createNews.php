@@ -47,7 +47,7 @@ $newsList = News::getAll();
     <div class="bg-white p-4 rounded shadow-sm mb-4" style="display: none;" id="newsForm">
       <h4 class="mb-3" id="formTitle">Criar Notícia</h4>
 
-      <form id="newsFormElement" action="validateCreateNews.php" method="post" enctype="multipart/form-data">
+      <form id="newsFormElement" action="newsFunctions/validateCreateNews.php" method="post" enctype="multipart/form-data">
 
         <div class="mb-3">
           <label for="news-title" class="form-label">Título da notícia *</label>
@@ -98,7 +98,7 @@ $newsList = News::getAll();
                 <p class="card-text text-secondary small mb-2">Publicado em: <?= $pubDate ?> às <?= $pubHour ?></p>
 
                 <div class="d-flex justify-content-end gap-2">
-                  <a href="validateDeleteNews.php?news_id=<?= $newsId ?>" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir esta notícia?');">Excluir</a>
+                  <a href="newsFunctions/validateDeleteNews.php?news_id=<?= $newsId ?>" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir esta notícia?');">Excluir</a>
                   <button type="button" class="btn btn-success btn-sm" onclick="editNews(this)">Editar</button>
                 </div>
               </div>
