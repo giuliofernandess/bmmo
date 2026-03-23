@@ -14,7 +14,7 @@ function showForm() {
 
 function resetNewsForm() {
   const form = document.querySelector("#newsFormElement");
-  form.action = "validateCreateNews.php";
+  form.action = "newsFunctions/validateCreateNews.php";
   document.querySelector("#formTitle").textContent = "Criar Notícia";
   document.querySelector("#news-title").value = "";
   document.querySelector("#news-subtitle").value = "";
