@@ -1,8 +1,8 @@
 <?php
 
-require_once BASE_PATH . "app/Models/MusicalScores.php";
+require_once BASE_PATH . "app/DAO/MusiciansDAO.php";
 
 $login = $_SESSION["musician_login"] ? trim($_SESSION["musician_login"]) : null;
-$musicianInfo = Musicians::findByLogin($login);
+$musicianInfo = $musiciansDAO->findByLogin($login);
 
 ?>

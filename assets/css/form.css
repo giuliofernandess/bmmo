@@ -84,3 +84,43 @@ form i.show-password {
   .form-container { padding: 40px; }
   form i.show-password { right: 11%; bottom: 36.5%; }
 }
+
+/* Layout compartilhado para cadastro/edicao de musico */
+.musician-form-page main,
+.registerMusician-page main {
+  padding: 0 30px;
+}
+
+.musician-form-page .form-container,
+.registerMusician-page .form-container {
+  max-width: 1000px;
+}
+
+.musician-form-page select.form-control,
+.musician-form-page .btn {
+  padding: 0 0 0 12px;
+}
+
+/* Ajustes especificos do cadastro de musico */
+.registerMusician-page form i.show-password {
+  bottom: 13.7%;
+}
+
+@media screen and (min-width: 481px) {
+  .registerMusician-page form i.show-password {
+    right: 7%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .registerMusician-page form i.show-password {
+    left: 45.5%;
+    bottom: 13%;
+  }
+}
+
+@media screen and (min-width: 993px) {
+  .registerMusician-page form i.show-password {
+    left: 46%;
+  }
+}

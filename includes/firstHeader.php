@@ -22,11 +22,11 @@
                     <a class="nav-link text-white" href="<?= BASE_URL ?>pages/index.php">Início</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="<?= BASE_URL ?>pages/Information/News/news.php">Notícias</a>
+                  <a class="nav-link text-white" href="<?= BASE_URL ?>pages/information/news/index.php">Notícias</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-white"
-                        href="<?= BASE_URL ?>pages/Information/AboutTheBand/aboutTheBand.php">Sobre</a>
+                    href="<?= BASE_URL ?>pages/information/aboutTheBand/index.php">Sobre</a>
                 </li>
             </ul>
         </div>
@@ -62,14 +62,14 @@
 
       <li class="nav-item">
         <a class="nav-link rounded px-3 py-2 text-dark"
-           href="<?= BASE_URL ?>pages/Information/News/news.php">
+           href="<?= BASE_URL ?>pages/information/news/index.php">
           <i class="bi bi-newspaper me-2 text-primary"></i>Notícias
         </a>
       </li>
 
       <li class="nav-item">
         <a class="nav-link rounded px-3 py-2 text-dark"
-           href="<?= BASE_URL ?>pages/Information/AboutTheBand/aboutTheBand.php">
+           href="<?= BASE_URL ?>pages/information/aboutTheBand/index.php">
           <i class="bi bi-info-circle me-2 text-primary"></i>Sobre
         </a>
       </li>

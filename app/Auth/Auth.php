@@ -1,13 +1,14 @@
 <?php
 
-// Model responsável por consultar maestros e músicos no banco
-require_once BASE_PATH . 'app/Models/Regency.php';
-require_once BASE_PATH . 'app/Models/Musicians.php';
+// Camada de autenticação e autorização da aplicação.
+require_once BASE_PATH . 'app/Database/Database.php';
+require_once BASE_PATH . 'app/DAO/RegencyDAO.php';
+require_once BASE_PATH . 'app/DAO/MusiciansDAO.php';
 
 class Auth
 {
     /**
-     * Faz logout limpando a sessão e redirecionando para uma URL.
+    * Encerra a sessão do usuário e redireciona para a rota informada.
      */
     public static function logout(string $redirectUrl): void
     {
@@ -31,8 +32,9 @@ class Auth
 
 
     /**
-     * Faz login do maestro (regency).
-     * Retorna true se autenticou, false se falhou.
+        * Autentica um usuário com perfil de maestro.
+        *
+        * @return bool true quando login e senha são válidos.
      */
     public static function regencyLogin(string $login, string $password): bool
     {
@@ -41,17 +43,20 @@ class Auth
             session_start();
         }
 
-        // Busca o usuário no banco
-        $user = Regency::findByLogin($login);
+        $conn = Database::getConnection();
+        $regencyDAO = new RegencyDAO($conn);
 
-        // Usuário não encontrado
+        // Busca o usuário no banco.
+        $user = $regencyDAO->findByLogin($login);
+
+        // Usuário não encontrado.
         if (!$user) {
             return false;
         } else if (!password_verify($password, $user['password'])) {
             return false;
         } else {
 
-            // Login OK: salva dados na sessão
+            // Login válido: salva dados na sessão.
             $_SESSION['regency_login'] = $user['regency_login'];
             $_SESSION['role'] = 'regency';
 
@@ -61,8 +66,9 @@ class Auth
     }
 
     /**
-     * Faz login do maestro (regency).
-     * Retorna true se autenticou, false se falhou.
+        * Autentica um usuário com perfil de músico.
+        *
+        * @return bool true quando login e senha são válidos.
      */
     public static function musicianLogin(string $login, string $password): bool
     {
@@ -71,17 +77,20 @@ class Auth
             session_start();
         }
 
-        // Busca o usuário no banco
-        $user = Musicians::findByLogin($login);
+        $conn = Database::getConnection();
+        $musiciansDAO = new MusiciansDAO($conn);
 
-        // Usuário não encontrado
+        // Busca o usuário no banco.
+        $user = $musiciansDAO->findByLogin($login);
+
+        // Usuário não encontrado.
         if (!$user) {
             return false;
         } else if (!password_verify($password, $user['password'])) {
             return false;
         } else {
 
-            // Login OK: salva dados na sessão
+            // Login válido: salva dados na sessão.
             $_SESSION['musician_login'] = $user['musician_login'];
             $_SESSION['role'] = 'musician';
 
@@ -91,8 +100,7 @@ class Auth
     }
 
     /**
-     * Protege páginas do maestro.
-     * Se não estiver logado, manda para o login.
+        * Exige sessão válida de maestro para acessar a página.
      */
     public static function requireRegency(): void
     {
@@ -101,16 +109,15 @@ class Auth
             session_start();
         }
 
-        // Se não estiver logado corretamente, redireciona
+        // Se não estiver logado corretamente, redireciona.
         if (!isset($_SESSION['regency_login']) || ($_SESSION['role'] ?? '') !== 'regency') {
-            header("Location: " . BASE_URL . "pages/Login/Adm/admLogin.php");
+            header("Location: " . BASE_URL . "pages/login/admin/index.php");
             exit;
         }
     }
 
     /**
-     * Protege páginas do maestro.
-     * Se não estiver logado, manda para o login.
+        * Exige sessão válida de músico para acessar a página.
      */
     public static function requireMusician(): void
     {
@@ -119,9 +126,9 @@ class Auth
             session_start();
         }
 
-        // Se não estiver logado corretamente, redireciona
+        // Se não estiver logado corretamente, redireciona.
         if (!isset($_SESSION['musician_login']) || ($_SESSION['role'] ?? '') !== 'musician') {
-            header("Location: " . BASE_URL . "pages/Login/Musician/musicianLogin.php");
+            header("Location: " . BASE_URL . "pages/login/musician/index.php");
             exit;
         }
     }

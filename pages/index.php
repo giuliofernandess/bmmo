@@ -51,12 +51,12 @@ require_once '../config/config.php';
 
         <!-- Botões de login: músico e maestro -->
         <div class="d-flex flex-column flex-md-row gap-3 justify-content-center">
-          <a href="Login/Musician/musicianLogin.php"
+          <a href="<?= BASE_URL ?>pages/login/musician/index.php"
             class="btn btn-primary btn-lg rounded-pill px-4 w-100 w-md-auto btn-shine">
             Entrar como integrante
           </a>
 
-          <a href="Login/Adm/admLogin.php"
+          <a href="<?= BASE_URL ?>pages/login/admin/index.php"
             class="btn btn-outline-info btn-lg rounded-pill px-4 w-100 w-md-auto btn-shine">
             Entrar como Maestro
           </a>

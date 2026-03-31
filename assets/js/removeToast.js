@@ -1,4 +1,11 @@
 setTimeout(() => {
-      const toast = document.querySelector('.toast-container');
-      if (toast) toast.remove();
-    }, 5000);
+  const toasts = document.querySelectorAll('.app-toast-container');
+
+  toasts.forEach((toast) => {
+    toast.classList.add('app-toast-closing');
+
+    setTimeout(() => {
+      toast.remove();
+    }, 220);
+  });
+}, 5000);

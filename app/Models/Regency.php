@@ -1,42 +1,44 @@
 <?php
 
-// Classe de conexão POO
-require_once BASE_PATH . 'app/Database/Database.php';
-
 class Regency
 {
-    /**
-     * Busca um maestro (regency) pelo login no banco.
-     * Retorna array associativo com os dados ou null se não existir.
-     *
-     * @param string $login Login do maestro
-     * @return array|null
-     */
-    public static function findByLogin(string $login): ?array
+    private string $regencyLogin = '';
+    private string $password = '';
+
+    public static function fromArray(array $data): self
     {
-        // Pega a conexão ativa
-        $db = Database::getConnection();
+        $entity = new self();
+        $entity->setRegencyLogin((string) ($data['regency_login'] ?? ''));
+        $entity->setPassword((string) ($data['password'] ?? ''));
 
-        // SQL preparado
-        $sql = "SELECT regency_login, password FROM regency WHERE regency_login = ?";
-        $stmt = $db->prepare($sql);
+        return $entity;
+    }
 
-        // Falha ao preparar → retorna null
-        if (!$stmt) {
-            return null;
-        }
+    public function toArray(): array
+    {
+        return [
+            'regency_login' => $this->regencyLogin,
+            'password' => $this->password,
+        ];
+    }
 
-        // Bind do parâmetro e execução
-        $stmt->bind_param("s", $login);
-        $stmt->execute();
+    public function getRegencyLogin(): string
+    {
+        return $this->regencyLogin;
+    }
 
-        // Resultado
-        $result = $stmt->get_result();
-        $data = $result->fetch_assoc();
+    public function setRegencyLogin(string $regencyLogin): void
+    {
+        $this->regencyLogin = trim($regencyLogin);
+    }
 
-        $stmt->close();
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
 
-        // Retorna array com dados ou null se vazio
-        return $data ?: null;
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
     }
 }

@@ -1,18 +1,24 @@
 <?php if (isset($_SESSION['error'])): ?>
-    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999;">
-      <div class="toast align-items-center text-bg-danger border-0 show" role="alert">
-        <div class="d-flex">
-          <div class="toast-body">
-            <?= htmlspecialchars($_SESSION['error']); ?>
-          </div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto"
-            onclick="this.closest('.toast-container').remove()"></button>
+    <div class="app-toast-container app-toast-error" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="app-toast-card">
+        <div class="app-toast-icon" aria-hidden="true">
+          <i class="bi bi-exclamation-triangle-fill"></i>
         </div>
+
+        <div class="app-toast-content">
+          <strong class="app-toast-title">Erro</strong>
+          <p class="app-toast-message mb-0"><?= htmlspecialchars($_SESSION['error']); ?></p>
+        </div>
+
+        <button type="button" class="app-toast-close" aria-label="Fechar"
+          onclick="this.closest('.app-toast-container').remove()">
+          <i class="bi bi-x-lg"></i>
+        </button>
       </div>
     </div>
    
     <!-- Remove toast em 5 segundos -->
-    <script src="<?= BASE_URL ?>assets/js/removeToast.js"></script>
+    <script src="<?= BASE_URL ?>assets/js/removeToast.js?v=<?= filemtime(BASE_PATH . 'assets/js/removeToast.js') ?>"></script>
 
     <?php unset($_SESSION['error']); ?>
 <?php endif ?>

@@ -43,9 +43,6 @@ Facilitar:
 - Upload e atualização de partituras por grupo, instrumento e voz
 - Criação e gerenciamento de notícias
 
-Login do maestro: raul.anderson
-Senha do maestro: Maestro@2026
-
 ---
 
 ## 🛠️ Tecnologias Utilizadas
@@ -55,6 +52,44 @@ Senha do maestro: Maestro@2026
 - **JavaScript (ES6)**
 - **PHP**
 - **MySQL**
+
+---
+
+## 🧱 Arquitetura (Resumo)
+
+O projeto adota uma arquitetura em camadas simples, sem framework:
+
+- `pages/`: telas e validadores HTTP
+- `includes/`: componentes reutilizáveis de interface
+- `app/Auth/`: autenticação e autorização
+- `app/Database/`: conexão com banco
+- `app/DAO/`: acesso a dados
+- `app/Models/`: entidades de domínio
+- `config/`: bootstrap global
+
+---
+
+## ⚙️ Configuração Local
+
+1. Configure Apache e MySQL (XAMPP recomendado neste projeto).
+2. Crie o banco `bmmo`.
+3. Importe o script SQL em `assets/sql/bmmo.sql`.
+4. Ajuste credenciais em `config/config.php`.
+5. Acesse `http://localhost/bmmo/pages/index.php`.
+
+Documentação detalhada: [docs/SETUP_LOCAL.md](docs/SETUP_LOCAL.md)
+
+---
+
+## 🧾 Documentação Técnica
+
+- Arquitetura: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- Módulos: [docs/MODULES.md](docs/MODULES.md)
+- Banco de dados: [docs/DATABASE.md](docs/DATABASE.md)
+- Convenção de nomenclatura: [docs/NAMING_CONVENTION.md](docs/NAMING_CONVENTION.md)
+- Padrão de comentários: [docs/COMMENT_PATTERN.md](docs/COMMENT_PATTERN.md)
+- Setup local: [docs/SETUP_LOCAL.md](docs/SETUP_LOCAL.md)
+- Formatação e EditorConfig: [.editorconfig](.editorconfig)
 
 ---
 
@@ -71,3 +106,11 @@ O código-fonte está disponível **exclusivamente para fins de avaliação téc
 ## ⚠️ Aviso
 
 Não é permitida a cópia, modificação, redistribuição ou uso comercial deste projeto, no todo ou em parte, sem autorização prévia do autor.
+
+---
+
+## 🔐 Segurança
+
+- Não publique credenciais reais no repositório.
+- Use usuários e senhas de teste apenas em ambiente local.
+- Revise permissões de upload e validações de entrada antes de uso em produção.

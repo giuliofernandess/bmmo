@@ -1,6 +1,6 @@
 function showForm() {
-  const formCard = document.querySelector("#newsForm");
-  const icon = document.querySelector("#addIcon");
+  const formCard = document.querySelector("#news-form");
+  const icon = document.querySelector("#add-icon");
 
   if (formCard.style.display === "none" || formCard.style.display === "") {
     formCard.style.display = "block";
@@ -13,23 +13,23 @@ function showForm() {
 }
 
 function resetNewsForm() {
-  const form = document.querySelector("#newsFormElement");
-  form.action = "newsFunctions/validateCreateNews.php";
-  document.querySelector("#formTitle").textContent = "Criar Notícia";
+  const form = document.querySelector("#news-form-element");
+  form.action = `${window.BASE_URL}pages/admin/news/actions/create.php`;
+  document.querySelector("#form-title").textContent = "Criar Notícia";
   document.querySelector("#news-title").value = "";
   document.querySelector("#news-subtitle").value = "";
   document.querySelector("#news-description").value = "";
   document.querySelector("#input-file").value = "";
-  document.querySelector("#newsSubmit").value = "Publicar Notícia";
+  document.querySelector("#news-submit").value = "Publicar Notícia";
 
   const existingId = document.querySelector("input[name='id']");
   if (existingId) existingId.remove();
-  const imageHint = document.querySelector("#imageHint");
+  const imageHint = document.querySelector("#image-hint");
   if (imageHint) imageHint.textContent = "";
 }
 
 function editNews(btn) {
-  const formCard = document.querySelector("#newsForm");
+  const formCard = document.querySelector("#news-form");
   if (formCard.style.display === "block") {
     alert("[ERRO] Não é possível editar enquanto o formulário está aberto em modo de criação.");
     return;
@@ -44,7 +44,7 @@ function editNews(btn) {
   const description = card.dataset.description;
   const image = card.dataset.image;
 
-  const form = document.querySelector("#newsFormElement");
+  const form = document.querySelector("#news-form-element");
 
   let existingId = document.querySelector("input[name='id']");
   if (!existingId) {
@@ -59,12 +59,12 @@ function editNews(btn) {
   document.querySelector("#news-subtitle").value = subtitle;
   document.querySelector("#news-description").value = description;
 
-  const imageHint = document.querySelector("#imageHint");
+  const imageHint = document.querySelector("#image-hint");
   imageHint.textContent = image ? `Imagem atual: ${image}` : "Sem imagem atual";
 
-  form.action = "validateEditNews.php";
-  document.querySelector("#formTitle").textContent = "Editar Notícia";
-  document.querySelector("#newsSubmit").value = "Editar Notícia";
+  form.action = `${window.BASE_URL}pages/admin/news/actions/edit.php`;
+  document.querySelector("#form-title").textContent = "Editar Notícia";
+  document.querySelector("#news-submit").value = "Editar Notícia";
 }
 
 function editCancel() {

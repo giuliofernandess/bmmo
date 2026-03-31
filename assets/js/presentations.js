@@ -2,10 +2,10 @@ let selectedSongs = [];
 
 const form = document.querySelector("form");
 const res = document.querySelector(".res");
-const formCard = document.querySelector("#presentationForm");
+const formCard = document.querySelector("#presentation-form");
 
 function showForm() {
-  const icon = document.querySelector("#addIcon");
+  const icon = document.querySelector("#add-icon");
 
   if (formCard.style.display === "none" || formCard.style.display === "") {
     formCard.style.display = "block";
@@ -87,7 +87,7 @@ function addInput() {
 function editPresentation(btn) {
   if (formCard.style.display === "block") {
     alert(
-      "[ERRO] Não é possível editar uma tocata enquanto cria ou edita outra!",
+      "[ERRO] Não é possível editar uma apresentação enquanto cria ou edita outra!",
     );
     return;
   }
@@ -136,7 +136,7 @@ function editPresentation(btn) {
   showSongs();
   addInput();
 
-  document.querySelector("#ibutton").value = "Editar Tocata";
+  document.querySelector("#ibutton").value = "Editar apresentação";
 
-  form.action = "PresentationFunctions/validateEditPresentation.php";
+  form.action = `${window.BASE_URL}pages/admin/presentations/actions/edit.php`;
 }
