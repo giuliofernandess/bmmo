@@ -20,14 +20,38 @@
 <!-- Script para validação do botão back -->
 <script>
 
-const currentPage = location.pathname;
+const currentPage = location.pathname + location.search;
 const previousPage = sessionStorage.getItem("currentPage");
+const fallbackPage = "<?= BASE_URL ?><?= $isMusician ? 'pages/musician/index.php' : 'pages/admin/index.php'; ?>";
 
 if (previousPage) {
     sessionStorage.setItem("lastPage", previousPage);
 }
 
 sessionStorage.setItem("currentPage", currentPage);
+
+function isUnsafeBackTarget(urlValue) {
+
+    if (!urlValue) {
+        return false;
+    }
+
+    let parsed;
+
+    try {
+        parsed = new URL(urlValue, window.location.origin);
+    } catch (e) {
+        return true;
+    }
+
+    const pathname = (parsed.pathname || "").toLowerCase();
+    const file = (pathname.split("/").pop() || "");
+
+    const receivesGet = parsed.search.length > 0;
+    const receivesPost = pathname.includes("/actions/") || /^(create|edit|delete|login)\.php$/.test(file);
+
+    return receivesGet || receivesPost;
+}
 
 function safeBack() {
 
@@ -38,9 +62,8 @@ function safeBack() {
         return;
     }
 
-    const file = (last.split("/").pop() || "").toLowerCase();
-
-    if (file.includes("validate") || last.includes("?")) {
+    if (isUnsafeBackTarget(last)) {
+        window.location.href = fallbackPage;
         return;
     }
 

@@ -18,32 +18,28 @@ function postValue(string $key, string $type = 'string')
 		: trim($_POST[$key]);
 }
 
-function isValidBirthDate(?string $dateOfBirth): bool
+function isValidBirthDate(?string $age): bool
 {
-	if ($dateOfBirth === null || $dateOfBirth === '') {
+	if ($age < 7 && $age > 100) {
 		return false;
-	}
-
-	$birth = DateTime::createFromFormat('Y-m-d', $dateOfBirth);
-	$today = new DateTime();
-
-	if (!$birth) {
+	} else if ($age < 18 && empty($_POST['responsible'])) {
 		return false;
-	}
-
-	$age = $today->diff($birth)->y;
-
-	if ($birth > $today) {
+	} else if ($age < 18 && empty($_POST['contact-of-responsible'])) {
 		return false;
+	} else {
+		return true;
 	}
-
-	return $age >= 7 && $age <= 100;
 }
 
 // Recebimento de variáveis pelo método POST
 $musicianName = postValue('name');
 $login = postValue('login');
+
 $dateOfBirth = postValue('date');
+$birth = DateTime::createFromFormat('Y-m-d', $dateOfBirth);
+$today = new DateTime();
+$age = $today->diff($birth)->y;
+
 $instrument = postValue('instrument', 'int');
 $bandGroup = postValue('group', 'int');
 $musicianContact = postValue('contact');
@@ -109,8 +105,8 @@ if ($musiciansDAO->verifyLogin($login)) {
 }
 
 /* Valida datas */
-if (!isValidBirthDate($dateOfBirth)) {
-	$_SESSION['error'] = "Data de nascimento inválida.";
+if (!isValidBirthDate($age)) {
+	$_SESSION['error'] = "Data de nascimento inválida ou falta de informações do responsável.";
 	header("Location: " . BASE_URL . "pages/admin/registerMusician/index.php");
 	exit;
 }
