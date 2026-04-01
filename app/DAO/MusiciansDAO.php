@@ -350,13 +350,13 @@ class MusiciansDAO implements EntityInterface
      * Lista músicos com filtros opcionais de nome, grupo e instrumento.
      */
 
-    public function getAll(...$filters): array
+    public function getAll(array $filters = []): array
     {
         $db = $this->conn;
 
-        $musicianName = (string) ($filters[0] ?? '');
-        $bandGroup = (int) ($filters[1] ?? 0);
-        $instrument = (int) ($filters[2] ?? 0);
+        $musicianName = (string) ($filters['name'] ?? '');
+        $bandGroup = (int) ($filters['group'] ?? 0);
+        $instrument = (int) ($filters['instrument'] ?? 0);
 
         $sql = "SELECT m.musician_id, m.musician_name, i.instrument_name, bg.group_name, m.profile_image FROM musicians AS m";
         $conditions = [];

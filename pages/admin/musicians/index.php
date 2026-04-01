@@ -96,11 +96,11 @@ Auth::requireRegency();
 
     <?php
 
-    $musiciansList = $musiciansDAO->getAll(
-      $filterName,
-      $filterGroup,
-      $filterInstrument
-    );
+    $musiciansList = $musiciansDAO->getAll([
+        'name' => $filterName,
+        'group' => $filterGroup,
+        'instrument' => $filterInstrument
+      ]);
 
     if (empty($musiciansList)) {
       echo "<div class='no-musician'>Nenhum músico encontrado.</div>";

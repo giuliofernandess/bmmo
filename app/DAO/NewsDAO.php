@@ -58,7 +58,7 @@ class NewsDAO implements EntityInterface
      * Lista notícias em ordem de publicação (mais recentes primeiro).
      */
 
-    public function getAll(...$filters): array
+    public function getAll(array $filters = []): array
     {
         $db = $this->conn;
 

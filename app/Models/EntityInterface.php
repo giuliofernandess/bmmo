@@ -23,5 +23,5 @@ interface EntityInterface
     /**
      * Lista registros com filtros opcionais.
      */
-    public function getAll(...$filters): array;
+    public function getAll(array $filters): array;
 }

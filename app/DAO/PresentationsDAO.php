@@ -246,7 +246,7 @@ class PresentationsDAO implements EntityInterface
      * Lista apresentações em ordem cronológica.
      */
 
-    public function getAll(...$filters): array
+    public function getAll(array $filters = []): array
     {
         $db = $this->conn;
 

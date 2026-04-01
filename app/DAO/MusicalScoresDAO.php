@@ -332,13 +332,13 @@ class MusicalScoresDAO implements EntityInterface
      * Lista partituras com filtros opcionais de nome, grupo e gênero.
      */
 
-    public function getAll(...$filters): array
+    public function getAll(array $filters = []): array
     {
         $db = $this->conn;
 
-        $musicName = (string) ($filters[0] ?? '');
-        $bandGroup = (int) ($filters[1] ?? 0);
-        $musicGenre = (string) ($filters[2] ?? '');
+        $musicName = (string) ($filters['name'] ?? '');
+        $bandGroup = (int) ($filters['group'] ?? 0);
+        $musicGenre = (string) ($filters['genre'] ?? '');
 
         $sql = "SELECT ms.*, msg.group_id 
             FROM musical_scores ms

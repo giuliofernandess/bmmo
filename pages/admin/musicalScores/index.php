@@ -131,11 +131,11 @@ $groups = $bandGroupsDAO->getAll();
 
     <?php
 
-    $musicsList = $musicalScoresDAO->getAll(
-      $filterName,
-      $filterGroup,
-      $filterGenre
-    );
+    $musicsList = $musicalScoresDAO->getAll([
+        'name' => $filterName,
+        'group' => $filterGroup,
+        'genre' => $filterGenre
+      ]);
 
     if (!empty($musicsList)) {
       $currentGenre = "";
@@ -174,7 +174,7 @@ $groups = $bandGroupsDAO->getAll();
           </div>
           <?php
         }
-        $lastName = htmlspecialchars($musicRow['music_name'] ?? '', ENT_QUOTES,);
+        $lastName = htmlspecialchars($musicRow['music_name'] ?? '', ENT_QUOTES, 'UTF-8');
       }
 
       echo "</div>";
