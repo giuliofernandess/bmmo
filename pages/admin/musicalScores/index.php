@@ -52,7 +52,7 @@ $groups = $bandGroupsDAO->getAll();
 
         <div class="mb-3">
           <label for="iname" class="form-label">Nome</label>
-          <input type="text" name="name-add" id="iname" class="form-control" required>
+          <input type="text" name="name-add" id="iname" class="form-control" placeholder="Nome da partitura" required>
         </div>
 
         <div class="mb-3">
@@ -94,7 +94,7 @@ $groups = $bandGroupsDAO->getAll();
           <div class="col-12 col-md-4">
             <label class="form-label fw-semibold">Nome da partitura</label>
             <input type="text" name="name-filter" value="<?= htmlspecialchars($filterName) ?>" class="form-control"
-              placeholder="Digite o nome">
+              placeholder="Nome da partitura">
           </div>
 
           <!-- Grupo -->

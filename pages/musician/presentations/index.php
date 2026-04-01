@@ -28,7 +28,7 @@ $presentationsDAO->automaticallyDelete();
     <main class="p-5">
         <!-- Título -->
         <div class="d-flex align-items-center justify-content-between mb-4">
-            <h1 class="mb-0 text-primary fw-bold">Próximas tocatas</h1>
+            <h1 class="mb-0 text-primary fw-bold">Próximas apresentações</h1>
         </div>
 
         <!-- Cards -->
@@ -86,7 +86,7 @@ $presentationsDAO->automaticallyDelete();
                     <?php
                 endforeach;
             } else {
-                echo "<p>Nenhuma tocata cadastrada.</p>";
+                echo "<p>Nenhuma apresentação cadastrada.</p>";
             }
             ?>
         </div>

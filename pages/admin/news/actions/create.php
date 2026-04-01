@@ -14,7 +14,7 @@ $currentDate = date('Y-m-d');
 $currentHour = date('H:i:s');
 
 if (empty($newsTitle) || empty($newsDescription)) {
-    $_SESSION['error'] = 'Titulo e descricao sao obrigatorios.';
+    $_SESSION['error'] = 'Título e descrição são obrigatórios.';
     header('Location: ' . $redirect);
     exit;
 }
@@ -22,7 +22,7 @@ if (empty($newsTitle) || empty($newsDescription)) {
 $imageFileName = null;
 
 if (!isset($_FILES['file']) || $_FILES['file']['error'] !== UPLOAD_ERR_OK) {
-    $_SESSION['error'] = 'A imagem e obrigatoria para criar noticia.';
+    $_SESSION['error'] = 'A imagem é obrigatória para criar notícia.';
     header('Location: ' . $redirect);
     exit;
 }
@@ -34,13 +34,13 @@ $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
 $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
 if (!in_array($fileExtension, $allowedExtensions, true)) {
-    $_SESSION['error'] = 'Extensao de arquivo invalida. Permitido apenas jpg, jpeg, png, gif.';
+    $_SESSION['error'] = 'Extensão de arquivo inválida. Permitido apenas jpg, jpeg, png, gif.';
     header('Location: ' . $redirect);
     exit;
 }
 
 if ($fileSize > 5 * 1024 * 1024) {
-    $_SESSION['error'] = 'Arquivo muito grande. Maximo permitido: 5MB.';
+    $_SESSION['error'] = 'Arquivo muito grande. máximo permitido: 5MB.';
     header('Location: ' . $redirect);
     exit;
 }
@@ -72,9 +72,9 @@ $newsInfo = [
 ];
 
 if ($newsDAO->create($newsInfo)) {
-    $_SESSION['success'] = 'Noticia criada com sucesso!';
+    $_SESSION['success'] = 'Notícia criada com sucesso!';
 } else {
-    $_SESSION['error'] = 'Erro ao criar a noticia. Tente novamente.';
+    $_SESSION['error'] = 'Erro ao criar a notícia. Tente novamente.';
 }
 
 header('Location: ' . $redirect);

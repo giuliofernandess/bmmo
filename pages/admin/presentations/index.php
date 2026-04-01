@@ -20,7 +20,7 @@ $groups = $bandGroupsDAO->getAll();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apresentacoes</title>
+    <title>Apresentações</title>
 
     <?php require_once BASE_PATH . 'includes/basicHead.php'; ?>
     <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/form.css">
@@ -40,18 +40,18 @@ $groups = $bandGroupsDAO->getAll();
 
     <main class="p-5">
         <div class="d-flex align-items-center justify-content-between mb-4">
-            <h1 class="mb-0">Proximas apresentacoes</h1>
+            <h1 class="mb-0">Proximas apresentações</h1>
             <i class="bi bi-plus-square-fill fs-3 text-primary cursor-pointer" id="add-icon" onclick="showForm()"
                 title="Criar apresentacao"></i>
         </div>
 
         <div class="bg-white p-4 rounded shadow-sm mb-4" style="display: none;" id="presentation-form">
-            <h4 class="mb-3">Criar Apresentacao</h4>
+            <h4 class="mb-3">Criar Apresentação</h4>
 
             <form action="<?= BASE_URL ?>pages/admin/presentations/actions/create.php" method="post">
                 <div class="mb-3">
                     <label for="iname" class="form-label">Nome</label>
-                    <input type="text" name="name" id="iname" class="form-control" required>
+                    <input type="text" name="name" id="iname" class="form-control" placeholder="Nome da apresentação" required>
                 </div>
 
                 <div class="mb-3">
@@ -66,7 +66,7 @@ $groups = $bandGroupsDAO->getAll();
 
                 <div class="mb-3">
                     <label for="ilocal" class="form-label">Local</label>
-                    <input type="text" name="local" id="ilocal" class="form-control" required>
+                    <input type="text" name="local" id="ilocal" class="form-control" placeholder="Local da apresentação" required>
                 </div>
 
                 <div class="mb-3">
@@ -105,7 +105,7 @@ $groups = $bandGroupsDAO->getAll();
                                     $lastName = $musicItem['music_name'];
                                 }
                             } else {
-                                echo '<option disabled>Nenhuma musica cadastrada</option>';
+                                echo '<option disabled>Nenhuma música cadastrada</option>';
                             }
                             ?>
                         </select>
@@ -120,7 +120,7 @@ $groups = $bandGroupsDAO->getAll();
                 <div class="res mb-3"></div>
 
                 <input type="submit" class="btn btn-outline-primary btn-lg rounded-pill w-100 mt-3"
-                    style="padding-top: 6px;" id="ibutton" value="Criar apresentacao">
+                    style="padding-top: 6px;" id="ibutton" value="Criar apresentação">
             </form>
         </div>
 
@@ -184,7 +184,7 @@ $groups = $bandGroupsDAO->getAll();
 
                                 <div class="mt-auto d-flex justify-content-end gap-2">
                                     <form action="<?= BASE_URL ?>pages/admin/presentations/actions/delete.php" method="post"
-                                        onsubmit="return confirm('Tem certeza que deseja excluir esta apresentacao?');">
+                                        onsubmit="return confirm('Tem certeza que deseja excluir esta apresentação?');">
                                         <input type="hidden" name="presentation_id" value="<?= (int) $presentations['presentation_id'] ?>">
                                         <button type="submit" class="btn btn-danger btn-sm d-flex align-items-center justify-content-center"
                                             style="width:38px;height:38px;">
@@ -203,7 +203,7 @@ $groups = $bandGroupsDAO->getAll();
                     <?php
                 }
             } else {
-                echo '<p>Nenhuma apresentacao cadastrada.</p>';
+                echo '<p>Nenhuma apresentação cadastrada.</p>';
             }
             ?>
         </div>

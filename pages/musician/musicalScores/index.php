@@ -52,7 +52,7 @@ $groupId = (int) $musicianInfo["band_group"];
           <div class="col-12 col-md-6">
             <label class="form-label fw-semibold">Nome da partitura</label>
             <input type="text" name="name-filter" value="<?= htmlspecialchars($filterName) ?>" class="form-control"
-              placeholder="Digite o nome">
+              placeholder="Digite o nome da partitura">
           </div>
 
           <!-- Gênero -->

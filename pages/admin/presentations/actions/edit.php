@@ -18,7 +18,7 @@ $hour = trim($_POST['hour'] ?? '');
 $local = trim($_POST['local'] ?? '');
 
 if ($name === '' || $date === '' || $hour === '' || $local === '') {
-    $_SESSION['error'] = 'Preencha todos os campos obrigatorios!';
+    $_SESSION['error'] = 'Preencha todos os campos obrigatórios!';
     header('Location: ' . $redirect);
     exit;
 }
@@ -27,13 +27,13 @@ try {
     $inputDate = new DateTime($date);
     $today = new DateTime('today');
 } catch (Exception $e) {
-    $_SESSION['error'] = 'Data invalida!';
+    $_SESSION['error'] = 'Data inválida!';
     header('Location: ' . $redirect);
     exit;
 }
 
 if ($inputDate < $today) {
-    $_SESSION['error'] = 'A data nao pode ser menor que hoje!';
+    $_SESSION['error'] = 'A data não pode ser menor que hoje!';
     header('Location: ' . $redirect);
     exit;
 }
@@ -47,7 +47,7 @@ if (empty($bandGroups)) {
 
 $songs = $_POST['songs'] ?? [];
 if (empty($songs)) {
-    $_SESSION['error'] = 'Selecione ao menos uma musica!';
+    $_SESSION['error'] = 'Selecione ao menos uma música!';
     header('Location: ' . $redirect);
     exit;
 }
@@ -63,9 +63,9 @@ $presentationInfo = [
 ];
 
 if ($presentationsDAO->edit($presentationInfo)) {
-    $_SESSION['success'] = 'Apresentacao editada com sucesso!';
+    $_SESSION['success'] = 'Apresentação editada com sucesso!';
 } else {
-    $_SESSION['error'] = 'Erro ao editar apresentacao!';
+    $_SESSION['error'] = 'Erro ao editar apresentação!';
 }
 
 header('Location: ' . $redirect);

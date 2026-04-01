@@ -74,14 +74,15 @@ require_once BASE_PATH ."includes/getMusicianInfo.php";
         <!-- Responsável -->
         <div class="col-md-6">
           <label for="responsible" class="form-label ps-2">Responsável</label>
-          <input type="text" name="responsible" id="responsible" value="<?= htmlspecialchars($musicianInfo['responsible_name']) ?>"
-            class="form-control" />
+          <input type="text" name="responsible" id="responsible" placeholder="Nome do responsável"
+            value="<?= htmlspecialchars($musicianInfo['responsible_name']) ?>" class="form-control" />
         </div>
 
         <!-- Contato do Responsável -->
         <div class="col-md-6">
           <label for="contact-of-responsible" class="form-label ps-2">Contato do Responsável</label>
           <input type="text" name="contact-of-responsible" id="contact-of-responsible"
+            placeholder="Contato do responsável"
             value="<?= htmlspecialchars($musicianInfo['responsible_contact']) ?>" class="form-control" />
         </div>
 
@@ -107,8 +108,10 @@ require_once BASE_PATH ."includes/getMusicianInfo.php";
 
         <!-- Instituição -->
         <div class="col-md-6">
-          <label for="institution" class="form-label ps-2">Instituição</label>
-          <input type="text" name="institution" id="institution" value="<?= htmlspecialchars($musicianInfo['institution']) ?>" class="form-control" />
+          <label for="institution" class="form-label ps-2">Instituição em que atua</label>
+          <input type="text" name="institution" id="institution"
+            placeholder="Ex.: Escola, Faculdade, Trabalho e etc."
+            value="<?= htmlspecialchars($musicianInfo['institution']) ?>" class="form-control" />
         </div>
 
         <!-- Senhas -->

@@ -72,7 +72,7 @@ $musicianInfo = $musiciansDAO->findByLogin($login);
             <div class="card h-100 shadow-sm border-0 p-3">
               <i class="bi bi-calendar-event-fill fs-2 text-success mb-2"></i>
               <h5 class="fw-bold">Apresentações</h5>
-              <p class="text-muted">Veja as músicas das próximas tocatas.</p>
+              <p class="text-muted">Veja o repertório das próximas apresentações.</p>
             </div>
           </a>
         </div>

@@ -16,7 +16,7 @@ $newsList = $newsDAO->getAll();
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gerenciar Noticias</title>
+  <title>Gerenciar Notícias</title>
   <?php require_once BASE_PATH . "includes/basicHead.php"; ?>
 
   <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/form.css">
@@ -36,23 +36,23 @@ $newsList = $newsDAO->getAll();
   <main class="p-4">
 
     <div class="d-flex align-items-center justify-content-between mb-4">
-      <h1 class="mb-0">Noticias</h1>
-      <i id="add-icon" class="bi bi-plus-square-fill fs-3 text-primary cursor-pointer" onclick="showForm()" title="Criar Noticia"></i>
+      <h1 class="mb-0">Notícias</h1>
+      <i id="add-icon" class="bi bi-plus-square-fill fs-3 text-primary cursor-pointer" onclick="showForm()" title="Criar Notícia"></i>
     </div>
 
     <div class="bg-white p-4 rounded shadow-sm mb-4" style="display: none;" id="news-form">
-      <h4 class="mb-3" id="form-title">Criar Noticia</h4>
+      <h4 class="mb-3" id="form-title">Criar Notícia</h4>
 
       <form id="news-form-element" action="<?= BASE_URL ?>pages/admin/news/actions/create.php" method="post" enctype="multipart/form-data">
 
         <div class="mb-3">
-          <label for="news-title" class="form-label">Titulo da noticia *</label>
-          <input type="text" name="title" id="news-title" class="form-control" required>
+          <label for="news-title" class="form-label">Titulo da notícia *</label>
+          <input type="text" name="title" id="news-title" class="form-control" placeholder="Título da notícia" required>
         </div>
 
         <div class="mb-3">
-          <label for="news-subtitle" class="form-label">Subtitulo da noticia</label>
-          <input type="text" name="subtitle" id="news-subtitle" class="form-control">
+          <label for="news-subtitle" class="form-label">Subtitulo da notícia</label>
+          <input type="text" name="subtitle" id="news-subtitle" class="form-control" placeholder="Subtítulo da notícia">
         </div>
 
         <div class="mb-3">
@@ -66,7 +66,7 @@ $newsList = $newsDAO->getAll();
           <small id="image-hint" class="text-muted"></small>
         </div>
 
-        <input type="submit" id="news-submit" class="btn btn-outline-primary" value="Publicar Noticia">
+        <input type="submit" id="news-submit" class="btn btn-outline-primary" value="Publicar Notícia">
       </form>
     </div>
 
@@ -94,7 +94,7 @@ $newsList = $newsDAO->getAll();
                 <p class="card-text text-secondary small mb-2">Publicado em: <?= $pubDate ?> as <?= $pubHour ?></p>
 
                 <div class="d-flex justify-content-end gap-2">
-                  <form action="<?= BASE_URL ?>pages/admin/news/actions/delete.php" method="post" onsubmit="return confirm('Tem certeza que deseja excluir esta noticia?');">
+                  <form action="<?= BASE_URL ?>pages/admin/news/actions/delete.php" method="post" onsubmit="return confirm('Tem certeza que deseja excluir esta notícia?');">
                     <input type="hidden" name="news_id" value="<?= $newsId ?>">
                     <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
                   </form>
@@ -105,7 +105,7 @@ $newsList = $newsDAO->getAll();
           </div>
         <?php endforeach; ?>
       <?php else: ?>
-        <div class="col-12"><p>Nenhuma noticia cadastrada no momento.</p></div>
+        <div class="col-12"><p>Nenhuma notícia cadastrada no momento.</p></div>
       <?php endif; ?>
     </div>
 
