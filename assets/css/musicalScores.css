@@ -22,10 +22,6 @@
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
 }
 
-.btn {
-  height: 40px;
-}
-
 .file-cell {
   display: flex;
   align-items: center;
