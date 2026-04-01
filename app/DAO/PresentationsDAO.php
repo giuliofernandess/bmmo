@@ -197,19 +197,8 @@ class PresentationsDAO implements EntityInterface
 
         $db->begin_transaction();
 
-        // Remove registros relacionados em transação.
+        // Remove apresentação; vínculos são removidos por ON DELETE CASCADE.
         try {
-
-            $stmtDeleteGroups = $db->prepare("DELETE FROM presentations_groups WHERE presentation_id = ?");
-            $stmtDeleteGroups->bind_param("i", $presentationId);
-            $stmtDeleteGroups->execute();
-            $stmtDeleteGroups->close();
-
-            $stmtDeleteSongs = $db->prepare("DELETE FROM presentations_songs WHERE presentation_id = ?");
-            $stmtDeleteSongs->bind_param("i", $presentationId);
-            $stmtDeleteSongs->execute();
-            $stmtDeleteSongs->close();
-
             $stmtDeleteMainTable = $db->prepare("DELETE FROM presentations WHERE presentation_id = ?");
             $stmtDeleteMainTable->bind_param("i", $presentationId);
             $stmtDeleteMainTable->execute();

@@ -260,14 +260,6 @@ class MusicalScoresDAO implements EntityInterface
 
             $stmtDelInstruments->close();
 
-            $this->deleteMusicalScoreInstrument($musicId);
-
-            $stmtDelGroups = $db->prepare("DELETE FROM musical_scores_groups 
-            WHERE music_id = ?");
-            $stmtDelGroups->bind_param("i", $musicId);
-            $stmtDelGroups->execute();
-            $stmtDelGroups->close();
-
             $stmt = $db->prepare("DELETE FROM musical_scores 
             WHERE music_id = ?");
             $stmt->bind_param("i", $musicId);
@@ -287,6 +279,7 @@ class MusicalScoresDAO implements EntityInterface
 
             return true;
         } catch (Exception $e) {
+            $db->rollback();
             return false;
         }
 

@@ -328,14 +328,14 @@ ALTER TABLE `presentations`
 -- Restrições para tabelas `musical_scores_groups`
 --
 ALTER TABLE `musical_scores_groups`
-  ADD CONSTRAINT `musical_scores_groups_ibfk_1` FOREIGN KEY (`music_id`) REFERENCES `musical_scores` (`music_id`),
+  ADD CONSTRAINT `musical_scores_groups_ibfk_1` FOREIGN KEY (`music_id`) REFERENCES `musical_scores` (`music_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `musical_scores_groups_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `band_groups` (`group_id`);
 
 --
 -- Restrições para tabelas `musical_scores_instruments`
 --
 ALTER TABLE `musical_scores_instruments`
-  ADD CONSTRAINT `musical_scores_instruments_ibfk_1` FOREIGN KEY (`music_id`) REFERENCES `musical_scores` (`music_id`),
+  ADD CONSTRAINT `musical_scores_instruments_ibfk_1` FOREIGN KEY (`music_id`) REFERENCES `musical_scores` (`music_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `musical_scores_instruments_ibfk_2` FOREIGN KEY (`instrument_id`) REFERENCES `instruments` (`instrument_id`);
 
 --
@@ -350,13 +350,13 @@ ALTER TABLE `musicians`
 --
 ALTER TABLE `presentations_groups`
   ADD CONSTRAINT `presentations_groups_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `band_groups` (`group_id`),
-  ADD CONSTRAINT `presentations_groups_ibfk_2` FOREIGN KEY (`presentation_id`) REFERENCES `presentations` (`presentation_id`);
+  ADD CONSTRAINT `presentations_groups_ibfk_2` FOREIGN KEY (`presentation_id`) REFERENCES `presentations` (`presentation_id`) ON DELETE CASCADE;
 
 --
 -- Restrições para tabelas `presentations_songs`
 --
 ALTER TABLE `presentations_songs`
-  ADD CONSTRAINT `presentations_songs_ibfk_1` FOREIGN KEY (`presentation_id`) REFERENCES `presentations` (`presentation_id`),
+  ADD CONSTRAINT `presentations_songs_ibfk_1` FOREIGN KEY (`presentation_id`) REFERENCES `presentations` (`presentation_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `presentations_songs_ibfk_2` FOREIGN KEY (`song_id`) REFERENCES `musical_scores` (`music_id`);
 COMMIT;
 
