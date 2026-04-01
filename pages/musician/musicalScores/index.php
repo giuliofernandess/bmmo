@@ -101,14 +101,15 @@ $groupId = (int) $musicianInfo["band_group"];
 
         <div class='col-12 col-sm-6 col-lg-3'>
           <div class='card musician-card h-100 border-0 shadow-sm'>
-            <img src='<?= BASE_URL ?>assets/images/musical_score.jpg' class='card-img-top musical-score-img'
-              alt='Capa de Partitura'>
+            <a href="<?= BASE_URL ?>uploads/musical-scores/<?= $res['file'] ?>" target="_blank">
+              <img src='<?= BASE_URL ?>assets/images/musical_score.jpg' class='card-img-top musical-score-img'
+                alt='Capa de Partitura'>
+            </a>
             <div class='card-body d-flex flex-column text-decoration-none'>
               <h5 class='card-title fw-semibold text-center mb-3'><?= htmlspecialchars($res['music_name']) ?></h5>
-              <a href="<?= BASE_URL ?>uploads/musical-scores/<?= $res['file'] ?>"
-                target="_blank"
-                class='btn btn-outline-primary mt-auto w-100'>
-                <i class='bi bi-person-lines-fill me-1'></i> Ver Partitura
+              <a href="<?= BASE_URL ?>uploads/musical-scores/<?= rawurlencode($res['file']) ?>"
+                download="<?= htmlspecialchars($res['file']) ?>" class="btn btn-outline-primary mt-auto w-100">
+                <i class="bi bi-download me-1"></i> Baixar Partitura
               </a>
             </div>
           </div>
