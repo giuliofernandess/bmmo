@@ -186,14 +186,14 @@ $groups = $bandGroupsDAO->getAll();
                                     <form action="<?= BASE_URL ?>pages/admin/presentations/actions/delete.php" method="post"
                                         onsubmit="return confirm('Tem certeza que deseja excluir esta apresentação?');">
                                         <input type="hidden" name="presentation_id" value="<?= (int) $presentations['presentation_id'] ?>">
-                                        <button type="submit" class="btn btn-danger btn-sm d-flex align-items-center justify-content-center"
-                                            style="width:38px;height:38px;">
+                                        <button type="submit" class="btn btn-danger btn-sm d-flex align-items-center justify-content-center p-0"
+                                            style="width:62px;height:38px;">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </form>
 
                                     <a class="btn btn-success btn-sm d-flex align-items-center justify-content-center"
-                                        style="width:38px;height:38px;" onclick="editPresentation(this)">
+                                        style="width:62px;height:38px;" onclick="editPresentation(this)">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                 </div>

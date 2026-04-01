@@ -93,12 +93,12 @@ $newsList = $newsDAO->getAll();
 
                 <p class="card-text text-secondary small mb-2">Publicado em: <?= $pubDate ?> as <?= $pubHour ?></p>
 
-                <div class="d-flex justify-content-end gap-2">
+                <div class="d-flex flex-column gap-2 mt-auto">
+                  <button type="button" class="btn btn-success btn-sm" onclick="editNews(this)">Editar</button>
                   <form action="<?= BASE_URL ?>pages/admin/news/actions/delete.php" method="post" onsubmit="return confirm('Tem certeza que deseja excluir esta notícia?');">
                     <input type="hidden" name="news_id" value="<?= $newsId ?>">
                     <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
                   </form>
-                  <button type="button" class="btn btn-success btn-sm" onclick="editNews(this)">Editar</button>
                 </div>
               </div>
             </div>
