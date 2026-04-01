@@ -21,23 +21,6 @@ O projeto segue arquitetura em camadas, sem framework, com separação clara ent
 - `pages/index.php`: landing pública.
 - `pages/logout.php`: encerramento de sessão.
 
-## Avaliação da estrutura de pastas
-
-Estado atual: a estrutura está adequada para o porte do projeto e para um fluxo sem framework, com separação coerente por responsabilidade.
-
-Pontos fortes:
-
-- Rotas centralizadas em domínios canônicos (`admin`, `information`, `login`, `musician`).
-- Camada de persistência isolada em `app/DAO`.
-- Componentes compartilhados separados em `includes`.
-- Uploads centralizados e previsíveis em `uploads/*`.
-
-Pontos de atenção para evolução:
-
-- Evitar recriar wrappers de rota quando o destino canônico já existe.
-- Manter todas as mutações HTTP em `actions/*` com validação de permissão no próprio endpoint.
-- Preservar convenções de nomes para evitar regressão de caminhos em Linux.
-
 ## Fluxo de requisição
 
 1. A rota inclui `config/config.php`.
@@ -79,6 +62,27 @@ Contrato base em `app/Models/EntityInterface.php` (quando aplicável):
 - `delete(int $id): bool`
 - `getAll(...$filters): array`
 
+### Contratos atuais de filtros (`getAll`)
+
+Nem todos os DAOs usam o mesmo conjunto de filtros. Contratos vigentes:
+
+- `MusiciansDAO::getAll(array $filters = [])`
+  - `name` (string)
+  - `group` (int)
+  - `instrument` (int)
+- `MusicalScoresDAO::getAll(array $filters = [])`
+  - `music_name` (string)
+  - `band_group` (int)
+  - `music_genre` (string)
+- `NewsDAO::getAll(array $filters = [])`
+  - sem filtros efetivos no estado atual (lista ordenada por publicação)
+- `PresentationsDAO::getAll(array $filters = [])`
+  - sem filtros efetivos no estado atual (lista cronológica)
+- `BandGroupsDAO::getAll()`
+  - sem parâmetros
+- `InstrumentsDAO::getAll(bool $voiceOff = false, bool $musicalScore = false)`
+  - filtros posicionais por flags
+
 ## Regras arquiteturais
 
 - SQL somente na camada DAO.
@@ -87,8 +91,16 @@ Contrato base em `app/Models/EntityInterface.php` (quando aplicável):
 - Exclusões e mutações destrutivas devem usar `POST` (form), não âncora `GET`.
 - Leitura de `$_POST`/`$_GET`/`$_FILES` deve usar guardas (`??`, `isset`, `is_array`) antes de iterar/acessar índices.
 - Navegação por botão voltar no header secundário deve bloquear retorno para rotas de mutação (`actions/*`) e URLs com query string, usando fallback seguro por perfil.
+- Métodos `delete` dos DAOs devem respeitar as regras de integridade referencial do banco e o comportamento de `ON DELETE CASCADE`.
 - Nomes de métodos em `camelCase`.
 - Novas rotas apenas na árvore canônica de `pages`.
+
+## Estratégia de exclusão (DAO + banco)
+
+- `MusicalScoresDAO::delete(int $musicId)` remove o registro principal em `musical_scores`.
+- `PresentationsDAO::delete(int $presentationId)` remove o registro principal em `presentations`.
+- Tabelas filhas com `ON DELETE CASCADE` removem vínculos automaticamente.
+- Arquivos físicos (ex.: uploads de partituras) são tratados pela camada DAO após a operação de banco.
 
 ## Uploads e arquivos
 
@@ -97,5 +109,3 @@ Diretórios de uploads:
 - `uploads/musical-scores`
 - `uploads/musicians-images`
 - `uploads/news-images`
-
-Recomendação para ambiente produtivo: reforçar validação MIME, nomes únicos de arquivo e políticas de permissão.

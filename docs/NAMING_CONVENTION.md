@@ -76,12 +76,6 @@ Exemplos:
 - `assets/css/aboutTheBand.css`
 - `assets/js/showForm.js`
 
-## Regras de compatibilidade e migração
-
-1. Novas features devem nascer apenas na árvore canônica (`admin`, `information`, `login`, `musician`).
-2. Não criar novos caminhos legados (`AdmSession`, `MusicianSession`, `Information`, `Login`).
-3. Se houver necessidade temporária de compatibilidade, usar wrappers curtos e planejar remoção.
-
 ## Rotas canônicas finais
 
 - Público:
@@ -100,26 +94,3 @@ Exemplos:
 - Músico:
   - `pages/musician/index.php`
   - módulos em `pages/musician/*`
-
-## Checklist para novos arquivos
-
-Antes de criar um arquivo/pasta novo, valide:
-1. Está dentro do domínio canônico correto?
-2. O nome segue o padrão (`lowercase` ou `camelCase` conforme regra)?
-3. É entrypoint `index.php` ou ação em `actions/<acao>.php`?
-4. O caminho funciona em Linux sem depender de case-insensitive?
-
-## Padronização de editor (.editorconfig)
-
-O arquivo `.editorconfig` é recomendado e, na prática do projeto, deve ser mantido.
-
-Motivos:
-
-- evita diffs ruidosos (indentação, newline final e espaços sobrando)
-- reduz conflito entre VS Code, IDEs JetBrains e editores de terminal
-- preserva consistência entre PHP, CSS, JS e HTML
-
-Diretriz:
-
-- não remover `.editorconfig`
-- ao criar novos tipos de arquivo, incluir regra específica quando necessário

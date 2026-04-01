@@ -42,9 +42,6 @@
 - `pages/admin/musicians/musicianProfile/actions/edit.php`
 - `pages/admin/musicians/musicianProfile/actions/delete.php`
 
-Observação de fluxo:
-- O cadastro administrativo valida idade e exige dados de responsável para menores de idade.
-
 ### Músico autenticado
 - `pages/musician/profile/index.php`
 - `pages/musician/profile/edit/index.php`
@@ -62,9 +59,6 @@ Observação de fluxo:
 - `pages/admin/musicalScores/actions/edit.php`
 - `pages/admin/musicalScores/actions/delete.php`
 - `pages/admin/musicalScores/actions/deleteinstrument.php`
-
-Observação de fluxo:
-- Exclusões no admin devem ocorrer via `POST` (form ou submit programático), evitando ação destrutiva por âncora `GET`.
 
 ### Músico autenticado
 - `pages/musician/musicalScores/index.php`
@@ -100,3 +94,20 @@ Observação de fluxo:
 - Arquivo: `includes/secondHeader.php`
 - Comportamento: botão voltar com validação de segurança para evitar retorno a rotas de mutação (`actions/*`) e a URLs com query string (`GET`).
 - Fallback: redirecionamento para dashboard do perfil atual quando o destino anterior for considerado inseguro.
+
+## Contrato de filtros nos `getAll`
+
+Para evitar inconsistência entre telas e DAOs, use as chaves abaixo:
+
+- `MusiciansDAO::getAll($filters)`
+	- `name`, `group`, `instrument`
+- `MusicalScoresDAO::getAll($filters)`
+	- `music_name`, `band_group`, `music_genre`
+- `NewsDAO::getAll($filters = [])`
+	- atualmente ignora filtros e retorna lista ordenada por data/hora
+- `PresentationsDAO::getAll($filters = [])`
+	- atualmente ignora filtros e retorna lista cronológica
+- `BandGroupsDAO::getAll()`
+	- sem filtros
+- `InstrumentsDAO::getAll($voiceOff, $musicalScore)`
+	- flags posicionais para recorte de instrumentos

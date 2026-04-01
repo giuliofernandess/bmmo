@@ -31,11 +31,6 @@ Este repositório usa `.editorconfig` na raiz para padronizar:
 - `trim_trailing_whitespace = true`
 - indentação com 4 espaços para `php/js/css/html`
 
-Recomendação:
-
-1. Mantenha suporte a EditorConfig habilitado no editor.
-2. Não remova o arquivo `.editorconfig` do repositório.
-
 ## Execução
 
 1. Inicie Apache e MySQL.
@@ -50,9 +45,3 @@ Recomendação:
 - Login:
   - `http://localhost/bmmo/pages/login/admin/index.php`
   - `http://localhost/bmmo/pages/login/musician/index.php`
-
-## Observação sobre warning pdo_mysql no terminal
-
-O projeto usa MySQLi. O warning de `pdo_mysql` pode aparecer no PHP CLI quando a extensão não está instalada na versão de PHP usada no terminal.
-
-Esse warning não bloqueia o `php -l`, mas vale corrigir no ambiente para reduzir ruído no output.
