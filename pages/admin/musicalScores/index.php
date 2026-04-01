@@ -132,9 +132,9 @@ $groups = $bandGroupsDAO->getAll();
     <?php
 
     $musicsList = $musicalScoresDAO->getAll([
-        'name' => $filterName,
-        'group' => $filterGroup,
-        'genre' => $filterGenre
+        'music_name' => $filterName,
+        'band_group' => $filterGroup,
+        'music_genre' => $filterGenre
       ]);
 
     if (!empty($musicsList)) {

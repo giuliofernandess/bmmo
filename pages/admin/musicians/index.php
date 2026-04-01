@@ -97,8 +97,8 @@ Auth::requireRegency();
     <?php
 
     $musiciansList = $musiciansDAO->getAll([
-        'name' => $filterName,
-        'group' => $filterGroup,
+        'musician_name' => $filterName,
+        'band_group' => $filterGroup,
         'instrument' => $filterInstrument
       ]);
 

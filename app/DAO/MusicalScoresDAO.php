@@ -336,9 +336,9 @@ class MusicalScoresDAO implements EntityInterface
     {
         $db = $this->conn;
 
-        $musicName = (string) ($filters['name'] ?? '');
-        $bandGroup = (int) ($filters['group'] ?? 0);
-        $musicGenre = (string) ($filters['genre'] ?? '');
+        $musicName = (string) ($filters['music_name'] ?? '');
+        $bandGroup = (int) ($filters['band_group'] ?? 0);
+        $musicGenre = (string) ($filters['music_genre'] ?? '');
 
         $sql = "SELECT ms.*, msg.group_id 
             FROM musical_scores ms

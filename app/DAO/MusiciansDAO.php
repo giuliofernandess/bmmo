@@ -354,8 +354,8 @@ class MusiciansDAO implements EntityInterface
     {
         $db = $this->conn;
 
-        $musicianName = (string) ($filters['name'] ?? '');
-        $bandGroup = (int) ($filters['group'] ?? 0);
+        $musicianName = (string) ($filters['musician_name'] ?? '');
+        $bandGroup = (int) ($filters['band_group'] ?? 0);
         $instrument = (int) ($filters['instrument'] ?? 0);
 
         $sql = "SELECT m.musician_id, m.musician_name, i.instrument_name, bg.group_name, m.profile_image FROM musicians AS m";
