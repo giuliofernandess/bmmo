@@ -68,7 +68,8 @@ header, .navbar {
 
 /* Footer */
 footer {
-  background: linear-gradient(90deg, var(--color-1), #0056d2);
+  background: rgba(13, 110, 253, 0.95);
+  backdrop-filter: blur(6px);
   color: #fff;
   text-align: center;
   padding: 15px;
