@@ -12,7 +12,7 @@
 2. Importe o script `assets/sql/bmmo.sql`.
 3. Verifique se existe pelo menos 1 registro de maestro na tabela `regency`.
 
-## Configuracao da aplicacao
+## Configuração da aplicação
 
 Edite `config/config.php` com os dados locais:
 
@@ -21,38 +21,38 @@ Edite `config/config.php` com os dados locais:
 - `DB_PASS`
 - `DB_NAME`
 
-## Padrao de formatacao
+## Padrão de formatação
 
-Este repositorio usa `.editorconfig` na raiz para padronizar:
+Este repositório usa `.editorconfig` na raiz para padronizar:
 
 - `charset = utf-8`
 - `end_of_line = lf`
 - `insert_final_newline = true`
 - `trim_trailing_whitespace = true`
-- indentacao com 4 espacos para `php/js/css/html`
+- indentação com 4 espaços para `php/js/css/html`
 
-Recomendacao:
+Recomendação:
 
 1. Mantenha suporte a EditorConfig habilitado no editor.
-2. Nao remova o arquivo `.editorconfig` do repositorio.
+2. Não remova o arquivo `.editorconfig` do repositório.
 
-## Execucao
+## Execução
 
 1. Inicie Apache e MySQL.
 2. Acesse `http://localhost/bmmo/pages/index.php`.
 
 ## Rotas canônicas para smoke test
 
-- Publico:
-	- `http://localhost/bmmo/pages/index.php`
-	- `http://localhost/bmmo/pages/information/news/index.php`
-	- `http://localhost/bmmo/pages/information/aboutTheBand/index.php`
+- Público:
+  - `http://localhost/bmmo/pages/index.php`
+  - `http://localhost/bmmo/pages/information/news/index.php`
+  - `http://localhost/bmmo/pages/information/aboutTheBand/index.php`
 - Login:
-	- `http://localhost/bmmo/pages/login/admin/index.php`
-	- `http://localhost/bmmo/pages/login/musician/index.php`
+  - `http://localhost/bmmo/pages/login/admin/index.php`
+  - `http://localhost/bmmo/pages/login/musician/index.php`
 
-## Observacao sobre warning pdo_mysql no terminal
+## Observação sobre warning pdo_mysql no terminal
 
-O projeto usa MySQLi. O warning de `pdo_mysql` pode aparecer no PHP CLI quando a extensao nao esta instalada na versao de PHP usada no terminal.
+O projeto usa MySQLi. O warning de `pdo_mysql` pode aparecer no PHP CLI quando a extensão não está instalada na versão de PHP usada no terminal.
 
-Esse warning nao bloqueia o `php -l`, mas vale corrigir no ambiente para reduzir ruido no output.
+Esse warning não bloqueia o `php -l`, mas vale corrigir no ambiente para reduzir ruído no output.

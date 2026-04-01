@@ -1,58 +1,64 @@
 # Arquitetura do Sistema BMMO
 
-## Visao geral
+## Visão geral
 
-O projeto segue arquitetura em camadas, sem framework, com separacao clara entre HTTP, regras de acesso e persistencia.
+O projeto segue arquitetura em camadas, sem framework, com separação clara entre HTTP, regras de acesso e persistência.
 
 - `pages/`: rotas HTTP e telas.
-- `includes/`: componentes reutilizaveis de interface e mensagens.
-- `app/Auth/`: autenticacao e autorizacao por perfil.
-- `app/Database/`: conexao MySQLi.
-- `app/DAO/`: acesso a dados e operacoes SQL.
+- `includes/`: componentes reutilizáveis de interface e mensagens.
+- `app/Auth/`: autenticação e autorização por perfil.
+- `app/Database/`: conexão MySQLi.
+- `app/DAO/`: acesso a dados e operações SQL.
 - `app/Models/`: entidades e contrato base (`EntityInterface`).
-- `config/`: bootstrap global (constantes, conexao e instancias DAO).
+- `config/`: bootstrap global (constantes, conexão e instâncias DAO).
 
 ## Estrutura de rotas canonicamente ativa
 
-- `pages/admin`: painel e modulos do maestro.
-- `pages/information`: rotas publicas (noticias e sobre).
-- `pages/login`: autenticacao por perfil.
-- `pages/musician`: painel e modulos do musico.
-- `pages/index.php`: landing publica.
-- `pages/logout.php`: encerramento de sessao.
+- `pages/admin`: painel e módulos do maestro.
+- `pages/information`: rotas públicas (notícias e sobre).
+- `pages/login`: autenticação por perfil.
+- `pages/musician`: painel e módulos do músico.
+- `pages/index.php`: landing pública.
+- `pages/logout.php`: encerramento de sessão.
 
-## Avaliacao da estrutura de pastas
+## Avaliação da estrutura de pastas
 
-Estado atual: a estrutura esta adequada para o porte do projeto e para um fluxo sem framework, com separacao coerente por responsabilidade.
+Estado atual: a estrutura está adequada para o porte do projeto e para um fluxo sem framework, com separação coerente por responsabilidade.
 
 Pontos fortes:
 
-- Rotas centralizadas em dominios canonicos (`admin`, `information`, `login`, `musician`).
-- Camada de persistencia isolada em `app/DAO`.
+- Rotas centralizadas em domínios canônicos (`admin`, `information`, `login`, `musician`).
+- Camada de persistência isolada em `app/DAO`.
 - Componentes compartilhados separados em `includes`.
-- Uploads centralizados e previsiveis em `uploads/*`.
+- Uploads centralizados e previsíveis em `uploads/*`.
 
-Pontos de atencao para evolucao:
+Pontos de atenção para evolução:
 
-- Evitar recriar wrappers de rota quando o destino canonico ja existe.
-- Manter todas as mutacoes HTTP em `actions/*` com validacao de permissao no proprio endpoint.
-- Preservar convencoes de nomes para evitar regressao de caminhos em Linux.
+- Evitar recriar wrappers de rota quando o destino canônico já existe.
+- Manter todas as mutações HTTP em `actions/*` com validação de permissão no próprio endpoint.
+- Preservar convenções de nomes para evitar regressão de caminhos em Linux.
 
-## Fluxo de requisicao
+## Fluxo de requisição
 
 1. A rota inclui `config/config.php`.
-2. O bootstrap prepara constantes, conexao e DAOs.
-3. Quando necessario, `Auth` valida sessao e perfil.
+2. O bootstrap prepara constantes, conexão e DAOs.
+3. Quando necessário, `Auth` valida sessão e perfil.
 4. A rota executa leitura/escrita via DAO.
-5. Feedback de operacao e trafegado por `$_SESSION` e renderizado por `includes`.
+5. Feedback de operação é trafegado por `$_SESSION` e renderizado por `includes`.
 
-## Fluxo de autenticacao
+## Fluxo de autenticação
 
 - Login maestro: `pages/login/admin/index.php` -> `pages/login/admin/actions/login.php`.
-- Login musico: `pages/login/musician/index.php` -> `pages/login/musician/actions/login.php`.
+- Login músico: `pages/login/musician/index.php` -> `pages/login/musician/actions/login.php`.
 - Guards:
-	- `Auth::requireRegency()`
-	- `Auth::requireMusician()`
+  - `Auth::requireRegency()`
+  - `Auth::requireMusician()`
+
+## Regras de negócio (cadastro de músicos)
+
+- Validação de idade no cadastro administrativo em `pages/admin/musicians/musicianProfile/actions/create.php`.
+- Para cadastros de menores de idade, os campos de responsável devem ser informados.
+- Falhas de validação retornam feedback via `$_SESSION['error']` e redirecionam para o formulário.
 
 ## Camada DAO
 
@@ -66,7 +72,7 @@ DAOs centrais:
 - `InstrumentsDAO`
 - `RegencyDAO`
 
-Contrato base em `app/Models/EntityInterface.php` (quando aplicavel):
+Contrato base em `app/Models/EntityInterface.php` (quando aplicável):
 
 - `create(array $data): mixed`
 - `edit(array $data): bool`
@@ -76,19 +82,20 @@ Contrato base em `app/Models/EntityInterface.php` (quando aplicavel):
 ## Regras arquiteturais
 
 - SQL somente na camada DAO.
-- Prepared statements em operacoes de banco.
-- Regras de autorizacao na camada `Auth` e no fluxo HTTP.
-- Exclusoes e mutacoes destrutivas devem usar `POST` (form), nao ancora `GET`.
-- Leitura de `$_POST`/`$_GET`/`$_FILES` deve usar guardas (`??`, `isset`, `is_array`) antes de iterar/acessar indices.
-- Nomes de metodos em `camelCase`.
-- Novas rotas apenas na arvore canonica de `pages`.
+- Prepared statements em operações de banco.
+- Regras de autorização na camada `Auth` e no fluxo HTTP.
+- Exclusões e mutações destrutivas devem usar `POST` (form), não âncora `GET`.
+- Leitura de `$_POST`/`$_GET`/`$_FILES` deve usar guardas (`??`, `isset`, `is_array`) antes de iterar/acessar índices.
+- Navegação por botão voltar no header secundário deve bloquear retorno para rotas de mutação (`actions/*`) e URLs com query string, usando fallback seguro por perfil.
+- Nomes de métodos em `camelCase`.
+- Novas rotas apenas na árvore canônica de `pages`.
 
 ## Uploads e arquivos
 
-Diretorios de uploads:
+Diretórios de uploads:
 
 - `uploads/musical-scores`
 - `uploads/musicians-images`
 - `uploads/news-images`
 
-Recomendacao para ambiente produtivo: reforcar validacao MIME, nomes unicos de arquivo e politicas de permissao.
+Recomendação para ambiente produtivo: reforçar validação MIME, nomes únicos de arquivo e políticas de permissão.

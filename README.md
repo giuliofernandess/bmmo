@@ -42,6 +42,7 @@ Facilitar:
 - Criação e gerenciamento de repertórios
 - Upload e atualização de partituras por grupo, instrumento e voz
 - Criação e gerenciamento de notícias
+- Validação de cadastro com regra para responsável em casos de menor de idade
 
 ---
 
@@ -114,3 +115,5 @@ Não é permitida a cópia, modificação, redistribuição ou uso comercial des
 - Não publique credenciais reais no repositório.
 - Use usuários e senhas de teste apenas em ambiente local.
 - Revise permissões de upload e validações de entrada antes de uso em produção.
+- Evite mutações por GET; priorize ações destrutivas via POST.
+- O botão voltar do header secundário aplica validação para não retornar a rotas de mutação.

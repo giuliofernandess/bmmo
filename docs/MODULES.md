@@ -1,6 +1,6 @@
-# Modulos Funcionais
+# Módulos Funcionais
 
-## Autenticacao
+## Autenticação
 
 ### Rotas
 - `pages/login/admin/index.php`
@@ -16,9 +16,9 @@
 - `Auth::requireMusician`
 - `Auth::logout`
 
-## Noticias
+## Notícias
 
-### Publico
+### Público
 - `pages/information/news/index.php`
 - `pages/information/news/expanded.php`
 
@@ -28,10 +28,10 @@
 - `pages/admin/news/actions/edit.php`
 - `pages/admin/news/actions/delete.php`
 
-### Persistencia
+### Persistência
 - `NewsDAO`
 
-## Musicos
+## Músicos
 
 ### Admin
 - `pages/admin/musicians/index.php`
@@ -42,12 +42,15 @@
 - `pages/admin/musicians/musicianProfile/actions/edit.php`
 - `pages/admin/musicians/musicianProfile/actions/delete.php`
 
-### Musico autenticado
+Observação de fluxo:
+- O cadastro administrativo valida idade e exige dados de responsável para menores de idade.
+
+### Músico autenticado
 - `pages/musician/profile/index.php`
 - `pages/musician/profile/edit/index.php`
 - `pages/musician/profile/actions/edit.php`
 
-### Persistencia
+### Persistência
 - `MusiciansDAO`
 
 ## Partituras
@@ -60,16 +63,16 @@
 - `pages/admin/musicalScores/actions/delete.php`
 - `pages/admin/musicalScores/actions/deleteinstrument.php`
 
-Observacao de fluxo:
-- Exclusoes no admin devem ocorrer via `POST` (form ou submit programatico), evitando acao destrutiva por ancora `GET`.
+Observação de fluxo:
+- Exclusões no admin devem ocorrer via `POST` (form ou submit programático), evitando ação destrutiva por âncora `GET`.
 
-### Musico autenticado
+### Músico autenticado
 - `pages/musician/musicalScores/index.php`
 
-### Persistencia
+### Persistência
 - `MusicalScoresDAO`
 
-## Apresentacoes
+## Apresentações
 
 ### Admin
 - `pages/admin/presentations/index.php`
@@ -77,17 +80,23 @@ Observacao de fluxo:
 - `pages/admin/presentations/actions/edit.php`
 - `pages/admin/presentations/actions/delete.php`
 
-### Musico autenticado
+### Músico autenticado
 - `pages/musician/presentations/index.php`
 
-### Persistencia
+### Persistência
 - `PresentationsDAO`
 
-## Informacoes institucionais
+## Informações institucionais
 
 - `pages/information/aboutTheBand/index.php`
 
 ## Dashboard por perfil
 
 - Maestro: `pages/admin/index.php`
-- Musico: `pages/musician/index.php`
+- Músico: `pages/musician/index.php`
+
+## Header secundário
+
+- Arquivo: `includes/secondHeader.php`
+- Comportamento: botão voltar com validação de segurança para evitar retorno a rotas de mutação (`actions/*`) e a URLs com query string (`GET`).
+- Fallback: redirecionamento para dashboard do perfil atual quando o destino anterior for considerado inseguro.

@@ -109,17 +109,17 @@ Antes de criar um arquivo/pasta novo, valide:
 3. É entrypoint `index.php` ou ação em `actions/<acao>.php`?
 4. O caminho funciona em Linux sem depender de case-insensitive?
 
-## Padronizacao de editor (.editorconfig)
+## Padronização de editor (.editorconfig)
 
-O arquivo `.editorconfig` e recomendado e, na pratica do projeto, deve ser mantido.
+O arquivo `.editorconfig` é recomendado e, na prática do projeto, deve ser mantido.
 
 Motivos:
 
-- evita diffs ruidosos (indentacao, newline final e espacos sobrando)
+- evita diffs ruidosos (indentação, newline final e espaços sobrando)
 - reduz conflito entre VS Code, IDEs JetBrains e editores de terminal
-- preserva consistencia entre PHP, CSS, JS e HTML
+- preserva consistência entre PHP, CSS, JS e HTML
 
 Diretriz:
 
-- nao remover `.editorconfig`
-- ao criar novos tipos de arquivo, incluir regra especifica quando necessario
+- não remover `.editorconfig`
+- ao criar novos tipos de arquivo, incluir regra específica quando necessário
