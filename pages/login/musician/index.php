@@ -31,7 +31,10 @@ session_start();
   <?php include_once BASE_PATH . 'includes/firstHeader.php'; ?>
 
   <!-- Formulário de login centralizado -->
-  <main class="d-flex flex-grow-1 align-items-center justify-content-center px-3 py-5">
+  <main class="d-flex flex-column flex-grow-1 align-items-center justify-content-center px-3 py-5">
+
+    <h1 class="text-center mb-5">Login - Músico</h1>
+
     <div class="container form-container" style="max-width: 420px;">
 
       <form action="<?= BASE_URL ?>pages/login/musician/actions/login.php" method="post">
