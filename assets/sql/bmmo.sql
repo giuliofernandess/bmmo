@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 16/03/2026 às 00:15
+-- Tempo de geração: 02/04/2026 às 00:38
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -328,14 +328,14 @@ ALTER TABLE `presentations`
 -- Restrições para tabelas `musical_scores_groups`
 --
 ALTER TABLE `musical_scores_groups`
-  ADD CONSTRAINT `musical_scores_groups_ibfk_1` FOREIGN KEY (`music_id`) REFERENCES `musical_scores` (`music_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_msg_music_id_cascade` FOREIGN KEY (`music_id`) REFERENCES `musical_scores` (`music_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `musical_scores_groups_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `band_groups` (`group_id`);
 
 --
 -- Restrições para tabelas `musical_scores_instruments`
 --
 ALTER TABLE `musical_scores_instruments`
-  ADD CONSTRAINT `musical_scores_instruments_ibfk_1` FOREIGN KEY (`music_id`) REFERENCES `musical_scores` (`music_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_msi_music_id_cascade` FOREIGN KEY (`music_id`) REFERENCES `musical_scores` (`music_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `musical_scores_instruments_ibfk_2` FOREIGN KEY (`instrument_id`) REFERENCES `instruments` (`instrument_id`);
 
 --
@@ -349,14 +349,14 @@ ALTER TABLE `musicians`
 -- Restrições para tabelas `presentations_groups`
 --
 ALTER TABLE `presentations_groups`
-  ADD CONSTRAINT `presentations_groups_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `band_groups` (`group_id`),
-  ADD CONSTRAINT `presentations_groups_ibfk_2` FOREIGN KEY (`presentation_id`) REFERENCES `presentations` (`presentation_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_pg_presentation_id_cascade` FOREIGN KEY (`presentation_id`) REFERENCES `presentations` (`presentation_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `presentations_groups_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `band_groups` (`group_id`);
 
 --
 -- Restrições para tabelas `presentations_songs`
 --
 ALTER TABLE `presentations_songs`
-  ADD CONSTRAINT `presentations_songs_ibfk_1` FOREIGN KEY (`presentation_id`) REFERENCES `presentations` (`presentation_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_ps_presentation_id_cascade` FOREIGN KEY (`presentation_id`) REFERENCES `presentations` (`presentation_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `presentations_songs_ibfk_2` FOREIGN KEY (`song_id`) REFERENCES `musical_scores` (`music_id`);
 COMMIT;
 
