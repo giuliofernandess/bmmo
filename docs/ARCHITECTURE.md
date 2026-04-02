@@ -8,8 +8,8 @@ O projeto segue arquitetura em camadas, sem framework, com separação clara ent
 - `includes/`: componentes reutilizáveis de interface e mensagens.
 - `app/Auth/`: autenticação e autorização por perfil.
 - `app/Database/`: conexão MySQLi.
-- `app/DAO/`: acesso a dados e operações SQL.
-- `app/Models/`: entidades e contrato base (`EntityInterface`).
+- `app/DAO/`: acesso a dados, operações SQL e contrato base `InterfaceDAO`.
+- `app/Models/`: entidades de domínio (`Musician`, `News`, `Presentation`, `MusicalScore`, etc.).
 - `config/`: bootstrap global (constantes, conexão e instâncias DAO).
 
 ## Estrutura de rotas canonicamente ativa
@@ -26,8 +26,9 @@ O projeto segue arquitetura em camadas, sem framework, com separação clara ent
 1. A rota inclui `config/config.php`.
 2. O bootstrap prepara constantes, conexão e DAOs.
 3. Quando necessário, `Auth` valida sessão e perfil.
-4. A rota executa leitura/escrita via DAO.
-5. Feedback de operação é trafegado por `$_SESSION` e renderizado por `includes`.
+4. Em operações de escrita, a rota/action instancia um objeto de domínio (`new ...`), preenche via métodos `set...` e envia para o DAO.
+5. A rota executa leitura/escrita via DAO.
+6. Feedback de operação é trafegado por `$_SESSION` e renderizado por `includes`.
 
 ## Fluxo de autenticação
 
@@ -55,20 +56,20 @@ DAOs centrais:
 - `InstrumentsDAO`
 - `RegencyDAO`
 
-Contrato base em `app/Models/EntityInterface.php` (quando aplicável):
+Contrato base em `app/DAO/InterfaceDAO.php` (quando aplicável):
 
-- `create(array $data): mixed`
-- `edit(array $data): bool`
+- `create(object $entity): mixed`
+- `edit(object $entity): bool`
 - `delete(int $id): bool`
-- `getAll(...$filters): array`
+- `getAll(array $filters = []): array`
 
 ### Contratos atuais de filtros (`getAll`)
 
 Nem todos os DAOs usam o mesmo conjunto de filtros. Contratos vigentes:
 
 - `MusiciansDAO::getAll(array $filters = [])`
-  - `name` (string)
-  - `group` (int)
+  - `musician_name` (string)
+  - `band_group` (int)
   - `instrument` (int)
 - `MusicalScoresDAO::getAll(array $filters = [])`
   - `music_name` (string)
