@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../../../../../config/config.php";
+require_once "../../../../config/config.php";
 require_once BASE_PATH . 'app/Auth/Auth.php';
 require_once BASE_PATH . 'app/DAO/MusiciansDAO.php';
 

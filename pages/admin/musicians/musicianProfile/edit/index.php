@@ -69,7 +69,7 @@ $responsible_contact = trim($musicians['responsible_contact'] ?? '');
     <!-- Formulário -->
     <div class="container form-container">
       <h1 class="text-center mb-4">Editar Músico</h1>
-      <form method="post" action="<?= BASE_URL ?>pages/admin/musicians/musicianProfile/actions/edit.php" enctype="multipart/form-data" class="row g-3">
+      <form method="post" action="<?= BASE_URL ?>pages/admin/musicians/actions/edit.php" enctype="multipart/form-data" class="row g-3">
 
         <!-- Nome -->
         <div class="col-md-6">

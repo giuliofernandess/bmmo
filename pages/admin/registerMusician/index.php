@@ -38,7 +38,7 @@ Auth::requireRegency();
   <main class="flex-grow-1 d-flex align-items-center justify-content-center flex-column py-5">
     <div class="container form-container">
       <h1 class="text-center mb-4">Cadastrar Músico</h1>
-      <form method="post" action="<?= BASE_URL ?>pages/admin/musicians/musicianProfile/actions/create.php" enctype="multipart/form-data" class="row g-3">
+      <form method="post" action="<?= BASE_URL ?>pages/admin/musicians/actions/create.php" enctype="multipart/form-data" class="row g-3">
 
         <!-- Nome + Login + Nascimento -->
         <div class="col-md-12">

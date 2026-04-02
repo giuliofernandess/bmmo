@@ -111,7 +111,7 @@ $profileImage = $profileImage ? htmlspecialchars($profileImage) : "default.png";
                   <i class="bi bi-pencil-square"></i> Editar
                 </a>
 
-                <form action="<?= BASE_URL ?>pages/admin/musicians/musicianProfile/actions/delete.php" method="POST"
+                <form action="<?= BASE_URL ?>pages/admin/musicians/actions/delete.php" method="POST"
                   onsubmit="return confirm('Tem certeza que deseja excluir este músico?');">
 
                   <input type="hidden" name="musician_id" value="<?= $musicianId; ?>">
