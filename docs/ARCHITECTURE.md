@@ -38,12 +38,6 @@ O projeto segue arquitetura em camadas, sem framework, com separação clara ent
   - `Auth::requireRegency()`
   - `Auth::requireMusician()`
 
-## Regras de negócio (cadastro de músicos)
-
-- Validação de idade no cadastro administrativo em `pages/admin/musicians/musicianProfile/actions/create.php`.
-- Para cadastros de menores de idade, os campos de responsável devem ser informados.
-- Falhas de validação retornam feedback via `$_SESSION['error']` e redirecionam para o formulário.
-
 ## Camada DAO
 
 DAOs centrais:
@@ -62,46 +56,6 @@ Contrato base em `app/Models/EntityInterface.php` (quando aplicável):
 - `edit(object $entity): bool`
 - `delete(int $id): bool`
 - `getAll(array $filters = []): array`
-
-### Contratos atuais de filtros (`getAll`)
-
-Nem todos os DAOs usam o mesmo conjunto de filtros. Contratos vigentes:
-
-- `MusiciansDAO::getAll(array $filters = [])`
-  - `musician_name` (string)
-  - `band_group` (int)
-  - `instrument` (int)
-- `MusicalScoresDAO::getAll(array $filters = [])`
-  - `music_name` (string)
-  - `band_group` (int)
-  - `music_genre` (string)
-- `NewsDAO::getAll(array $filters = [])`
-  - sem filtros efetivos no estado atual (lista ordenada por publicação)
-- `PresentationsDAO::getAll(array $filters = [])`
-  - sem filtros efetivos no estado atual (lista cronológica)
-- `BandGroupsDAO::getAll()`
-  - sem parâmetros
-- `InstrumentsDAO::getAll(bool $voiceOff = false, bool $musicalScore = false)`
-  - filtros posicionais por flags
-
-## Regras arquiteturais
-
-- SQL somente na camada DAO.
-- Prepared statements em operações de banco.
-- Regras de autorização na camada `Auth` e no fluxo HTTP.
-- Exclusões e mutações destrutivas devem usar `POST` (form), não âncora `GET`.
-- Leitura de `$_POST`/`$_GET`/`$_FILES` deve usar guardas (`??`, `isset`, `is_array`) antes de iterar/acessar índices.
-- Navegação por botão voltar no header secundário deve bloquear retorno para rotas de mutação (`actions/*`) e URLs com query string, usando fallback seguro por perfil.
-- Métodos `delete` dos DAOs devem respeitar as regras de integridade referencial do banco e o comportamento de `ON DELETE CASCADE`.
-- Nomes de métodos em `camelCase`.
-- Novas rotas apenas na árvore canônica de `pages`.
-
-## Estratégia de exclusão (DAO + banco)
-
-- `MusicalScoresDAO::delete(int $musicId)` remove o registro principal em `musical_scores`.
-- `PresentationsDAO::delete(int $presentationId)` remove o registro principal em `presentations`.
-- Tabelas filhas com `ON DELETE CASCADE` removem vínculos automaticamente.
-- Arquivos físicos (ex.: uploads de partituras) são tratados pela camada DAO após a operação de banco.
 
 ## Uploads e arquivos
 
