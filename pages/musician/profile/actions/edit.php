@@ -2,6 +2,7 @@
 session_start();
 require_once "../../../../config/config.php";
 require_once BASE_PATH . 'app/DAO/MusiciansDAO.php';
+require_once BASE_PATH . 'app/Models/Musician.php';
 
 // Função auxiliar para tratar entrada
 function postValue(string $key, string $type = 'string')
@@ -35,15 +36,14 @@ if (!empty($password) || !empty($confirmPassword)) {
 }
 
 // Informações do músico via Model
-$musicianInfo = [
-    'id' => $musicianId,
-    'musician_contact' => $musicianContact,
-    'responsible_name' => $responsibleName,
-    'responsible_contact' => $responsibleContact,
-    'neighborhood' => $neighborhood,
-    'institution' => $institution,
-    'password' => $password
-];
+$musicianInfo = new Musician();
+$musicianInfo->setMusicianId((int) $musicianId);
+$musicianInfo->setMusicianContact($musicianContact);
+$musicianInfo->setResponsibleName($responsibleName);
+$musicianInfo->setResponsibleContact($responsibleContact);
+$musicianInfo->setNeighborhood((string) $neighborhood);
+$musicianInfo->setInstitution($institution);
+$musicianInfo->setPassword((string) ($password ?? ''));
 
 if ($musiciansDAO->editOwnProfile($musicianInfo)) {
     $_SESSION['success'] = "Músico editado com sucesso!";

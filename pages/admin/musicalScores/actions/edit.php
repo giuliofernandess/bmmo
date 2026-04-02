@@ -3,6 +3,7 @@ session_start();
 require_once '../../../../config/config.php';
 require_once BASE_PATH . 'app/Auth/Auth.php';
 require_once BASE_PATH . 'app/DAO/MusicalScoresDAO.php';
+require_once BASE_PATH . 'app/Models/MusicalScore.php';
 
 Auth::requireRegency();
 
@@ -104,14 +105,15 @@ foreach ($instrumentNames as $instrumentId => $name) {
 }
 }
 
-$musicalScoreEdit = $musicalScoresDAO->edit([
-	'music_id' => $musicId,
-	'music_name' => $musicName,
-	'music_genre' => $musicGenre,
-	'music_groups' => $musicGroups,
-	'instruments_voice_off' => $instrumentsVoiceOff,
-	'instruments' => $instruments,
-]);
+$musicalScore = new MusicalScore();
+$musicalScore->setMusicId($musicId);
+$musicalScore->setMusicName($musicName);
+$musicalScore->setMusicGenre($musicGenre);
+$musicalScore->setMusicGroups($musicGroups);
+$musicalScore->setInstrumentsVoiceOff($instrumentsVoiceOff);
+$musicalScore->setInstruments($instruments);
+
+$musicalScoreEdit = $musicalScoresDAO->edit($musicalScore);
 
 if ($musicalScoreEdit !== false) {
 	$_SESSION['success'] = "Partitura editada com sucesso!";

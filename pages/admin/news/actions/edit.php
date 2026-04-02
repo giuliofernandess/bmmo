@@ -2,6 +2,7 @@
 session_start();
 require_once '../../../../config/config.php';
 require_once BASE_PATH . 'app/DAO/NewsDAO.php';
+require_once BASE_PATH . 'app/Models/News.php';
 
 $newsId = (int) ($_POST['id'] ?? 0);
 $newsTitle = trim($_POST['title'] ?? '');
@@ -74,13 +75,12 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
     }
 }
 
-$newsInfo = [
-    'id' => $newsId,
-    'title' => $newsTitle,
-    'subtitle' => $newsSubtitle,
-    'image' => $imageFileName,
-    'description' => $newsDescription,
-];
+$newsInfo = new News();
+$newsInfo->setNewsId($newsId);
+$newsInfo->setNewsTitle($newsTitle);
+$newsInfo->setNewsSubtitle($newsSubtitle);
+$newsInfo->setNewsImage((string) $imageFileName);
+$newsInfo->setNewsDescription($newsDescription);
 
 if ($newsDAO->edit($newsInfo)) {
     $_SESSION['success'] = 'Notícia editada com sucesso!';

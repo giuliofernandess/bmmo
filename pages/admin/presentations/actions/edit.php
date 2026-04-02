@@ -2,6 +2,7 @@
 session_start();
 require_once '../../../../config/config.php';
 require_once BASE_PATH . 'app/DAO/PresentationsDAO.php';
+require_once BASE_PATH . 'app/Models/Presentation.php';
 
 $id = (int) ($_POST['id'] ?? 0);
 $redirect = BASE_URL . 'pages/admin/presentations/index.php';
@@ -52,15 +53,14 @@ if (empty($songs)) {
     exit;
 }
 
-$presentationInfo = [
-    'id' => $id,
-    'name' => $name,
-    'date' => $date,
-    'hour' => $hour,
-    'local' => $local,
-    'groups' => $bandGroups,
-    'songs' => $songs,
-];
+$presentationInfo = new Presentation();
+$presentationInfo->setPresentationId($id);
+$presentationInfo->setPresentationName($name);
+$presentationInfo->setPresentationDate($date);
+$presentationInfo->setPresentationHour($hour);
+$presentationInfo->setLocalOfPresentation($local);
+$presentationInfo->setGroups($bandGroups);
+$presentationInfo->setSongs($songs);
 
 if ($presentationsDAO->edit($presentationInfo)) {
     $_SESSION['success'] = 'Apresentação editada com sucesso!';

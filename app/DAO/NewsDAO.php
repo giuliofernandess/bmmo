@@ -1,9 +1,9 @@
 <?php
 
-require_once BASE_PATH . 'app/Models/EntityInterface.php';
+require_once BASE_PATH . 'app/DAO/InterfaceDAO.php';
 require_once BASE_PATH . 'app/Models/News.php';
 
-class NewsDAO implements EntityInterface
+class NewsDAO implements InterfaceDAO
 {
     private mysqli $conn;
 
@@ -15,18 +15,15 @@ class NewsDAO implements EntityInterface
      * Cria uma notícia.
      */
 
-    public function create(array $newsInfo): mixed
+    public function create(object $entity): mixed
     {
         $db = $this->conn;
 
-        $newsEntity = News::fromArray([
-            'news_title' => $newsInfo['title'] ?? '',
-            'news_subtitle' => $newsInfo['subtitle'] ?? '',
-            'news_image' => $newsInfo['image'] ?? '',
-            'news_description' => $newsInfo['description'] ?? '',
-            'publication_date' => $newsInfo['date'] ?? '',
-            'publication_hour' => $newsInfo['hour'] ?? '',
-        ]);
+        if (!$entity instanceof News) {
+            return false;
+        }
+
+        $newsEntity = $entity;
 
         // Normaliza dados recebidos antes do INSERT.
         $title = $newsEntity->getNewsTitle();
@@ -111,17 +108,15 @@ class NewsDAO implements EntityInterface
     /**
      * Atualiza uma notícia existente.
      */
-    public function edit(array $newsInfo): bool
+    public function edit(object $entity): bool
     {
         $db = $this->conn;
 
-        $newsEntity = News::fromArray([
-            'news_id' => $newsInfo['id'] ?? 0,
-            'news_title' => $newsInfo['title'] ?? '',
-            'news_subtitle' => $newsInfo['subtitle'] ?? '',
-            'news_image' => $newsInfo['image'] ?? '',
-            'news_description' => $newsInfo['description'] ?? '',
-        ]);
+        if (!$entity instanceof News) {
+            return false;
+        }
+
+        $newsEntity = $entity;
 
         $newsId = (int) ($newsEntity->getNewsId() ?? 0);
         $title = $newsEntity->getNewsTitle();

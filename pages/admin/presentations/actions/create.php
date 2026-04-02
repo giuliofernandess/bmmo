@@ -5,6 +5,7 @@ require_once '../../../../config/config.php';
 
 require_once BASE_PATH . 'app/DAO/PresentationsDAO.php';
 require_once BASE_PATH . 'app/Auth/Auth.php';
+require_once BASE_PATH . 'app/Models/Presentation.php';
 
 Auth::requireRegency();
 
@@ -50,14 +51,13 @@ if (empty($songs)) {
     exit;
 }
 
-$presentationInfo = [
-    'name' => $name,
-    'date' => $date,
-    'hour' => $hour,
-    'local' => $local,
-    'groups' => $bandGroups,
-    'songs' => $songs,
-];
+$presentationInfo = new Presentation();
+$presentationInfo->setPresentationName($name);
+$presentationInfo->setPresentationDate($date);
+$presentationInfo->setPresentationHour($hour);
+$presentationInfo->setLocalOfPresentation($local);
+$presentationInfo->setGroups($bandGroups);
+$presentationInfo->setSongs($songs);
 
 if ($presentationsDAO->create($presentationInfo)) {
     $_SESSION['success'] = 'Apresentação inserida com sucesso!';

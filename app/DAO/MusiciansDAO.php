@@ -1,9 +1,9 @@
 <?php
 
-require_once BASE_PATH . 'app/Models/EntityInterface.php';
+require_once BASE_PATH . 'app/DAO/InterfaceDAO.php';
 require_once BASE_PATH . 'app/Models/Musician.php';
 
-class MusiciansDAO implements EntityInterface
+class MusiciansDAO implements InterfaceDAO
 {
     private mysqli $conn;
 
@@ -16,24 +16,15 @@ class MusiciansDAO implements EntityInterface
      * Cria um novo músico.
      */
 
-    public function create(array $musicianInfo): mixed
+    public function create(object $entity): mixed
     {
         $db = $this->conn;
 
-        $musician = Musician::fromArray([
-            'musician_name' => $musicianInfo['name'] ?? null,
-            'musician_login' => $musicianInfo['login'] ?? null,
-            'date_of_birth' => $musicianInfo['birth'] ?? null,
-            'instrument' => $musicianInfo['instrument'] ?? null,
-            'band_group' => $musicianInfo['band_group'] ?? null,
-            'musician_contact' => $musicianInfo['musician_contact'] ?? null,
-            'responsible_name' => $musicianInfo['responsible_name'] ?? null,
-            'responsible_contact' => $musicianInfo['responsible_contact'] ?? null,
-            'neighborhood' => $musicianInfo['neighborhood'] ?? null,
-            'institution' => $musicianInfo['institution'] ?? null,
-            'profile_image' => $musicianInfo['profile_image'] ?? null,
-            'password' => $musicianInfo['password'] ?? null,
-        ]);
+        if (!$entity instanceof Musician) {
+            return false;
+        }
+
+        $musician = $entity;
 
         // Normaliza os dados recebidos para persistência.
         $musicianName = $musician->getMusicianName();
@@ -86,23 +77,15 @@ class MusiciansDAO implements EntityInterface
      * Atualiza dados administrativos do músico.
      */
 
-    public function edit(array $musicianInfo): bool
+    public function edit(object $entity): bool
     {
         $db = $this->conn;
 
-        $musician = Musician::fromArray([
-            'musician_id' => $musicianInfo['id'] ?? null,
-            'musician_login' => $musicianInfo['login'] ?? null,
-            'instrument' => $musicianInfo['instrument'] ?? null,
-            'band_group' => $musicianInfo['band_group'] ?? null,
-            'musician_contact' => $musicianInfo['musician_contact'] ?? null,
-            'responsible_name' => $musicianInfo['responsible_name'] ?? null,
-            'responsible_contact' => $musicianInfo['responsible_contact'] ?? null,
-            'neighborhood' => $musicianInfo['neighborhood'] ?? null,
-            'institution' => $musicianInfo['institution'] ?? null,
-            'profile_image' => $musicianInfo['profile_image'] ?? null,
-            'password' => $musicianInfo['password'] ?? null,
-        ]);
+        if (!$entity instanceof Musician) {
+            return false;
+        }
+
+        $musician = $entity;
 
         $musicianId = (int) ($musician->getMusicianId() ?? 0);
         $musicianLogin = $musician->getMusicianLogin();
@@ -203,19 +186,15 @@ class MusiciansDAO implements EntityInterface
      * Atualiza os dados do próprio músico logado.
      */
 
-    public function editOwnProfile(array $musicianInfo): bool
+    public function editOwnProfile(object $entity): bool
     {
         $db = $this->conn;
 
-        $musician = Musician::fromArray([
-            'musician_id' => $musicianInfo['id'] ?? null,
-            'musician_contact' => $musicianInfo['musician_contact'] ?? null,
-            'responsible_name' => $musicianInfo['responsible_name'] ?? null,
-            'responsible_contact' => $musicianInfo['responsible_contact'] ?? null,
-            'neighborhood' => $musicianInfo['neighborhood'] ?? null,
-            'institution' => $musicianInfo['institution'] ?? null,
-            'password' => $musicianInfo['password'] ?? null,
-        ]);
+        if (!$entity instanceof Musician) {
+            return false;
+        }
+
+        $musician = $entity;
 
         $musicianId = (int) ($musician->getMusicianId() ?? 0);
 

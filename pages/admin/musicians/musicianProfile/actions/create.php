@@ -3,6 +3,7 @@ session_start();
 require_once "../../../../../config/config.php";
 require_once BASE_PATH . 'app/Auth/Auth.php';
 require_once BASE_PATH . 'app/DAO/MusiciansDAO.php';
+require_once BASE_PATH . 'app/Models/Musician.php';
 
 Auth::requireRegency();
 
@@ -111,20 +112,20 @@ if (!isValidBirthDate($age)) {
 	exit;
 }
 
-$musicianInfo = [
-	'name' => $musicianName,
-	'login' => $login,
-	'birth' => $dateOfBirth,
-	'instrument' => $instrument,
-	'band_group' => $bandGroup,
-	'musician_contact' => $musicianContact,
-	'responsible_name' => $responsibleName,
-	'responsible_contact' => $responsibleContact,
-	'neighborhood' => $neighborhood,
-	'institution' => $institution,
-	'profile_image' => $imageFileName,
-	'password' => $password,
-];
+
+$musicianInfo = new Musician();
+$musicianInfo->setMusicianName((string) $musicianName);
+$musicianInfo->setMusicianLogin((string) $login);
+$musicianInfo->setDateOfBirth((string) $dateOfBirth);
+$musicianInfo->setInstrument((int) $instrument);
+$musicianInfo->setBandGroup((int) $bandGroup);
+$musicianInfo->setMusicianContact($musicianContact);
+$musicianInfo->setResponsibleName($responsibleName);
+$musicianInfo->setResponsibleContact($responsibleContact);
+$musicianInfo->setNeighborhood((string) $neighborhood);
+$musicianInfo->setInstitution($institution);
+$musicianInfo->setProfileImage($imageFileName);
+$musicianInfo->setPassword((string) $password);
 
 if ($musiciansDAO->create($musicianInfo)) {
 	$_SESSION['success'] = "Músico criado com sucesso!";

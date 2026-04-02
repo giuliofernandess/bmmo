@@ -7,6 +7,8 @@ class Presentation
     private string $presentationDate = '';
     private string $presentationHour = '';
     private string $localOfPresentation = '';
+    private array $groups = [];
+    private array $songs = [];
 
     public static function fromArray(array $data): self
     {
@@ -16,6 +18,8 @@ class Presentation
         $entity->setPresentationDate((string) ($data['presentation_date'] ?? ''));
         $entity->setPresentationHour((string) ($data['presentation_hour'] ?? ''));
         $entity->setLocalOfPresentation((string) ($data['local_of_presentation'] ?? ''));
+        $entity->setGroups(is_array($data['groups'] ?? null) ? $data['groups'] : []);
+        $entity->setSongs(is_array($data['songs'] ?? null) ? $data['songs'] : []);
 
         return $entity;
     }
@@ -28,6 +32,8 @@ class Presentation
             'presentation_date' => $this->presentationDate,
             'presentation_hour' => $this->presentationHour,
             'local_of_presentation' => $this->localOfPresentation,
+            'groups' => $this->groups,
+            'songs' => $this->songs,
         ];
     }
 
@@ -41,4 +47,8 @@ class Presentation
     public function setPresentationHour(string $presentationHour): void { $this->presentationHour = trim($presentationHour); }
     public function getLocalOfPresentation(): string { return $this->localOfPresentation; }
     public function setLocalOfPresentation(string $localOfPresentation): void { $this->localOfPresentation = trim($localOfPresentation); }
+    public function getGroups(): array { return $this->groups; }
+    public function setGroups(array $groups): void { $this->groups = array_map('intval', $groups); }
+    public function getSongs(): array { return $this->songs; }
+    public function setSongs(array $songs): void { $this->songs = array_map('intval', $songs); }
 }

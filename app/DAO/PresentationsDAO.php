@@ -1,9 +1,9 @@
 <?php
 
-require_once BASE_PATH . 'app/Models/EntityInterface.php';
+require_once BASE_PATH . 'app/DAO/InterfaceDAO.php';
 require_once BASE_PATH . 'app/Models/Presentation.php';
 
-class PresentationsDAO implements EntityInterface
+class PresentationsDAO implements InterfaceDAO
 {
     private mysqli $conn;
 
@@ -16,26 +16,25 @@ class PresentationsDAO implements EntityInterface
      * Cria uma apresentação com grupos e músicas vinculadas.
      */
 
-    public function create(array $presentationInfo): mixed
+    public function create(object $entity): mixed
     {
         $db = $this->conn;
 
         $db->begin_transaction();
 
-        $presentation = Presentation::fromArray([
-            'presentation_name' => $presentationInfo['name'] ?? '',
-            'presentation_date' => $presentationInfo['date'] ?? '',
-            'presentation_hour' => $presentationInfo['hour'] ?? '',
-            'local_of_presentation' => $presentationInfo['local'] ?? '',
-        ]);
+        if (!$entity instanceof Presentation) {
+            return false;
+        }
+
+        $presentation = $entity;
 
         // Normaliza os dados principais da apresentação.
         $name = $presentation->getPresentationName();
         $date = $presentation->getPresentationDate();
         $hour = $presentation->getPresentationHour();
         $local = $presentation->getLocalOfPresentation();
-        $musicGroups = $presentationInfo['groups'];
-        $songGroups = $presentationInfo['songs'];
+        $musicGroups = $presentation->getGroups();
+        $songGroups = $presentation->getSongs();
 
         // Salva apresentação e vínculos em transação.
         try {
@@ -98,19 +97,17 @@ class PresentationsDAO implements EntityInterface
      * Atualiza uma apresentação e recria vínculos de grupos/músicas.
      */
 
-    public function edit(array $presentationInfo): bool
+    public function edit(object $entity): bool
     {
         $db = $this->conn;
 
         $db->begin_transaction();
 
-        $presentation = Presentation::fromArray([
-            'presentation_id' => $presentationInfo['id'] ?? 0,
-            'presentation_name' => $presentationInfo['name'] ?? '',
-            'presentation_date' => $presentationInfo['date'] ?? '',
-            'presentation_hour' => $presentationInfo['hour'] ?? '',
-            'local_of_presentation' => $presentationInfo['local'] ?? '',
-        ]);
+        if (!$entity instanceof Presentation) {
+            return false;
+        }
+
+        $presentation = $entity;
 
         // Normaliza os dados principais da apresentação.
         $presentationId = (int) ($presentation->getPresentationId() ?? 0);
@@ -118,8 +115,8 @@ class PresentationsDAO implements EntityInterface
         $date = $presentation->getPresentationDate();
         $hour = $presentation->getPresentationHour();
         $local = $presentation->getLocalOfPresentation();
-        $musicGroups = $presentationInfo['groups'];
-        $songGroups = $presentationInfo['songs'];
+        $musicGroups = $presentation->getGroups();
+        $songGroups = $presentation->getSongs();
 
         // Atualiza apresentação e vínculos em transação.
         try {

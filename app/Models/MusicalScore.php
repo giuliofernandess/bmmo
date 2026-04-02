@@ -5,6 +5,9 @@ class MusicalScore
     private ?int $musicId = null;
     private string $musicName = '';
     private string $musicGenre = '';
+    private array $musicGroups = [];
+    private array $instrumentsVoiceOff = [];
+    private array $instruments = [];
 
     public static function fromArray(array $data): self
     {
@@ -12,6 +15,9 @@ class MusicalScore
         $entity->setMusicId(isset($data['music_id']) ? (int) $data['music_id'] : null);
         $entity->setMusicName((string) ($data['music_name'] ?? ''));
         $entity->setMusicGenre((string) ($data['music_genre'] ?? ''));
+        $entity->setMusicGroups(is_array($data['music_groups'] ?? null) ? $data['music_groups'] : []);
+        $entity->setInstrumentsVoiceOff(is_array($data['instruments_voice_off'] ?? null) ? $data['instruments_voice_off'] : []);
+        $entity->setInstruments(is_array($data['instruments'] ?? null) ? $data['instruments'] : []);
 
         return $entity;
     }
@@ -22,6 +28,9 @@ class MusicalScore
             'music_id' => $this->musicId,
             'music_name' => $this->musicName,
             'music_genre' => $this->musicGenre,
+            'music_groups' => $this->musicGroups,
+            'instruments_voice_off' => $this->instrumentsVoiceOff,
+            'instruments' => $this->instruments,
         ];
     }
 
@@ -53,5 +62,41 @@ class MusicalScore
     public function setMusicGenre(string $musicGenre): void
     {
         $this->musicGenre = trim($musicGenre);
+    }
+
+    public function getMusicGroups(): array
+    {
+        return $this->musicGroups;
+    }
+
+    public function setMusicGroups(array $musicGroups): void
+    {
+        $this->musicGroups = array_map('intval', $musicGroups);
+    }
+
+    public function getInstrumentsVoiceOff(): array
+    {
+        return $this->instrumentsVoiceOff;
+    }
+
+    public function setInstrumentsVoiceOff(array $instrumentsVoiceOff): void
+    {
+        $this->instrumentsVoiceOff = [];
+        foreach ($instrumentsVoiceOff as $instrumentId => $file) {
+            $this->instrumentsVoiceOff[(int) $instrumentId] = (string) $file;
+        }
+    }
+
+    public function getInstruments(): array
+    {
+        return $this->instruments;
+    }
+
+    public function setInstruments(array $instruments): void
+    {
+        $this->instruments = [];
+        foreach ($instruments as $instrumentId => $file) {
+            $this->instruments[(int) $instrumentId] = (string) $file;
+        }
     }
 }

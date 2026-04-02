@@ -2,6 +2,7 @@
 session_start();
 require_once '../../../../config/config.php';
 require_once BASE_PATH . 'app/DAO/NewsDAO.php';
+require_once BASE_PATH . 'app/Models/News.php';
 
 $newsTitle = trim($_POST['title'] ?? '');
 $newsSubtitle = trim($_POST['subtitle'] ?? '');
@@ -62,14 +63,13 @@ if (!move_uploaded_file($fileTmpPath, $destPath)) {
 
 $imageFileName = $newFileName;
 
-$newsInfo = [
-    'title' => $newsTitle,
-    'subtitle' => $newsSubtitle,
-    'image' => $imageFileName,
-    'description' => $newsDescription,
-    'date' => $currentDate,
-    'hour' => $currentHour,
-];
+$newsInfo = new News();
+$newsInfo->setNewsTitle($newsTitle);
+$newsInfo->setNewsSubtitle($newsSubtitle);
+$newsInfo->setNewsImage((string) $imageFileName);
+$newsInfo->setNewsDescription($newsDescription);
+$newsInfo->setPublicationDate($currentDate);
+$newsInfo->setPublicationHour($currentHour);
 
 if ($newsDAO->create($newsInfo)) {
     $_SESSION['success'] = 'Notícia criada com sucesso!';

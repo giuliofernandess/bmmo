@@ -3,6 +3,7 @@ session_start();
 require_once '../../../../config/config.php';
 require_once BASE_PATH . 'app/Auth/Auth.php';
 require_once BASE_PATH . 'app/DAO/MusicalScoresDAO.php';
+require_once BASE_PATH . 'app/Models/MusicalScore.php';
 
 Auth::requireRegency();
 
@@ -18,11 +19,12 @@ if (empty($musicName) || empty($musicGenre)) {
 	exit;
 }
 
-$musicalScoreAdd = $musicalScoresDAO->create([
-	'music_name' => $musicName,
-	'music_genre' => $musicGenre,
-	'music_groups' => $musicGroups,
-]);
+$musicalScore = new MusicalScore();
+$musicalScore->setMusicName($musicName);
+$musicalScore->setMusicGenre($musicGenre);
+$musicalScore->setMusicGroups($musicGroups);
+
+$musicalScoreAdd = $musicalScoresDAO->create($musicalScore);
 
 if ($musicalScoreAdd !== false) {
 	$_SESSION['success'] = "Partitura criada com sucesso!";

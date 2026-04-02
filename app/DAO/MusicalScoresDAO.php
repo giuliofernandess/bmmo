@@ -1,9 +1,9 @@
 <?php
 
-require_once BASE_PATH . 'app/Models/EntityInterface.php';
+require_once BASE_PATH . 'app/DAO/InterfaceDAO.php';
 require_once BASE_PATH . 'app/Models/MusicalScore.php';
 
-class MusicalScoresDAO implements EntityInterface
+class MusicalScoresDAO implements InterfaceDAO
 {
     private mysqli $conn;
 
@@ -15,20 +15,18 @@ class MusicalScoresDAO implements EntityInterface
     /**
      * Cria uma nova partitura com grupos vinculados.
      */
-    public function create(array $data): mixed
+    public function create(object $entity): mixed
     {
-        $musicName = (string) ($data['music_name'] ?? $data['name'] ?? '');
-        $musicGenre = (string) ($data['music_genre'] ?? $data['genre'] ?? '');
-        $musicGroups = $data['music_groups'] ?? $data['groups'] ?? [];
+        if (!$entity instanceof MusicalScore) {
+            return false;
+        }
 
         $db = $this->conn;
-        $musicalScore = MusicalScore::fromArray([
-            'music_name' => $musicName,
-            'music_genre' => $musicGenre,
-        ]);
+        $musicalScore = $entity;
 
         $musicName = $musicalScore->getMusicName();
         $musicGenre = $musicalScore->getMusicGenre();
+        $musicGroups = $musicalScore->getMusicGroups();
 
         $db->begin_transaction();
 
@@ -90,25 +88,21 @@ class MusicalScoresDAO implements EntityInterface
      * Atualiza uma partitura e seus vínculos de grupos/instrumentos.
      */
 
-    public function edit(array $data): bool
+    public function edit(object $entity): bool
     {
-        $musicId = (int) ($data['music_id'] ?? $data['id'] ?? 0);
-        $musicName = (string) ($data['music_name'] ?? $data['name'] ?? '');
-        $musicGenre = (string) ($data['music_genre'] ?? $data['genre'] ?? '');
-        $musicGroups = $data['music_groups'] ?? $data['groups'] ?? [];
-        $instrumentsVoiceOff = $data['instruments_voice_off'] ?? [];
-        $instruments = $data['instruments'] ?? [];
+        if (!$entity instanceof MusicalScore) {
+            return false;
+        }
 
         $db = $this->conn;
-        $musicalScore = MusicalScore::fromArray([
-            'music_id' => $musicId,
-            'music_name' => $musicName,
-            'music_genre' => $musicGenre,
-        ]);
+        $musicalScore = $entity;
 
         $musicId = (int) ($musicalScore->getMusicId() ?? 0);
         $musicName = $musicalScore->getMusicName();
         $musicGenre = $musicalScore->getMusicGenre();
+        $musicGroups = $musicalScore->getMusicGroups();
+        $instrumentsVoiceOff = $musicalScore->getInstrumentsVoiceOff();
+        $instruments = $musicalScore->getInstruments();
 
         $db->begin_transaction();
 

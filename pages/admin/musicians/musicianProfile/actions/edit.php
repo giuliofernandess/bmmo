@@ -3,6 +3,7 @@ session_start();
 require_once "../../../../../config/config.php";
 require_once BASE_PATH . 'app/Auth/Auth.php';
 require_once BASE_PATH . 'app/DAO/MusiciansDAO.php';
+require_once BASE_PATH . 'app/Models/Musician.php';
 
 Auth::requireRegency();
 
@@ -88,19 +89,18 @@ if (!empty($password) || !empty($confirmPassword)) {
 	}
 }
 
-$musicianInfo = [
-	'id' => $musicianId,
-	'login' => $musicianLogin,
-	'instrument' => $instrument,
-	'band_group' => $bandGroup,
-	'musician_contact' => $musicianContact,
-	'responsible_name' => $responsibleName,
-	'responsible_contact' => $responsibleContact,
-	'neighborhood' => $neighborhood,
-	'institution' => $institution,
-	'profile_image' => $imageFileName,
-	'password' => $password
-];
+$musicianInfo = new Musician();
+$musicianInfo->setMusicianId((int) $musicianId);
+$musicianInfo->setMusicianLogin((string) $musicianLogin);
+$musicianInfo->setInstrument((int) $instrument);
+$musicianInfo->setBandGroup((int) $bandGroup);
+$musicianInfo->setMusicianContact($musicianContact);
+$musicianInfo->setResponsibleName($responsibleName);
+$musicianInfo->setResponsibleContact($responsibleContact);
+$musicianInfo->setNeighborhood((string) $neighborhood);
+$musicianInfo->setInstitution($institution);
+$musicianInfo->setProfileImage($imageFileName);
+$musicianInfo->setPassword((string) ($password ?? ''));
 
 if ($musiciansDAO->edit($musicianInfo)) {
 	$_SESSION['success'] = "Músico editado com sucesso!";
