@@ -7,7 +7,7 @@ require_once BASE_PATH . 'app/DAO/MusicalScoresDAO.php';
 Auth::requireRegency();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-	$_SESSION['error'] = 'Metodo invalido para exclusao do arquivo.';
+	Message::set('error', 'Metodo invalido para exclusao do arquivo.');
 	header("Location: " . BASE_URL . "pages/admin/musicalScores/index.php");
 	exit;
 }
@@ -22,7 +22,7 @@ $voiceOff = filter_input(
 );
 
 if (!$musicId || !$instrumentId) {
-	$_SESSION['error'] = 'Parâmetros inválidos para exclusão do arquivo.';
+	Message::set('error', 'Parâmetros inválidos para exclusão do arquivo.');
 	header("Location: " . BASE_URL . "pages/admin/musicalScores/index.php");
 	exit;
 }
@@ -40,9 +40,9 @@ if ($musicalScoreInstrumentDelete) {
 		unlink(BASE_PATH . 'uploads/musical-scores/' . $currentFile);
 	}
 
-	$_SESSION['success'] = "Arquivo excluído com sucesso.";
+	Message::set('success', "Arquivo excluído com sucesso.");
 } else {
-	$_SESSION['error'] = "Não foi possível deletar o arquivo.";
+	Message::set('error', "Não foi possível deletar o arquivo.");
 }
 
 header("Location: " . BASE_URL . "pages/admin/musicalScores/edit/index.php?musicId={$musicId}");

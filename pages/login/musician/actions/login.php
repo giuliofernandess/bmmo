@@ -21,7 +21,7 @@ $musicianPassword = trim($_POST['password'] ?? '');
 
 // Validação simples (campos vazios)
 if ($musicianLogin === '' || $musicianPassword === '') {
-    $_SESSION['error'] = "Preencha todos os campos.";
+    Message::set('error', "Preencha todos os campos.");
     header("Location: " . BASE_URL . "pages/login/musician/index.php");
     exit;
 }
@@ -30,7 +30,7 @@ if ($musicianLogin === '' || $musicianPassword === '') {
 if (Auth::musicianLogin($musicianLogin, $musicianPassword)) {
 
     // Adiciona a mensagem de sucesso aqui, apenas no login
-    $_SESSION['success'] = "Login efetuado com sucesso!";
+    Message::set('success', "Login efetuado com sucesso!");
 
     // Login OK → redireciona para a sessão do músico
     header("Location: " . BASE_URL . "pages/musician/index.php");
@@ -38,6 +38,6 @@ if (Auth::musicianLogin($musicianLogin, $musicianPassword)) {
 }
 
 // Login inválido → salva mensagem e volta para o form
-$_SESSION['error'] = "Login ou senha inválidos.";
+Message::set('error', "Login ou senha inválidos.");
 header("Location: " . BASE_URL . "pages/login/musician/index.php");
 exit;

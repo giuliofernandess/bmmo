@@ -1,4 +1,4 @@
-<?php if (isset($_SESSION['error'])): ?>
+<?php if ($message = Message::pull('error')): ?>
     <div class="app-toast-container app-toast-error" role="alert" aria-live="assertive" aria-atomic="true">
       <div class="app-toast-card">
         <div class="app-toast-icon" aria-hidden="true">
@@ -7,7 +7,7 @@
 
         <div class="app-toast-content">
           <strong class="app-toast-title">Erro</strong>
-          <p class="app-toast-message mb-0"><?= htmlspecialchars($_SESSION['error']); ?></p>
+          <p class="app-toast-message mb-0"><?= htmlspecialchars($message); ?></p>
         </div>
 
         <button type="button" class="app-toast-close" aria-label="Fechar"
@@ -19,6 +19,4 @@
    
     <!-- Remove toast em 5 segundos -->
     <script src="<?= BASE_URL ?>assets/js/removeToast.js?v=<?= filemtime(BASE_PATH . 'assets/js/removeToast.js') ?>"></script>
-
-    <?php unset($_SESSION['error']); ?>
-<?php endif ?>
+<?php endif; ?>

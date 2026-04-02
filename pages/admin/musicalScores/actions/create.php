@@ -14,7 +14,7 @@ $musicGroups = $_POST['groups'] ?? [];
 
 // Validação rápida
 if (empty($musicName) || empty($musicGenre)) {
-	$_SESSION['error'] = "Nome e gênero são obrigatórios.";
+	Message::set('error', "Nome e gênero são obrigatórios.");
 	header("Location: ../index.php");
 	exit;
 }
@@ -27,9 +27,9 @@ $musicalScore->setMusicGroups($musicGroups);
 $musicalScoreAdd = $musicalScoresDAO->create($musicalScore);
 
 if ($musicalScoreAdd !== false) {
-	$_SESSION['success'] = "Partitura criada com sucesso!";
+	Message::set('success', "Partitura criada com sucesso!");
 } else {
-	$_SESSION['error'] = "Erro ao criar partitura.";
+	Message::set('error', "Erro ao criar partitura.");
 
 	header("Location: ../index.php");
 	exit;

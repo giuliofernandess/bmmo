@@ -16,15 +16,10 @@ class Auth
             session_start();
         }
 
-        // Mensagem temporária
-        $_SESSION['success_logout'] = "Logout realizado com sucesso!";
+        session_unset();
+        session_destroy();
 
-        // Remove dados do usuário, mas mantém a mensagem
-        $successMessage = $_SESSION['success_logout'];
-        session_unset();   // limpa tudo
-        session_destroy(); // destrói sessão
-        session_start();   // inicia sessão nova só para a mensagem
-        $_SESSION['success'] = $successMessage;
+        Message::set('success', 'Logout realizado com sucesso!');
 
         header("Location: " . $redirectUrl);
         exit;

@@ -7,7 +7,7 @@ require_once BASE_PATH . 'app/DAO/MusicalScoresDAO.php';
 Auth::requireRegency();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-	$_SESSION['error'] = "Metodo invalido para exclusao da partitura.";
+	Message::set('error', "Metodo invalido para exclusao da partitura.");
 	header("Location: " . BASE_URL . "pages/admin/musicalScores/index.php");
 	exit;
 }
@@ -22,9 +22,9 @@ if (!$musicId) {
 $musicalScoreGeneralDelete = $musicalScoresDAO->delete($musicId);
 
 if ($musicalScoreGeneralDelete) {
-	$_SESSION['success'] = "Partitura excluída com sucesso.";
+	Message::set('success', "Partitura excluída com sucesso.");
 } else {
-	$_SESSION['error'] = "Não foi possível deletar a partitura.";
+	Message::set('error', "Não foi possível deletar a partitura.");
 }
 
 header("Location: " . BASE_URL . "pages/admin/musicalScores/index.php");

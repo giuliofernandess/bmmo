@@ -17,7 +17,7 @@ $local = trim($_POST['local'] ?? '');
 $redirect = BASE_URL . 'pages/admin/presentations/index.php';
 
 if ($name === '' || $date === '' || $hour === '' || $local === '') {
-    $_SESSION['error'] = 'Preencha todos os campos obrigatórios!';
+    Message::set('error', 'Preencha todos os campos obrigatórios!');
     header('Location: ' . $redirect);
     exit;
 }
@@ -26,27 +26,27 @@ try {
     $inputDate = new DateTime($date);
     $today = new DateTime('today');
 } catch (Exception $e) {
-    $_SESSION['error'] = 'Data inválida!';
+    Message::set('error', 'Data inválida!');
     header('Location: ' . $redirect);
     exit;
 }
 
 if ($inputDate < $today) {
-    $_SESSION['error'] = 'A data não pode ser menor que hoje!';
+    Message::set('error', 'A data não pode ser menor que hoje!');
     header('Location: ' . $redirect);
     exit;
 }
 
 $bandGroups = $_POST['groups'] ?? [];
 if (empty($bandGroups)) {
-    $_SESSION['error'] = 'Selecione o(s) grupo(s) da banda!';
+    Message::set('error', 'Selecione o(s) grupo(s) da banda!');
     header('Location: ' . $redirect);
     exit;
 }
 
 $songs = $_POST['songs'] ?? [];
 if (empty($songs)) {
-    $_SESSION['error'] = 'Selecione ao menos uma música!';
+    Message::set('error', 'Selecione ao menos uma música!');
     header('Location: ' . $redirect);
     exit;
 }
@@ -60,9 +60,9 @@ $presentationInfo->setGroups($bandGroups);
 $presentationInfo->setSongs($songs);
 
 if ($presentationsDAO->create($presentationInfo)) {
-    $_SESSION['success'] = 'Apresentação inserida com sucesso!';
+    Message::set('success', 'Apresentação inserida com sucesso!');
 } else {
-    $_SESSION['error'] = 'Erro ao inserir apresentação!';
+    Message::set('error', 'Erro ao inserir apresentação!');
 }
 
 header('Location: ' . $redirect);

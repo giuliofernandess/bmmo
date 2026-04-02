@@ -47,13 +47,13 @@ if (!empty($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
 	$allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
 
 	if (!in_array($fileExtension, $allowedExtensions)) {
-		$_SESSION['error'] = "Extensão de arquivo inválida. Permitido apenas jpg, jpeg, png, gif.";
+		Message::set('error', "Extensão de arquivo inválida. Permitido apenas jpg, jpeg, png, gif.");
 		header("Location: " . BASE_URL . "pages/admin/musicians/musicianProfile/edit/index.php?musician_id={$musicianId}");
 		exit;
 	}
 
 	if ($fileSize > 5 * 1024 * 1024) {
-		$_SESSION['error'] = "Arquivo muito grande. Máximo permitido: 5MB.";
+		Message::set('error', "Arquivo muito grande. Máximo permitido: 5MB.");
 		header("Location: " . BASE_URL . "pages/admin/musicians/musicianProfile/edit/index.php?musician_id={$musicianId}");
 		exit;
 	}
@@ -74,7 +74,7 @@ if (!empty($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
 
 		$imageFileName = $newFileName;
 	} else {
-		$_SESSION['error'] = "Erro ao enviar a imagem.";
+		Message::set('error', "Erro ao enviar a imagem.");
 		header("Location: " . BASE_URL . "pages/admin/musicians/musicianProfile/edit/index.php?musician_id={$musicianId}");
 		exit;
 	}
@@ -83,7 +83,7 @@ if (!empty($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
 /* Valida senha */
 if (!empty($password) || !empty($confirmPassword)) {
 	if ($password !== $confirmPassword) {
-		$_SESSION['error'] = "As senhas não conferem.";
+		Message::set('error', "As senhas não conferem.");
 		header("Location: " . BASE_URL . "pages/admin/musicians/musicianProfile/edit/index.php?musician_id={$musicianId}");
 		exit;
 	}
@@ -103,9 +103,9 @@ $musicianInfo->setProfileImage($imageFileName);
 $musicianInfo->setPassword((string) ($password ?? ''));
 
 if ($musiciansDAO->edit($musicianInfo)) {
-	$_SESSION['success'] = "Músico editado com sucesso!";
+	Message::set('success', "Músico editado com sucesso!");
 } else {
-	$_SESSION['error'] = "Erro ao editar o músico. Tente novamente.";
+	Message::set('error', "Erro ao editar o músico. Tente novamente.");
 }
 
 header("Location: " . BASE_URL . "pages/admin/musicians/musicianProfile/index.php?musician_id={$musicianId}");

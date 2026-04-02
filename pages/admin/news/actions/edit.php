@@ -12,20 +12,20 @@ $newsDescription = trim($_POST['description'] ?? '');
 $redirect = BASE_URL . 'pages/admin/news/index.php';
 
 if ($newsId <= 0) {
-    $_SESSION['error'] = 'Notícia invalida.';
+    Message::set('error', 'Notícia invalida.');
     header('Location: ' . $redirect);
     exit;
 }
 
 if (empty($newsTitle) || empty($newsDescription)) {
-    $_SESSION['error'] = 'Título e descrição são obrigatórios.';
+    Message::set('error', 'Título e descrição são obrigatórios.');
     header('Location: ' . $redirect);
     exit;
 }
 
 $existingNews = $newsDAO->getById($newsId);
 if (!$existingNews) {
-    $_SESSION['error'] = 'Notícia não encontrada.';
+    Message::set('error', 'Notícia não encontrada.');
     header('Location: ' . $redirect);
     exit;
 }
@@ -40,13 +40,13 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
 
     $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
     if (!in_array($fileExtension, $allowedExtensions, true)) {
-        $_SESSION['error'] = 'Extensão de arquivo inválida. Permitido apenas jpg, jpeg, png, gif.';
+        Message::set('error', 'Extensão de arquivo inválida. Permitido apenas jpg, jpeg, png, gif.');
         header('Location: ' . $redirect);
         exit;
     }
 
     if ($fileSize > 5 * 1024 * 1024) {
-        $_SESSION['error'] = 'Arquivo muito grande. máximo permitido: 5MB.';
+        Message::set('error', 'Arquivo muito grande. máximo permitido: 5MB.');
         header('Location: ' . $redirect);
         exit;
     }
@@ -69,7 +69,7 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
         }
         $imageFileName = $newFileName;
     } else {
-        $_SESSION['error'] = 'Erro ao enviar a imagem.';
+        Message::set('error', 'Erro ao enviar a imagem.');
         header('Location: ' . $redirect);
         exit;
     }
@@ -83,9 +83,9 @@ $newsInfo->setNewsImage((string) $imageFileName);
 $newsInfo->setNewsDescription($newsDescription);
 
 if ($newsDAO->edit($newsInfo)) {
-    $_SESSION['success'] = 'Notícia editada com sucesso!';
+    Message::set('success', 'Notícia editada com sucesso!');
 } else {
-    $_SESSION['error'] = 'Erro ao editar a notícia. Tente novamente.';
+    Message::set('error', 'Erro ao editar a notícia. Tente novamente.');
 }
 
 header('Location: ' . $redirect);

@@ -62,13 +62,13 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
 
 	$allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
 	if (!in_array($fileExtension, $allowedExtensions)) {
-		$_SESSION['error'] = "Extensão de arquivo inválida. Permitido apenas jpg, jpeg, png, gif.";
+		Message::set('error', "Extensão de arquivo inválida. Permitido apenas jpg, jpeg, png, gif.");
 		header("Location: " . BASE_URL . "pages/admin/registerMusician/index.php");
 		exit;
 	}
 
 	if ($fileSize > 5 * 1024 * 1024) {
-		$_SESSION['error'] = "Arquivo muito grande. Máximo permitido: 5MB.";
+		Message::set('error', "Arquivo muito grande. Máximo permitido: 5MB.");
 		header("Location: " . BASE_URL . "pages/admin/registerMusician/index.php");
 		exit;
 	}
@@ -85,7 +85,7 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
 	if (move_uploaded_file($fileTmpPath, $destPath)) {
 		$imageFileName = $newFileName;
 	} else {
-		$_SESSION['error'] = "Erro ao enviar a imagem.";
+		Message::set('error', "Erro ao enviar a imagem.");
 		header("Location: " . BASE_URL . "pages/admin/registerMusician/index.php");
 		exit;
 	}
@@ -93,21 +93,21 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
 
 /* Valida senha */
 if ($password !== $confirmPassword) {
-	$_SESSION['error'] = "As senhas não conferem.";
+	Message::set('error', "As senhas não conferem.");
 	header("Location: " . BASE_URL . "pages/admin/registerMusician/index.php");
 	exit;
 }
 
 /* Valida login */
 if ($musiciansDAO->verifyLogin($login)) {
-	$_SESSION['error'] = "Login já existe.";
+	Message::set('error', "Login já existe.");
 	header("Location: " . BASE_URL . "pages/admin/registerMusician/index.php");
 	exit;
 }
 
 /* Valida datas */
 if (!isValidBirthDate($age)) {
-	$_SESSION['error'] = "Data de nascimento inválida ou falta de informações do responsável.";
+	Message::set('error', "Data de nascimento inválida ou falta de informações do responsável.");
 	header("Location: " . BASE_URL . "pages/admin/registerMusician/index.php");
 	exit;
 }
@@ -128,9 +128,9 @@ $musicianInfo->setProfileImage($imageFileName);
 $musicianInfo->setPassword((string) $password);
 
 if ($musiciansDAO->create($musicianInfo)) {
-	$_SESSION['success'] = "Músico criado com sucesso!";
+	Message::set('success', "Músico criado com sucesso!");
 } else {
-	$_SESSION['error'] = "Erro ao registrar o músico. Tente novamente.";
+	Message::set('error', "Erro ao registrar o músico. Tente novamente.");
 }
 
 header("Location: " . BASE_URL . "pages/admin/registerMusician/index.php");

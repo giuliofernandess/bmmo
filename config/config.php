@@ -14,6 +14,7 @@ define('DB_NAME', 'bmmo');
 
 // Dependências de infraestrutura e acesso a dados.
 require_once BASE_PATH . 'app/Database/Database.php';
+require_once BASE_PATH . 'app/Models/Message.php';
 
 require_once BASE_PATH . 'app/DAO/BandGroupsDAO.php';
 require_once BASE_PATH . 'app/DAO/InstrumentsDAO.php';

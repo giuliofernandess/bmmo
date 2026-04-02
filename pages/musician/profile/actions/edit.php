@@ -29,7 +29,7 @@ $confirmPassword = postValue('confirm-password');
 /* Valida senha */
 if (!empty($password) || !empty($confirmPassword)) {
     if ($password !== $confirmPassword) {
-        $_SESSION['error'] = "As senhas não conferem.";
+        Message::set('error', "As senhas não conferem.");
         header("Location: " . BASE_URL . "pages/musician/profile/edit/index.php");
         exit;
     }
@@ -46,9 +46,9 @@ $musicianInfo->setInstitution($institution);
 $musicianInfo->setPassword((string) ($password ?? ''));
 
 if ($musiciansDAO->editOwnProfile($musicianInfo)) {
-    $_SESSION['success'] = "Músico editado com sucesso!";
+    Message::set('success', "Músico editado com sucesso!");
 } else {
-    $_SESSION['error'] = "Erro ao editar o músico. Tente novamente.";
+    Message::set('error', "Erro ao editar o músico. Tente novamente.");
 }
 
 // Redireciona de volta para a página musicians

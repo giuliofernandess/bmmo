@@ -24,7 +24,7 @@ session_start();
 
 <body class="d-flex flex-column min-vh-100" style="background: linear-gradient(to right, #eef2f3, #d9e9ff);">
 
-  <!-- Toast de erro (aparece se $_SESSION['error'] estiver setado) -->
+  <!-- Toast de erro (aparece quando houver mensagem pendente) -->
   <?php include_once BASE_PATH . 'includes/errorToast.php'; ?>
 
   <!-- Header do site -->

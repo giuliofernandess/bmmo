@@ -23,9 +23,9 @@ if ($deleteMusician) {
 		unlink(BASE_PATH . 'uploads/musicians-images/' . $currentImage);
 	}
 
-	$_SESSION['success'] = "Músico excluído com sucesso.";
+	Message::set('success', "Músico excluído com sucesso.");
 	header("Location: " . BASE_URL . "pages/admin/musicians/index.php");
 } else {
-	$_SESSION['error'] = "Não foi possível deletar o músico.";
+	Message::set('error', "Não foi possível deletar o músico.");
 	header("Location: " . BASE_URL . "pages/admin/musicians/musicianProfile/index.php?musician_id={$musicianId}");
 }

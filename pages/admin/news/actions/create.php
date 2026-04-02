@@ -15,7 +15,7 @@ $currentDate = date('Y-m-d');
 $currentHour = date('H:i:s');
 
 if (empty($newsTitle) || empty($newsDescription)) {
-    $_SESSION['error'] = 'Título e descrição são obrigatórios.';
+    Message::set('error', 'Título e descrição são obrigatórios.');
     header('Location: ' . $redirect);
     exit;
 }
@@ -23,7 +23,7 @@ if (empty($newsTitle) || empty($newsDescription)) {
 $imageFileName = null;
 
 if (!isset($_FILES['file']) || $_FILES['file']['error'] !== UPLOAD_ERR_OK) {
-    $_SESSION['error'] = 'A imagem é obrigatória para criar notícia.';
+    Message::set('error', 'A imagem é obrigatória para criar notícia.');
     header('Location: ' . $redirect);
     exit;
 }
@@ -35,13 +35,13 @@ $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
 $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
 if (!in_array($fileExtension, $allowedExtensions, true)) {
-    $_SESSION['error'] = 'Extensão de arquivo inválida. Permitido apenas jpg, jpeg, png, gif.';
+    Message::set('error', 'Extensão de arquivo inválida. Permitido apenas jpg, jpeg, png, gif.');
     header('Location: ' . $redirect);
     exit;
 }
 
 if ($fileSize > 5 * 1024 * 1024) {
-    $_SESSION['error'] = 'Arquivo muito grande. máximo permitido: 5MB.';
+    Message::set('error', 'Arquivo muito grande. máximo permitido: 5MB.');
     header('Location: ' . $redirect);
     exit;
 }
@@ -56,7 +56,7 @@ if (!is_dir($uploadDir)) {
 $destPath = $uploadDir . $newFileName;
 
 if (!move_uploaded_file($fileTmpPath, $destPath)) {
-    $_SESSION['error'] = 'Erro ao enviar a imagem.';
+    Message::set('error', 'Erro ao enviar a imagem.');
     header('Location: ' . $redirect);
     exit;
 }
@@ -72,9 +72,9 @@ $newsInfo->setPublicationDate($currentDate);
 $newsInfo->setPublicationHour($currentHour);
 
 if ($newsDAO->create($newsInfo)) {
-    $_SESSION['success'] = 'Notícia criada com sucesso!';
+    Message::set('success', 'Notícia criada com sucesso!');
 } else {
-    $_SESSION['error'] = 'Erro ao criar a notícia. Tente novamente.';
+    Message::set('error', 'Erro ao criar a notícia. Tente novamente.');
 }
 
 header('Location: ' . $redirect);

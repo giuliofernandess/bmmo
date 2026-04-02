@@ -44,19 +44,19 @@ foreach ($voiceOffNames as $instrumentId => $nameVoiceOff) {
 		$safeName = buildSafeMusicalScoreFileName((string) $nameVoiceOff, $allowedExtensions);
 
 		if ($safeName === null) {
-			$_SESSION['error'] = "Formato de arquivo inválido. Envie apenas PDF.";
+			Message::set('error', "Formato de arquivo inválido. Envie apenas PDF.");
 			header("Location: ../edit/index.php?musicId={$musicId}");
 			exit;
 		}
 
 		if ($size > $maxFileSize) {
-			$_SESSION['error'] = "Arquivo muito grande. Máximo permitido: 15MB.";
+			Message::set('error', "Arquivo muito grande. Máximo permitido: 15MB.");
 			header("Location: ../edit/index.php?musicId={$musicId}");
 			exit;
 		}
 
 		if (!move_uploaded_file($tmp, BASE_PATH . "uploads/musical-scores/" . $safeName)) {
-			$_SESSION['error'] = "Erro ao enviar arquivo de instrumento sem voz.";
+			Message::set('error', "Erro ao enviar arquivo de instrumento sem voz.");
 			header("Location: ../edit/index.php?musicId={$musicId}");
 			exit;
 		}
@@ -83,19 +83,19 @@ foreach ($instrumentNames as $instrumentId => $name) {
 		$safeName = buildSafeMusicalScoreFileName((string) $name, $allowedExtensions);
 
 		if ($safeName === null) {
-			$_SESSION['error'] = "Formato de arquivo inválido. Envie apenas PDF.";
+			Message::set('error', "Formato de arquivo inválido. Envie apenas PDF.");
 			header("Location: ../edit/index.php?musicId={$musicId}");
 			exit;
 		}
 
 		if ($size > $maxFileSize) {
-			$_SESSION['error'] = "Arquivo muito grande. Máximo permitido: 15MB.";
+			Message::set('error', "Arquivo muito grande. Máximo permitido: 15MB.");
 			header("Location: ../edit/index.php?musicId={$musicId}");
 			exit;
 		}
 
 		if (!move_uploaded_file($tmp, BASE_PATH . "uploads/musical-scores/" . $safeName)) {
-			$_SESSION['error'] = "Erro ao enviar arquivo de instrumento com voz.";
+			Message::set('error', "Erro ao enviar arquivo de instrumento com voz.");
 			header("Location: ../edit/index.php?musicId={$musicId}");
 			exit;
 		}
@@ -116,9 +116,9 @@ $musicalScore->setInstruments($instruments);
 $musicalScoreEdit = $musicalScoresDAO->edit($musicalScore);
 
 if ($musicalScoreEdit !== false) {
-	$_SESSION['success'] = "Partitura editada com sucesso!";
+	Message::set('success', "Partitura editada com sucesso!");
 } else {
-	$_SESSION['error'] = "Erro ao editar partitura.";
+	Message::set('error', "Erro ao editar partitura.");
 }
 
 header("Location: ../edit/index.php?musicId={$musicId}");
