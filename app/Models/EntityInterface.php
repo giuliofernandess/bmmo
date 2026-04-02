@@ -3,7 +3,7 @@
 /**
  * Contrato padrão de CRUD para DAOs do projeto.
  */
-interface InterfaceDAO
+interface EntityInterface
 {
     /**
      * Cria um novo registro.

@@ -1,9 +1,9 @@
 <?php
 
-require_once BASE_PATH . 'app/Models/InterfaceDAO.php';
+require_once BASE_PATH . 'app/Models/EntityInterface.php';
 require_once BASE_PATH . 'app/Models/Presentation.php';
 
-class PresentationsDAO implements InterfaceDAO
+class PresentationsDAO implements EntityInterface
 {
     private mysqli $conn;
 

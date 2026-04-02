@@ -1,9 +1,9 @@
 <?php
 
-require_once BASE_PATH . 'app/Models/InterfaceDAO.php';
+require_once BASE_PATH . 'app/Models/EntityInterface.php';
 require_once BASE_PATH . 'app/Models/News.php';
 
-class NewsDAO implements InterfaceDAO
+class NewsDAO implements EntityInterface
 {
     private mysqli $conn;
 
