@@ -4,7 +4,7 @@
 
         <!-- Logo -->
         <a class="navbar-brand d-flex align-items-center" href="<?= BASE_URL ?>pages/index.php">
-            <img src="<?= BASE_URL ?>assets/images/logo_banda.png" width="30" height="30" class="me-2">
+            <img src="<?= BASE_URL ?>assets/images/band_logo.png" width="30" height="30" class="me-2">
             <span class="fw-bold">BMMO Online</span>
         </a>
 

@@ -23,7 +23,7 @@ Auth::requireRegency();
   <!-- Header -->
   <header class="d-flex align-items-center justify-content-between px-3 bg-primary">
     <a href="#" class="d-flex align-items-center text-white text-decoration-none">
-      <img src="<?= BASE_URL ?>assets/images/logo_banda.png" alt="Logo Banda" width="30" height="30" class="me-2">
+      <img src="<?= BASE_URL ?>assets/images/band_logo.png" alt="Logo Banda" width="30" height="30" class="me-2">
       <span class="fs-5 fw-bold">BMMO Online - Maestro</span>
     </a>
 
@@ -42,7 +42,7 @@ Auth::requireRegency();
   <!-- Main -->
   <main class="flex-grow-1 d-flex align-items-center justify-content-center py-5">
     <div class="container introduction-container text-center">
-      <img src="<?= BASE_URL ?>assets/images/logo_banda.png" width="160" height="160" alt="Logo" class="mb-3">
+      <img src="<?= BASE_URL ?>assets/images/band_logo.png" width="160" height="160" alt="Logo" class="mb-3">
       <h1 class="fw-bold">Painel do Maestro</h1>
       <p class="mb-4">
         Gerencie os músicos, partituras, cronogramas e comunicações da banda.

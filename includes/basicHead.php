@@ -1,5 +1,5 @@
 <!-- Favicon -->
-<link rel="shortcut icon" href="<?= BASE_URL ?>assets/images/logo_banda.png" type="image/x-icon">
+<link rel="shortcut icon" href="<?= BASE_URL ?>assets/images/band_logo.png" type="image/x-icon">
 
 <!-- Bootstrap + Icons -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">

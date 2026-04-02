@@ -2,7 +2,7 @@
     <?php $isMusician = !empty($_SESSION['musician_login']); ?>
 
     <a href="<?= BASE_URL ?><?= $isMusician ? 'pages/musician/index.php' : 'pages/admin/index.php'; ?>" class="d-flex align-items-center text-white text-decoration-none">
-        <img src="<?= BASE_URL ?>assets/images/logo_banda.png" alt="Logo Banda" width="30" height="30" class="me-2">
+        <img src="<?= BASE_URL ?>assets/images/band_logo.png" alt="Logo Banda" width="30" height="30" class="me-2">
         <span class="fs-5 fw-bold"><?= $isMusician ? 'BMMO Online - Músico' : 'BMMO Online - Maestro'; ?></span>
     </a>
 

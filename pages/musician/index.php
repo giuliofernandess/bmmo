@@ -29,7 +29,7 @@ $musicianInfo = $musiciansDAO->findByLogin($login);
   <!-- Header -->
   <header class="d-flex align-items-center justify-content-between px-3 bg-primary">
     <a href="#" class="d-flex align-items-center text-white text-decoration-none">
-      <img src="<?= BASE_URL ?>assets/images/logo_banda.png" alt="Logo Banda" width="30" height="30" class="me-2">
+      <img src="<?= BASE_URL ?>assets/images/band_logo.png" alt="Logo Banda" width="30" height="30" class="me-2">
       <span class="fs-5 fw-bold">BMMO Online - Músico</span>
     </a>
 
@@ -48,7 +48,7 @@ $musicianInfo = $musiciansDAO->findByLogin($login);
   <!-- Main -->
   <main class="flex-grow-1 d-flex align-items-center justify-content-center py-5">
     <div class="container introduction-container text-center">
-      <img src="<?= BASE_URL ?>assets/images/logo_banda.png" width="160" height="160" alt="Logo" class="mb-3">
+      <img src="<?= BASE_URL ?>assets/images/band_logo.png" width="160" height="160" alt="Logo" class="mb-3">
       <h1 class="fw-bold">Bem-vindo(a), <?= htmlspecialchars($musicianInfo['musician_name']); ?></h1>
       <p class="mb-4">
         Aqui você pode acessar suas informações, apresentações e partituras.

@@ -34,7 +34,7 @@ require_once '../config/config.php';
       <div class="mx-auto introduction-container p-4 p-md-5 shadow-lg">
 
         <!-- Logo da banda -->
-        <img src="<?= BASE_URL ?>assets/images/logo_banda.png" width="120" height="120" alt="Logo"
+        <img src="<?= BASE_URL ?>assets/images/band_logo.png" width="120" height="120" alt="Logo"
           class="mb-3 introduction-logo img-fluid">
 
         <!-- Título principal -->
