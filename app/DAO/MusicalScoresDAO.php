@@ -1,6 +1,6 @@
 <?php
 
-require_once BASE_PATH . 'app/DAO/InterfaceDAO.php';
+require_once BASE_PATH . 'app/Models/InterfaceDAO.php';
 require_once BASE_PATH . 'app/Models/MusicalScore.php';
 
 class MusicalScoresDAO implements InterfaceDAO
