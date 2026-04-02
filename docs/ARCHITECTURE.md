@@ -9,7 +9,7 @@ O projeto segue arquitetura em camadas, sem framework, com separação clara ent
 - `app/Auth/`: autenticação e autorização por perfil.
 - `app/Database/`: conexão MySQLi.
 - `app/DAO/`: acesso a dados e operações SQL.
-- `app/Models/`: entidades de domínio (`Musician`, `News`, `Presentation`, `MusicalScore`, etc.) e o contrato base `InterfaceDAO`.
+- `app/Models/`: entidades de domínio (`Musician`, `News`, `Presentation`, `MusicalScore`, etc.) e o contrato base `EntityInterface`.
 - `config/`: bootstrap global (constantes, conexão e instâncias DAO).
 
 ## Estrutura de rotas canonicamente ativa
@@ -56,7 +56,7 @@ DAOs centrais:
 - `InstrumentsDAO`
 - `RegencyDAO`
 
-Contrato base em `app/Models/InterfaceDAO.php` (quando aplicável):
+Contrato base em `app/Models/EntityInterface.php` (quando aplicável):
 
 - `create(object $entity): mixed`
 - `edit(object $entity): bool`
