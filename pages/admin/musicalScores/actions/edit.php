@@ -5,6 +5,8 @@ require_once BASE_PATH . 'app/Auth/Auth.php';
 require_once BASE_PATH . 'app/DAO/MusicalScoresDAO.php';
 require_once BASE_PATH . 'app/Models/MusicalScore.php';
 
+$musicalScoresDAO = new MusicalScoresDAO($conn);
+
 Auth::requireRegency();
 
 $allowedExtensions = ['pdf'];

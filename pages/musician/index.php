@@ -3,6 +3,8 @@ require_once "../../config/config.php";
 require_once BASE_PATH . "app/Auth/Auth.php";
 require_once BASE_PATH . "app/DAO/MusiciansDAO.php";
 
+$musiciansDAO = new MusiciansDAO($conn);
+
 Auth::requireMusician();
 
 $login = $_SESSION["musician_login"] ? trim($_SESSION["musician_login"]) : null;

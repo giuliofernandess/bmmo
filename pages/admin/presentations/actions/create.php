@@ -7,6 +7,8 @@ require_once BASE_PATH . 'app/DAO/PresentationsDAO.php';
 require_once BASE_PATH . 'app/Auth/Auth.php';
 require_once BASE_PATH . 'app/Models/Presentation.php';
 
+$presentationsDAO = new PresentationsDAO($conn);
+
 Auth::requireRegency();
 
 $name = trim($_POST['name'] ?? '');

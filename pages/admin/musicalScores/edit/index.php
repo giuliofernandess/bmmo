@@ -6,6 +6,10 @@ require_once BASE_PATH . "app/DAO/BandGroupsDAO.php";
 require_once BASE_PATH . "app/DAO/InstrumentsDAO.php";
 require_once BASE_PATH . "app/DAO/MusicalScoresDAO.php";
 
+$bandGroupsDAO = new BandGroupsDAO($conn);
+$instrumentsDAO = new InstrumentsDAO($conn);
+$musicalScoresDAO = new MusicalScoresDAO($conn);
+
 Auth::requireRegency();
 
 $groups = $bandGroupsDAO->getAll();

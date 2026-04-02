@@ -3,6 +3,8 @@
 require_once '../../../config/config.php';
 require_once BASE_PATH . 'app/DAO/NewsDAO.php';
 
+$newsDAO = new NewsDAO($conn);
+
 // Captura o ID da notícia via GET
 if (!isset($_GET['newsId'])) {
     die("ID da notícia não fornecido.");

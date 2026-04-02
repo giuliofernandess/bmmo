@@ -5,6 +5,8 @@ require_once '../../../../config/config.php';
 require_once BASE_PATH . 'app/Auth/Auth.php';
 require_once BASE_PATH . 'app/DAO/PresentationsDAO.php';
 
+$presentationsDAO = new PresentationsDAO($conn);
+
 Auth::requireRegency();
 
 $redirect = BASE_URL . 'pages/admin/presentations/index.php';

@@ -45,6 +45,7 @@ $musicianInfo->setNeighborhood((string) $neighborhood);
 $musicianInfo->setInstitution($institution);
 $musicianInfo->setPassword((string) ($password ?? ''));
 
+$musiciansDAO = new MusiciansDAO($conn);
 if ($musiciansDAO->editOwnProfile($musicianInfo)) {
     Message::set('success', "Músico editado com sucesso!");
 } else {

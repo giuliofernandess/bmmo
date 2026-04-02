@@ -4,6 +4,8 @@ require_once '../../../../config/config.php';
 require_once BASE_PATH . 'app/DAO/NewsDAO.php';
 require_once BASE_PATH . 'app/Models/News.php';
 
+$newsDAO = new NewsDAO($conn);
+
 $newsId = (int) ($_POST['id'] ?? 0);
 $newsTitle = trim($_POST['title'] ?? '');
 $newsSubtitle = trim($_POST['subtitle'] ?? '');

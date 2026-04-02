@@ -5,6 +5,8 @@ require_once BASE_PATH . 'app/Auth/Auth.php';
 require_once BASE_PATH . 'app/DAO/MusiciansDAO.php';
 require_once BASE_PATH . 'app/Models/Musician.php';
 
+$musiciansDAO = new MusiciansDAO($conn);
+
 Auth::requireRegency();
 
 // Função auxiliar para tratar entrada

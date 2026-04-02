@@ -7,6 +7,10 @@ require_once BASE_PATH . 'app/DAO/MusicalScoresDAO.php';
 require_once BASE_PATH . 'app/DAO/PresentationsDAO.php';
 require_once BASE_PATH . 'app/Auth/Auth.php';
 
+$bandGroupsDAO = new BandGroupsDAO($conn);
+$musicalScoresDAO = new MusicalScoresDAO($conn);
+$presentationsDAO = new PresentationsDAO($conn);
+
 Auth::requireRegency();
 
 $presentationsDAO->automaticallyDelete();

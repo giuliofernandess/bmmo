@@ -4,6 +4,8 @@ require_once '../../../config/config.php';
 
 // Carrega a classe de notícias POO
 require_once BASE_PATH . 'app/DAO/NewsDAO.php';
+
+$newsDAO = new NewsDAO($conn);
 ?>
 
 <!doctype html>

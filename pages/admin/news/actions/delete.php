@@ -4,6 +4,8 @@ require_once '../../../../config/config.php';
 require_once BASE_PATH . 'app/Auth/Auth.php';
 require_once BASE_PATH . 'app/DAO/NewsDAO.php';
 
+$newsDAO = new NewsDAO($conn);
+
 Auth::requireRegency();
 
 $redirect = BASE_URL . 'pages/admin/news/index.php';

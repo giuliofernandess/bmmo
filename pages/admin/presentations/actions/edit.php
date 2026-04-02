@@ -4,6 +4,8 @@ require_once '../../../../config/config.php';
 require_once BASE_PATH . 'app/DAO/PresentationsDAO.php';
 require_once BASE_PATH . 'app/Models/Presentation.php';
 
+$presentationsDAO = new PresentationsDAO($conn);
+
 $id = (int) ($_POST['id'] ?? 0);
 $redirect = BASE_URL . 'pages/admin/presentations/index.php';
 

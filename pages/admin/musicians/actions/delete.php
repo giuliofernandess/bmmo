@@ -4,6 +4,8 @@ require_once "../../../../config/config.php";
 require_once BASE_PATH . 'app/Auth/Auth.php';
 require_once BASE_PATH . 'app/DAO/MusiciansDAO.php';
 
+$musiciansDAO = new MusiciansDAO($conn);
+
 Auth::requireRegency();
 
 $musicianId = isset($_POST['musician_id']) ? (int) $_POST['musician_id'] : null;

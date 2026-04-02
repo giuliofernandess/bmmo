@@ -6,6 +6,10 @@ require_once BASE_PATH . "app/DAO/MusiciansDAO.php";
 require_once BASE_PATH . "app/DAO/BandGroupsDAO.php";
 require_once BASE_PATH . "app/DAO/InstrumentsDAO.php";
 
+$musiciansDAO = new MusiciansDAO($conn);
+$bandGroupsDAO = new BandGroupsDAO($conn);
+$instrumentsDAO = new InstrumentsDAO($conn);
+
 Auth::requireRegency();
 
 // Verifica se recebeu o id do músico
