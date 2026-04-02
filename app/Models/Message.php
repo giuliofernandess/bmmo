@@ -11,7 +11,7 @@ class Message
         $_SESSION['flash_messages'][$type] = $message;
     }
 
-    public static function pull(string $type): ?string
+    public static function get(string $type): ?string
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -19,15 +19,22 @@ class Message
 
         if (!isset($_SESSION['flash_messages'][$type])) {
             return null;
+        } else {
+            return $_SESSION['flash_messages'][$type];
+        }
+        
+    }
+
+    public static function clear(string $type): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
         }
 
-        $message = $_SESSION['flash_messages'][$type];
         unset($_SESSION['flash_messages'][$type]);
 
         if (empty($_SESSION['flash_messages'])) {
             unset($_SESSION['flash_messages']);
         }
-
-        return $message;
     }
 }
