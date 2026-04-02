@@ -1,5 +1,7 @@
 <?php
 
+require_once BASE_PATH . 'app/Models/Regency.php';
+
 class RegencyDAO
 {
     private mysqli $conn;
@@ -40,6 +42,6 @@ class RegencyDAO
         $stmt->close();
 
         // Retorna array com dados ou null se vazio
-        return $data ?: null;
+        return $data ? Regency::fromArray($data)->toArray() : null;
     }
 }

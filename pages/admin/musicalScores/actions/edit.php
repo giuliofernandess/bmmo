@@ -107,13 +107,14 @@ foreach ($instrumentNames as $instrumentId => $name) {
 }
 }
 
-$musicalScore = new MusicalScore();
-$musicalScore->setMusicId($musicId);
-$musicalScore->setMusicName($musicName);
-$musicalScore->setMusicGenre($musicGenre);
-$musicalScore->setMusicGroups($musicGroups);
-$musicalScore->setInstrumentsVoiceOff($instrumentsVoiceOff);
-$musicalScore->setInstruments($instruments);
+$musicalScore = MusicalScore::fromArray([
+	'music_id' => $musicId,
+	'music_name' => $musicName,
+	'music_genre' => $musicGenre,
+	'music_groups' => $musicGroups,
+	'instruments_voice_off' => $instrumentsVoiceOff,
+	'instruments' => $instruments,
+]);
 
 $musicalScoreEdit = $musicalScoresDAO->edit($musicalScore);
 

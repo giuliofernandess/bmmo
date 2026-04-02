@@ -65,13 +65,14 @@ if (!move_uploaded_file($fileTmpPath, $destPath)) {
 
 $imageFileName = $newFileName;
 
-$newsInfo = new News();
-$newsInfo->setNewsTitle($newsTitle);
-$newsInfo->setNewsSubtitle($newsSubtitle);
-$newsInfo->setNewsImage((string) $imageFileName);
-$newsInfo->setNewsDescription($newsDescription);
-$newsInfo->setPublicationDate($currentDate);
-$newsInfo->setPublicationHour($currentHour);
+$newsInfo = News::fromArray([
+    'news_title' => $newsTitle,
+    'news_subtitle' => $newsSubtitle,
+    'news_image' => (string) $imageFileName,
+    'news_description' => $newsDescription,
+    'publication_date' => $currentDate,
+    'publication_hour' => $currentHour,
+]);
 
 if ($newsDAO->create($newsInfo)) {
     Message::set('success', 'Notícia criada com sucesso!');

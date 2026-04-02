@@ -1,5 +1,7 @@
 <?php
 
+require_once BASE_PATH . 'app/Models/BandGroup.php';
+
 class BandGroupsDAO
 {
     private mysqli $conn;
@@ -31,7 +33,7 @@ class BandGroupsDAO
         $groupsList = [];
 
         while ($row = $result->fetch_assoc()) {
-            $groupsList[] = $row;
+            $groupsList[] = BandGroup::fromArray($row)->toArray();
         }
 
         $stmt->close();

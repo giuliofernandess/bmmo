@@ -115,19 +115,20 @@ if (!isValidBirthDate($age)) {
 }
 
 
-$musicianInfo = new Musician();
-$musicianInfo->setMusicianName((string) $musicianName);
-$musicianInfo->setMusicianLogin((string) $login);
-$musicianInfo->setDateOfBirth((string) $dateOfBirth);
-$musicianInfo->setInstrument((int) $instrument);
-$musicianInfo->setBandGroup((int) $bandGroup);
-$musicianInfo->setMusicianContact($musicianContact);
-$musicianInfo->setResponsibleName($responsibleName);
-$musicianInfo->setResponsibleContact($responsibleContact);
-$musicianInfo->setNeighborhood((string) $neighborhood);
-$musicianInfo->setInstitution($institution);
-$musicianInfo->setProfileImage($imageFileName);
-$musicianInfo->setPassword((string) $password);
+$musicianInfo = Musician::fromArray([
+	'musician_name' => (string) $musicianName,
+	'musician_login' => (string) $login,
+	'date_of_birth' => (string) $dateOfBirth,
+	'instrument' => (int) $instrument,
+	'band_group' => (int) $bandGroup,
+	'musician_contact' => $musicianContact,
+	'responsible_name' => $responsibleName,
+	'responsible_contact' => $responsibleContact,
+	'neighborhood' => (string) $neighborhood,
+	'institution' => $institution,
+	'profile_image' => $imageFileName,
+	'password' => (string) $password,
+]);
 
 if ($musiciansDAO->create($musicianInfo)) {
 	Message::set('success', "Músico criado com sucesso!");

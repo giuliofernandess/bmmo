@@ -21,10 +21,11 @@ if (empty($musicName) || empty($musicGenre)) {
 	exit;
 }
 
-$musicalScore = new MusicalScore();
-$musicalScore->setMusicName($musicName);
-$musicalScore->setMusicGenre($musicGenre);
-$musicalScore->setMusicGroups($musicGroups);
+$musicalScore = MusicalScore::fromArray([
+	'music_name' => $musicName,
+	'music_genre' => $musicGenre,
+	'music_groups' => $musicGroups,
+]);
 
 $musicalScoreAdd = $musicalScoresDAO->create($musicalScore);
 

@@ -1,6 +1,8 @@
 <?php
 
 require_once BASE_PATH . 'app/Models/EntityInterface.php';
+require_once BASE_PATH . 'app/Models/BandGroup.php';
+require_once BASE_PATH . 'app/Models/MusicalScore.php';
 require_once BASE_PATH . 'app/Models/Presentation.php';
 
 class PresentationsDAO implements EntityInterface
@@ -26,15 +28,15 @@ class PresentationsDAO implements EntityInterface
             return false;
         }
 
-        $presentation = $entity;
+        $presentationData = $entity->toArray();
 
         // Normaliza os dados principais da apresentação.
-        $name = $presentation->getPresentationName();
-        $date = $presentation->getPresentationDate();
-        $hour = $presentation->getPresentationHour();
-        $local = $presentation->getLocalOfPresentation();
-        $musicGroups = $presentation->getGroups();
-        $songGroups = $presentation->getSongs();
+        $name = $presentationData['presentation_name'];
+        $date = $presentationData['presentation_date'];
+        $hour = $presentationData['presentation_hour'];
+        $local = $presentationData['local_of_presentation'];
+        $musicGroups = $presentationData['groups'];
+        $songGroups = $presentationData['songs'];
 
         // Salva apresentação e vínculos em transação.
         try {
@@ -107,16 +109,16 @@ class PresentationsDAO implements EntityInterface
             return false;
         }
 
-        $presentation = $entity;
+        $presentationData = $entity->toArray();
 
         // Normaliza os dados principais da apresentação.
-        $presentationId = (int) ($presentation->getPresentationId() ?? 0);
-        $name = $presentation->getPresentationName();
-        $date = $presentation->getPresentationDate();
-        $hour = $presentation->getPresentationHour();
-        $local = $presentation->getLocalOfPresentation();
-        $musicGroups = $presentation->getGroups();
-        $songGroups = $presentation->getSongs();
+        $presentationId = (int) ($presentationData['presentation_id'] ?? 0);
+        $name = $presentationData['presentation_name'];
+        $date = $presentationData['presentation_date'];
+        $hour = $presentationData['presentation_hour'];
+        $local = $presentationData['local_of_presentation'];
+        $musicGroups = $presentationData['groups'];
+        $songGroups = $presentationData['songs'];
 
         // Atualiza apresentação e vínculos em transação.
         try {
@@ -249,7 +251,7 @@ class PresentationsDAO implements EntityInterface
         $presentationsList = [];
 
         while ($res = $result->fetch_assoc()) {
-            $presentationsList[] = $res;
+            $presentationsList[] = Presentation::fromArray($res)->toArray();
         }
 
         $stmt->close();
@@ -280,7 +282,8 @@ class PresentationsDAO implements EntityInterface
         $groupsList = [];
 
         while ($res = $result->fetch_assoc()) {
-            $groupsList[] = $res;
+            $normalized = BandGroup::fromArray($res)->toArray();
+            $groupsList[] = array_replace($res, array_intersect_key($normalized, $res));
         }
 
         $stmt->close();
@@ -311,7 +314,15 @@ class PresentationsDAO implements EntityInterface
         $songsList = [];
 
         while ($res = $result->fetch_assoc()) {
-            $songsList[] = $res;
+            $normalized = MusicalScore::fromArray([
+                'music_id' => $res['song_id'] ?? null,
+                'music_name' => $res['music_name'] ?? '',
+            ])->toArray();
+
+            $songsList[] = array_replace($res, [
+                'music_name' => $normalized['music_name'],
+                'song_id' => $normalized['music_id'],
+            ]);
         }
 
         $stmt->close();

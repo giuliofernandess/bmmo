@@ -22,11 +22,11 @@ class MusicalScoresDAO implements EntityInterface
         }
 
         $db = $this->conn;
-        $musicalScore = $entity;
+        $musicalScoreData = $entity->toArray();
 
-        $musicName = $musicalScore->getMusicName();
-        $musicGenre = $musicalScore->getMusicGenre();
-        $musicGroups = $musicalScore->getMusicGroups();
+        $musicName = $musicalScoreData['music_name'];
+        $musicGenre = $musicalScoreData['music_genre'];
+        $musicGroups = $musicalScoreData['music_groups'];
 
         $db->begin_transaction();
 
@@ -95,14 +95,14 @@ class MusicalScoresDAO implements EntityInterface
         }
 
         $db = $this->conn;
-        $musicalScore = $entity;
+        $musicalScoreData = $entity->toArray();
 
-        $musicId = (int) ($musicalScore->getMusicId() ?? 0);
-        $musicName = $musicalScore->getMusicName();
-        $musicGenre = $musicalScore->getMusicGenre();
-        $musicGroups = $musicalScore->getMusicGroups();
-        $instrumentsVoiceOff = $musicalScore->getInstrumentsVoiceOff();
-        $instruments = $musicalScore->getInstruments();
+        $musicId = (int) ($musicalScoreData['music_id'] ?? 0);
+        $musicName = $musicalScoreData['music_name'];
+        $musicGenre = $musicalScoreData['music_genre'];
+        $musicGroups = $musicalScoreData['music_groups'];
+        $instrumentsVoiceOff = $musicalScoreData['instruments_voice_off'];
+        $instruments = $musicalScoreData['instruments'];
 
         $db->begin_transaction();
 
@@ -377,7 +377,8 @@ class MusicalScoresDAO implements EntityInterface
         $musicsList = [];
 
         while ($row = $result->fetch_assoc()) {
-            $musicsList[] = $row;
+            $normalized = MusicalScore::fromArray($row)->toArray();
+            $musicsList[] = array_replace($row, array_intersect_key($normalized, $row));
         }
 
         $stmt->close();
@@ -438,7 +439,8 @@ class MusicalScoresDAO implements EntityInterface
         $musicsList = [];
 
         while ($row = $result->fetch_assoc()) {
-            $musicsList[] = $row;
+            $normalized = MusicalScore::fromArray($row)->toArray();
+            $musicsList[] = array_replace($row, array_intersect_key($normalized, $row));
         }
 
         $stmt->close();
@@ -472,7 +474,13 @@ class MusicalScoresDAO implements EntityInterface
 
         $stmt->close();
 
-        return $data ?: null;
+        if (!$data) {
+            return null;
+        }
+
+        $normalized = MusicalScore::fromArray($data)->toArray();
+
+        return array_replace($data, array_intersect_key($normalized, $data));
 
     }
 

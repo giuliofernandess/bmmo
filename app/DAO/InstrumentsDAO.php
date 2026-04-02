@@ -1,5 +1,7 @@
 <?php
 
+require_once BASE_PATH . 'app/Models/Instrument.php';
+
 class InstrumentsDAO
 {
     private mysqli $conn;
@@ -41,7 +43,7 @@ class InstrumentsDAO
         $instrumentsList = [];
 
         while ($row = $result->fetch_assoc()) {
-            $instrumentsList[] = $row;
+            $instrumentsList[] = Instrument::fromArray($row)->toArray();
         }
 
         $stmt->close();

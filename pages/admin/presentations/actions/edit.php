@@ -55,14 +55,15 @@ if (empty($songs)) {
     exit;
 }
 
-$presentationInfo = new Presentation();
-$presentationInfo->setPresentationId($id);
-$presentationInfo->setPresentationName($name);
-$presentationInfo->setPresentationDate($date);
-$presentationInfo->setPresentationHour($hour);
-$presentationInfo->setLocalOfPresentation($local);
-$presentationInfo->setGroups($bandGroups);
-$presentationInfo->setSongs($songs);
+$presentationInfo = Presentation::fromArray([
+    'presentation_id' => $id,
+    'presentation_name' => $name,
+    'presentation_date' => $date,
+    'presentation_hour' => $hour,
+    'local_of_presentation' => $local,
+    'groups' => $bandGroups,
+    'songs' => $songs,
+]);
 
 if ($presentationsDAO->edit($presentationInfo)) {
     Message::set('success', 'Apresentação editada com sucesso!');

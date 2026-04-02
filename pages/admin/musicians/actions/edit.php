@@ -91,18 +91,19 @@ if (!empty($password) || !empty($confirmPassword)) {
 	}
 }
 
-$musicianInfo = new Musician();
-$musicianInfo->setMusicianId((int) $musicianId);
-$musicianInfo->setMusicianLogin((string) $musicianLogin);
-$musicianInfo->setInstrument((int) $instrument);
-$musicianInfo->setBandGroup((int) $bandGroup);
-$musicianInfo->setMusicianContact($musicianContact);
-$musicianInfo->setResponsibleName($responsibleName);
-$musicianInfo->setResponsibleContact($responsibleContact);
-$musicianInfo->setNeighborhood((string) $neighborhood);
-$musicianInfo->setInstitution($institution);
-$musicianInfo->setProfileImage($imageFileName);
-$musicianInfo->setPassword((string) ($password ?? ''));
+$musicianInfo = Musician::fromArray([
+	'musician_id' => (int) $musicianId,
+	'musician_login' => (string) $musicianLogin,
+	'instrument' => (int) $instrument,
+	'band_group' => (int) $bandGroup,
+	'musician_contact' => $musicianContact,
+	'responsible_name' => $responsibleName,
+	'responsible_contact' => $responsibleContact,
+	'neighborhood' => (string) $neighborhood,
+	'institution' => $institution,
+	'profile_image' => $imageFileName,
+	'password' => (string) ($password ?? ''),
+]);
 
 if ($musiciansDAO->edit($musicianInfo)) {
 	Message::set('success', "Músico editado com sucesso!");

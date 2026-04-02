@@ -77,12 +77,13 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
     }
 }
 
-$newsInfo = new News();
-$newsInfo->setNewsId($newsId);
-$newsInfo->setNewsTitle($newsTitle);
-$newsInfo->setNewsSubtitle($newsSubtitle);
-$newsInfo->setNewsImage((string) $imageFileName);
-$newsInfo->setNewsDescription($newsDescription);
+$newsInfo = News::fromArray([
+    'news_id' => $newsId,
+    'news_title' => $newsTitle,
+    'news_subtitle' => $newsSubtitle,
+    'news_image' => (string) $imageFileName,
+    'news_description' => $newsDescription,
+]);
 
 if ($newsDAO->edit($newsInfo)) {
     Message::set('success', 'Notícia editada com sucesso!');

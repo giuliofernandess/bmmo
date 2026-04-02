@@ -24,29 +24,29 @@ class MusiciansDAO implements EntityInterface
             return false;
         }
 
-        $musician = $entity;
+        $musicianData = $entity->toArray();
 
         // Normaliza os dados recebidos para persistência.
-        $musicianName = $musician->getMusicianName();
-        $login = $musician->getMusicianLogin();
+        $musicianName = $musicianData['musician_name'];
+        $login = $musicianData['musician_login'];
 
-        $dateOfBirth = $musician->getDateOfBirth();
+        $dateOfBirth = $musicianData['date_of_birth'];
         $birthObj = $dateOfBirth ? DateTime::createFromFormat('Y-m-d', $dateOfBirth) : null;
         $birth = $birthObj ? $birthObj->format('Y-m-d') : null;
 
-        $instrument = $musician->getInstrument();
-        $bandGroup = $musician->getBandGroup();
+        $instrument = (int) ($musicianData['instrument'] ?? 0);
+        $bandGroup = (int) ($musicianData['band_group'] ?? 0);
 
-        $musicianContact = $musician->getMusicianContact();
-        $responsibleName = $musician->getResponsibleName();
-        $responsibleContact = $musician->getResponsibleContact();
-        $neighborhood = $musician->getNeighborhood();
-        $institution = $musician->getInstitution();
+        $musicianContact = $musicianData['musician_contact'];
+        $responsibleName = $musicianData['responsible_name'];
+        $responsibleContact = $musicianData['responsible_contact'];
+        $neighborhood = $musicianData['neighborhood'];
+        $institution = $musicianData['institution'];
 
-        $profileImage = $musician->getProfileImage();
+        $profileImage = $musicianData['profile_image'];
 
         // Gera hash seguro da senha.
-        $passwordRaw = $musician->getPassword();
+        $passwordRaw = $musicianData['password'];
 
         if (!$passwordRaw) {
             return false;
@@ -85,22 +85,22 @@ class MusiciansDAO implements EntityInterface
             return false;
         }
 
-        $musician = $entity;
+        $musicianData = $entity->toArray();
 
-        $musicianId = (int) ($musician->getMusicianId() ?? 0);
-        $musicianLogin = $musician->getMusicianLogin();
+        $musicianId = (int) ($musicianData['musician_id'] ?? 0);
+        $musicianLogin = $musicianData['musician_login'];
 
-        $instrument = $musician->getInstrument();
-        $bandGroup = $musician->getBandGroup();
+        $instrument = (int) ($musicianData['instrument'] ?? 0);
+        $bandGroup = (int) ($musicianData['band_group'] ?? 0);
 
-        $musicianContact = $musician->getMusicianContact();
-        $responsibleName = $musician->getResponsibleName();
-        $responsibleContact = $musician->getResponsibleContact();
-        $neighborhood = $musician->getNeighborhood();
-        $institution = $musician->getInstitution();
+        $musicianContact = $musicianData['musician_contact'];
+        $responsibleName = $musicianData['responsible_name'];
+        $responsibleContact = $musicianData['responsible_contact'];
+        $neighborhood = $musicianData['neighborhood'];
+        $institution = $musicianData['institution'];
 
-        $profileImage = $musician->getProfileImage();
-        $passwordRaw = $musician->getPassword();
+        $profileImage = $musicianData['profile_image'];
+        $passwordRaw = $musicianData['password'];
 
         try {
 
@@ -194,17 +194,17 @@ class MusiciansDAO implements EntityInterface
             return false;
         }
 
-        $musician = $entity;
+        $musicianData = $entity->toArray();
 
-        $musicianId = (int) ($musician->getMusicianId() ?? 0);
+        $musicianId = (int) ($musicianData['musician_id'] ?? 0);
 
-        $musicianContact = $musician->getMusicianContact();
-        $responsibleName = $musician->getResponsibleName();
-        $responsibleContact = $musician->getResponsibleContact();
-        $neighborhood = $musician->getNeighborhood();
-        $institution = $musician->getInstitution();
+        $musicianContact = $musicianData['musician_contact'];
+        $responsibleName = $musicianData['responsible_name'];
+        $responsibleContact = $musicianData['responsible_contact'];
+        $neighborhood = $musicianData['neighborhood'];
+        $institution = $musicianData['institution'];
 
-        $passwordRaw = $musician->getPassword();
+        $passwordRaw = $musicianData['password'];
 
         try {
 
@@ -321,7 +321,13 @@ class MusiciansDAO implements EntityInterface
         $stmt->close();
 
         // Retorna array com dados ou null se vazio.
-        return $data ?: null;
+        if (!$data) {
+            return null;
+        }
+
+        $normalized = Musician::fromArray($data)->toArray();
+
+        return array_replace($data, array_intersect_key($normalized, $data));
     }
 
 
@@ -388,7 +394,8 @@ class MusiciansDAO implements EntityInterface
         $musiciansList = [];
 
         while ($row = $result->fetch_assoc()) {
-            $musiciansList[] = $row;
+            $normalized = Musician::fromArray($row)->toArray();
+            $musiciansList[] = array_replace($row, array_intersect_key($normalized, $row));
         }
 
         $stmt->close();
@@ -422,7 +429,13 @@ class MusiciansDAO implements EntityInterface
 
         $stmt->close();
 
-        return $data ?: null;
+        if (!$data) {
+            return null;
+        }
+
+        $normalized = Musician::fromArray($data)->toArray();
+
+        return array_replace($data, array_intersect_key($normalized, $data));
     }
 
     /**
@@ -442,7 +455,11 @@ class MusiciansDAO implements EntityInterface
 
         $stmt->close();
 
-        return $data['profile_image'] ?? '';
+        if (!$data) {
+            return '';
+        }
+
+        return (string) (Musician::fromArray($data)->toArray()['profile_image'] ?? '');
     }
 
 

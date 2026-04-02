@@ -23,15 +23,7 @@ class NewsDAO implements EntityInterface
             return false;
         }
 
-        $newsEntity = $entity;
-
-        // Normaliza dados recebidos antes do INSERT.
-        $title = $newsEntity->getNewsTitle();
-        $subtitle = $newsEntity->getNewsSubtitle();
-        $image = $newsEntity->getNewsImage();
-        $description = $newsEntity->getNewsDescription();
-        $date = $newsEntity->getPublicationDate();
-        $hour = $newsEntity->getPublicationHour();
+        $newsData = $entity->toArray();
 
         // Persiste notícia no banco.
         try {
@@ -39,7 +31,15 @@ class NewsDAO implements EntityInterface
             $stmt = $db->prepare(
                 "INSERT INTO news (news_title, news_subtitle, news_image, news_description, publication_date, publication_hour) VALUES (?, ?, ?, ?, ?, ?)"
             );
-            $stmt->bind_param("ssssss", $title, $subtitle, $image, $description, $date, $hour);
+            $stmt->bind_param(
+                "ssssss",
+                $newsData['news_title'],
+                $newsData['news_subtitle'],
+                $newsData['news_image'],
+                $newsData['news_description'],
+                $newsData['publication_date'],
+                $newsData['publication_hour']
+            );
 
             $success = $stmt->execute();
 
@@ -72,7 +72,7 @@ class NewsDAO implements EntityInterface
         $newsList = [];
 
         while ($res = $result->fetch_assoc()) {
-            $newsList[] = $res;
+            $newsList[] = News::fromArray($res)->toArray();
         }
 
         $stmt->close();
@@ -102,7 +102,7 @@ class NewsDAO implements EntityInterface
 
         $stmt->close();
 
-        return $data ?: null;
+        return $data ? News::fromArray($data)->toArray() : null;
     }
 
     /**
@@ -116,19 +116,21 @@ class NewsDAO implements EntityInterface
             return false;
         }
 
-        $newsEntity = $entity;
-
-        $newsId = (int) ($newsEntity->getNewsId() ?? 0);
-        $title = $newsEntity->getNewsTitle();
-        $subtitle = $newsEntity->getNewsSubtitle();
-        $image = $newsEntity->getNewsImage();
-        $description = $newsEntity->getNewsDescription();
+        $newsData = $entity->toArray();
+        $newsId = (int) ($newsData['news_id'] ?? 0);
 
         try {
             $stmt = $db->prepare(
                 "UPDATE news SET news_title = ?, news_subtitle = ?, news_image = ?, news_description = ? WHERE news_id = ?"
             );
-            $stmt->bind_param("ssssi", $title, $subtitle, $image, $description, $newsId);
+            $stmt->bind_param(
+                "ssssi",
+                $newsData['news_title'],
+                $newsData['news_subtitle'],
+                $newsData['news_image'],
+                $newsData['news_description'],
+                $newsId
+            );
 
             $success = $stmt->execute();
             $stmt->close();
@@ -180,7 +182,7 @@ class NewsDAO implements EntityInterface
         $newsList = [];
 
         while ($res = $result->fetch_assoc()) {
-            $newsList[] = $res;
+            $newsList[] = News::fromArray($res)->toArray();
         }
 
         $stmt->close();

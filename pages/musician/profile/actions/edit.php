@@ -36,14 +36,15 @@ if (!empty($password) || !empty($confirmPassword)) {
 }
 
 // Informações do músico via Model
-$musicianInfo = new Musician();
-$musicianInfo->setMusicianId((int) $musicianId);
-$musicianInfo->setMusicianContact($musicianContact);
-$musicianInfo->setResponsibleName($responsibleName);
-$musicianInfo->setResponsibleContact($responsibleContact);
-$musicianInfo->setNeighborhood((string) $neighborhood);
-$musicianInfo->setInstitution($institution);
-$musicianInfo->setPassword((string) ($password ?? ''));
+$musicianInfo = Musician::fromArray([
+    'musician_id' => (int) $musicianId,
+    'musician_contact' => $musicianContact,
+    'responsible_name' => $responsibleName,
+    'responsible_contact' => $responsibleContact,
+    'neighborhood' => (string) $neighborhood,
+    'institution' => $institution,
+    'password' => (string) ($password ?? ''),
+]);
 
 $musiciansDAO = new MusiciansDAO($conn);
 if ($musiciansDAO->editOwnProfile($musicianInfo)) {
