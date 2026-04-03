@@ -17,7 +17,7 @@ $instruments = $instrumentsDAO->getAll(false, true);
 $instrumentsVoiceOff = $instrumentsDAO->getAll(true);
 
 // Verifica se recebeu o id do músico
-$musicId = isset($_GET["musicId"]) ? (int) $_GET["musicId"] : null;
+$musicId = isset($_GET['musicId']) ? (int) $_GET['musicId'] : null;
 
 if (!$musicId) {
   header("Location: " . BASE_URL . "pages/admin/musicalScores/index.php");
@@ -32,9 +32,8 @@ if (!$musicalScores) {
 }
 
 // Recebimento de variáveis
-$music_name = trim($musicalScores['music_name'] ?? '');
-$music_genre = trim($musicalScores['music_genre'] ?? '');
-$group_name = trim($musicalScores['group_name'] ?? '');
+$music_name = trim($musicalScores->getMusicName());
+$music_genre = trim($musicalScores->getMusicGenre());
 
 ?>
 
@@ -69,18 +68,18 @@ $group_name = trim($musicalScores['group_name'] ?? '');
     <!-- Form -->
     <form method="post" action="<?= BASE_URL ?>pages/admin/musicalScores/actions/edit.php" enctype="multipart/form-data" class="row g-3">
 
-      <input type="hidden" name="id" value="<?= $musicId ?>">
+      <input type="hidden" name="musical_score_id" value="<?= $musicId ?>">
 
       <!-- Nome -->
       <div class="col-12 col-md-6 mb-3">
-        <label for="iname" class="form-label fw-semibold">Nome</label>
-        <input type="text" name="name" id="iname" class="form-control" value="<?= $music_name ?>">
+        <label for="musical-score-name" class="form-label fw-semibold">Nome</label>
+        <input type="text" name="musical_score_name" id="musical-score-name" class="form-control" value="<?= $music_name ?>">
       </div>
 
       <!-- Gênero -->
       <div class="col-12 col-md-6 mb-3">
-        <label for="igenre" class="form-label fw-semibold">Gênero</label>
-        <select name="genre" id="igenre" class="form-select">
+        <label for="musical-score-genre" class="form-label fw-semibold">Gênero</label>
+        <select name="musical_score_genre" id="musical-score-genre" class="form-select">
           <option value="<?= $music_genre ?>"><?= $music_genre ?></option>
           <?php require_once BASE_PATH . "includes/optionsMusicalGenre.php"; ?>
         </select>
@@ -89,67 +88,69 @@ $group_name = trim($musicalScores['group_name'] ?? '');
       <!-- Grupo -->
       <div class="mb-3 col-12">
         <label class="form-label fw-semibold">Grupo da Banda</label><br>
-        <?php foreach ($groups as $group): ?>
-          <input type="checkbox" class="form-check-input" name="groups[]" value="<?= $group['group_id'] ?>"
-            <?= $musicalScoresDAO->verifyGroup($musicId, $group['group_id']) ? 'checked' : ''; ?>>
+        <?php foreach ($groups as $group) { ?>
+          <?php $groupId = (int) ($group->getGroupId() ?? 0); ?>
+          <input type="checkbox" class="form-check-input" name="musical_score_groups[]" value="<?= $groupId ?>"
+            <?= $musicalScoresDAO->verifyGroup($musicId, $groupId) ? 'checked' : ''; ?>>
           <label class="form-check-label">
-            <?= $group['group_name'] ?>
+            <?= htmlspecialchars($group->getGroupName()) ?>
           </label><br>
-        <?php endforeach; ?>
+        <?php } ?>
       </div>
 
       <!-- Instrumentos sem Vozes -->
       <div class="mb-4 col-12">
         <div class="d-flex align-items-center justify-content-between mb-3">
           <h3>Instrumentos sem Vozes</h3>
-          <i class="bi bi-plus-square-fill fs-3 text-primary cursor-pointer" id="add-icon" onclick="showForm()"
+          <i class="bi bi-plus-square-fill fs-3 text-primary cursor-pointer" id="form-toggle-icon"
         title="Instrumentos sem Vozes"></i>
         </div>
 
-        <div class="table-responsive" id="presentation-form" style="display: none;">
+        <div class="table-responsive is-hidden" id="musical-score-form-container">
           <table class="table table-bordered table-hover align-middle shadow-sm">
 
             <thead class="table-primary text-center">
               <tr>
-                <th style="width:45%">Instrumento</th>
-                <th style="width:50%">Adicionar Arquivo</th>
-                <th style="width:5%">Excluir</th>
+                <th class="musical-score-voice-off-instrument-col">Instrumento</th>
+                <th class="musical-score-voice-off-file-col">Adicionar Arquivo</th>
+                <th class="musical-score-voice-off-delete-col">Excluir</th>
               </tr>
             </thead>
 
             <tbody>
-              <?php foreach ($instrumentsVoiceOff as $instrument): ?>
-                <?php $hasFile = $musicalScoresDAO->verifyInstrument($musicId, $instrument['instrument_id']);
+              <?php foreach ($instrumentsVoiceOff as $instrument) { ?>
+                <?php $instrumentId = (int) ($instrument->getInstrumentId() ?? 0); ?>
+                <?php $hasFile = $musicalScoresDAO->verifyInstrument($musicId, $instrumentId);
 
-                $musicFile = $musicalScoresDAO->getFile($musicId, $instrument['instrument_id'])
+                $musicFile = $musicalScoresDAO->getFile($musicId, $instrumentId)
                   ?>
 
 
 
                 <tr>
                   <td class="fw-semibold">
-                    <?= substr($instrument['instrument_name'], 3); ?>
+                    <?= htmlspecialchars(substr($instrument->getInstrumentName(), 3)); ?>
                   </td>
 
                   <td>
-                    <input type="file" name="instrumentsVoiceOff[<?= $instrument['instrument_id'] ?>]"
+                    <input type="file" name="musical_score_instruments_voice_off[<?= $instrumentId ?>]"
                       class="form-control form-control-sm">
                   </td>
 
                     <td class=" d-flex align-items-center justify-content-center">
-                      <?php if ($hasFile): ?>
+                      <?php if ($hasFile) { ?>
                         <button type="button"
-                          class="btn btn-sm btn-danger d-flex align-items-center justify-content-center"
-                          onclick="deleteInstrumentFile(<?= (int) $musicId ?>, <?= (int) $instrument['instrument_id'] ?>, true)">
+                          class="btn btn-sm btn-danger d-flex align-items-center justify-content-center delete-instrument-file-button"
+                          data-music-id="<?= (int) $musicId ?>" data-instrument-id="<?= $instrumentId ?>" data-voice-off="1">
                           <i class="bi bi-trash"></i>
                         </button>
-                      <?php else: ?>
+                      <?php } else { ?>
                         <span class="text-muted small">—</span>
-                      <?php endif; ?>
+                      <?php } ?>
                     </td>
 
                 </tr>
-              <?php endforeach ?>
+              <?php } ?>
             </tbody>
 
           </table>
@@ -165,28 +166,29 @@ $group_name = trim($musicalScores['group_name'] ?? '');
 
             <thead class="table-primary text-center">
               <tr>
-                <th style="width:25%">Instrumento</th>
-                <th style="width:30%">Arquivo Atual</th>
-                <th style="width:40%">Adicionar Arquivo</th>
-                <th style="width:5%">Excluir</th>
+                <th class="musical-score-instrument-col">Instrumento</th>
+                <th class="musical-score-current-file-col">Arquivo Atual</th>
+                <th class="musical-score-file-col">Adicionar Arquivo</th>
+                <th class="musical-score-delete-col">Excluir</th>
               </tr>
             </thead>
 
             <tbody>
-              <?php foreach ($instruments as $instrument): ?>
+              <?php foreach ($instruments as $instrument) { ?>
                 <?php
-                $hasFile = $musicalScoresDAO->verifyInstrument($musicId, $instrument['instrument_id']);
+                $instrumentId = (int) ($instrument->getInstrumentId() ?? 0);
+                $hasFile = $musicalScoresDAO->verifyInstrument($musicId, $instrumentId);
 
-                $musicFile = $musicalScoresDAO->getFile($musicId, $instrument['instrument_id'])
+                $musicFile = $musicalScoresDAO->getFile($musicId, $instrumentId)
                   ?>
 
                 <tr>
                   <td class="fw-semibold">
-                    <?= $instrument['instrument_name']; ?>
+                    <?= htmlspecialchars($instrument->getInstrumentName()); ?>
                   </td>
 
                   <td class="text-center">
-                    <?php if ($hasFile): ?>
+                    <?php if ($hasFile) { ?>
                       <div class="file-cell">
                         <i class="bi bi-file-earmark-text text-secondary"></i>
 
@@ -196,30 +198,30 @@ $group_name = trim($musicalScores['group_name'] ?? '');
                           <?= basename($musicFile) ?>
                         </a>
                       </div>
-                    <?php else: ?>
+                    <?php } else { ?>
                       <span class="text-muted small">—</span>
-                    <?php endif; ?>
+                    <?php } ?>
                   </td>
 
                   <td>
-                    <input type="file" name="instruments[<?= $instrument['instrument_id'] ?>]"
+                    <input type="file" name="musical_score_instruments[<?= $instrumentId ?>]"
                       class="form-control form-control-sm">
                   </td>
 
                   <td class=" d-flex align-items-center justify-content-center">
-                    <?php if ($hasFile): ?>
+                    <?php if ($hasFile) { ?>
                       <button type="button"
-                        class="btn btn-sm btn-danger d-flex align-items-center justify-content-center"
-                        onclick="deleteInstrumentFile(<?= (int) $musicId ?>, <?= (int) $instrument['instrument_id'] ?>, false)">
+                        class="btn btn-sm btn-danger d-flex align-items-center justify-content-center delete-instrument-file-button"
+                        data-music-id="<?= (int) $musicId ?>" data-instrument-id="<?= $instrumentId ?>" data-voice-off="0">
                         <i class="bi bi-trash"></i>
                       </button>
-                    <?php else: ?>
+                    <?php } else { ?>
                       <span class="text-muted small">—</span>
-                    <?php endif; ?>
+                    <?php } ?>
                   </td>
 
                 </tr>
-              <?php endforeach ?>
+              <?php } ?>
             </tbody>
 
           </table>
@@ -233,7 +235,7 @@ $group_name = trim($musicalScores['group_name'] ?? '');
       </div>
 
       <div class="col-12 col-md-6 d-grid">
-        <button type="button" class="btn btn-danger" onclick="deleteMusicalScore(<?= (int) $musicId ?>)">
+        <button type="button" class="btn btn-danger delete-musical-score-button" data-music-id="<?= (int) $musicId ?>">
           Excluir Partitura
         </button>
       </div>
@@ -246,6 +248,25 @@ $group_name = trim($musicalScores['group_name'] ?? '');
 
   <!-- Scripts -->
   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.delete-instrument-file-button').forEach((button) => {
+        button.addEventListener('click', () => {
+          const musicId = Number(button.dataset.musicId);
+          const instrumentId = Number(button.dataset.instrumentId);
+          const voiceOff = button.dataset.voiceOff === '1';
+
+          deleteInstrumentFile(musicId, instrumentId, voiceOff);
+        });
+      });
+
+      const deleteScoreButton = document.querySelector('.delete-musical-score-button');
+      if (deleteScoreButton) {
+        deleteScoreButton.addEventListener('click', () => {
+          deleteMusicalScore(Number(deleteScoreButton.dataset.musicId));
+        });
+      }
+    });
+
     function submitPost(url, fields) {
       const form = document.createElement('form');
       form.method = 'POST';
@@ -264,7 +285,7 @@ $group_name = trim($musicalScores['group_name'] ?? '');
     }
 
     function deleteInstrumentFile(musicId, instrumentId, voiceOff) {
-      if (!confirm('Deseja excluir este arquivo?')) {
+      if (!confirmAction('Deseja excluir este arquivo?')) {
         return;
       }
 
@@ -276,7 +297,7 @@ $group_name = trim($musicalScores['group_name'] ?? '');
     }
 
     function deleteMusicalScore(musicId) {
-      if (!confirm('Deseja excluir esta partitura?')) {
+      if (!confirmAction('Deseja excluir esta partitura?')) {
         return;
       }
 
@@ -286,6 +307,7 @@ $group_name = trim($musicalScores['group_name'] ?? '');
     }
   </script>
 
+  <script src="<?= BASE_URL ?>assets/js/confirmAction.js"></script>
   <script src="<?= BASE_URL ?>assets/js/showForm.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"

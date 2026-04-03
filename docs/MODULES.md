@@ -10,11 +10,11 @@
 - `pages/logout.php`
 
 ### Regras centrais
-- `Auth::regencyLogin`
-- `Auth::musicianLogin`
-- `Auth::requireRegency`
-- `Auth::requireMusician`
-- `Auth::logout`
+- `Auth::regencyLogin()`
+- `Auth::musicianLogin()`
+- `Auth::requireRegency()`
+- `Auth::requireMusician()`
+- `Auth::logout()`
 
 ## Notícias
 

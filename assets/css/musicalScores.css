@@ -13,6 +13,34 @@
   object-fit: cover;
 }
 
+.musical-score-voice-off-instrument-col {
+  width: 45%;
+}
+
+.musical-score-voice-off-file-col {
+  width: 50%;
+}
+
+.musical-score-voice-off-delete-col {
+  width: 5%;
+}
+
+.musical-score-instrument-col {
+  width: 25%;
+}
+
+.musical-score-current-file-col {
+  width: 30%;
+}
+
+.musical-score-file-col {
+  width: 40%;
+}
+
+.musical-score-delete-col {
+  width: 5%;
+}
+
 .btn {
   transition: 0.2s;
 }

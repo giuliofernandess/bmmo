@@ -30,8 +30,8 @@ Auth::requireRegency();
     <nav>
       <ul class="nav">
         <li class="nav-item">
-          <a href="<?= BASE_URL ?>pages/logout.php" class="nav-link text-white"
-            onclick="return confirm('Tem certeza que deseja sair de sua conta?');" style="font-size: 1.6rem;">
+          <a href="<?= BASE_URL ?>pages/logout.php" class="nav-link text-white logout-link-icon"
+            id="logout-link">
             <i class="bi bi-box-arrow-left text-white"></i>
           </a>
         </li>
@@ -110,9 +110,24 @@ Auth::requireRegency();
     </div>
   </main>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const logoutLink = document.querySelector('#logout-link');
+
+      if (logoutLink) {
+        logoutLink.addEventListener('click', (event) => {
+          if (!confirmAction('Tem certeza que deseja sair de sua conta?')) {
+            event.preventDefault();
+          }
+        });
+      }
+    });
+  </script>
+
   <!-- Footer -->
   <?php include_once BASE_PATH . 'includes/footer.php'; ?>
 
+  <script src="<?= BASE_URL ?>assets/js/confirmAction.js"></script>
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 </body>

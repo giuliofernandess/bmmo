@@ -11,10 +11,10 @@ $presentationsDAO = new PresentationsDAO($conn);
 
 Auth::requireRegency();
 
-$name = trim($_POST['name'] ?? '');
-$date = trim($_POST['date'] ?? '');
-$hour = trim($_POST['hour'] ?? '');
-$local = trim($_POST['local'] ?? '');
+$name = trim($_POST['presentation_name'] ?? $_POST['name'] ?? '');
+$date = trim($_POST['presentation_date'] ?? $_POST['date'] ?? '');
+$hour = trim($_POST['presentation_hour'] ?? $_POST['hour'] ?? '');
+$local = trim($_POST['presentation_location'] ?? $_POST['local'] ?? '');
 
 $redirect = BASE_URL . 'pages/admin/presentations/index.php';
 

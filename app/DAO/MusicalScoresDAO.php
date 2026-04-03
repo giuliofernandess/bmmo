@@ -22,11 +22,10 @@ class MusicalScoresDAO implements EntityInterface
         }
 
         $db = $this->conn;
-        $musicalScoreData = $entity->toArray();
 
-        $musicName = $musicalScoreData['music_name'];
-        $musicGenre = $musicalScoreData['music_genre'];
-        $musicGroups = $musicalScoreData['music_groups'];
+        $musicName = $entity->getMusicName();
+        $musicGenre = $entity->getMusicGenre();
+        $musicGroups = $entity->getMusicGroups();
 
         $db->begin_transaction();
 
@@ -95,14 +94,13 @@ class MusicalScoresDAO implements EntityInterface
         }
 
         $db = $this->conn;
-        $musicalScoreData = $entity->toArray();
 
-        $musicId = (int) ($musicalScoreData['music_id'] ?? 0);
-        $musicName = $musicalScoreData['music_name'];
-        $musicGenre = $musicalScoreData['music_genre'];
-        $musicGroups = $musicalScoreData['music_groups'];
-        $instrumentsVoiceOff = $musicalScoreData['instruments_voice_off'];
-        $instruments = $musicalScoreData['instruments'];
+        $musicId = (int) ($entity->getMusicId() ?? 0);
+        $musicName = $entity->getMusicName();
+        $musicGenre = $entity->getMusicGenre();
+        $musicGroups = $entity->getMusicGroups();
+        $instrumentsVoiceOff = $entity->getInstrumentsVoiceOff();
+        $instruments = $entity->getInstruments();
 
         $db->begin_transaction();
 
@@ -287,7 +285,7 @@ class MusicalScoresDAO implements EntityInterface
     {
         $db = $this->conn;
 
-        if ($instrumentId == 0) {
+        if ($instrumentId === 0) {
             $stmt = $db->prepare("DELETE FROM musical_scores_instruments 
             WHERE music_id = ?");
             $stmt->bind_param("i", $musicId);
@@ -327,8 +325,7 @@ class MusicalScoresDAO implements EntityInterface
         $bandGroup = (int) ($filters['band_group'] ?? 0);
         $musicGenre = (string) ($filters['music_genre'] ?? '');
 
-        $sql = "SELECT ms.*, msg.group_id 
-            FROM musical_scores ms
+        $sql = "SELECT ms.* FROM musical_scores ms
             LEFT JOIN musical_scores_groups msg ON ms.music_id = msg.music_id";
 
         $conditions = [];
@@ -336,7 +333,7 @@ class MusicalScoresDAO implements EntityInterface
         $types = "";
 
         if ($musicName !== '') {
-            $conditions[] = "ms.music_name LIKE ?";
+            $conditions[] = "music_name LIKE ?";
             $params[] = "%$musicName%";
             $types .= "s";
         }
@@ -374,16 +371,15 @@ class MusicalScoresDAO implements EntityInterface
         }
 
         $result = $stmt->get_result();
-        $musicsList = [];
+        $musics = [];
 
         while ($row = $result->fetch_assoc()) {
-            $normalized = MusicalScore::fromArray($row)->toArray();
-            $musicsList[] = array_replace($row, array_intersect_key($normalized, $row));
+            $musics[] = MusicalScore::fromArray($row);
         }
 
         $stmt->close();
 
-        return $musicsList;
+        return $musics;
     }
 
     /**
@@ -394,7 +390,7 @@ class MusicalScoresDAO implements EntityInterface
     {
         $db = $this->conn;
 
-        $sql = "SELECT msg.*, ms.*, msi.* FROM musical_scores_groups AS msg
+        $sql = "SELECT ms.* FROM musical_scores_groups AS msg
                 JOIN musical_scores_instruments AS msi ON msg.music_id = msi.music_id
                 JOIN musical_scores AS ms ON msg.music_id = ms.music_id
                 WHERE msg.group_id = ? AND msi.instrument_id = ?";
@@ -439,8 +435,7 @@ class MusicalScoresDAO implements EntityInterface
         $musicsList = [];
 
         while ($row = $result->fetch_assoc()) {
-            $normalized = MusicalScore::fromArray($row)->toArray();
-            $musicsList[] = array_replace($row, array_intersect_key($normalized, $row));
+            $musicsList[] = MusicalScore::fromArray($row);
         }
 
         $stmt->close();
@@ -451,15 +446,11 @@ class MusicalScoresDAO implements EntityInterface
     /**
      * Busca partitura por ID.
      */
-    public function getById(int $musicId): ?array
+    public function getById(int $musicId): ?MusicalScore
     {
         $db = $this->conn;
 
-        $sql = "SELECT ms.music_name, ms.music_genre, msg.music_id, msg.group_id, bg.group_id, bg.group_name 
-        FROM musical_scores AS ms
-        JOIN musical_scores_groups AS msg ON ms.music_id = msg.music_id
-        JOIN band_groups AS bg ON msg.group_id = bg.group_id
-        WHERE ms.music_id = ?";
+        $sql = "SELECT * FROM musical_scores WHERE music_id = ?";
         $stmt = $db->prepare($sql);
 
         if (!$stmt) {
@@ -474,14 +465,7 @@ class MusicalScoresDAO implements EntityInterface
 
         $stmt->close();
 
-        if (!$data) {
-            return null;
-        }
-
-        $normalized = MusicalScore::fromArray($data)->toArray();
-
-        return array_replace($data, array_intersect_key($normalized, $data));
-
+        return $data ? MusicalScore::fromArray($data) : null;
     }
 
     /**
@@ -530,7 +514,7 @@ class MusicalScoresDAO implements EntityInterface
 
         $stmt->close();
 
-        if ($result->num_rows == 0) {
+        if ($result->num_rows === 0) {
             return false;
         } else {
             return true;
@@ -561,7 +545,7 @@ class MusicalScoresDAO implements EntityInterface
 
         $stmt->close();
 
-        if ($result->num_rows == 0) {
+        if ($result->num_rows === 0) {
             return false;
         } else {
             return true;

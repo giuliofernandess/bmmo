@@ -4,6 +4,10 @@
   max-width: 1200px;
 }
 
+.profile-summary-card {
+  max-width: 1000px;
+}
+
 .card-image {
   max-height: 470px;
 }

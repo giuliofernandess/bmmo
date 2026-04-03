@@ -21,13 +21,25 @@ function postValue(string $key, string $type = 'string')
 		: trim($_POST[$key]);
 }
 
-function isValidBirthDate(?string $age): bool
+function postValueAny(array $keys, string $type = 'string')
+{
+	foreach ($keys as $key) {
+		$value = postValue($key, $type);
+		if ($value !== null) {
+			return $value;
+		}
+	}
+
+	return null;
+}
+
+function isValidBirthDate(?string $age, ?string $responsibleName, ?string $responsibleContact): bool
 {
 	if ($age < 7 && $age > 100) {
 		return false;
-	} else if ($age < 18 && empty($_POST['responsible'])) {
+	} elseif ($age < 18 && $responsibleName === null) {
 		return false;
-	} else if ($age < 18 && empty($_POST['contact-of-responsible'])) {
+	} elseif ($age < 18 && $responsibleContact === null) {
 		return false;
 	} else {
 		return true;
@@ -35,23 +47,23 @@ function isValidBirthDate(?string $age): bool
 }
 
 // Recebimento de variáveis pelo método POST
-$musicianName = postValue('name');
-$login = postValue('login');
+$musicianName = postValueAny(['musician_name', 'name']);
+$login = postValueAny(['musician_login', 'login']);
 
-$dateOfBirth = postValue('date');
+$dateOfBirth = postValueAny(['date_of_birth', 'date']);
 $birth = DateTime::createFromFormat('Y-m-d', $dateOfBirth);
 $today = new DateTime();
 $age = $today->diff($birth)->y;
 
 $instrument = postValue('instrument', 'int');
-$bandGroup = postValue('group', 'int');
-$musicianContact = postValue('contact');
-$responsibleName = postValue('responsible');
-$responsibleContact = postValue('contact-of-responsible');
+$bandGroup = postValueAny(['band_group', 'group'], 'int');
+$musicianContact = postValueAny(['musician_contact', 'contact']);
+$responsibleName = postValueAny(['responsible_name', 'responsible']);
+$responsibleContact = postValueAny(['responsible_contact', 'contact-of-responsible']);
 $neighborhood = postValue('neighborhood');
 $institution = postValue('institution');
 $password = postValue('password');
-$confirmPassword = postValue('confirm-password');
+$confirmPassword = postValueAny(['confirm_password', 'confirm-password']);
 
 // Upload da imagem
 $imageFileName = null;
@@ -108,7 +120,7 @@ if ($musiciansDAO->verifyLogin($login)) {
 }
 
 /* Valida datas */
-if (!isValidBirthDate($age)) {
+if (!isValidBirthDate($age, $responsibleName, $responsibleContact)) {
 	Message::set('error', "Data de nascimento inválida ou falta de informações do responsável.");
 	header("Location: " . BASE_URL . "pages/admin/registerMusician/index.php");
 	exit;

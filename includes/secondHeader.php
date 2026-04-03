@@ -1,5 +1,5 @@
 <header class="d-flex align-items-center justify-content-between px-3 bg-primary">
-    <?php $isMusician = !empty($_SESSION['musician_login']); ?>
+    <?php $isMusician = isset($_SESSION['musician_login']); ?>
 
     <a href="<?= BASE_URL ?><?= $isMusician ? 'pages/musician/index.php' : 'pages/admin/index.php'; ?>"
         class="d-flex align-items-center text-white text-decoration-none">
@@ -10,7 +10,7 @@
     <nav>
         <ul class="nav">
             <li class="nav-item">
-                <a href="#" class="nav-link text-white" onclick="safeBack(); return false;" style="font-size: 1.4rem;">
+                <a href="#" class="nav-link text-white header-back-link" id="safe-back-button">
                     <i class="bi bi-arrow-90deg-left"></i>
                 </a>
             </li>

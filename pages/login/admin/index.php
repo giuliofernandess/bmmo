@@ -22,7 +22,7 @@ session_start();
   
 </head>
 
-<body class="d-flex flex-column min-vh-100" style="background: linear-gradient(to right, #eef2f3, #d9e9ff);">
+<body class="d-flex flex-column min-vh-100 login-page">
 
   <!-- Toast de erro (aparece quando houver mensagem pendente) -->
   <?php include_once BASE_PATH . 'includes/errorToast.php'; ?>
@@ -35,22 +35,22 @@ session_start();
 
     <h1 class="text-center mb-5">Login - Maestro</h1>
 
-    <div class="container form-container" style="max-width: 420px;">
+    <div class="container form-container login-container">
 
       <form action="<?= BASE_URL ?>pages/login/admin/actions/login.php" method="post">
         <!-- Campo login -->
         <div class="mb-3">
-          <label for="login" class="form-label ps-2">Login</label>
-          <input type="text" name="login" id="login" class="form-control rounded-pill" required />
+          <label for="user-login" class="form-label ps-2">Login</label>
+          <input type="text" name="user_login" id="user-login" class="form-control rounded-pill" required />
         </div>
 
         <!-- Campo senha com botão de mostrar/esconder -->
         <div class="mb-4">
-          <label for="password" class="form-label ps-2">Senha</label>
+          <label for="user-password" class="form-label ps-2">Senha</label>
           <div>
-            <input type="password" name="password" id="password" class="form-control rounded-pill"
+            <input type="password" name="user_password" id="user-password" class="form-control rounded-pill"
                    minlength="8" maxlength="20" required />
-            <i class="bi bi-eye-fill show-password" id="password-btn" onclick="showPassword()"></i>
+            <i class="bi bi-eye-fill show-password" id="password-toggle-button"></i>
           </div>
         </div>
 

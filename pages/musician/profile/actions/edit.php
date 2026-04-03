@@ -16,18 +16,30 @@ function postValue(string $key, string $type = 'string')
         : trim($_POST[$key]);
 }
 
+function postValueAny(array $keys, string $type = 'string')
+{
+    foreach ($keys as $key) {
+        $value = postValue($key, $type);
+        if ($value !== null) {
+            return $value;
+        }
+    }
+
+    return null;
+}
+
 // Recebimento de variáveis pelo método POST
-$musicianId = postValue('musician-id');
-$musicianContact = postValue('contact');
-$responsibleName = postValue('responsible');
-$responsibleContact = postValue('contact-of-responsible');
+$musicianId = postValueAny(['musician_id', 'musician-id']);
+$musicianContact = postValueAny(['musician_contact', 'contact']);
+$responsibleName = postValueAny(['responsible_name', 'responsible']);
+$responsibleContact = postValueAny(['responsible_contact', 'contact-of-responsible']);
 $neighborhood = postValue('neighborhood');
 $institution = postValue('institution');
 $password = postValue('password');
-$confirmPassword = postValue('confirm-password');
+$confirmPassword = postValueAny(['confirm_password', 'confirm-password']);
 
 /* Valida senha */
-if (!empty($password) || !empty($confirmPassword)) {
+if ($password !== null || $confirmPassword !== null) {
     if ($password !== $confirmPassword) {
         Message::set('error', "As senhas não conferem.");
         header("Location: " . BASE_URL . "pages/musician/profile/edit/index.php");

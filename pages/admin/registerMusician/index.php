@@ -13,6 +13,9 @@ $bandGroupsDAO = new BandGroupsDAO($conn);
 $instrumentsDAO = new InstrumentsDAO($conn);
 
 Auth::requireRegency();
+
+$selectedInstrument = 0;
+$selectedBandGroup = 0;
 ?>
 
 <!DOCTYPE html>
@@ -47,18 +50,18 @@ Auth::requireRegency();
 
         <!-- Nome + Login + Nascimento -->
         <div class="col-md-12">
-          <label for="name" class="form-label ps-2">Nome *</label>
-          <input type="text" name="name" id="name" class="form-control" placeholder="Nome do músico" required />
+          <label for="musician-name" class="form-label ps-2">Nome *</label>
+          <input type="text" name="musician_name" id="musician-name" class="form-control" placeholder="Nome do músico" required />
         </div>
 
         <div class="col-md-6">
-          <label for="login" class="form-label ps-2">Login *</label>
-          <input type="text" name="login" id="login" class="form-control" placeholder="Login do músico" required />
+          <label for="musician-login" class="form-label ps-2">Login *</label>
+          <input type="text" name="musician_login" id="musician-login" class="form-control" placeholder="Login do músico" required />
         </div>
 
         <div class="col-md-6">
-          <label for="date-of-birth" class="form-label ps-2">Data de Nascimento *</label>
-          <input type="date" name="date" id="date-of-birth" class="form-control" required />
+          <label for="musician-date-of-birth" class="form-label ps-2">Data de Nascimento *</label>
+          <input type="date" name="date_of_birth" id="musician-date-of-birth" class="form-control" required />
         </div>
 
         <!-- Instrumento + Grupo -->
@@ -72,15 +75,15 @@ Auth::requireRegency();
             $instrumentsList = $instrumentsDAO->getAll();
 
             // Itera sobre cada instrumento
-            foreach ($instrumentsList as $instrumentItem) {
+            foreach ($instrumentsList as $instrument) {
 
               // Dados do instrumento
-              $instrumentId = (int) $instrumentItem['instrument_id'];
-              $instrumentName = htmlspecialchars($instrumentItem['instrument_name'] ?? '', ENT_QUOTES, 'UTF-8');
+              $instrumentId = (int) ($instrument->getInstrumentId() ?? 0);
+              $instrumentName = htmlspecialchars($instrument->getInstrumentName(), ENT_QUOTES, 'UTF-8');
               ?>
 
               <!-- Options -->
-              <option value="<?= htmlspecialchars($instrumentId) ?>" <?= $instrumentId == $instrument ? 'selected' : '' ?>>
+              <option value="<?= $instrumentId ?>" <?= $instrumentId === $selectedInstrument ? 'selected' : '' ?>>
                 <?= $instrumentName ?>
               </option>
 
@@ -93,7 +96,7 @@ Auth::requireRegency();
 
         <div class="col-md-6">
           <label for="band-group" class="form-label ps-2">Grupo da Banda *</label>
-          <select name="group" id="band-group" class="form-select" required>
+          <select name="band_group" id="band-group" class="form-select" required>
             <option value="">Selecione</option>
 
             <?php
@@ -102,15 +105,15 @@ Auth::requireRegency();
 
 
             // Itera sobre cada grupo
-            foreach ($groupsList as $groupItem) {
+            foreach ($groupsList as $group) {
 
               // Dados do grupo
-              $groupId = (int) $groupItem['group_id'];
-              $groupName = htmlspecialchars($groupItem['group_name'] ?? '', ENT_QUOTES, 'UTF-8');
+              $groupId = (int) ($group->getGroupId() ?? 0);
+              $groupName = htmlspecialchars($group->getGroupName(), ENT_QUOTES, 'UTF-8');
               ?>
 
               <!-- Options -->
-              <option value="<?= htmlspecialchars($groupId) ?>" <?= $groupId == $band_group ? 'selected' : ''; ?>>
+              <option value="<?= $groupId ?>" <?= $groupId === $selectedBandGroup ? 'selected' : ''; ?>>
                 <?= $groupName ?>
               </option>
 
@@ -123,19 +126,19 @@ Auth::requireRegency();
 
         <!-- Contatos -->
         <div class="col-md-6">
-          <label for="contact" class="form-label ps-2">Contato do Músico *</label>
-          <input type="text" name="contact" id="contact" class="form-control" placeholder="(xx) xxxxx-xxxx" required />
+          <label for="musician-contact" class="form-label ps-2">Contato do Músico *</label>
+          <input type="text" name="musician_contact" id="musician-contact" class="form-control" placeholder="(xx) xxxxx-xxxx" required />
         </div>
 
         <div class="col-md-6">
-          <label for="responsible" class="form-label ps-2">Responsável</label>
-          <input type="text" name="responsible" id="responsible" class="form-control"
+          <label for="responsible-name" class="form-label ps-2">Responsável</label>
+          <input type="text" name="responsible_name" id="responsible-name" class="form-control"
             placeholder="Nome do responsável" />
         </div>
 
         <div class="col-md-6">
-          <label for="contact-of-responsible" class="form-label ps-2">Contato do Responsável</label>
-          <input type="text" name="contact-of-responsible" id="contact-of-responsible" class="form-control"
+          <label for="responsible-contact" class="form-label ps-2">Contato do Responsável</label>
+          <input type="text" name="responsible_contact" id="responsible-contact" class="form-control"
             placeholder="(xx) xxxxx-xxxx" />
         </div>
 
@@ -177,13 +180,13 @@ Auth::requireRegency();
           <div>
             <input type="password" name="password" id="password" class="form-control rounded-pill"
               placeholder="Digite a senha" minlength="8" maxlength="20" required />
-            <i class="bi bi-eye-fill show-password" id="password-btn" onclick="showPassword()"></i>
+            <i class="bi bi-eye-fill show-password" id="password-btn"></i>
           </div>
         </div>
 
         <div class="col-md-6">
           <label for="confirm-password" class="form-label ps-2">Confirmar Senha *</label>
-          <input type="password" name="confirm-password" id="confirm-password" class="form-control"
+          <input type="password" name="confirm_password" id="confirm-password" class="form-control"
             placeholder="Confirme a senha" minlength="8" maxlength="20" required />
         </div>
 

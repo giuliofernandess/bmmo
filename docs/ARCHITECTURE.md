@@ -10,7 +10,7 @@ O projeto segue arquitetura em camadas, sem framework, com separação clara ent
 - `app/Database/`: conexão MySQLi.
 - `app/DAO/`: acesso a dados e operações SQL.
 - `app/Models/`: entidades de domínio (`Musician`, `News`, `Presentation`, `MusicalScore`, etc.) e o contrato base `EntityInterface`.
-- `config/`: bootstrap global (constantes, conexão e instâncias DAO).
+- `config/`: bootstrap global (constantes e conexão MySQLi).
 
 ## Estrutura de rotas canonicamente ativa
 
@@ -24,8 +24,8 @@ O projeto segue arquitetura em camadas, sem framework, com separação clara ent
 ## Fluxo de requisição
 
 1. A rota inclui `config/config.php`.
-2. O bootstrap prepara constantes, conexão e DAOs.
-3. Quando necessário, `Auth` valida sessão e perfil.
+2. O bootstrap prepara constantes globais e a conexão MySQLi compartilhada.
+3. A rota/action instancia os DAOs necessários e, quando necessário, `Auth` valida sessão e perfil.
 4. Em operações de escrita, a rota/action instancia um objeto de domínio (`new ...`), preenche via métodos `set...` e envia para o DAO.
 5. A rota executa leitura/escrita via DAO.
 6. Feedback de operação é trafegado por `$_SESSION` e renderizado por `includes`.

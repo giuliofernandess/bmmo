@@ -15,7 +15,7 @@ class InstrumentsDAO
      *
      * @param bool $voiceOff Booleano que seleciona a consulta com in 
      * @param bool $musicalScore Booleano que verifica se o método vai ser chamado para uma partitura ou não
-     * @return array Array de instrumentos (cada instrumento é um array associativo)
+     * @return Instrument[]
      */
 
     public function getAll(bool $voiceOff = false, bool $musicalScore = false): array
@@ -43,7 +43,7 @@ class InstrumentsDAO
         $instrumentsList = [];
 
         while ($row = $result->fetch_assoc()) {
-            $instrumentsList[] = Instrument::fromArray($row)->toArray();
+            $instrumentsList[] = Instrument::fromArray($row);
         }
 
         $stmt->close();

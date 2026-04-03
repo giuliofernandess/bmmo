@@ -1,36 +1,64 @@
 function showForm() {
-  const formCard = document.querySelector("#news-form");
-  const icon = document.querySelector("#add-icon");
+  const formCard = document.querySelector("#news-form-container");
+  const icon = document.querySelector("#form-toggle-icon");
 
-  if (formCard.style.display === "none" || formCard.style.display === "") {
-    formCard.style.display = "block";
-    icon.className = "bi bi-x-square-fill fs-3 text-primary cursor-pointer";
+  if (!formCard || !icon) {
+    return;
+  }
+
+  const isOpen = icon.classList.contains("is-open");
+
+  icon.classList.toggle("is-open", !isOpen);
+  icon.className = !isOpen
+    ? "bi bi-x-square-fill fs-3 text-primary cursor-pointer is-open"
+    : "bi bi-plus-square-fill fs-3 text-primary cursor-pointer";
+
+  if (!isOpen) {
+    formCard.classList.remove("is-hidden");
   } else {
-    formCard.style.display = "none";
-    icon.className = "bi bi-plus-square-fill fs-3 text-primary cursor-pointer";
+    formCard.classList.add("is-hidden");
     resetNewsForm();
   }
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+  const toggleIcon = document.querySelector('#form-toggle-icon');
+  if (toggleIcon) {
+    toggleIcon.addEventListener('click', showForm);
+  }
+
+  document.querySelectorAll('.news-delete-form').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      if (!confirmAction('Tem certeza que deseja excluir esta notícia?')) {
+        event.preventDefault();
+      }
+    });
+  });
+
+  document.querySelectorAll('.news-edit-button').forEach((button) => {
+    button.addEventListener('click', () => editNews(button));
+  });
+});
+
 function resetNewsForm() {
   const form = document.querySelector("#news-form-element");
   form.action = `${window.BASE_URL}pages/admin/news/actions/create.php`;
-  document.querySelector("#form-title").textContent = "Criar Notícia";
+  document.querySelector("#news-form-title").textContent = "Criar Notícia";
   document.querySelector("#news-title").value = "";
   document.querySelector("#news-subtitle").value = "";
   document.querySelector("#news-description").value = "";
-  document.querySelector("#input-file").value = "";
+  document.querySelector("#news-image").value = "";
   document.querySelector("#news-submit").value = "Publicar Notícia";
 
-  const existingId = document.querySelector("input[name='id']");
+  const existingId = document.querySelector("input[name='news_id']");
   if (existingId) existingId.remove();
   const imageHint = document.querySelector("#image-hint");
   if (imageHint) imageHint.textContent = "";
 }
 
 function editNews(btn) {
-  const formCard = document.querySelector("#news-form");
-  if (formCard.style.display === "block") {
+  const formCard = document.querySelector("#news-form-container");
+  if (!formCard.classList.contains("is-hidden")) {
     alert("[ERRO] Não é possível editar enquanto o formulário está aberto em modo de criação.");
     return;
   }
@@ -38,19 +66,19 @@ function editNews(btn) {
   showForm();
 
   const card = btn.closest(".news-card-item");
-  const newsId = Number(card.dataset.id);
-  const title = card.dataset.title;
-  const subtitle = card.dataset.subtitle;
-  const description = card.dataset.description;
-  const image = card.dataset.image;
+  const newsId = Number(card.dataset.newsId);
+  const title = card.dataset.newsTitle;
+  const subtitle = card.dataset.newsSubtitle;
+  const description = card.dataset.newsDescription;
+  const image = card.dataset.newsImage;
 
   const form = document.querySelector("#news-form-element");
 
-  let existingId = document.querySelector("input[name='id']");
+  let existingId = document.querySelector("input[name='news_id']");
   if (!existingId) {
     existingId = document.createElement("input");
     existingId.type = "hidden";
-    existingId.name = "id";
+    existingId.name = "news_id";
     form.appendChild(existingId);
   }
   existingId.value = newsId;
@@ -63,7 +91,7 @@ function editNews(btn) {
   imageHint.textContent = image ? `Imagem atual: ${image}` : "Sem imagem atual";
 
   form.action = `${window.BASE_URL}pages/admin/news/actions/edit.php`;
-  document.querySelector("#form-title").textContent = "Editar Notícia";
+  document.querySelector("#news-form-title").textContent = "Editar Notícia";
   document.querySelector("#news-submit").value = "Editar Notícia";
 }
 

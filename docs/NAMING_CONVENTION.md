@@ -94,3 +94,138 @@ Exemplos:
 - Músico:
   - `pages/musician/index.php`
   - módulos em `pages/musician/*`
+
+## Padronizações operacionais (adotadas)
+
+As regras abaixo entram no padrão oficial.
+
+### 1. `data-*` explícito por domínio
+
+Evite `data-id` genérico.
+
+Exemplo:
+
+```html
+<div class="news-card-item" data-news-id="12" data-news-title="Concerto"></div>
+```
+
+### 2. Classes de estado para UI dinâmica
+
+Use classes de estado em vez de `style.display` inline.
+
+Exemplo:
+
+```css
+.is-hidden { display: none !important; }
+.is-open { display: block; }
+```
+
+```js
+form.classList.remove('is-hidden');
+form.classList.add('is-open');
+```
+
+### 3. Validação centralizada de entrada
+
+Centralize leitura/normalização de `$_POST` em helpers.
+
+Exemplo:
+
+```php
+function postValue(string $key): ?string {
+  if (!isset($_POST[$key]) || $_POST[$key] === '') {
+    return null;
+  }
+  return trim($_POST[$key]);
+}
+```
+
+### 4. Mensagens de feedback consistentes
+
+Use padrão claro para sucesso/erro.
+
+Exemplo:
+
+```php
+Message::set('success', 'Músico salvo com sucesso.');
+Message::set('error', 'Erro ao salvar músico. Tente novamente.');
+```
+
+### 5. Redirecionamento padronizado
+
+Defina `$redirect` uma vez e reutilize.
+
+Exemplo:
+
+```php
+$redirect = BASE_URL . 'pages/admin/musicians/index.php';
+header('Location: ' . $redirect);
+exit;
+```
+
+### 6. Nomes de coleção e item de loop
+
+Use coleção no plural e item no singular sem abreviações genéricas.
+
+Exemplo:
+
+```php
+$musiciansList = $musiciansDAO->getAll();
+
+foreach ($musiciansList as $musician) {
+  // ...
+}
+```
+
+Evite nomes como `$res`, `$rowItem`, `$inst` em páginas de domínio.
+
+### 7. Nome de upload consistente
+
+Prefixe por domínio para facilitar rastreio.
+
+Exemplo:
+
+```php
+$newFileName = uniqid('musician_', true) . '.' . $extension;
+```
+
+### 8. IDs semânticos de formulário
+
+Evite IDs genéricos como `iname`, `ibutton`.
+
+Exemplo:
+
+```html
+<input id="musician-name" name="musician_name">
+<input id="musician-submit" type="submit">
+```
+
+### 9. Filtros GET por domínio
+
+Padronize nomes de filtro com contexto de entidade.
+
+Exemplo:
+
+```php
+$_GET['musician_name']
+$_GET['band_group']
+$_GET['instrument_id']
+```
+
+### 10. Regra única para `null` e `empty`
+
+Use a semântica certa para cada caso:
+- `isset` para presença de chave
+- `empty` apenas para coleção vazia ou ausência de itens processáveis
+- `??` para valor opcional com fallback simples
+- comparação explícita com `null` para valores opcionais hidratados
+
+Exemplo recomendado:
+
+```php
+$login = isset($_SESSION['musician_login']) ? trim((string) $_SESSION['musician_login']) : null;
+
+if ($login === null) {
+  // trata ausência de sessão
+}
+```

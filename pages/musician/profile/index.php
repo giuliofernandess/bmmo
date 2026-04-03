@@ -32,7 +32,7 @@ require_once BASE_PATH ."includes/getMusicianInfo.php";
 
   <main class="flex-fill d-flex align-items-center justify-content-center">
     <div class="container">
-      <div class="card shadow mx-auto my-5" style="max-width: 1000px;">
+      <div class="card shadow mx-auto my-5 profile-summary-card">
         <div class="row g-0">
           <!-- Imagem -->
           <div class="col-md-4 text-center bg-secondary">

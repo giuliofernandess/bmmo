@@ -41,8 +41,18 @@ Auth::requireRegency();
     <h1 class="mb-4 text-center">Lista dos músicos BMMO</h1>
 
     <?php
-    $groups = $bandGroupsDAO->getAll();
-    $instruments = $instrumentsDAO->getAll();
+    $groupsList = $bandGroupsDAO->getAll();
+    $instrumentsList = $instrumentsDAO->getAll();
+
+    $groupMap = [];
+    foreach ($groupsList as $group) {
+      $groupMap[(int) ($group->getGroupId() ?? 0)] = $group->getGroupName();
+    }
+
+    $instrumentMap = [];
+    foreach ($instrumentsList as $instrument) {
+      $instrumentMap[(int) ($instrument->getInstrumentId() ?? 0)] = $instrument->getInstrumentName();
+    }
 
     $filterName = $_GET['name'] ?? '';
     $filterGroup = isset($_GET['group']) ? (int) $_GET['group'] : 0;
@@ -65,11 +75,12 @@ Auth::requireRegency();
             <label class="form-label fw-semibold">Grupo da banda</label>
             <select name="group" class="form-select">
               <option value="0">Todos</option>
-              <?php foreach ($groups as $group): ?>
-                <option value="<?= $group['group_id'] ?>" <?= $filterGroup == $group['group_id'] ? 'selected' : '' ?>>
-                  <?= htmlspecialchars($group['group_name']) ?>
+              <?php foreach ($groupsList as $group) { ?>
+                <?php $groupId = (int) ($group->getGroupId() ?? 0); ?>
+                <option value="<?= $groupId ?>" <?= $filterGroup === $groupId ? 'selected' : '' ?>>
+                  <?= htmlspecialchars($group->getGroupName()) ?>
                 </option>
-              <?php endforeach; ?>
+              <?php } ?>
             </select>
           </div>
 
@@ -78,11 +89,12 @@ Auth::requireRegency();
             <label class="form-label fw-semibold">Instrumento</label>
             <select name="instrument" class="form-select">
               <option value="0">Todos</option>
-              <?php foreach ($instruments as $inst): ?>
-                <option value="<?= $inst['instrument_id'] ?>" <?= $filterInstrument == $inst['instrument_id'] ? 'selected' : '' ?>>
-                  <?= htmlspecialchars($inst['instrument_name']) ?>
+              <?php foreach ($instrumentsList as $instrument) { ?>
+                <?php $instrumentId = (int) ($instrument->getInstrumentId() ?? 0); ?>
+                <option value="<?= $instrumentId ?>" <?= $filterInstrument === $instrumentId ? 'selected' : '' ?>>
+                  <?= htmlspecialchars($instrument->getInstrumentName()) ?>
                 </option>
-              <?php endforeach; ?>
+              <?php } ?>
             </select>
           </div>
 
@@ -112,15 +124,15 @@ Auth::requireRegency();
       $instrument = '';
 
       // Itera sobre cada músico
-      foreach ($musiciansList as $res) {
+      foreach ($musiciansList as $musician) {
 
         // Dados do músico
-        $musicianId = (int) $res['musician_id'];
-        $musicianName = htmlspecialchars($res['musician_name'] ?? '', ENT_QUOTES, 'UTF-8');
-        $bandGroup = htmlspecialchars($res['group_name'] ?? '', ENT_QUOTES, 'UTF-8');
+        $musicianId = (int) ($musician->getMusicianId() ?? 0);
+        $musicianName = htmlspecialchars($musician->getMusicianName(), ENT_QUOTES, 'UTF-8');
+        $bandGroup = htmlspecialchars($groupMap[$musician->getBandGroup()] ?? '', ENT_QUOTES, 'UTF-8');
 
         // Verificação de imagem
-        $musicianImage = basename($res['profile_image'] ?? '');
+        $musicianImage = basename((string) ($musician->getProfileImage() ?? ''));
 
         $imagePath = BASE_PATH . "uploads/musicians-images/{$musicianImage}";
         $imageUrl = BASE_URL . "uploads/musicians-images/{$musicianImage}";
@@ -129,12 +141,14 @@ Auth::requireRegency();
           ? $imageUrl
           : BASE_URL . "uploads/musicians-images/default.png";
 
-        if ($instrument != htmlspecialchars($res['instrument_name'] ?? '', ENT_QUOTES, 'UTF-8')) {
-          if ($instrument != '') {
+        $instrumentName = htmlspecialchars($instrumentMap[$musician->getInstrument()] ?? '', ENT_QUOTES, 'UTF-8');
+
+        if ($instrument !== $instrumentName) {
+          if ($instrument !== '') {
             echo "</div>";
           }
 
-          $instrument = htmlspecialchars($res['instrument_name'] ?? '', ENT_QUOTES, 'UTF-8');
+          $instrument = $instrumentName;
           echo "<h2 class='mt-5 border-bottom pb-2 text-primary mb-4'>$instrument</h2>";
           echo "<div class='row g-4 mt-3'>";
         } ?>

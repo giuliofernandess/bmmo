@@ -24,29 +24,27 @@ class MusiciansDAO implements EntityInterface
             return false;
         }
 
-        $musicianData = $entity->toArray();
-
         // Normaliza os dados recebidos para persistência.
-        $musicianName = $musicianData['musician_name'];
-        $login = $musicianData['musician_login'];
+        $musicianName = $entity->getMusicianName();
+        $login = $entity->getMusicianLogin();
 
-        $dateOfBirth = $musicianData['date_of_birth'];
+        $dateOfBirth = $entity->getDateOfBirth();
         $birthObj = $dateOfBirth ? DateTime::createFromFormat('Y-m-d', $dateOfBirth) : null;
         $birth = $birthObj ? $birthObj->format('Y-m-d') : null;
 
-        $instrument = (int) ($musicianData['instrument'] ?? 0);
-        $bandGroup = (int) ($musicianData['band_group'] ?? 0);
+        $instrument = $entity->getInstrument();
+        $bandGroup = $entity->getBandGroup();
 
-        $musicianContact = $musicianData['musician_contact'];
-        $responsibleName = $musicianData['responsible_name'];
-        $responsibleContact = $musicianData['responsible_contact'];
-        $neighborhood = $musicianData['neighborhood'];
-        $institution = $musicianData['institution'];
+        $musicianContact = $entity->getMusicianContact();
+        $responsibleName = $entity->getResponsibleName();
+        $responsibleContact = $entity->getResponsibleContact();
+        $neighborhood = $entity->getNeighborhood();
+        $institution = $entity->getInstitution();
 
-        $profileImage = $musicianData['profile_image'];
+        $profileImage = $entity->getProfileImage();
 
         // Gera hash seguro da senha.
-        $passwordRaw = $musicianData['password'];
+        $passwordRaw = $entity->getPassword();
 
         if (!$passwordRaw) {
             return false;
@@ -85,22 +83,20 @@ class MusiciansDAO implements EntityInterface
             return false;
         }
 
-        $musicianData = $entity->toArray();
+        $musicianId = (int) ($entity->getMusicianId() ?? 0);
+        $musicianLogin = $entity->getMusicianLogin();
 
-        $musicianId = (int) ($musicianData['musician_id'] ?? 0);
-        $musicianLogin = $musicianData['musician_login'];
+        $instrument = $entity->getInstrument();
+        $bandGroup = $entity->getBandGroup();
 
-        $instrument = (int) ($musicianData['instrument'] ?? 0);
-        $bandGroup = (int) ($musicianData['band_group'] ?? 0);
+        $musicianContact = $entity->getMusicianContact();
+        $responsibleName = $entity->getResponsibleName();
+        $responsibleContact = $entity->getResponsibleContact();
+        $neighborhood = $entity->getNeighborhood();
+        $institution = $entity->getInstitution();
 
-        $musicianContact = $musicianData['musician_contact'];
-        $responsibleName = $musicianData['responsible_name'];
-        $responsibleContact = $musicianData['responsible_contact'];
-        $neighborhood = $musicianData['neighborhood'];
-        $institution = $musicianData['institution'];
-
-        $profileImage = $musicianData['profile_image'];
-        $passwordRaw = $musicianData['password'];
+        $profileImage = $entity->getProfileImage();
+        $passwordRaw = $entity->getPassword();
 
         try {
 
@@ -194,17 +190,15 @@ class MusiciansDAO implements EntityInterface
             return false;
         }
 
-        $musicianData = $entity->toArray();
+        $musicianId = (int) ($entity->getMusicianId() ?? 0);
 
-        $musicianId = (int) ($musicianData['musician_id'] ?? 0);
+        $musicianContact = $entity->getMusicianContact();
+        $responsibleName = $entity->getResponsibleName();
+        $responsibleContact = $entity->getResponsibleContact();
+        $neighborhood = $entity->getNeighborhood();
+        $institution = $entity->getInstitution();
 
-        $musicianContact = $musicianData['musician_contact'];
-        $responsibleName = $musicianData['responsible_name'];
-        $responsibleContact = $musicianData['responsible_contact'];
-        $neighborhood = $musicianData['neighborhood'];
-        $institution = $musicianData['institution'];
-
-        $passwordRaw = $musicianData['password'];
+        $passwordRaw = $entity->getPassword();
 
         try {
 
@@ -293,41 +287,26 @@ class MusiciansDAO implements EntityInterface
     /**
      * Busca músico por login.
      */
-    public function findByLogin(string $login): ?array
+    public function findByLogin(string $login): ?Musician
     {
-        // Usa conexão ativa do DAO.
         $db = $this->conn;
 
-        // Consulta preparada.
-        $sql = "SELECT m.*, i.instrument_name, bg.group_name FROM musicians AS m 
-        JOIN instruments AS i ON i.instrument_id = m.instrument
-        JOIN band_groups AS bg ON bg.group_id = m.band_group
-        WHERE musician_login = ?";
+        $sql = "SELECT * FROM musicians WHERE musician_login = ?";
         $stmt = $db->prepare($sql);
 
-        // Falha de preparação.
         if (!$stmt) {
             return null;
         }
 
-        // Vincula parâmetros e executa.
         $stmt->bind_param("s", $login);
         $stmt->execute();
 
-        // Lê resultado.
         $result = $stmt->get_result();
         $data = $result->fetch_assoc();
 
         $stmt->close();
 
-        // Retorna array com dados ou null se vazio.
-        if (!$data) {
-            return null;
-        }
-
-        $normalized = Musician::fromArray($data)->toArray();
-
-        return array_replace($data, array_intersect_key($normalized, $data));
+        return $data ? Musician::fromArray($data) : null;
     }
 
 
@@ -343,28 +322,25 @@ class MusiciansDAO implements EntityInterface
         $bandGroup = (int) ($filters['band_group'] ?? 0);
         $instrument = (int) ($filters['instrument'] ?? 0);
 
-        $sql = "SELECT m.musician_id, m.musician_name, i.instrument_name, bg.group_name, m.profile_image FROM musicians AS m";
+        $sql = "SELECT * FROM musicians";
         $conditions = [];
         $params = [];
         $types = "";
 
-        $sql .= " JOIN instruments AS i ON i.instrument_id = m.instrument
-                JOIN band_groups AS bg ON bg.group_id = m.band_group";
-
         if ($musicianName !== '') {
-            $conditions[] = "m.musician_name LIKE ?";
+            $conditions[] = "musician_name LIKE ?";
             $params[] = "%$musicianName%";
             $types .= "s";
         }
 
         if ($bandGroup !== 0) {
-            $conditions[] = "m.band_group = ?";
+            $conditions[] = "band_group = ?";
             $params[] = $bandGroup;
             $types .= "i";
         }
 
         if ($instrument !== 0) {
-            $conditions[] = "m.instrument = ?";
+            $conditions[] = "instrument = ?";
             $params[] = $instrument;
             $types .= "i";
         }
@@ -373,10 +349,9 @@ class MusiciansDAO implements EntityInterface
             $sql .= " WHERE " . implode(" AND ", $conditions);
         }
 
-        $sql .= " ORDER BY m.instrument, m.band_group, m.musician_name";
+        $sql .= " ORDER BY instrument, band_group, musician_name";
 
         $stmt = $db->prepare($sql);
-
         if (!$stmt) {
             return [];
         }
@@ -391,30 +366,25 @@ class MusiciansDAO implements EntityInterface
         }
 
         $result = $stmt->get_result();
-        $musiciansList = [];
+        $musicians = [];
 
         while ($row = $result->fetch_assoc()) {
-            $normalized = Musician::fromArray($row)->toArray();
-            $musiciansList[] = array_replace($row, array_intersect_key($normalized, $row));
+            $musicians[] = Musician::fromArray($row);
         }
 
         $stmt->close();
 
-        return $musiciansList;
+        return $musicians;
     }
 
     /**
      * Busca músico por ID.
      */
-    public function getById(int $musicianId): ?array
+    public function getById(int $musicianId): ?Musician
     {
         $db = $this->conn;
 
-        $sql = "SELECT m.*, i.instrument_name, bg.group_name  
-        FROM musicians AS m 
-        JOIN instruments AS i ON i.instrument_id = m.instrument
-        JOIN band_groups AS bg ON bg.group_id = m.band_group
-        WHERE m.musician_id = ?";
+        $sql = "SELECT * FROM musicians WHERE musician_id = ?";
         $stmt = $db->prepare($sql);
 
         if (!$stmt) {
@@ -429,13 +399,7 @@ class MusiciansDAO implements EntityInterface
 
         $stmt->close();
 
-        if (!$data) {
-            return null;
-        }
-
-        $normalized = Musician::fromArray($data)->toArray();
-
-        return array_replace($data, array_intersect_key($normalized, $data));
+        return $data ? Musician::fromArray($data) : null;
     }
 
     /**
@@ -459,7 +423,7 @@ class MusiciansDAO implements EntityInterface
             return '';
         }
 
-        return (string) (Musician::fromArray($data)->toArray()['profile_image'] ?? '');
+        return (string) ($data['profile_image'] ?? '');
     }
 
 

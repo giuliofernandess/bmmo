@@ -6,7 +6,7 @@ require_once BASE_PATH . 'app/Models/Presentation.php';
 
 $presentationsDAO = new PresentationsDAO($conn);
 
-$id = (int) ($_POST['id'] ?? 0);
+$id = (int) ($_POST['presentation_id'] ?? $_POST['id'] ?? 0);
 $redirect = BASE_URL . 'pages/admin/presentations/index.php';
 
 if ($id <= 0) {
@@ -15,10 +15,10 @@ if ($id <= 0) {
     exit;
 }
 
-$name = trim($_POST['name'] ?? '');
-$date = trim($_POST['date'] ?? '');
-$hour = trim($_POST['hour'] ?? '');
-$local = trim($_POST['local'] ?? '');
+$name = trim($_POST['presentation_name'] ?? $_POST['name'] ?? '');
+$date = trim($_POST['presentation_date'] ?? $_POST['date'] ?? '');
+$hour = trim($_POST['presentation_hour'] ?? $_POST['hour'] ?? '');
+$local = trim($_POST['presentation_location'] ?? $_POST['local'] ?? '');
 
 if ($name === '' || $date === '' || $hour === '' || $local === '') {
     Message::set('error', 'Preencha todos os campos obrigatórios!');

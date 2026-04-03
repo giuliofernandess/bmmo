@@ -10,9 +10,9 @@ $musicalScoresDAO = new MusicalScoresDAO($conn);
 Auth::requireRegency();
 
 // Recebe dados do formulário
-$musicName = trim($_POST['name-add'] ?? '');
-$musicGenre = trim($_POST['musical-genre-add'] ?? '');
-$musicGroups = $_POST['groups'] ?? [];
+$musicName = trim($_POST['musical_score_name'] ?? $_POST['name-add'] ?? '');
+$musicGenre = trim($_POST['musical_score_genre'] ?? $_POST['musical-genre-add'] ?? '');
+$musicGroups = $_POST['musical_score_groups'] ?? $_POST['groups'] ?? [];
 
 // Validação rápida
 if (empty($musicName) || empty($musicGenre)) {

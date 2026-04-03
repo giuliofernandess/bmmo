@@ -9,20 +9,23 @@ require_once BASE_PATH . 'app/Auth/Auth.php';
 // Inicia sessão para salvar mensagens de erro
 session_start();
 
+$redirect = BASE_URL . 'pages/login/admin/index.php';
+$redirectSuccess = BASE_URL . 'pages/admin/index.php';
+
 // Bloqueia acesso direto via GET
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header("Location: " . BASE_URL . "pages/login/admin/index.php");
+    header('Location: ' . $redirect);
     exit;
 }
 
 // Captura os dados do formulário com fallback
-$admLogin = trim($_POST['login'] ?? '');
-$admPassword = trim($_POST['password'] ?? '');
+$admLogin = trim($_POST['user_login'] ?? $_POST['login'] ?? '');
+$admPassword = trim($_POST['user_password'] ?? $_POST['password'] ?? '');
 
 // Validação simples (campos vazios)
 if ($admLogin === '' || $admPassword === '') {
     Message::set('error', "Preencha todos os campos.");
-    header("Location: " . BASE_URL . "pages/login/admin/index.php");
+    header('Location: ' . $redirect);
     exit;
 }
 
@@ -33,11 +36,11 @@ if (Auth::regencyLogin($admLogin, $admPassword)) {
     Message::set('success', "Login efetuado com sucesso!");
 
     // Login OK → redireciona para a sessão do maestro
-    header("Location: " . BASE_URL . "pages/admin/index.php");
+    header('Location: ' . $redirectSuccess);
     exit;
 }
 
 // Login inválido → salva mensagem e volta para o form
 Message::set('error', "Login ou senha inválidos.");
-header("Location: " . BASE_URL . "pages/login/admin/index.php");
+header('Location: ' . $redirect);
 exit;

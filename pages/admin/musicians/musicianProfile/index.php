@@ -2,13 +2,17 @@
 require_once "../../../../config/config.php";
 require_once BASE_PATH . "app/Auth/Auth.php";
 require_once BASE_PATH . "app/DAO/MusiciansDAO.php";
+require_once BASE_PATH . "app/DAO/InstrumentsDAO.php";
+require_once BASE_PATH . "app/DAO/BandGroupsDAO.php";
 
 $musiciansDAO = new MusiciansDAO($conn);
+$instrumentsDAO = new InstrumentsDAO($conn);
+$bandGroupsDAO = new BandGroupsDAO($conn);
 
 Auth::requireRegency();
 
 // Verifica se recebeu o id do músico
-$musicianId = isset($_GET["musician_id"]) ? (int)$_GET["musician_id"] : null;
+$musicianId = isset($_GET['musician_id']) ? (int)$_GET['musician_id'] : null;
 
 if (!$musicianId) {
   header("Location: " . BASE_URL . "pages/admin/musicians/index.php");
@@ -24,12 +28,26 @@ if (!$res) {
 
 
 //Recebimento de variáveis
-$musicianName = trim($res['musician_name'] ?? '') ?: null;
-$instrument = trim($res['instrument_name'] ?? '') ?: null;
-$bandGroup = trim($res['group_name'] ?? '') ?: null;
+$musicianName = trim($res->getMusicianName()) ?: null;
+
+$instrument = null;
+foreach ($instrumentsDAO->getAll() as $instrumentItem) {
+  if (($instrumentItem->getInstrumentId() ?? 0) === $res->getInstrument()) {
+    $instrument = trim($instrumentItem->getInstrumentName()) ?: null;
+    break;
+  }
+}
+
+$bandGroup = null;
+foreach ($bandGroupsDAO->getAll() as $group) {
+  if (($group->getGroupId() ?? 0) === $res->getBandGroup()) {
+    $bandGroup = trim($group->getGroupName()) ?: null;
+    break;
+  }
+}
 
 //Tratamento de data
-$dateOfBirthRaw = trim($res['date_of_birth'] ?? '') ?: null;
+$dateOfBirthRaw = trim($res->getDateOfBirth()) ?: null;
 $dateOfBirth = htmlspecialchars((string) $dateOfBirthRaw);
 try {
   $date = new DateTime((string) $dateOfBirthRaw);
@@ -38,12 +56,12 @@ try {
   // Keep raw date string to avoid fatal error if database value is invalid.
 }
 
-$musicianContact = trim($res['musician_contact'] ?? '') ?: null;
-$neighborhood = trim($res['neighborhood'] ?? '') ?: null;
-$institution = trim($res['institution'] ?? '') ?: null;
-$responsibleName = trim($res['responsible_name'] ?? '') ?: null;
-$responsibleContact = trim($res['responsible_contact'] ?? '') ?: null;
-$profileImage = trim($res['profile_image'] ?? '') ?: null;
+$musicianContact = trim((string) ($res->getMusicianContact() ?? '')) ?: null;
+$neighborhood = trim($res->getNeighborhood()) ?: null;
+$institution = trim((string) ($res->getInstitution() ?? '')) ?: null;
+$responsibleName = trim((string) ($res->getResponsibleName() ?? '')) ?: null;
+$responsibleContact = trim((string) ($res->getResponsibleContact() ?? '')) ?: null;
+$profileImage = trim((string) ($res->getProfileImage() ?? '')) ?: null;
 
 
 // Tratamento de possível NULL
@@ -114,7 +132,7 @@ $profileImage = $profileImage ? htmlspecialchars($profileImage) : "default.png";
                 </a>
 
                 <form action="<?= BASE_URL ?>pages/admin/musicians/actions/delete.php" method="POST"
-                  onsubmit="return confirm('Tem certeza que deseja excluir este músico?');">
+                  class="musician-delete-form">
 
                   <input type="hidden" name="musician_id" value="<?= $musicianId; ?>">
 
@@ -136,6 +154,19 @@ $profileImage = $profileImage ? htmlspecialchars($profileImage) : "default.png";
   <!-- Footer -->
   <?php include_once BASE_PATH . "includes/footer.php"; ?>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.musician-delete-form').forEach((form) => {
+        form.addEventListener('submit', (event) => {
+          if (!confirmAction('Tem certeza que deseja excluir este músico?')) {
+            event.preventDefault();
+          }
+        });
+      });
+    });
+  </script>
+
+  <script src="<?= BASE_URL ?>assets/js/confirmAction.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

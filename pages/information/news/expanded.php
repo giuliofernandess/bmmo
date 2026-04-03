@@ -13,8 +13,8 @@ if (!isset($_GET['newsId'])) {
 $newsId = (int)$_GET['newsId'];
 
 // Busca notícia principal via POO
-$res = $newsDAO->getById($newsId);
-if (!$res) {
+$news = $newsDAO->getById($newsId);
+if (!$news) {
     die("Notícia não encontrada.");
 }
 
@@ -31,6 +31,7 @@ $otherNews = $newsDAO->getLatestExcept($newsId, 2);
 
   <!-- Configurações Básicas -->
   <?php require_once BASE_PATH . "includes/basicHead.php"; ?>
+  <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/news.css">
   
 </head>
 
@@ -46,12 +47,12 @@ $otherNews = $newsDAO->getLatestExcept($newsId, 2);
       <!-- Notícia principal -->
       <div class="col-lg-8">
         <article class="card shadow-sm rounded p-4 mb-4 bg-white">
-          <h1 class="mb-3 fw-bold"><?= htmlspecialchars($res['news_title']); ?></h1>
-          <h5 class="text-muted mb-3 fw-bold"><?= htmlspecialchars($res['news_subtitle']); ?></h5>
-          <p class="text-muted small mb-4">Publicado em <?= date('d/m/Y', strtotime($res['publication_date'])); ?></p>
-          <img src="<?= BASE_URL ?>uploads/news-images/<?= htmlspecialchars($res['news_image']); ?>"
-               alt="Imagem da notícia: <?= htmlspecialchars($res['news_title']) ?>" loading="lazy" class="news-image-main mb-4" />
-          <div class="news-text"><?= nl2br(htmlspecialchars($res['news_description'])); ?></div>
+          <h1 class="mb-3 fw-bold"><?= htmlspecialchars($news->getNewsTitle()); ?></h1>
+          <h5 class="text-muted mb-3 fw-bold"><?= htmlspecialchars($news->getNewsSubtitle()); ?></h5>
+          <p class="text-muted small mb-4">Publicado em <?= date('d/m/Y', strtotime($news->getPublicationDate())); ?></p>
+          <img src="<?= BASE_URL ?>uploads/news-images/<?= htmlspecialchars($news->getNewsImage()); ?>"
+            alt="Imagem da notícia: <?= htmlspecialchars($news->getNewsTitle()) ?>" loading="lazy" class="news-image-main mb-4" />
+          <div class="news-text"><?= nl2br(htmlspecialchars($news->getNewsDescription())); ?></div>
         </article>
       </div>
 
@@ -59,19 +60,20 @@ $otherNews = $newsDAO->getLatestExcept($newsId, 2);
       <div class="col-lg-4">
         <h4 class="mb-3">Outras notícias</h4>
 
-        <?php if (!empty($otherNews)) : ?>
-            <?php foreach ($otherNews as $news) : 
-                $asideNewsId = (int)$news['news_id'];
-                $asideNewsTitle = htmlspecialchars($news['news_title'] ?? '', ENT_QUOTES, 'UTF-8');
-                $asideNewsSubtitle = htmlspecialchars($news['news_subtitle'] ?? '', ENT_QUOTES, 'UTF-8');
-                $asideNewsImage = basename($news['news_image'] ?? '');
-                $asidePublicationDate = !empty($news['publication_date']) ? date('d/m/Y', strtotime($news['publication_date'])) : '';
+        <?php if (!empty($otherNews)) { ?>
+            <?php foreach ($otherNews as $newsItem) { 
+              $asideNewsId = (int) ($newsItem->getNewsId() ?? 0);
+              $asideNewsTitle = htmlspecialchars($newsItem->getNewsTitle(), ENT_QUOTES, 'UTF-8');
+              $asideNewsSubtitle = htmlspecialchars($newsItem->getNewsSubtitle(), ENT_QUOTES, 'UTF-8');
+              $asideNewsImage = basename($newsItem->getNewsImage());
+              $asidePublicationDateRaw = $newsItem->getPublicationDate();
+              $asidePublicationDate = $asidePublicationDateRaw !== '' ? date('d/m/Y', strtotime($asidePublicationDateRaw)) : '';
             ?>
                 <!-- Card de notícia da sidebar -->
                 <a href='<?= BASE_URL ?>pages/information/news/expanded.php?newsId=<?= $asideNewsId ?>' class='mb-3 text-decoration-none text-dark d-block'>
                   <div class='card aside-card rounded shadow-sm h-100'>
                     <div class='row g-0'>
-                      <div class='col-4' style="height: 150px;">
+                      <div class='col-4 news-aside-image'>
                         <img src='<?= BASE_URL ?>uploads/news-images/<?= $asideNewsImage ?>' 
                              class='img-fluid rounded-start w-100 h-100' 
                              alt="Imagem da notícia: <?= $asideNewsTitle ?>" loading="lazy" />
@@ -86,10 +88,10 @@ $otherNews = $newsDAO->getLatestExcept($newsId, 2);
                     </div>
                   </div>
                 </a>
-            <?php endforeach; ?>
-        <?php else: ?>
+            <?php } ?>
+          <?php } else { ?>
             <p class='text-muted'>Nenhuma outra notícia disponível.</p>
-        <?php endif; ?>
+          <?php } ?>
 
       </div>
     </div>

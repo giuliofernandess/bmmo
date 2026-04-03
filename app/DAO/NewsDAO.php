@@ -11,10 +11,10 @@ class NewsDAO implements EntityInterface
     {
         $this->conn = $conn;
     }
-    /**
-     * Cria uma notícia.
-     */
 
+    /**
+     * Cria uma noticia.
+     */
     public function create(object $entity): mixed
     {
         $db = $this->conn;
@@ -23,26 +23,28 @@ class NewsDAO implements EntityInterface
             return false;
         }
 
-        $newsData = $entity->toArray();
+        $newsTitle = $entity->getNewsTitle();
+        $newsSubtitle = $entity->getNewsSubtitle();
+        $newsImage = $entity->getNewsImage();
+        $newsDescription = $entity->getNewsDescription();
+        $publicationDate = $entity->getPublicationDate();
+        $publicationHour = $entity->getPublicationHour();
 
-        // Persiste notícia no banco.
         try {
-
             $stmt = $db->prepare(
                 "INSERT INTO news (news_title, news_subtitle, news_image, news_description, publication_date, publication_hour) VALUES (?, ?, ?, ?, ?, ?)"
             );
             $stmt->bind_param(
                 "ssssss",
-                $newsData['news_title'],
-                $newsData['news_subtitle'],
-                $newsData['news_image'],
-                $newsData['news_description'],
-                $newsData['publication_date'],
-                $newsData['publication_hour']
+                $newsTitle,
+                $newsSubtitle,
+                $newsImage,
+                $newsDescription,
+                $publicationDate,
+                $publicationHour
             );
 
             $success = $stmt->execute();
-
             $stmt->close();
 
             return $success;
@@ -52,9 +54,8 @@ class NewsDAO implements EntityInterface
     }
 
     /**
-     * Lista notícias em ordem de publicação (mais recentes primeiro).
+     * Lista noticias em ordem de publicacao (mais recentes primeiro).
      */
-
     public function getAll(array $filters = []): array
     {
         $db = $this->conn;
@@ -70,9 +71,8 @@ class NewsDAO implements EntityInterface
         $result = $stmt->get_result();
 
         $newsList = [];
-
-        while ($res = $result->fetch_assoc()) {
-            $newsList[] = News::fromArray($res)->toArray();
+        while ($row = $result->fetch_assoc()) {
+            $newsList[] = News::fromArray($row);
         }
 
         $stmt->close();
@@ -81,9 +81,9 @@ class NewsDAO implements EntityInterface
     }
 
     /**
-     * Busca uma notícia por ID.
+     * Busca uma noticia por ID.
      */
-    public function getById(int $newsId): ?array
+    public function getById(int $newsId): ?News
     {
         $db = $this->conn;
 
@@ -102,11 +102,11 @@ class NewsDAO implements EntityInterface
 
         $stmt->close();
 
-        return $data ? News::fromArray($data)->toArray() : null;
+        return $data ? News::fromArray($data) : null;
     }
 
     /**
-     * Atualiza uma notícia existente.
+     * Atualiza uma noticia existente.
      */
     public function edit(object $entity): bool
     {
@@ -116,8 +116,11 @@ class NewsDAO implements EntityInterface
             return false;
         }
 
-        $newsData = $entity->toArray();
-        $newsId = (int) ($newsData['news_id'] ?? 0);
+        $newsId = (int) ($entity->getNewsId() ?? 0);
+        $newsTitle = $entity->getNewsTitle();
+        $newsSubtitle = $entity->getNewsSubtitle();
+        $newsImage = $entity->getNewsImage();
+        $newsDescription = $entity->getNewsDescription();
 
         try {
             $stmt = $db->prepare(
@@ -125,10 +128,10 @@ class NewsDAO implements EntityInterface
             );
             $stmt->bind_param(
                 "ssssi",
-                $newsData['news_title'],
-                $newsData['news_subtitle'],
-                $newsData['news_image'],
-                $newsData['news_description'],
+                $newsTitle,
+                $newsSubtitle,
+                $newsImage,
+                $newsDescription,
                 $newsId
             );
 
@@ -142,7 +145,7 @@ class NewsDAO implements EntityInterface
     }
 
     /**
-     * Remove uma notícia por ID.
+     * Remove uma noticia por ID.
      */
     public function delete(int $newsId): bool
     {
@@ -162,7 +165,7 @@ class NewsDAO implements EntityInterface
     }
 
     /**
-     * Lista as últimas notícias, excluindo a notícia atual.
+     * Lista as ultimas noticias, excluindo a noticia atual.
      */
     public function getLatestExcept(int $excludeId, int $limit = 2): array
     {
@@ -181,8 +184,8 @@ class NewsDAO implements EntityInterface
         $result = $stmt->get_result();
         $newsList = [];
 
-        while ($res = $result->fetch_assoc()) {
-            $newsList[] = News::fromArray($res)->toArray();
+        while ($row = $result->fetch_assoc()) {
+            $newsList[] = News::fromArray($row);
         }
 
         $stmt->close();

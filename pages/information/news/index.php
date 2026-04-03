@@ -43,15 +43,17 @@ $newsDAO = new NewsDAO($conn);
             echo "<div class='no-news'>Nenhuma notícia cadastrada no momento.</div>";
         } else {
             // Itera sobre cada notícia
-            foreach ($newsList as $res) {
+            foreach ($newsList as $newsItem) {
 
                 // Dados da notícia
-                $newsId = (int)$res['news_id'];
-                $newsTitle = htmlspecialchars($res['news_title'] ?? '', ENT_QUOTES, 'UTF-8');
-                $newsSubtitle = htmlspecialchars($res['news_subtitle'] ?? '', ENT_QUOTES, 'UTF-8');
-                $newsImage = basename($res['news_image'] ?? '');
-                $publicationDate = !empty($res['publication_date']) ? date('d/m/Y', strtotime($res['publication_date'])) : '';
-                $publicationHour = !empty($res['publication_hour']) ? date('H:i', strtotime($res['publication_hour'])) : '';
+              $newsId = (int) ($newsItem->getNewsId() ?? 0);
+                $newsTitle = htmlspecialchars($newsItem->getNewsTitle(), ENT_QUOTES, 'UTF-8');
+                $newsSubtitle = htmlspecialchars($newsItem->getNewsSubtitle(), ENT_QUOTES, 'UTF-8');
+              $newsImage = basename($newsItem->getNewsImage());
+              $publicationDateRaw = $newsItem->getPublicationDate();
+              $publicationHourRaw = $newsItem->getPublicationHour();
+                $publicationDate = $publicationDateRaw !== '' ? date('d/m/Y', strtotime($publicationDateRaw)) : '';
+                $publicationHour = $publicationHourRaw !== '' ? date('H:i', strtotime($publicationHourRaw)) : '';
         ?>
 
                 <!-- Card da notícia -->

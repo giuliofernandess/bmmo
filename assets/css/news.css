@@ -26,6 +26,10 @@ h1 {
   object-fit: cover;
 }
 
+.news-aside-image {
+  height: 150px;
+}
+
 /* Mensagem quando não há notícias */
 .no-news {
   text-align: center;

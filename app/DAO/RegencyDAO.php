@@ -12,12 +12,12 @@ class RegencyDAO
     }
     /**
      * Busca um maestro (regency) pelo login no banco.
-     * Retorna array associativo com os dados ou null se não existir.
+     * Retorna entidade ou null se não existir.
      *
      * @param string $login Login do maestro
-     * @return array|null
+     * @return Regency|null
      */
-    public function findByLogin(string $login): ?array
+    public function findByLogin(string $login): ?Regency
     {
         // Pega a conexão ativa
         $db = $this->conn;
@@ -42,6 +42,6 @@ class RegencyDAO
         $stmt->close();
 
         // Retorna array com dados ou null se vazio
-        return $data ? Regency::fromArray($data)->toArray() : null;
+        return $data ? Regency::fromArray($data) : null;
     }
 }

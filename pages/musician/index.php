@@ -7,7 +7,7 @@ $musiciansDAO = new MusiciansDAO($conn);
 
 Auth::requireMusician();
 
-$login = $_SESSION["musician_login"] ? trim($_SESSION["musician_login"]) : null;
+$login = $_SESSION['musician_login'] ? trim($_SESSION['musician_login']) : null;
 $musicianInfo = $musiciansDAO->findByLogin($login);
 
 ?>
@@ -38,8 +38,8 @@ $musicianInfo = $musiciansDAO->findByLogin($login);
     <nav>
       <ul class="nav">
         <li class="nav-item">
-          <a href="<?= BASE_URL ?>pages/logout.php" class="nav-link text-white"
-            onclick="return confirm('Tem certeza que deseja sair de sua conta?');" style="font-size: 1.6rem;">
+          <a href="<?= BASE_URL ?>pages/logout.php" class="nav-link text-white logout-link-icon"
+            id="logout-link">
             <i class="bi bi-box-arrow-left text-white"></i>
           </a>
         </li>
@@ -51,7 +51,7 @@ $musicianInfo = $musiciansDAO->findByLogin($login);
   <main class="flex-grow-1 d-flex align-items-center justify-content-center py-5">
     <div class="container introduction-container text-center">
       <img src="<?= BASE_URL ?>assets/images/band_logo.png" width="160" height="160" alt="Logo" class="mb-3">
-      <h1 class="fw-bold">Bem-vindo(a), <?= htmlspecialchars($musicianInfo['musician_name']); ?></h1>
+      <h1 class="fw-bold">Bem-vindo(a), <?= htmlspecialchars($musicianInfo ? $musicianInfo->getMusicianName() : ''); ?></h1>
       <p class="mb-4">
         Aqui você pode acessar suas informações, apresentações e partituras.
       </p>
@@ -93,9 +93,24 @@ $musicianInfo = $musiciansDAO->findByLogin($login);
     </div>
   </main>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const logoutLink = document.querySelector('#logout-link');
+
+      if (logoutLink) {
+        logoutLink.addEventListener('click', (event) => {
+          if (!confirmAction('Tem certeza que deseja sair de sua conta?')) {
+            event.preventDefault();
+          }
+        });
+      }
+    });
+  </script>
+
   <!-- Footer -->
   <?php include_once BASE_PATH . 'includes/footer.php'; ?>
 
+  <script src="<?= BASE_URL ?>assets/js/confirmAction.js"></script>
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 </body>

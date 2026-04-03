@@ -13,7 +13,7 @@ class BandGroupsDAO
     /**
      * Retorna todos os grupos da banda do banco, ordenados por id.
      *
-     * @return array Array de grupos (cada grupo é um array associativo)
+     * @return BandGroup[]
      */
 
     public function getAll(): array
@@ -33,7 +33,7 @@ class BandGroupsDAO
         $groupsList = [];
 
         while ($row = $result->fetch_assoc()) {
-            $groupsList[] = BandGroup::fromArray($row)->toArray();
+            $groupsList[] = BandGroup::fromArray($row);
         }
 
         $stmt->close();

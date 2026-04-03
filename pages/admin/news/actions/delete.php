@@ -32,9 +32,9 @@ if (!$news) {
 }
 
 if ($newsDAO->delete($newsId)) {
-    if (!empty($news['news_image'])) {
+    if (!empty($news->getNewsImage())) {
         $uploadDir = BASE_PATH . 'uploads/news-images/';
-        $path = $uploadDir . basename($news['news_image']);
+        $path = $uploadDir . basename($news->getNewsImage());
         if (file_exists($path)) {
             @unlink($path);
         }

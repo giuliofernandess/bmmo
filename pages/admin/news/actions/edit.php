@@ -6,10 +6,10 @@ require_once BASE_PATH . 'app/Models/News.php';
 
 $newsDAO = new NewsDAO($conn);
 
-$newsId = (int) ($_POST['id'] ?? 0);
-$newsTitle = trim($_POST['title'] ?? '');
-$newsSubtitle = trim($_POST['subtitle'] ?? '');
-$newsDescription = trim($_POST['description'] ?? '');
+$newsId = (int) ($_POST['news_id'] ?? $_POST['id'] ?? 0);
+$newsTitle = trim($_POST['news_title'] ?? $_POST['title'] ?? '');
+$newsSubtitle = trim($_POST['news_subtitle'] ?? $_POST['subtitle'] ?? '');
+$newsDescription = trim($_POST['news_description'] ?? $_POST['description'] ?? '');
 
 $redirect = BASE_URL . 'pages/admin/news/index.php';
 
@@ -32,12 +32,14 @@ if (!$existingNews) {
     exit;
 }
 
-$imageFileName = $existingNews['news_image'];
+$imageFileName = $existingNews->getNewsImage();
 
-if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
-    $fileTmpPath = $_FILES['file']['tmp_name'];
-    $fileName = $_FILES['file']['name'];
-    $fileSize = $_FILES['file']['size'];
+$imageInput = $_FILES['news_image'] ?? $_FILES['file'] ?? null;
+
+if ($imageInput !== null && ($imageInput['error'] ?? null) === UPLOAD_ERR_OK) {
+    $fileTmpPath = $imageInput['tmp_name'];
+    $fileName = $imageInput['name'];
+    $fileSize = $imageInput['size'];
     $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
     $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
@@ -63,8 +65,8 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
     $destPath = $uploadDir . $newFileName;
 
     if (move_uploaded_file($fileTmpPath, $destPath)) {
-        if (!empty($existingNews['news_image'])) {
-            $oldPath = $uploadDir . basename($existingNews['news_image']);
+        if (!empty($existingNews->getNewsImage())) {
+            $oldPath = $uploadDir . basename($existingNews->getNewsImage());
             if (file_exists($oldPath)) {
                 @unlink($oldPath);
             }

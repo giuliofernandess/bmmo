@@ -43,7 +43,7 @@ require_once '../config/config.php';
         </h1>
 
         <!-- Descrição introdutória -->
-        <p class="mx-auto mb-4 fs-6 fs-md-5" style="max-width: 700px; line-height: 1.6;">
+        <p class="mx-auto mb-4 fs-6 fs-md-5 introduction-copy">
           A <strong>Banda de Música Maestro Jairo Cláudio Silveira</strong> tem como objetivo proporcionar aos músicos a
           formação necessária ao desenvolvimento de suas potencialidades como elementos de auto-realização, preparação
           para o trabalho e para exercício constante de cidadania.

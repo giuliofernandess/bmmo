@@ -201,3 +201,20 @@ footer a:hover { opacity: 0.8; }
     width: auto;
   }
 }
+
+/* Helpers de estado para UI via JS */
+.is-hidden {
+  display: none !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.header-back-link {
+  font-size: 1.4rem;
+}
+
+.logout-link-icon {
+  font-size: 1.6rem;
+}

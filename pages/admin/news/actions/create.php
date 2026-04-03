@@ -6,9 +6,9 @@ require_once BASE_PATH . 'app/Models/News.php';
 
 $newsDAO = new NewsDAO($conn);
 
-$newsTitle = trim($_POST['title'] ?? '');
-$newsSubtitle = trim($_POST['subtitle'] ?? '');
-$newsDescription = trim($_POST['description'] ?? '');
+$newsTitle = trim($_POST['news_title'] ?? $_POST['title'] ?? '');
+$newsSubtitle = trim($_POST['news_subtitle'] ?? $_POST['subtitle'] ?? '');
+$newsDescription = trim($_POST['news_description'] ?? $_POST['description'] ?? '');
 
 $redirect = BASE_URL . 'pages/admin/news/index.php';
 
@@ -24,15 +24,17 @@ if (empty($newsTitle) || empty($newsDescription)) {
 
 $imageFileName = null;
 
-if (!isset($_FILES['file']) || $_FILES['file']['error'] !== UPLOAD_ERR_OK) {
+$imageInput = $_FILES['news_image'] ?? $_FILES['file'] ?? null;
+
+if ($imageInput === null || ($imageInput['error'] ?? null) !== UPLOAD_ERR_OK) {
     Message::set('error', 'A imagem é obrigatória para criar notícia.');
     header('Location: ' . $redirect);
     exit;
 }
 
-$fileTmpPath = $_FILES['file']['tmp_name'];
-$fileName = $_FILES['file']['name'];
-$fileSize = $_FILES['file']['size'];
+$fileTmpPath = $imageInput['tmp_name'];
+$fileName = $imageInput['name'];
+$fileSize = $imageInput['size'];
 $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
 $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];

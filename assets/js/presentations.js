@@ -1,23 +1,54 @@
 let selectedSongs = [];
 
-const form = document.querySelector("form");
-const res = document.querySelector(".res");
+const form = document.querySelector("#presentation-form-element");
+const selectedSongsContainer = document.querySelector(".selected-songs");
 const formCard = document.querySelector("#presentation-form");
 
 function showForm() {
-  const icon = document.querySelector("#add-icon");
+  const icon = document.querySelector("#form-toggle-icon");
+  const isOpen = formCard.classList.contains("is-open");
 
-  if (formCard.style.display === "none" || formCard.style.display === "") {
-    formCard.style.display = "block";
+  if (!isOpen) {
+    formCard.classList.remove("is-hidden");
+    formCard.classList.add("is-open");
     icon.className = "bi bi-x-square-fill fs-3 text-primary cursor-pointer";
   } else {
-    formCard.style.display = "none";
+    formCard.classList.remove("is-open");
+    formCard.classList.add("is-hidden");
     icon.className = "bi bi-plus-square-fill fs-3 text-primary cursor-pointer";
   }
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+  const toggleIcon = document.querySelector('#form-toggle-icon');
+  const addSongButton = document.querySelector('#presentation-add-song-button');
+
+  if (toggleIcon) {
+    toggleIcon.addEventListener('click', showForm);
+  }
+
+  if (addSongButton) {
+    addSongButton.addEventListener('click', addSong);
+  }
+
+  document.querySelectorAll('.presentation-delete-form').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      if (!confirmAction('Tem certeza que deseja excluir esta apresentação?')) {
+        event.preventDefault();
+      }
+    });
+  });
+
+  document.querySelectorAll('.presentation-edit-button').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      editPresentation(button);
+    });
+  });
+});
+
 function addSong() {
-  const select = document.querySelector("#isongs");
+  const select = document.querySelector("#presentation-songs");
 
   const selectedId = select.value;
   const selectedName = select.options[select.selectedIndex].text;
@@ -44,7 +75,7 @@ function addSong() {
 }
 
 function showSongs() {
-  res.innerHTML = "";
+  selectedSongsContainer.innerHTML = "";
 
   selectedSongs.forEach((song) => {
     const p = document.createElement("p");
@@ -65,7 +96,7 @@ function showSongs() {
     p.appendChild(span);
     p.appendChild(trash);
 
-    res.appendChild(p);
+    selectedSongsContainer.appendChild(p);
   });
 }
 
@@ -85,7 +116,7 @@ function addInput() {
 }
 
 function editPresentation(btn) {
-  if (formCard.style.display === "block") {
+  if (formCard.classList.contains("is-open")) {
     alert(
       "[ERRO] Não é possível editar uma apresentação enquanto cria ou edita outra!",
     );
@@ -96,20 +127,28 @@ function editPresentation(btn) {
 
   const info = btn.closest(".presentation-info");
 
+  const existingPresentationId = document.querySelector(
+    "input[name='presentation_id']",
+  );
+
+  if (existingPresentationId) {
+    existingPresentationId.remove();
+  }
+
   const idInput = document.createElement("input");
   idInput.type = "hidden";
-  idInput.name = "id";
-  idInput.value = info.dataset.id;
+  idInput.name = "presentation_id";
+  idInput.value = info.dataset.presentationId;
 
   form.appendChild(idInput);
 
-  document.querySelector("#iname").value = info.dataset.name;
-  document.querySelector("#idate").value = info.dataset.date;
-  document.querySelector("#ihour").value = info.dataset.hour;
-  document.querySelector("#ilocal").value = info.dataset.local;
+  document.querySelector("#presentation-name").value = info.dataset.presentationName;
+  document.querySelector("#presentation-date").value = info.dataset.presentationDate;
+  document.querySelector("#presentation-hour").value = info.dataset.presentationHour;
+  document.querySelector("#presentation-location").value = info.dataset.presentationLocation;
 
   // grupos
-  const bandGroups = JSON.parse(info.dataset.groups);
+  const bandGroups = JSON.parse(info.dataset.presentationGroups);
   const checkboxes = document.querySelectorAll('input[name="groups[]"]');
 
   checkboxes.forEach((cb) => {
@@ -118,9 +157,9 @@ function editPresentation(btn) {
 
   selectedSongs = [];
 
-  const songs = JSON.parse(info.dataset.songs);
+  const songs = JSON.parse(info.dataset.presentationSongs);
 
-  const select = document.querySelector("#isongs");
+  const select = document.querySelector("#presentation-songs");
 
   songs.forEach((songId) => {
     for (let option of select.options) {
@@ -136,7 +175,7 @@ function editPresentation(btn) {
   showSongs();
   addInput();
 
-  document.querySelector("#ibutton").value = "Editar apresentação";
+  document.querySelector("#presentation-submit").value = "Editar apresentação";
 
   form.action = `${window.BASE_URL}pages/admin/presentations/actions/edit.php`;
 }

@@ -47,12 +47,12 @@ class Auth
         // Usuário não encontrado.
         if (!$user) {
             return false;
-        } else if (!password_verify($password, $user['password'])) {
+        } elseif (!password_verify($password, $user->getPassword())) {
             return false;
         } else {
 
             // Login válido: salva dados na sessão.
-            $_SESSION['regency_login'] = $user['regency_login'];
+            $_SESSION['regency_login'] = $user->getRegencyLogin();
             $_SESSION['role'] = 'regency';
 
             return true;
@@ -81,12 +81,12 @@ class Auth
         // Usuário não encontrado.
         if (!$user) {
             return false;
-        } else if (!password_verify($password, $user['password'])) {
+        } elseif (!password_verify($password, $user->getPassword())) {
             return false;
         } else {
 
             // Login válido: salva dados na sessão.
-            $_SESSION['musician_login'] = $user['musician_login'];
+            $_SESSION['musician_login'] = $user->getMusicianLogin();
             $_SESSION['role'] = 'musician';
 
             return true;

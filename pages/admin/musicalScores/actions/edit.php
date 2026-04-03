@@ -24,17 +24,18 @@ function buildSafeMusicalScoreFileName(string $originalName, array $allowedExten
 }
 
 // Recebe dados do formulário
-$musicId = (int) ($_POST['id'] ?? 0);
-$musicName = trim($_POST['name'] ?? '');
-$musicGenre = trim($_POST['genre'] ?? '');
-$musicGroups = $_POST['groups'] ?? [];
+$musicId = (int) ($_POST['musical_score_id'] ?? $_POST['id'] ?? 0);
+$musicName = trim($_POST['musical_score_name'] ?? $_POST['name'] ?? '');
+$musicGenre = trim($_POST['musical_score_genre'] ?? $_POST['genre'] ?? '');
+$musicGroups = $_POST['musical_score_groups'] ?? $_POST['groups'] ?? [];
 
 // Validação de instrumentos sem vozes
 $instrumentsVoiceOff = [];
-$voiceOffNames = $_FILES['instrumentsVoiceOff']['name'] ?? [];
-$voiceOffErrors = $_FILES['instrumentsVoiceOff']['error'] ?? [];
-$voiceOffTmp = $_FILES['instrumentsVoiceOff']['tmp_name'] ?? [];
-$voiceOffSizes = $_FILES['instrumentsVoiceOff']['size'] ?? [];
+$voiceOffInput = $_FILES['musical_score_instruments_voice_off'] ?? $_FILES['instrumentsVoiceOff'] ?? [];
+$voiceOffNames = $voiceOffInput['name'] ?? [];
+$voiceOffErrors = $voiceOffInput['error'] ?? [];
+$voiceOffTmp = $voiceOffInput['tmp_name'] ?? [];
+$voiceOffSizes = $voiceOffInput['size'] ?? [];
 
 if (is_array($voiceOffNames)) {
 foreach ($voiceOffNames as $instrumentId => $nameVoiceOff) {
@@ -70,10 +71,11 @@ foreach ($voiceOffNames as $instrumentId => $nameVoiceOff) {
 
 // Validação de instrumentos com vozes
 $instruments = [];
-$instrumentNames = $_FILES['instruments']['name'] ?? [];
-$instrumentErrors = $_FILES['instruments']['error'] ?? [];
-$instrumentTmp = $_FILES['instruments']['tmp_name'] ?? [];
-$instrumentSizes = $_FILES['instruments']['size'] ?? [];
+$instrumentInput = $_FILES['musical_score_instruments'] ?? $_FILES['instruments'] ?? [];
+$instrumentNames = $instrumentInput['name'] ?? [];
+$instrumentErrors = $instrumentInput['error'] ?? [];
+$instrumentTmp = $instrumentInput['tmp_name'] ?? [];
+$instrumentSizes = $instrumentInput['size'] ?? [];
 
 if (is_array($instrumentNames)) {
 foreach ($instrumentNames as $instrumentId => $name) {

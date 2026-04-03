@@ -1,6 +1,10 @@
 function showPassword() {
-    let inputPass = document.querySelector('#password');
-    let btnShowPass = document.querySelector('#password-btn');
+    let inputPass = document.querySelector('#user-password') || document.querySelector('#password');
+    let btnShowPass = document.querySelector('#password-toggle-button') || document.querySelector('#password-btn');
+
+    if (!inputPass || !btnShowPass) {
+        return;
+    }
 
     if (inputPass.type === 'password') {
         inputPass.setAttribute('type', 'text');
@@ -10,3 +14,11 @@ function showPassword() {
         btnShowPass.classList.replace('bi-eye-slash-fill', 'bi-eye-fill');
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const button = document.querySelector('#password-toggle-button') || document.querySelector('#password-btn');
+
+    if (button) {
+        button.addEventListener('click', showPassword);
+    }
+});

@@ -28,12 +28,6 @@ $groups = $bandGroupsDAO->getAll();
 
     <?php require_once BASE_PATH . 'includes/basicHead.php'; ?>
     <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/form.css">
-
-    <style>
-        .cursor-pointer {
-            cursor: pointer;
-        }
-    </style>
 </head>
 
 <body>
@@ -45,49 +39,49 @@ $groups = $bandGroupsDAO->getAll();
     <main class="p-5">
         <div class="d-flex align-items-center justify-content-between mb-4">
             <h1 class="mb-0">Proximas apresentações</h1>
-            <i class="bi bi-plus-square-fill fs-3 text-primary cursor-pointer" id="add-icon" onclick="showForm()"
+            <i class="bi bi-plus-square-fill fs-3 text-primary cursor-pointer" id="form-toggle-icon"
                 title="Criar apresentacao"></i>
         </div>
 
-        <div class="bg-white p-4 rounded shadow-sm mb-4" style="display: none;" id="presentation-form">
+        <div class="bg-white p-4 rounded shadow-sm mb-4 is-hidden" id="presentation-form">
             <h4 class="mb-3">Criar Apresentação</h4>
 
-            <form action="<?= BASE_URL ?>pages/admin/presentations/actions/create.php" method="post">
+            <form id="presentation-form-element" action="<?= BASE_URL ?>pages/admin/presentations/actions/create.php" method="post">
                 <div class="mb-3">
-                    <label for="iname" class="form-label">Nome</label>
-                    <input type="text" name="name" id="iname" class="form-control" placeholder="Nome da apresentação" required>
+                    <label for="presentation-name" class="form-label">Nome</label>
+                    <input type="text" name="presentation_name" id="presentation-name" class="form-control" placeholder="Nome da apresentação" required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="idate" class="form-label">Data</label>
-                    <input type="date" name="date" id="idate" class="form-control" required>
+                    <label for="presentation-date" class="form-label">Data</label>
+                    <input type="date" name="presentation_date" id="presentation-date" class="form-control" required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="ihour" class="form-label">Hora</label>
-                    <input type="time" name="hour" id="ihour" class="form-control" required>
+                    <label for="presentation-hour" class="form-label">Hora</label>
+                    <input type="time" name="presentation_hour" id="presentation-hour" class="form-control" required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="ilocal" class="form-label">Local</label>
-                    <input type="text" name="local" id="ilocal" class="form-control" placeholder="Local da apresentação" required>
+                    <label for="presentation-location" class="form-label">Local</label>
+                    <input type="text" name="presentation_location" id="presentation-location" class="form-control" placeholder="Local da apresentação" required>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Grupo da Banda</label><br>
-                    <?php foreach ($groups as $group): ?>
-                        <input type="checkbox" class="form-check-input" name="groups[]" value="<?= $group['group_id'] ?>">
+                    <?php foreach ($groups as $group) { ?>
+                        <input type="checkbox" class="form-check-input" name="groups[]" value="<?= (int) ($group->getGroupId() ?? 0) ?>">
                         <label class="form-check-label">
-                            <?= $group['group_name'] ?>
+                            <?= htmlspecialchars($group->getGroupName()) ?>
                         </label><br>
-                    <?php endforeach; ?>
+                    <?php } ?>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Musicas</label>
 
                     <div class="d-flex gap-2">
-                        <select id="isongs" class="form-select">
+                        <select id="presentation-songs" class="form-select">
                             <option value="">Selecione</option>
                             <?php
                             $musicList = $musicalScoresDAO->getAll();
@@ -97,16 +91,20 @@ $groups = $bandGroupsDAO->getAll();
                                 $lastName = '';
 
                                 foreach ($musicList as $musicItem) {
-                                    if ($currentGenre != $musicItem['music_genre']) {
-                                        $currentGenre = $musicItem['music_genre'];
-                                        echo "<option disabled>-- {$musicItem['music_genre']} --</option>";
+                                    $musicGenre = $musicItem->getMusicGenre();
+                                    $musicName = $musicItem->getMusicName();
+                                    $musicId = (int) ($musicItem->getMusicId() ?? 0);
+
+                                    if ($currentGenre !== $musicGenre) {
+                                        $currentGenre = $musicGenre;
+                                        echo "<option disabled>-- " . htmlspecialchars($musicGenre) . " --</option>";
                                     }
-                                    if ($lastName != $musicItem['music_name']) {
-                                        echo "<option value='{$musicItem['music_id']}'>
-                                            {$musicItem['music_name']}
+                                    if ($lastName !== $musicName) {
+                                        echo "<option value='" . $musicId . "'>
+                                            " . htmlspecialchars($musicName) . "
                                         </option>";
                                     }
-                                    $lastName = $musicItem['music_name'];
+                                    $lastName = $musicName;
                                 }
                             } else {
                                 echo '<option disabled>Nenhuma música cadastrada</option>';
@@ -114,17 +112,16 @@ $groups = $bandGroupsDAO->getAll();
                             ?>
                         </select>
 
-                        <button type="button" class="btn btn-primary btn-lg rounded-pill w-100" style="max-width: 30%;"
-                            onclick="addSong()">
+                        <button type="button" class="btn btn-primary btn-lg rounded-pill w-100 presentation-add-song-button" id="presentation-add-song-button">
                             Adicionar
                         </button>
                     </div>
                 </div>
 
-                <div class="res mb-3"></div>
+                <div class="selected-songs mb-3"></div>
 
-                <input type="submit" class="btn btn-outline-primary btn-lg rounded-pill w-100 mt-3"
-                    style="padding-top: 6px;" id="ibutton" value="Criar apresentação">
+                <input type="submit" class="btn btn-outline-primary btn-lg rounded-pill w-100 mt-3 presentation-submit-button"
+                    id="presentation-submit" value="Criar apresentação">
             </form>
         </div>
 
@@ -133,23 +130,25 @@ $groups = $bandGroupsDAO->getAll();
             $presentationsList = $presentationsDAO->getAll();
 
             if (!empty($presentationsList)) {
-                foreach ($presentationsList as $presentations) {
-                    $presentationGroups = $presentationsDAO->getPresentationGroups($presentations['presentation_id']);
-                    $presentationSongs = $presentationsDAO->getPresentationSongs($presentations['presentation_id']);
+                foreach ($presentationsList as $presentation) {
+                    $presentationId = (int) ($presentation->getPresentationId() ?? 0);
+                    $presentationGroups = $presentationsDAO->getPresentationGroups($presentationId);
+                    $presentationSongs = $presentationsDAO->getPresentationSongs($presentationId);
 
                     $idGroups = [];
                     foreach ($presentationGroups as $presentationGroup) {
-                        $idGroups[] = $presentationGroup['group_id'];
+                        $idGroups[] = (int) ($presentationGroup->getGroupId() ?? 0);
                     }
 
                     $idSongs = [];
                     foreach ($presentationSongs as $presentationSong) {
-                        $idSongs[] = $presentationSong['song_id'];
+                        $idSongs[] = (int) ($presentationSong->getMusicId() ?? 0);
                     }
 
-                    $formattedPresentationDate = htmlspecialchars((string) ($presentations['presentation_date'] ?? ''));
+                    $presentationDate = $presentation->getPresentationDate();
+                    $formattedPresentationDate = htmlspecialchars($presentationDate);
                     try {
-                        $formattedPresentationDate = (new DateTime((string) $presentations['presentation_date']))->format('d/m/Y');
+                        $formattedPresentationDate = (new DateTime($presentationDate))->format('d/m/Y');
                     } catch (Exception $e) {
                         // Keep raw date string to avoid breaking page rendering.
                     }
@@ -157,47 +156,46 @@ $groups = $bandGroupsDAO->getAll();
                     <div class="col-12 col-md-6 col-lg-3">
                         <div class="card shadow-sm h-100">
                             <div class="card-body d-flex flex-column presentation-info"
-                                data-id="<?= htmlspecialchars($presentations['presentation_id']) ?>"
-                                data-name="<?= htmlspecialchars($presentations['presentation_name']) ?>"
-                                data-date="<?= htmlspecialchars($presentations['presentation_date']) ?>"
-                                data-hour="<?= htmlspecialchars($presentations['presentation_hour']) ?>"
-                                data-local="<?= htmlspecialchars($presentations['local_of_presentation']) ?>"
-                                data-groups="<?= htmlspecialchars(json_encode($idGroups)) ?>"
-                                data-songs="<?= htmlspecialchars(json_encode($idSongs)) ?>">
+                                data-presentation-id="<?= $presentationId ?>"
+                                data-presentation-name="<?= htmlspecialchars($presentation->getPresentationName()) ?>"
+                                data-presentation-date="<?= htmlspecialchars($presentationDate) ?>"
+                                data-presentation-hour="<?= htmlspecialchars($presentation->getPresentationHour()) ?>"
+                                data-presentation-location="<?= htmlspecialchars($presentation->getLocalOfPresentation()) ?>"
+                                data-presentation-groups="<?= htmlspecialchars(json_encode($idGroups)) ?>"
+                                data-presentation-songs="<?= htmlspecialchars(json_encode($idSongs)) ?>">
 
-                                <h4 class="card-title"><?= htmlspecialchars($presentations['presentation_name']) ?></h4>
+                                <h4 class="card-title"><?= htmlspecialchars($presentation->getPresentationName()) ?></h4>
 
                                 <p class="mb-1"><strong>Data:</strong>
                                     <?= $formattedPresentationDate ?></p>
                                 <p class="mb-1">
-                                    <strong>Horario:</strong> <?= date('H:i', strtotime($presentations['presentation_hour'])) ?>
+                                    <strong>Horario:</strong> <?= date('H:i', strtotime($presentation->getPresentationHour())) ?>
                                 </p>
-                                <p class="mb-1"><strong>Local:</strong> <?= $presentations['local_of_presentation'] ?></p>
+                                <p class="mb-1"><strong>Local:</strong> <?= htmlspecialchars($presentation->getLocalOfPresentation()) ?></p>
 
                                 <p class="mb-1"><strong>Grupo(s):</strong><br>
-                                    <?php foreach ($presentationGroups as $presentationGroup): ?>
-                                        <span><?= htmlspecialchars($presentationGroup['group_name']); ?></span><br>
-                                    <?php endforeach ?>
+                                    <?php foreach ($presentationGroups as $presentationGroup) { ?>
+                                        <span><?= htmlspecialchars($presentationGroup->getGroupName()); ?></span><br>
+                                    <?php } ?>
                                 </p>
 
                                 <p class="mb-1"><strong>Musicas:</strong><br>
-                                    <?php foreach ($presentationSongs as $presentationSong): ?>
-                                        <span><?= htmlspecialchars($presentationSong['music_name']); ?></span><br>
-                                    <?php endforeach ?>
+                                    <?php foreach ($presentationSongs as $presentationSong) { ?>
+                                        <span><?= htmlspecialchars($presentationSong->getMusicName()); ?></span><br>
+                                    <?php } ?>
                                 </p>
 
                                 <div class="mt-auto d-flex justify-content-end gap-2">
                                     <form action="<?= BASE_URL ?>pages/admin/presentations/actions/delete.php" method="post"
-                                        onsubmit="return confirm('Tem certeza que deseja excluir esta apresentação?');">
-                                        <input type="hidden" name="presentation_id" value="<?= (int) $presentations['presentation_id'] ?>">
-                                        <button type="submit" class="btn btn-danger btn-sm d-flex align-items-center justify-content-center p-0"
-                                            style="width:62px;height:38px;">
+                                        class="presentation-delete-form">
+                                        <input type="hidden" name="presentation_id" value="<?= $presentationId ?>">
+                                        <button type="submit" class="btn btn-danger btn-sm d-flex align-items-center justify-content-center p-0 presentation-action-button">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </form>
 
-                                    <a class="btn btn-success btn-sm d-flex align-items-center justify-content-center"
-                                        style="width:62px;height:38px;" onclick="editPresentation(this)">
+                                    <a class="btn btn-success btn-sm d-flex align-items-center justify-content-center presentation-edit-button presentation-action-button"
+                                        href="#">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                 </div>
@@ -218,6 +216,7 @@ $groups = $bandGroupsDAO->getAll();
     <script>
         window.BASE_URL = <?= json_encode(BASE_URL) ?>;
     </script>
+    <script src="<?= BASE_URL ?>assets/js/confirmAction.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
     <script src="<?= BASE_URL ?>assets/js/presentations.js"></script>
 

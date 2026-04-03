@@ -47,3 +47,14 @@ function safeBack() {
 
     history.back();
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const button = document.querySelector('#safe-back-button');
+
+    if (button) {
+        button.addEventListener('click', (event) => {
+            event.preventDefault();
+            safeBack();
+        });
+    }
+});

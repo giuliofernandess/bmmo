@@ -39,14 +39,16 @@ $presentationsDAO->automaticallyDelete();
             $presentationsList = $presentationsDAO->getAll();
 
             if (!empty($presentationsList)) {
-                foreach ($presentationsList as $presentationInfo):
+                foreach ($presentationsList as $presentation) {
 
-                    $presentationGroups = $presentationsDAO->getPresentationGroups($presentationInfo['presentation_id']);
-                    $presentationSongs = $presentationsDAO->getPresentationSongs($presentationInfo['presentation_id']);
+                    $presentationId = (int) ($presentation->getPresentationId() ?? 0);
+                    $presentationGroups = $presentationsDAO->getPresentationGroups($presentationId);
+                    $presentationSongs = $presentationsDAO->getPresentationSongs($presentationId);
 
-                    $formattedPresentationDate = htmlspecialchars((string) ($presentationInfo['presentation_date'] ?? ''));
+                    $presentationDate = $presentation->getPresentationDate();
+                    $formattedPresentationDate = htmlspecialchars($presentationDate);
                     try {
-                        $formattedPresentationDate = (new DateTime((string) $presentationInfo['presentation_date']))->format("d/m/Y");
+                        $formattedPresentationDate = (new DateTime($presentationDate))->format("d/m/Y");
                     } catch (Exception $e) {
                         // Keep raw date string to avoid breaking page rendering.
                     }
@@ -56,37 +58,31 @@ $presentationsDAO->automaticallyDelete();
                         <div class="card shadow-sm h-100">
                             <div class="card-body d-flex flex-column">
 
-                                <h5 class="card-title"><?= htmlspecialchars($presentationInfo['presentation_name']) ?></h5>
+                                <h5 class="card-title"><?= htmlspecialchars($presentation->getPresentationName()) ?></h5>
 
                                 <p class="mb-1"><strong>Data:</strong>
                                     <?= $formattedPresentationDate ?></p>
                                 <p class="mb-1"><strong>Horário:</strong>
-                                    <?= date('H:i', strtotime($presentationInfo['presentation_hour'])) ?></p>
+                                    <?= date('H:i', strtotime($presentation->getPresentationHour())) ?></p>
                                 <p class="mb-1"><strong>Local:</strong>
-                                    <?= htmlspecialchars($presentationInfo['local_of_presentation']) ?></p>
+                                    <?= htmlspecialchars($presentation->getLocalOfPresentation()) ?></p>
 
                                 <p class="mb-1"><strong>Grupo(s):</strong><br>
-                                    <?php foreach ($presentationGroups as $presentationGroup):
-                                        ?>
-
-                                        <span><?= htmlspecialchars($presentationGroup['group_name']); ?></span><br>
-
-                                    <?php endforeach ?>
+                                    <?php foreach ($presentationGroups as $presentationGroup) { ?>
+                                        <span><?= htmlspecialchars($presentationGroup->getGroupName()); ?></span><br>
+                                    <?php } ?>
                                 </p>
 
                                 <p class="mb-1"><strong>Músicas:</strong><br>
-                                    <?php foreach ($presentationSongs as $presentationSong):
-                                        ?>
-
-                                        <span><?= htmlspecialchars($presentationSong['music_name']); ?></span><br>
-
-                                    <?php endforeach ?>
+                                    <?php foreach ($presentationSongs as $presentationSong) { ?>
+                                        <span><?= htmlspecialchars($presentationSong->getMusicName()); ?></span><br>
+                                    <?php } ?>
                                 </p>
                             </div>
                         </div>
                     </div>
                     <?php
-                endforeach;
+                }
             } else {
                 echo "<p>Nenhuma apresentação cadastrada.</p>";
             }

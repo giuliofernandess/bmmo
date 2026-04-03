@@ -40,8 +40,8 @@ $groupId = (int) $musicianInfo["band_group"];
     <h1 class="my-4">Partituras</h1>
 
     <?php
-    $filterName = trim($_GET['name-filter'] ?? '');
-    $filterGenre = trim($_GET['musical-genre-filter'] ?? '');
+    $filterName = trim($_GET['musical_score_name_filter'] ?? '');
+    $filterGenre = trim($_GET['musical_score_genre_filter'] ?? '');
     ?>
 
     <div class="card shadow-sm border-0 mb-5">
@@ -53,14 +53,14 @@ $groupId = (int) $musicianInfo["band_group"];
           <!-- Nome -->
           <div class="col-12 col-md-6">
             <label class="form-label fw-semibold">Nome da partitura</label>
-            <input type="text" name="name-filter" value="<?= htmlspecialchars($filterName) ?>" class="form-control"
+            <input type="text" name="musical_score_name_filter" value="<?= htmlspecialchars($filterName) ?>" class="form-control"
               placeholder="Digite o nome da partitura">
           </div>
 
           <!-- Gênero -->
           <div class="col-12 col-md-4">
             <label class="form-label fw-semibold">Gênero</label>
-            <select name="musical-genre-filter" id="musical-genre-filter" class="form-select">
+            <select name="musical_score_genre_filter" id="musical-score-genre-filter" class="form-select">
               <?php require BASE_PATH . "includes/optionsMusicalGenre.php"; ?>
             </select>
           </div>
@@ -89,28 +89,32 @@ $groupId = (int) $musicianInfo["band_group"];
       $currentGenre = "";
 
       // Itera sobre cada partitura
-      foreach ($musicsList as $res) {
+      foreach ($musicsList as $music) {
+        $musicGenre = htmlspecialchars($music->getMusicGenre(), ENT_QUOTES, 'UTF-8');
+        $musicName = htmlspecialchars($music->getMusicName(), ENT_QUOTES, 'UTF-8');
+        $musicId = (int) ($music->getMusicId() ?? 0);
+        $musicFile = (string) ($musicalScoresDAO->getFile($musicId, $instrumentId) ?? '');
 
-        if ($currentGenre != htmlspecialchars($res['music_genre'] ?? '', ENT_QUOTES, 'UTF-8')) {
-          if ($currentGenre != "") {
+        if ($currentGenre !== $musicGenre) {
+          if ($currentGenre !== "") {
             echo "</div>";
           }
 
-          $currentGenre = htmlspecialchars($res['music_genre'] ?? '', ENT_QUOTES, 'UTF-8');
+          $currentGenre = $musicGenre;
           echo "<h2 class='mt-5 border-bottom pb-2 text-primary mb-4'>$currentGenre</h2>";
           echo "<div class='row g-4'>";
         } ?>
 
         <div class='col-12 col-sm-6 col-lg-3'>
           <div class='card musician-card h-100 border-0 shadow-sm'>
-            <a href="<?= BASE_URL ?>uploads/musical-scores/<?= $res['file'] ?>" target="_blank">
+            <a href="<?= BASE_URL ?>uploads/musical-scores/<?= rawurlencode($musicFile) ?>" target="_blank">
               <img src='<?= BASE_URL ?>assets/images/musical_score.jpg' class='card-img-top musical-score-img'
                 alt='Capa de Partitura'>
             </a>
             <div class='card-body d-flex flex-column text-decoration-none'>
-              <h5 class='card-title fw-semibold text-center mb-3'><?= htmlspecialchars($res['music_name']) ?></h5>
-              <a href="<?= BASE_URL ?>uploads/musical-scores/<?= rawurlencode($res['file']) ?>"
-                download="<?= htmlspecialchars($res['file']) ?>" class="btn btn-outline-primary mt-auto w-100">
+              <h5 class='card-title fw-semibold text-center mb-3'><?= $musicName ?></h5>
+              <a href="<?= BASE_URL ?>uploads/musical-scores/<?= rawurlencode($musicFile) ?>"
+                download="<?= htmlspecialchars($musicFile) ?>" class="btn btn-outline-primary mt-auto w-100">
                 <i class="bi bi-download me-1"></i> Baixar Partitura
               </a>
             </div>

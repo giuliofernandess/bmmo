@@ -23,9 +23,9 @@ if (!isset($_POST['presentation_id']) || !is_numeric($_POST['presentation_id']))
     exit;
 }
 
-$id = (int) $_POST['presentation_id'];
+$presentationId = (int) $_POST['presentation_id'];
 
-if ($presentationsDAO->delete($id)) {
+if ($presentationsDAO->delete($presentationId)) {
     Message::set('success', 'Apresentação excluída com sucesso!');
 } else {
     Message::set('error', 'Erro ao excluir apresentação!');

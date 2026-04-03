@@ -39,14 +39,14 @@ require_once BASE_PATH ."includes/getMusicianInfo.php";
 
         <!-- Nome -->
         <div class="col-12">
-          <label for="name" class="form-label ps-2">Nome</label>
-          <input type="text" name="name" id="name" value="<?= htmlspecialchars($musicianInfo['musician_name']) ?>"class="form-control" disabled />
+          <label for="musician-name" class="form-label ps-2">Nome</label>
+          <input type="text" name="musician_name" id="musician-name" value="<?= htmlspecialchars($musicianInfo['musician_name']) ?>"class="form-control" disabled />
         </div>
 
         <!-- Login -->
         <div class="col-md-6">
-          <label for="login" class="form-label ps-2">Login</label>
-          <input type="text" name="login" id="login" value="<?= htmlspecialchars($musicianInfo['musician_login']) ?>" class="form-control" disabled />
+          <label for="musician-login" class="form-label ps-2">Login</label>
+          <input type="text" name="musician_login" id="musician-login" value="<?= htmlspecialchars($musicianInfo['musician_login']) ?>" class="form-control" disabled />
         </div>
 
         <!-- Instrumento -->
@@ -60,28 +60,28 @@ require_once BASE_PATH ."includes/getMusicianInfo.php";
         <!-- Grupo da Banda -->
         <div class="col-md-6">
           <label for="group" class="form-label ps-2">Grupo da Banda</label>
-          <select name="group" id="band-group" class="form-select" disabled>
+          <select name="band_group" id="band-group" class="form-select" disabled>
             <option value="<?= htmlspecialchars($musicianInfo['group_name']) ?>"><?= htmlspecialchars($musicianInfo['group_name']) ?></option>
           </select>
         </div>
 
         <!-- Contato do Músico -->
         <div class="col-md-6">
-          <label for="contact" class="form-label ps-2">Contato do Músico</label>
-          <input type="text" name="contact" id="contact" value="<?= htmlspecialchars($musicianInfo['musician_contact']) ?>" class="form-control" />
+          <label for="musician-contact" class="form-label ps-2">Contato do Músico</label>
+          <input type="text" name="musician_contact" id="musician-contact" value="<?= htmlspecialchars($musicianInfo['musician_contact']) ?>" class="form-control" />
         </div>
 
         <!-- Responsável -->
         <div class="col-md-6">
-          <label for="responsible" class="form-label ps-2">Responsável</label>
-          <input type="text" name="responsible" id="responsible" placeholder="Nome do responsável"
+          <label for="responsible-name" class="form-label ps-2">Responsável</label>
+          <input type="text" name="responsible_name" id="responsible-name" placeholder="Nome do responsável"
             value="<?= htmlspecialchars($musicianInfo['responsible_name']) ?>" class="form-control" />
         </div>
 
         <!-- Contato do Responsável -->
         <div class="col-md-6">
-          <label for="contact-of-responsible" class="form-label ps-2">Contato do Responsável</label>
-          <input type="text" name="contact-of-responsible" id="contact-of-responsible"
+          <label for="responsible-contact" class="form-label ps-2">Contato do Responsável</label>
+          <input type="text" name="responsible_contact" id="responsible-contact"
             placeholder="Contato do responsável"
             value="<?= htmlspecialchars($musicianInfo['responsible_contact']) ?>" class="form-control" />
         </div>
@@ -123,14 +123,14 @@ require_once BASE_PATH ."includes/getMusicianInfo.php";
         <div class="col-md-6">
           <label for="confirm-password" class="form-label ps-2">Confirmar Senha</label>
           <div>
-            <input type="password" name="confirm-password" id="confirm-password" placeholder="Confirme a nova senha"
+            <input type="password" name="confirm_password" id="confirm-password" placeholder="Confirme a nova senha"
               class="form-control" minlength="8" maxlength="20" />
           </div>
         </div>
 
         <!-- Botão Editar -->
         <div class="col-12 mt-3">
-          <input type='hidden' name='musician-id' value='<?= htmlspecialchars($musicianInfo['musician_id']) ?>'>
+          <input type='hidden' name='musician_id' value='<?= htmlspecialchars($musicianInfo['musician_id']) ?>'>
           <button type="submit" class="btn btn-primary btn-lg rounded-pill w-100">Editar Músico</button>
         </div>
       </form>

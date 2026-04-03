@@ -21,25 +21,37 @@ function postValue(string $key, string $type = 'string')
 		: trim($_POST[$key]);
 }
 
+function postValueAny(array $keys, string $type = 'string')
+{
+	foreach ($keys as $key) {
+		$value = postValue($key, $type);
+		if ($value !== null) {
+			return $value;
+		}
+	}
+
+	return null;
+}
+
 // Recebimento de variáveis pelo método POST
-$musicianId = postValue('musician-id');
-$musicianLogin = postValue('login');
+$musicianId = postValueAny(['musician_id', 'musician-id']);
+$musicianLogin = postValueAny(['musician_login', 'login']);
 $instrument = postValue('instrument', 'int');
-$bandGroup = postValue('group', 'int');
-$musicianContact = postValue('contact');
-$responsibleName = postValue('responsible');
-$responsibleContact = postValue('contact-of-responsible');
+$bandGroup = postValueAny(['band_group', 'group'], 'int');
+$musicianContact = postValueAny(['musician_contact', 'contact']);
+$responsibleName = postValueAny(['responsible_name', 'responsible']);
+$responsibleContact = postValueAny(['responsible_contact', 'contact-of-responsible']);
 $neighborhood = postValue('neighborhood');
 $institution = postValue('institution');
 $password = postValue('password');
-$confirmPassword = postValue('confirm-password');
+$confirmPassword = postValueAny(['confirm_password', 'confirm-password']);
 
 //Validação de imagem
 $currentImage = $musiciansDAO->getProfileImage($musicianId);
 
 $imageFileName = $currentImage;
 
-if (!empty($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
+if (isset($_FILES['file']) && ($_FILES['file']['error'] ?? null) === UPLOAD_ERR_OK) {
 	$fileTmpPath = $_FILES['file']['tmp_name'];
 	$fileName = $_FILES['file']['name'];
 	$fileSize = $_FILES['file']['size'];
@@ -83,7 +95,7 @@ if (!empty($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
 }
 
 /* Valida senha */
-if (!empty($password) || !empty($confirmPassword)) {
+if ($password !== null || $confirmPassword !== null) {
 	if ($password !== $confirmPassword) {
 		Message::set('error', "As senhas não conferem.");
 		header("Location: " . BASE_URL . "pages/admin/musicians/musicianProfile/edit/index.php?musician_id={$musicianId}");

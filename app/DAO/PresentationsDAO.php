@@ -28,15 +28,13 @@ class PresentationsDAO implements EntityInterface
             return false;
         }
 
-        $presentationData = $entity->toArray();
-
         // Normaliza os dados principais da apresentação.
-        $name = $presentationData['presentation_name'];
-        $date = $presentationData['presentation_date'];
-        $hour = $presentationData['presentation_hour'];
-        $local = $presentationData['local_of_presentation'];
-        $musicGroups = $presentationData['groups'];
-        $songGroups = $presentationData['songs'];
+        $name = $entity->getPresentationName();
+        $date = $entity->getPresentationDate();
+        $hour = $entity->getPresentationHour();
+        $local = $entity->getLocalOfPresentation();
+        $musicGroups = $entity->getGroups();
+        $songGroups = $entity->getSongs();
 
         // Salva apresentação e vínculos em transação.
         try {
@@ -109,16 +107,14 @@ class PresentationsDAO implements EntityInterface
             return false;
         }
 
-        $presentationData = $entity->toArray();
-
         // Normaliza os dados principais da apresentação.
-        $presentationId = (int) ($presentationData['presentation_id'] ?? 0);
-        $name = $presentationData['presentation_name'];
-        $date = $presentationData['presentation_date'];
-        $hour = $presentationData['presentation_hour'];
-        $local = $presentationData['local_of_presentation'];
-        $musicGroups = $presentationData['groups'];
-        $songGroups = $presentationData['songs'];
+        $presentationId = (int) ($entity->getPresentationId() ?? 0);
+        $name = $entity->getPresentationName();
+        $date = $entity->getPresentationDate();
+        $hour = $entity->getPresentationHour();
+        $local = $entity->getLocalOfPresentation();
+        $musicGroups = $entity->getGroups();
+        $songGroups = $entity->getSongs();
 
         // Atualiza apresentação e vínculos em transação.
         try {
@@ -250,8 +246,8 @@ class PresentationsDAO implements EntityInterface
 
         $presentationsList = [];
 
-        while ($res = $result->fetch_assoc()) {
-            $presentationsList[] = Presentation::fromArray($res)->toArray();
+        while ($row = $result->fetch_assoc()) {
+            $presentationsList[] = Presentation::fromArray($row);
         }
 
         $stmt->close();
@@ -281,9 +277,8 @@ class PresentationsDAO implements EntityInterface
 
         $groupsList = [];
 
-        while ($res = $result->fetch_assoc()) {
-            $normalized = BandGroup::fromArray($res)->toArray();
-            $groupsList[] = array_replace($res, array_intersect_key($normalized, $res));
+        while ($row = $result->fetch_assoc()) {
+            $groupsList[] = BandGroup::fromArray($row);
         }
 
         $stmt->close();
@@ -313,15 +308,10 @@ class PresentationsDAO implements EntityInterface
 
         $songsList = [];
 
-        while ($res = $result->fetch_assoc()) {
-            $normalized = MusicalScore::fromArray([
-                'music_id' => $res['song_id'] ?? null,
-                'music_name' => $res['music_name'] ?? '',
-            ])->toArray();
-
-            $songsList[] = array_replace($res, [
-                'music_name' => $normalized['music_name'],
-                'song_id' => $normalized['music_id'],
+        while ($row = $result->fetch_assoc()) {
+            $songsList[] = MusicalScore::fromArray([
+                'music_id' => $row['song_id'] ?? null,
+                'music_name' => $row['music_name'] ?? '',
             ]);
         }
 

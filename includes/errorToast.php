@@ -1,4 +1,4 @@
-<?php if ($message = Message::get('error')): ?>
+<?php if ($message = Message::get('error')) { ?>
     <div class="app-toast-container app-toast-error" role="alert" aria-live="assertive" aria-atomic="true">
       <div class="app-toast-card">
         <div class="app-toast-icon" aria-hidden="true">
@@ -10,8 +10,7 @@
           <p class="app-toast-message mb-0"><?= htmlspecialchars($message); ?></p>
         </div>
 
-        <button type="button" class="app-toast-close" aria-label="Fechar"
-          onclick="this.closest('.app-toast-container').remove()">
+        <button type="button" class="app-toast-close" aria-label="Fechar">
           <i class="bi bi-x-lg"></i>
         </button>
       </div>
@@ -21,4 +20,4 @@
    
     <!-- Remove toast em 5 segundos -->
     <script src="<?= BASE_URL ?>assets/js/removeToast.js?v=<?= filemtime(BASE_PATH . 'assets/js/removeToast.js') ?>"></script>
-<?php endif; ?>
+  <?php } ?>
