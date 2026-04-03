@@ -24,19 +24,6 @@ class News
         return $entity;
     }
 
-    public function toArray(): array
-    {
-        return [
-            'news_id' => $this->newsId,
-            'news_title' => $this->newsTitle,
-            'news_subtitle' => $this->newsSubtitle,
-            'news_image' => $this->newsImage,
-            'news_description' => $this->newsDescription,
-            'publication_date' => $this->publicationDate,
-            'publication_hour' => $this->publicationHour,
-        ];
-    }
-
     public function getNewsId(): ?int { return $this->newsId; }
     public function setNewsId(?int $newsId): void { $this->newsId = $newsId; }
     public function getNewsTitle(): string { return $this->newsTitle; }

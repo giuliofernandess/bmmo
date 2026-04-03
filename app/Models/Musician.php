@@ -36,25 +36,6 @@ class Musician
         return $entity;
     }
 
-    public function toArray(): array
-    {
-        return [
-            'musician_id' => $this->musicianId,
-            'musician_name' => $this->musicianName,
-            'musician_login' => $this->musicianLogin,
-            'date_of_birth' => $this->dateOfBirth,
-            'instrument' => $this->instrument,
-            'band_group' => $this->bandGroup,
-            'musician_contact' => $this->musicianContact,
-            'responsible_name' => $this->responsibleName,
-            'responsible_contact' => $this->responsibleContact,
-            'neighborhood' => $this->neighborhood,
-            'institution' => $this->institution,
-            'password' => $this->password,
-            'profile_image' => $this->profileImage,
-        ];
-    }
-
     public function getMusicianId(): ?int { return $this->musicianId; }
     public function setMusicianId(?int $musicianId): void { $this->musicianId = $musicianId; }
     public function getMusicianName(): string { return $this->musicianName; }

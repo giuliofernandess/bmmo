@@ -22,18 +22,6 @@ class MusicalScore
         return $entity;
     }
 
-    public function toArray(): array
-    {
-        return [
-            'music_id' => $this->musicId,
-            'music_name' => $this->musicName,
-            'music_genre' => $this->musicGenre,
-            'music_groups' => $this->musicGroups,
-            'instruments_voice_off' => $this->instrumentsVoiceOff,
-            'instruments' => $this->instruments,
-        ];
-    }
-
     public function getMusicId(): ?int
     {
         return $this->musicId;

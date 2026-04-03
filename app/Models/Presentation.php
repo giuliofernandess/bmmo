@@ -24,19 +24,6 @@ class Presentation
         return $entity;
     }
 
-    public function toArray(): array
-    {
-        return [
-            'presentation_id' => $this->presentationId,
-            'presentation_name' => $this->presentationName,
-            'presentation_date' => $this->presentationDate,
-            'presentation_hour' => $this->presentationHour,
-            'local_of_presentation' => $this->localOfPresentation,
-            'groups' => $this->groups,
-            'songs' => $this->songs,
-        ];
-    }
-
     public function getPresentationId(): ?int { return $this->presentationId; }
     public function setPresentationId(?int $presentationId): void { $this->presentationId = $presentationId; }
     public function getPresentationName(): string { return $this->presentationName; }
