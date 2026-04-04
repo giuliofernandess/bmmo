@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 require_once "../../../../config/config.php";
 require_once BASE_PATH . 'app/DAO/MusiciansDAO.php';
@@ -16,12 +19,11 @@ $password = postValue('password');
 $confirmPassword = postValueAny(['confirm_password', 'confirm-password']);
 
 $redirect = BASE_URL . "pages/musician/profile/edit/index.php";
+$redirectSuccess = BASE_URL . "pages/musician/profile/index.php";
 
 /* Valida senha */
-if ($password !== null || $confirmPassword !== null) {
-    if ($password !== $confirmPassword) {
-        redirectWithMessage('error', "As senhas não conferem.", $redirect);
-    }
+if ($password !== $confirmPassword) {
+    redirectWithMessage('error', "As senhas não conferem.", $redirect);
 }
 
 // Informações do músico via Model
@@ -31,13 +33,23 @@ $musicianInfo = Musician::fromArray([
     'responsible_name' => $responsibleName,
     'responsible_contact' => $responsibleContact,
     'neighborhood' => (string) $neighborhood,
-    'institution' => $institution,
-    'password' => (string) ($password ?? ''),
+    'institution' => $institution
 ]);
 
 $musiciansDAO = new MusiciansDAO($conn);
 if ($musiciansDAO->editOwnProfile($musicianInfo)) {
-    redirectWithMessage('success', "Músico editado com sucesso!", $redirect);
+
+    if ($password !== null && $password !== null) {
+
+        // Tenta atualizar a senha do usuário
+
+        if (!$musiciansDAO->editPassword($musicianId, $password)) {
+            redirectWithMessage('error', "Erro ao editar a senha. Tente novamente.", $redirect);
+        }
+
+    }
+
+    redirectWithMessage('success', "Músico editado com sucesso!", $redirectSuccess);
 } else {
     redirectWithMessage('error', "Erro ao editar o músico. Tente novamente.", $redirect);
 }

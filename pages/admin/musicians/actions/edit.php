@@ -31,10 +31,8 @@ $currentImage = $musiciansDAO->getProfileImage($musicianId);
 $imageFileName = handleProfileImageUpload($_FILES['file'] ?? [], $redirect, $currentImage);
 
 /* Valida senha */
-if ($password !== null || $confirmPassword !== null) {
-	if ($password !== $confirmPassword) {
-		redirectWithMessage('error', "As senhas não conferem.", $redirect);
-	}
+if ($password !== $confirmPassword) {
+	redirectWithMessage('error', "As senhas não conferem.", $redirect);
 }
 
 $musicianInfo = Musician::fromArray([
@@ -47,12 +45,23 @@ $musicianInfo = Musician::fromArray([
 	'responsible_contact' => $responsibleContact,
 	'neighborhood' => (string) $neighborhood,
 	'institution' => $institution,
-	'profile_image' => $imageFileName,
-	'password' => (string) ($password ?? ''),
+	'profile_image' => $imageFileName
 ]);
 
+$musiciansDAO = new MusiciansDAO($conn);
 if ($musiciansDAO->edit($musicianInfo)) {
-	redirectWithMessage('success', "Músico editado com sucesso!", $redirectSuccess);
+
+    if ($password !== null && $password !== null) {
+
+        // Tenta atualizar a senha do usuário
+
+        if (!$musiciansDAO->editPassword($musicianId, $password)) {
+            redirectWithMessage('error', "Erro ao editar a senha. Tente novamente.", $redirect);
+        }
+
+    }
+
+    redirectWithMessage('success', "Músico editado com sucesso!", $redirectSuccess);
 } else {
-	redirectWithMessage('error', "Erro ao editar o músico. Tente novamente.", $redirect);
+    redirectWithMessage('error', "Erro ao editar o músico. Tente novamente.", $redirect);
 }

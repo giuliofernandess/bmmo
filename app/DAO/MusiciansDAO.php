@@ -100,45 +100,8 @@ class MusiciansDAO implements EntityInterface
 
         try {
 
-            // Se a senha foi informada, atualiza também
-            if (!empty($passwordRaw)) {
-
-                $password = password_hash($passwordRaw, PASSWORD_DEFAULT);
-
-                $stmt = $db->prepare("
-                UPDATE musicians 
-                SET musician_login = ?, 
-                    instrument = ?, 
-                    band_group = ?, 
-                    musician_contact = ?, 
-                    responsible_name = ?, 
-                    responsible_contact = ?, 
-                    neighborhood = ?, 
-                    institution = ?, 
-                    profile_image = ?, 
-                    password = ?
-                WHERE musician_id = ?
-            ");
-
-                $stmt->bind_param(
-                    "siisssssssi",
-                    $musicianLogin,
-                    $instrument,
-                    $bandGroup,
-                    $musicianContact,
-                    $responsibleName,
-                    $responsibleContact,
-                    $neighborhood,
-                    $institution,
-                    $profileImage,
-                    $password,
-                    $musicianId
-                );
-
-            } else {
-
-                // Atualiza sem mexer na senha
-                $stmt = $db->prepare("
+            // Atualiza sem mexer na senha
+            $stmt = $db->prepare("
                 UPDATE musicians 
                 SET musician_login = ?, 
                     instrument = ?, 
@@ -152,20 +115,19 @@ class MusiciansDAO implements EntityInterface
                 WHERE musician_id = ?
             ");
 
-                $stmt->bind_param(
-                    "siissssssi",
-                    $musicianLogin,
-                    $instrument,
-                    $bandGroup,
-                    $musicianContact,
-                    $responsibleName,
-                    $responsibleContact,
-                    $neighborhood,
-                    $institution,
-                    $profileImage,
-                    $musicianId
-                );
-            }
+            $stmt->bind_param(
+                "siissssssi",
+                $musicianLogin,
+                $instrument,
+                $bandGroup,
+                $musicianContact,
+                $responsibleName,
+                $responsibleContact,
+                $neighborhood,
+                $institution,
+                $profileImage,
+                $musicianId
+            );
 
             $success = $stmt->execute();
 
@@ -202,37 +164,8 @@ class MusiciansDAO implements EntityInterface
 
         try {
 
-            // Se a senha foi informada, atualiza também
-            if (!empty($passwordRaw)) {
-
-                $password = password_hash($passwordRaw, PASSWORD_DEFAULT);
-
-                $stmt = $db->prepare("
-                UPDATE musicians 
-                SET musician_contact = ?, 
-                    responsible_name = ?, 
-                    responsible_contact = ?, 
-                    neighborhood = ?, 
-                    institution = ?, 
-                    password = ?
-                WHERE musician_id = ?
-            ");
-
-                $stmt->bind_param(
-                    "ssssssi",
-                    $musicianContact,
-                    $responsibleName,
-                    $responsibleContact,
-                    $neighborhood,
-                    $institution,
-                    $password,
-                    $musicianId
-                );
-
-            } else {
-
-                // Atualiza sem mexer na senha
-                $stmt = $db->prepare("
+            // Atualiza sem mexer na senha
+            $stmt = $db->prepare("
                 UPDATE musicians 
                 SET musician_contact = ?, 
                     responsible_name = ?, 
@@ -242,16 +175,15 @@ class MusiciansDAO implements EntityInterface
                 WHERE musician_id = ?
             ");
 
-                $stmt->bind_param(
-                    "sssssi",
-                    $musicianContact,
-                    $responsibleName,
-                    $responsibleContact,
-                    $neighborhood,
-                    $institution,
-                    $musicianId
-                );
-            }
+            $stmt->bind_param(
+                "sssssi",
+                $musicianContact,
+                $responsibleName,
+                $responsibleContact,
+                $neighborhood,
+                $institution,
+                $musicianId
+            );
 
             $success = $stmt->execute();
 
@@ -259,6 +191,31 @@ class MusiciansDAO implements EntityInterface
 
             return $success;
 
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+    
+
+    /**
+     * Atualiza a senha de um músico.
+     */
+
+    public function editPassword(int $musicianId, string $newPassword): bool
+    {
+        $db = $this->conn;
+
+        $passwordHash = password_hash($newPassword, PASSWORD_DEFAULT);
+
+        try {
+            $stmt = $db->prepare("UPDATE musicians SET password = ? WHERE musician_id = ?");
+            $stmt->bind_param("si", $passwordHash, $musicianId);
+
+            $success = $stmt->execute();
+
+            $stmt->close();
+
+            return $success;
         } catch (\Exception $e) {
             return false;
         }
