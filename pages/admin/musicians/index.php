@@ -1,7 +1,10 @@
 <?php
+
 require_once "../../../config/config.php";
 
 require_once BASE_PATH . "app/Auth/Auth.php";
+
+require_once BASE_PATH . "app/Models/Musician.php";
 
 require_once BASE_PATH . "app/DAO/MusiciansDAO.php";
 require_once BASE_PATH . "app/DAO/BandGroupsDAO.php";
@@ -43,6 +46,16 @@ Auth::requireRegency();
     <?php
     $groupsList = $bandGroupsDAO->getAll();
     $instrumentsList = $instrumentsDAO->getAll();
+
+    $groupMap = [];
+    foreach ($groupsList as $group) {
+      $groupMap[(int) ($group->getGroupId() ?? 0)] = (string) ($group->getGroupName() ?? '');
+    }
+
+    $instrumentMap = [];
+    foreach ($instrumentsList as $instrument) {
+      $instrumentMap[(int) ($instrument->getInstrumentId() ?? 0)] = (string) ($instrument->getInstrumentName() ?? '');
+    }
 
     $filterName = $_GET['name'] ?? '';
     $filterGroup = isset($_GET['group']) ? (int) $_GET['group'] : 0;
@@ -113,8 +126,9 @@ Auth::requireRegency();
     } else {
       $instrument = '';
 
-      // Itera sobre cada músico
-      foreach ($musiciansList as $musician) {
+      // Itera sobre cada músico  
+      foreach ($musiciansList as $data) {
+        $musician = $data instanceof Musician ? $data : Musician::fromArray((array) $data);
 
         // Dados do músico
         $musicianId = (int) ($musician->getMusicianId() ?? 0);
