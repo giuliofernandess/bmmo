@@ -50,6 +50,10 @@
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
 }
 
+#musical-score-submit {
+  height: 45px;
+}
+
 .file-cell {
   display: flex;
   align-items: center;

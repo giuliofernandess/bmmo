@@ -76,8 +76,8 @@ $groups = $bandGroupsDAO->getAll();
 
         <div class="res mb-3"></div>
 
-        <input type="submit" class="btn btn-outline-primary btn-lg rounded-pill w-100 mt-3 presentation-submit-button"
-          id="musical-score-submit" value="Adicionar Partitura">
+        <input type="submit" class="btn btn-primary btn-lg w-100 mt-3 fw-bold"
+                    id="musical-score-submit" value="Adicionar Partitura">
 
       </form>
     </div>

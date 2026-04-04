@@ -63,7 +63,8 @@ $newsList = $newsDAO->getAll();
           <small id="image-hint" class="text-muted"></small>
         </div>
 
-        <input type="submit" id="news-submit" class="btn btn-outline-primary" value="Publicar Notícia">
+        <input type="submit" class="btn btn-primary btn-lg w-100 py-1"
+               value="Publicar Notícia">
       </form>
     </div>
 

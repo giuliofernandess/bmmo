@@ -120,7 +120,7 @@ $groups = $bandGroupsDAO->getAll();
 
                 <div class="selected-songs mb-3"></div>
 
-                <input type="submit" class="btn btn-outline-primary btn-lg rounded-pill w-100 mt-3 presentation-submit-button"
+                <input type="submit" class="btn btn-outline-primary btn-lg w-100 mt-3 presentation-submit-button py-1"
                     id="presentation-submit" value="Criar apresentação">
             </form>
         </div>
