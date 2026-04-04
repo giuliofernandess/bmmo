@@ -1,6 +1,7 @@
 <?php
 
 // Camada de autenticação e autorização da aplicação.
+require_once BASE_PATH . '../../config/config.php';
 require_once BASE_PATH . 'app/Database/Database.php';
 require_once BASE_PATH . 'app/DAO/RegencyDAO.php';
 require_once BASE_PATH . 'app/DAO/MusiciansDAO.php';
