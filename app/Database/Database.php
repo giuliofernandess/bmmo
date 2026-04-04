@@ -28,16 +28,4 @@ class Database
 
         return self::$connection;
     }
-
-    /**
-     * Fecha a conexão com o banco.
-     * Opcional, normalmente não é necessário no final do script.
-     */
-    public static function closeConnection(): void
-    {
-        if (self::$connection !== null) {
-            self::$connection->close();
-            self::$connection = null;
-        }
-    }
 }
