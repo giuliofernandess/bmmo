@@ -97,7 +97,7 @@ $profileImage = $profileImage ? htmlspecialchars($profileImage) : "default.png";
   <?php include_once BASE_PATH . "includes/secondHeader.php"; ?>
   
 
-  <main class="flex-fill py-5">
+  <main class="d-flex align-items-center justify-content-center flex-fill py-5">
     <div class="container">
       <div class="card shadow mx-auto">
         <div class="row g-0">
