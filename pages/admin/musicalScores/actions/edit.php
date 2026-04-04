@@ -29,6 +29,8 @@ $musicName = trim($_POST['musical_score_name'] ?? $_POST['name'] ?? '');
 $musicGenre = trim($_POST['musical_score_genre'] ?? $_POST['genre'] ?? '');
 $musicGroups = $_POST['musical_score_groups'] ?? $_POST['groups'] ?? [];
 
+$redirectSuccess = BASE_URL . "pages/admin/musicalScores/edit/index.php?" . "musicId=" . urlencode($musicId);
+
 // Validação de instrumentos sem vozes
 $instrumentsVoiceOff = [];
 $voiceOffInput = $_FILES['musical_score_instruments_voice_off'] ?? $_FILES['instrumentsVoiceOff'] ?? [];
@@ -48,19 +50,19 @@ foreach ($voiceOffNames as $instrumentId => $nameVoiceOff) {
 
 		if ($safeName === null) {
 			Message::set('error', "Formato de arquivo inválido. Envie apenas PDF.");
-			header("Location: ../edit/index.php?musicId={$musicId}");
+			header("Location: " . $redirectSuccess);
 			exit;
 		}
 
 		if ($size > $maxFileSize) {
 			Message::set('error', "Arquivo muito grande. Máximo permitido: 15MB.");
-			header("Location: ../edit/index.php?musicId={$musicId}");
+			header("Location: " . $redirectSuccess);
 			exit;
 		}
 
 		if (!move_uploaded_file($tmp, BASE_PATH . "uploads/musical-scores/" . $safeName)) {
 			Message::set('error', "Erro ao enviar arquivo de instrumento sem voz.");
-			header("Location: ../edit/index.php?musicId={$musicId}");
+			header("Location: " . $redirectSuccess);
 			exit;
 		}
 
@@ -88,19 +90,19 @@ foreach ($instrumentNames as $instrumentId => $name) {
 
 		if ($safeName === null) {
 			Message::set('error', "Formato de arquivo inválido. Envie apenas PDF.");
-			header("Location: ../edit/index.php?musicId={$musicId}");
+			header("Location: " . $redirectSuccess);
 			exit;
 		}
 
 		if ($size > $maxFileSize) {
 			Message::set('error', "Arquivo muito grande. Máximo permitido: 15MB.");
-			header("Location: ../edit/index.php?musicId={$musicId}");
+			header("Location: " . $redirectSuccess);
 			exit;
 		}
 
 		if (!move_uploaded_file($tmp, BASE_PATH . "uploads/musical-scores/" . $safeName)) {
 			Message::set('error', "Erro ao enviar arquivo de instrumento com voz.");
-			header("Location: ../edit/index.php?musicId={$musicId}");
+			header("Location: " . $redirectSuccess);
 			exit;
 		}
 
@@ -126,5 +128,5 @@ if ($musicalScoreEdit !== false) {
 	Message::set('error', "Erro ao editar partitura.");
 }
 
-header("Location: ../edit/index.php?musicId={$musicId}");
+header("Location: " . $redirectSuccess);
 exit;

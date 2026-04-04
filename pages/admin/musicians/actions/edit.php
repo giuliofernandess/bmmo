@@ -46,6 +46,9 @@ $institution = postValue('institution');
 $password = postValue('password');
 $confirmPassword = postValueAny(['confirm_password', 'confirm-password']);
 
+$redirect = BASE_URL . 'pages/admin/musicians/index.php';
+$redirectSuccess = BASE_URL . 'pages/admin/musicians/musicianProfile/index.php' . "?musician_id=" . urlencode($musicianId);
+
 //Validação de imagem
 $currentImage = $musiciansDAO->getProfileImage($musicianId);
 
@@ -62,13 +65,13 @@ if (isset($_FILES['file']) && ($_FILES['file']['error'] ?? null) === UPLOAD_ERR_
 
 	if (!in_array($fileExtension, $allowedExtensions)) {
 		Message::set('error', "Extensão de arquivo inválida. Permitido apenas jpg, jpeg, png, gif.");
-		header("Location: " . BASE_URL . "pages/admin/musicians/musicianProfile/edit/index.php?musician_id={$musicianId}");
+		header("Location: " . $redirect);
 		exit;
 	}
 
 	if ($fileSize > 5 * 1024 * 1024) {
 		Message::set('error', "Arquivo muito grande. Máximo permitido: 5MB.");
-		header("Location: " . BASE_URL . "pages/admin/musicians/musicianProfile/edit/index.php?musician_id={$musicianId}");
+		header("Location: " . $redirect);
 		exit;
 	}
 
@@ -89,7 +92,7 @@ if (isset($_FILES['file']) && ($_FILES['file']['error'] ?? null) === UPLOAD_ERR_
 		$imageFileName = $newFileName;
 	} else {
 		Message::set('error', "Erro ao enviar a imagem.");
-		header("Location: " . BASE_URL . "pages/admin/musicians/musicianProfile/edit/index.php?musician_id={$musicianId}");
+		header("Location: " . $redirect);
 		exit;
 	}
 }
@@ -98,7 +101,7 @@ if (isset($_FILES['file']) && ($_FILES['file']['error'] ?? null) === UPLOAD_ERR_
 if ($password !== null || $confirmPassword !== null) {
 	if ($password !== $confirmPassword) {
 		Message::set('error', "As senhas não conferem.");
-		header("Location: " . BASE_URL . "pages/admin/musicians/musicianProfile/edit/index.php?musician_id={$musicianId}");
+		header("Location: " . $redirect);
 		exit;
 	}
 }
@@ -123,5 +126,5 @@ if ($musiciansDAO->edit($musicianInfo)) {
 	Message::set('error', "Erro ao editar o músico. Tente novamente.");
 }
 
-header("Location: " . BASE_URL . "pages/admin/musicians/musicianProfile/index.php?musician_id={$musicianId}");
+header("Location: " . $redirectSuccess);
 exit;

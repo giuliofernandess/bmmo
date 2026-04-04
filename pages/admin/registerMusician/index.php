@@ -4,11 +4,9 @@ session_start();
 require_once "../../../config/config.php";
 require_once BASE_PATH . "app/Auth/Auth.php";
 
-require_once BASE_PATH . "app/DAO/MusiciansDAO.php";
 require_once BASE_PATH . "app/DAO/InstrumentsDAO.php";
 require_once BASE_PATH . "app/DAO/BandGroupsDAO.php";
 
-$musiciansDAO = new MusiciansDAO($conn);
 $bandGroupsDAO = new BandGroupsDAO($conn);
 $instrumentsDAO = new InstrumentsDAO($conn);
 
@@ -46,7 +44,7 @@ $selectedBandGroup = 0;
   <main class="flex-grow-1 d-flex align-items-center justify-content-center flex-column py-5">
     <div class="container form-container">
       <h1 class="text-center mb-4">Cadastrar Músico</h1>
-      <form method="post" action="<?= BASE_URL ?>pages/admin/musicians/actions/create.php" enctype="multipart/form-data" class="row g-3">
+      <form method="post" action="<?= BASE_URL ?>pages/admin/registerMusician/actions/create.php" enctype="multipart/form-data" class="row g-3">
 
         <!-- Nome + Login + Nascimento -->
         <div class="col-md-12">

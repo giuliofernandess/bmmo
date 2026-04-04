@@ -65,6 +65,8 @@ $institution = postValue('institution');
 $password = postValue('password');
 $confirmPassword = postValueAny(['confirm_password', 'confirm-password']);
 
+$redirect = BASE_URL . 'pages/admin/registerMusician/index.php';
+
 // Upload da imagem
 $imageFileName = null;
 
@@ -77,13 +79,13 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
 	$allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
 	if (!in_array($fileExtension, $allowedExtensions)) {
 		Message::set('error', "Extensão de arquivo inválida. Permitido apenas jpg, jpeg, png, gif.");
-		header("Location: " . BASE_URL . "pages/admin/registerMusician/index.php");
+		header("Location: " . $redirect);
 		exit;
 	}
 
 	if ($fileSize > 5 * 1024 * 1024) {
 		Message::set('error', "Arquivo muito grande. Máximo permitido: 5MB.");
-		header("Location: " . BASE_URL . "pages/admin/registerMusician/index.php");
+		header("Location: " . $redirect);
 		exit;
 	}
 
@@ -100,7 +102,7 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
 		$imageFileName = $newFileName;
 	} else {
 		Message::set('error', "Erro ao enviar a imagem.");
-		header("Location: " . BASE_URL . "pages/admin/registerMusician/index.php");
+		header("Location: " . $redirect);
 		exit;
 	}
 }
@@ -108,21 +110,21 @@ if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
 /* Valida senha */
 if ($password !== $confirmPassword) {
 	Message::set('error', "As senhas não conferem.");
-	header("Location: " . BASE_URL . "pages/admin/registerMusician/index.php");
+	header("Location: " . $redirect);
 	exit;
 }
 
 /* Valida login */
 if ($musiciansDAO->verifyLogin($login)) {
 	Message::set('error', "Login já existe.");
-	header("Location: " . BASE_URL . "pages/admin/registerMusician/index.php");
+	header("Location: " . $redirect);
 	exit;
 }
 
 /* Valida datas */
 if (!isValidBirthDate($age, $responsibleName, $responsibleContact)) {
 	Message::set('error', "Data de nascimento inválida ou falta de informações do responsável.");
-	header("Location: " . BASE_URL . "pages/admin/registerMusician/index.php");
+	header("Location: " . $redirect);
 	exit;
 }
 
@@ -148,5 +150,5 @@ if ($musiciansDAO->create($musicianInfo)) {
 	Message::set('error', "Erro ao registrar o músico. Tente novamente.");
 }
 
-header("Location: " . BASE_URL . "pages/admin/registerMusician/index.php");
+header("Location: " . $redirect);
 exit;

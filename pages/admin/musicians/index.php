@@ -44,16 +44,6 @@ Auth::requireRegency();
     $groupsList = $bandGroupsDAO->getAll();
     $instrumentsList = $instrumentsDAO->getAll();
 
-    $groupMap = [];
-    foreach ($groupsList as $group) {
-      $groupMap[(int) ($group->getGroupId() ?? 0)] = $group->getGroupName();
-    }
-
-    $instrumentMap = [];
-    foreach ($instrumentsList as $instrument) {
-      $instrumentMap[(int) ($instrument->getInstrumentId() ?? 0)] = $instrument->getInstrumentName();
-    }
-
     $filterName = $_GET['name'] ?? '';
     $filterGroup = isset($_GET['group']) ? (int) $_GET['group'] : 0;
     $filterInstrument = isset($_GET['instrument']) ? (int) $_GET['instrument'] : 0;

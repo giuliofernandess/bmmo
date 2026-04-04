@@ -11,9 +11,12 @@ Auth::requireRegency();
 $musicianId = isset($_POST['musician_id']) ? (int) $_POST['musician_id'] : null;
 
 if (!$musicianId) {
-	header("Location: " . BASE_URL . "pages/admin/musicians/musicianProfile/index.php?musician_id={$musicianId}");
+	header("Location: " . $redirect);
 	exit;
 }
+
+$redirect = BASE_URL . "pages/admin/musicians/musicianProfile/index.php" . "?musician_id=" . urlencode($musicianId);
+$redirectSuccess = BASE_URL . "pages/admin/musicians/index.php";
 
 // Recebe a imagem do músico
 $currentImage = $musiciansDAO->getProfileImage($musicianId);
@@ -26,8 +29,8 @@ if ($deleteMusician) {
 	}
 
 	Message::set('success', "Músico excluído com sucesso.");
-	header("Location: " . BASE_URL . "pages/admin/musicians/index.php");
+	header("Location: " . $redirectSuccess);
 } else {
 	Message::set('error', "Não foi possível deletar o músico.");
-	header("Location: " . BASE_URL . "pages/admin/musicians/musicianProfile/index.php?musician_id={$musicianId}");
+	header("Location: " . $redirect);
 }

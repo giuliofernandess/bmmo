@@ -8,16 +8,18 @@ $musicalScoresDAO = new MusicalScoresDAO($conn);
 
 Auth::requireRegency();
 
+$redirect = BASE_URL . "pages/admin/musicalScores/index.php";
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 	Message::set('error', "Metodo invalido para exclusao da partitura.");
-	header("Location: " . BASE_URL . "pages/admin/musicalScores/index.php");
+	header("Location: " . $redirect);
 	exit;
 }
-
+	
 $musicId = isset($_POST['music_id']) ? (int) $_POST['music_id'] : null;
 
 if (!$musicId) {
-	header("Location: " . BASE_URL . "pages/admin/musicalScores/index.php");
+	header("Location: " . $redirect);
 	exit;
 }
 
@@ -29,5 +31,5 @@ if ($musicalScoreGeneralDelete) {
 	Message::set('error', "Não foi possível deletar a partitura.");
 }
 
-header("Location: " . BASE_URL . "pages/admin/musicalScores/index.php");
+header("Location: " . $redirect);
 exit;
