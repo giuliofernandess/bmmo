@@ -133,7 +133,7 @@ CREATE TABLE `musical_scores_instruments` (
 CREATE TABLE `musicians` (
   `musician_id` int(11) NOT NULL,
   `musician_name` varchar(255) NOT NULL,
-  `musician_login` varchar(50) NOT NULL,
+  `musician_login` varchar(50) NOT NULL UNIQUE,
   `date_of_birth` date NOT NULL,
   `instrument` int(11) NOT NULL,
   `band_group` int(11) NOT NULL,
