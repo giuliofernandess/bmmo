@@ -34,14 +34,8 @@ require_once BASE_PATH ."helpers/getMusicianInfo.php";
 
     <!-- Formulário -->
     <div class="container form-container">
-      <h1 class="text-center mb-4">Editar Músico</h1>
+      <h1 class="text-center mb-4"><?= $musicianName ?></h1>
       <form method="post" action="<?= BASE_URL ?>pages/musician/profile/actions/edit.php" enctype="multipart/form-data" class="row g-3">
-
-        <!-- Nome -->
-        <div class="col-12">
-          <label for="musician-name" class="form-label ps-2">Nome</label>
-          <input type="text" name="musician_name" id="musician-name" value="<?= $musicianName ?>"class="form-control" disabled />
-        </div>
 
         <!-- Login -->
         <div class="col-md-6">
