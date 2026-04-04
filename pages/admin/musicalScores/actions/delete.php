@@ -3,6 +3,7 @@ session_start();
 require_once '../../../../config/config.php';
 require_once BASE_PATH . 'app/Auth/Auth.php';
 require_once BASE_PATH . 'app/DAO/MusicalScoresDAO.php';
+require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $musicalScoresDAO = new MusicalScoresDAO($conn);
 
@@ -11,25 +12,19 @@ Auth::requireRegency();
 $redirect = BASE_URL . "pages/admin/musicalScores/index.php";
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-	Message::set('error', "Metodo invalido para exclusao da partitura.");
-	header("Location: " . $redirect);
-	exit;
+	redirectWithMessage('error', "Metodo invalido para exclusao da partitura.", $redirect);
 }
 	
-$musicId = isset($_POST['music_id']) ? (int) $_POST['music_id'] : null;
+$musicId = (int) (postValueAny(['music_id'], 'int') ?? 0);
 
 if (!$musicId) {
-	header("Location: " . $redirect);
-	exit;
+	redirectWithMessage('error', "Partitura inválida.", $redirect);
 }
 
 $musicalScoreGeneralDelete = $musicalScoresDAO->delete($musicId);
 
 if ($musicalScoreGeneralDelete) {
-	Message::set('success', "Partitura excluída com sucesso.");
+	redirectWithMessage('success', "Partitura excluída com sucesso.", $redirect);
 } else {
-	Message::set('error', "Não foi possível deletar a partitura.");
+	redirectWithMessage('error', "Não foi possível deletar a partitura.", $redirect);
 }
-
-header("Location: " . $redirect);
-exit;

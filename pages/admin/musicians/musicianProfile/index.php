@@ -4,6 +4,7 @@ require_once BASE_PATH . "app/Auth/Auth.php";
 require_once BASE_PATH . "app/DAO/MusiciansDAO.php";
 require_once BASE_PATH . "app/DAO/InstrumentsDAO.php";
 require_once BASE_PATH . "app/DAO/BandGroupsDAO.php";
+require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $musiciansDAO = new MusiciansDAO($conn);
 $instrumentsDAO = new InstrumentsDAO($conn);
@@ -15,8 +16,7 @@ Auth::requireRegency();
 $musicianId = isset($_GET['musician_id']) ? (int)$_GET['musician_id'] : null;
 
 if (!$musicianId) {
-  header("Location: " . BASE_URL . "pages/admin/musicians/index.php");
-  exit;
+  redirectTo(BASE_URL . "pages/admin/musicians/index.php");
 }
 
 $res = $musiciansDAO->getById($musicianId);

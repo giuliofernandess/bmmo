@@ -4,6 +4,7 @@ require_once '../../../../config/config.php';
 require_once BASE_PATH . 'app/Auth/Auth.php';
 require_once BASE_PATH . 'app/DAO/MusicalScoresDAO.php';
 require_once BASE_PATH . 'app/Models/MusicalScore.php';
+require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $musicalScoresDAO = new MusicalScoresDAO($conn);
 
@@ -12,15 +13,13 @@ Auth::requireRegency();
 $redirect = BASE_URL . "pages/admin/musicalScores/index.php";
 
 // Recebe dados do formulário
-$musicName = trim($_POST['musical_score_name'] ?? $_POST['name-add'] ?? '');
-$musicGenre = trim($_POST['musical_score_genre'] ?? $_POST['musical-genre-add'] ?? '');
+$musicName = postValueAny(['musical_score_name', 'name-add']) ?? '';
+$musicGenre = postValueAny(['musical_score_genre', 'musical-genre-add']) ?? '';
 $musicGroups = $_POST['musical_score_groups'] ?? $_POST['groups'] ?? [];
 
 // Validação rápida
 if (empty($musicName) || empty($musicGenre)) {
-	Message::set('error', "Nome e gênero são obrigatórios.");
-	header("Location: " . $redirect);
-	exit;
+	redirectWithMessage('error', "Nome e gênero são obrigatórios.", $redirect);
 }
 
 $musicalScore = MusicalScore::fromArray([
@@ -34,14 +33,7 @@ $musicalScoreAdd = $musicalScoresDAO->create($musicalScore);
 $redirectSuccess = BASE_URL . "pages/admin/musicalScores/edit/index.php?" . "musicId=" . urlencode($musicalScoreAdd);
 
 if ($musicalScoreAdd !== false) {
-	Message::set('success', "Partitura criada com sucesso!");
+	redirectWithMessage('success', "Partitura criada com sucesso!", $redirectSuccess);
 } else {
-	Message::set('error', "Erro ao criar partitura.");
-
-	header("Location: " . $redirect);
-	exit;
+	redirectWithMessage('error', "Erro ao criar partitura.", $redirect);
 }
-
-// Redireciona para a página de edição da partitura
-header("Location: " . $redirectSuccess);
-exit;

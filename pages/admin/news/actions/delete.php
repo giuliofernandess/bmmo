@@ -3,6 +3,7 @@ session_start();
 require_once '../../../../config/config.php';
 require_once BASE_PATH . 'app/Auth/Auth.php';
 require_once BASE_PATH . 'app/DAO/NewsDAO.php';
+require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $newsDAO = new NewsDAO($conn);
 
@@ -11,24 +12,18 @@ Auth::requireRegency();
 $redirect = BASE_URL . 'pages/admin/news/index.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    Message::set('error', 'Método invalido para exclusao.');
-    header('Location: ' . $redirect);
-    exit;
+    redirectWithMessage('error', 'Método invalido para exclusao.', $redirect);
 }
 
-$newsId = (int) ($_POST['news_id'] ?? 0);
+$newsId = (int) (postValueAny(['news_id'], 'int') ?? 0);
 
 if ($newsId <= 0) {
-    Message::set('error', 'Notícia invalida.');
-    header('Location: ' . $redirect);
-    exit;
+    redirectWithMessage('error', 'Notícia invalida.', $redirect);
 }
 
 $news = $newsDAO->getById($newsId);
 if (!$news) {
-    Message::set('error', 'Notícia não encontrada.');
-    header('Location: ' . $redirect);
-    exit;
+    redirectWithMessage('error', 'Notícia não encontrada.', $redirect);
 }
 
 if ($newsDAO->delete($newsId)) {
@@ -40,10 +35,7 @@ if ($newsDAO->delete($newsId)) {
         }
     }
 
-    Message::set('success', 'Notícia removida com sucesso!');
+    redirectWithMessage('success', 'Notícia removida com sucesso!', $redirect);
 } else {
-    Message::set('error', 'Erro ao remover a notícia. Tente novamente.');
+    redirectWithMessage('error', 'Erro ao remover a notícia. Tente novamente.', $redirect);
 }
-
-header('Location: ' . $redirect);
-exit;

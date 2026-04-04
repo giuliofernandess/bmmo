@@ -4,6 +4,7 @@ session_start();
 require_once '../../../../config/config.php';
 require_once BASE_PATH . 'app/Auth/Auth.php';
 require_once BASE_PATH . 'app/DAO/PresentationsDAO.php';
+require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $presentationsDAO = new PresentationsDAO($conn);
 
@@ -12,24 +13,17 @@ Auth::requireRegency();
 $redirect = BASE_URL . 'pages/admin/presentations/index.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    Message::set('error', 'Metodo inválido para exclusao!');
-    header('Location: ' . $redirect);
-    exit;
+    redirectWithMessage('error', 'Metodo inválido para exclusao!', $redirect);
 }
 
 if (!isset($_POST['presentation_id']) || !is_numeric($_POST['presentation_id'])) {
-    Message::set('error', 'Algo deu errado!');
-    header('Location: ' . $redirect);
-    exit;
+    redirectWithMessage('error', 'Algo deu errado!', $redirect);
 }
 
 $presentationId = (int) $_POST['presentation_id'];
 
 if ($presentationsDAO->delete($presentationId)) {
-    Message::set('success', 'Apresentação excluída com sucesso!');
+    redirectWithMessage('success', 'Apresentação excluída com sucesso!', $redirect);
 } else {
-    Message::set('error', 'Erro ao excluir apresentação!');
+    redirectWithMessage('error', 'Erro ao excluir apresentação!', $redirect);
 }
-
-header('Location: ' . $redirect);
-exit;

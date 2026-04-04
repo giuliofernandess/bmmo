@@ -5,6 +5,7 @@ require_once BASE_PATH . "app/Auth/Auth.php";
 require_once BASE_PATH . "app/DAO/BandGroupsDAO.php";
 require_once BASE_PATH . "app/DAO/InstrumentsDAO.php";
 require_once BASE_PATH . "app/DAO/MusicalScoresDAO.php";
+require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $bandGroupsDAO = new BandGroupsDAO($conn);
 $instrumentsDAO = new InstrumentsDAO($conn);
@@ -20,8 +21,7 @@ $instrumentsVoiceOff = $instrumentsDAO->getAll(true);
 $musicId = isset($_GET['musicId']) ? (int) $_GET['musicId'] : null;
 
 if (!$musicId) {
-  header("Location: " . BASE_URL . "pages/admin/musicalScores/index.php");
-  exit;
+  redirectTo(BASE_URL . "pages/admin/musicalScores/index.php");
 }
 
 $musicalScores = $musicalScoresDAO->getById($musicId);

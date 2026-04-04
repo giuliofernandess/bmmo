@@ -3,20 +3,20 @@ session_start();
 require_once "../../../../config/config.php";
 require_once BASE_PATH . 'app/Auth/Auth.php';
 require_once BASE_PATH . 'app/DAO/MusiciansDAO.php';
+require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $musiciansDAO = new MusiciansDAO($conn);
 
 Auth::requireRegency();
 
-$musicianId = isset($_POST['musician_id']) ? (int) $_POST['musician_id'] : null;
+$redirect = BASE_URL . "pages/admin/musicians/index.php";
+$musicianId = (int) (postValueAny(['musician_id'], 'int') ?? 0);
 
 if (!$musicianId) {
-	header("Location: " . $redirect);
-	exit;
+	redirectWithMessage('error', 'Músico inválido.', $redirect);
 }
 
-$redirect = BASE_URL . "pages/admin/musicians/musicianProfile/index.php" . "?musician_id=" . urlencode($musicianId);
-$redirectSuccess = BASE_URL . "pages/admin/musicians/index.php";
+$redirectError = BASE_URL . "pages/admin/musicians/musicianProfile/index.php" . "?musician_id=" . urlencode((string) $musicianId);
 
 // Recebe a imagem do músico
 $currentImage = $musiciansDAO->getProfileImage($musicianId);
@@ -28,9 +28,7 @@ if ($deleteMusician) {
 		unlink(BASE_PATH . 'uploads/musicians-images/' . $currentImage);
 	}
 
-	Message::set('success', "Músico excluído com sucesso.");
-	header("Location: " . $redirectSuccess);
+	redirectWithMessage('success', "Músico excluído com sucesso.", $redirect);
 } else {
-	Message::set('error', "Não foi possível deletar o músico.");
-	header("Location: " . $redirect);
+	redirectWithMessage('error', "Não foi possível deletar o músico.", $redirectError);
 }

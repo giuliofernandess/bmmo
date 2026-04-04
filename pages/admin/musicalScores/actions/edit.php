@@ -4,6 +4,7 @@ require_once '../../../../config/config.php';
 require_once BASE_PATH . 'app/Auth/Auth.php';
 require_once BASE_PATH . 'app/DAO/MusicalScoresDAO.php';
 require_once BASE_PATH . 'app/Models/MusicalScore.php';
+require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $musicalScoresDAO = new MusicalScoresDAO($conn);
 
@@ -49,21 +50,15 @@ foreach ($voiceOffNames as $instrumentId => $nameVoiceOff) {
 		$safeName = buildSafeMusicalScoreFileName((string) $nameVoiceOff, $allowedExtensions);
 
 		if ($safeName === null) {
-			Message::set('error', "Formato de arquivo inválido. Envie apenas PDF.");
-			header("Location: " . $redirectSuccess);
-			exit;
+			redirectWithMessage('error', "Formato de arquivo inválido. Envie apenas PDF.", $redirectSuccess);
 		}
 
 		if ($size > $maxFileSize) {
-			Message::set('error', "Arquivo muito grande. Máximo permitido: 15MB.");
-			header("Location: " . $redirectSuccess);
-			exit;
+			redirectWithMessage('error', "Arquivo muito grande. Máximo permitido: 15MB.", $redirectSuccess);
 		}
 
 		if (!move_uploaded_file($tmp, BASE_PATH . "uploads/musical-scores/" . $safeName)) {
-			Message::set('error', "Erro ao enviar arquivo de instrumento sem voz.");
-			header("Location: " . $redirectSuccess);
-			exit;
+			redirectWithMessage('error', "Erro ao enviar arquivo de instrumento sem voz.", $redirectSuccess);
 		}
 
 		$instrumentsVoiceOff[$instrumentId] = $safeName;
@@ -89,21 +84,15 @@ foreach ($instrumentNames as $instrumentId => $name) {
 		$safeName = buildSafeMusicalScoreFileName((string) $name, $allowedExtensions);
 
 		if ($safeName === null) {
-			Message::set('error', "Formato de arquivo inválido. Envie apenas PDF.");
-			header("Location: " . $redirectSuccess);
-			exit;
+			redirectWithMessage('error', "Formato de arquivo inválido. Envie apenas PDF.", $redirectSuccess);
 		}
 
 		if ($size > $maxFileSize) {
-			Message::set('error', "Arquivo muito grande. Máximo permitido: 15MB.");
-			header("Location: " . $redirectSuccess);
-			exit;
+			redirectWithMessage('error', "Arquivo muito grande. Máximo permitido: 15MB.", $redirectSuccess);
 		}
 
 		if (!move_uploaded_file($tmp, BASE_PATH . "uploads/musical-scores/" . $safeName)) {
-			Message::set('error', "Erro ao enviar arquivo de instrumento com voz.");
-			header("Location: " . $redirectSuccess);
-			exit;
+			redirectWithMessage('error', "Erro ao enviar arquivo de instrumento com voz.", $redirectSuccess);
 		}
 
 		$instruments[$instrumentId] = $safeName;
@@ -123,10 +112,7 @@ $musicalScore = MusicalScore::fromArray([
 $musicalScoreEdit = $musicalScoresDAO->edit($musicalScore);
 
 if ($musicalScoreEdit !== false) {
-	Message::set('success', "Partitura editada com sucesso!");
+	redirectWithMessage('success', "Partitura editada com sucesso!", $redirectSuccess);
 } else {
-	Message::set('error', "Erro ao editar partitura.");
+	redirectWithMessage('error', "Erro ao editar partitura.", $redirectSuccess);
 }
-
-header("Location: " . $redirectSuccess);
-exit;

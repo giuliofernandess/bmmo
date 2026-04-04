@@ -3,30 +3,7 @@ session_start();
 require_once "../../../../config/config.php";
 require_once BASE_PATH . 'app/DAO/MusiciansDAO.php';
 require_once BASE_PATH . 'app/Models/Musician.php';
-
-// Função auxiliar para tratar entrada
-function postValue(string $key, string $type = 'string')
-{
-    if (!isset($_POST[$key]) || $_POST[$key] === '') {
-        return null;
-    }
-
-    return $type === 'int'
-        ? (int) $_POST[$key]
-        : trim($_POST[$key]);
-}
-
-function postValueAny(array $keys, string $type = 'string')
-{
-    foreach ($keys as $key) {
-        $value = postValue($key, $type);
-        if ($value !== null) {
-            return $value;
-        }
-    }
-
-    return null;
-}
+require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 // Recebimento de variáveis pelo método POST
 $musicianId = postValueAny(['musician_id', 'musician-id']);
@@ -43,9 +20,7 @@ $redirect = BASE_URL . "pages/musician/profile/edit/index.php";
 /* Valida senha */
 if ($password !== null || $confirmPassword !== null) {
     if ($password !== $confirmPassword) {
-        Message::set('error', "As senhas não conferem.");
-        header("Location: " . $redirect);
-        exit;
+        redirectWithMessage('error', "As senhas não conferem.", $redirect);
     }
 }
 
@@ -62,13 +37,7 @@ $musicianInfo = Musician::fromArray([
 
 $musiciansDAO = new MusiciansDAO($conn);
 if ($musiciansDAO->editOwnProfile($musicianInfo)) {
-    Message::set('success', "Músico editado com sucesso!");
+    redirectWithMessage('success', "Músico editado com sucesso!", $redirect);
 } else {
-    Message::set('error', "Erro ao editar o músico. Tente novamente.");
+    redirectWithMessage('error', "Erro ao editar o músico. Tente novamente.", $redirect);
 }
-
-// Redireciona de volta para a página musicians
-header("Location: " . $redirect);
-exit;
-
-?>
