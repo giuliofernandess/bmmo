@@ -30,18 +30,18 @@ if (!$res) {
 //Recebimento de variáveis
 $musicianName = trim($res->getMusicianName()) ?: null;
 
-$instrument = null;
+$instrumentName = null;
 foreach ($instrumentsDAO->getAll() as $instrumentItem) {
   if (($instrumentItem->getInstrumentId() ?? 0) === $res->getInstrument()) {
-    $instrument = trim($instrumentItem->getInstrumentName()) ?: null;
+    $instrumentName = trim($instrumentItem->getInstrumentName()) ?: null;
     break;
   }
 }
 
-$bandGroup = null;
+$groupName = null;
 foreach ($bandGroupsDAO->getAll() as $group) {
   if (($group->getGroupId() ?? 0) === $res->getBandGroup()) {
-    $bandGroup = trim($group->getGroupName()) ?: null;
+    $groupName = trim($group->getGroupName()) ?: null;
     break;
   }
 }
