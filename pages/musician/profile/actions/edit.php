@@ -38,11 +38,13 @@ $institution = postValue('institution');
 $password = postValue('password');
 $confirmPassword = postValueAny(['confirm_password', 'confirm-password']);
 
+$redirect = BASE_URL . "pages/musician/profile/edit/index.php";
+
 /* Valida senha */
 if ($password !== null || $confirmPassword !== null) {
     if ($password !== $confirmPassword) {
         Message::set('error', "As senhas não conferem.");
-        header("Location: " . BASE_URL . "pages/musician/profile/edit/index.php");
+        header("Location: " . $redirect);
         exit;
     }
 }
@@ -66,7 +68,7 @@ if ($musiciansDAO->editOwnProfile($musicianInfo)) {
 }
 
 // Redireciona de volta para a página musicians
-header("Location: " . BASE_URL . "pages/musician/profile/index.php");
+header("Location: " . $redirect);
 exit;
 
 ?>

@@ -4,7 +4,7 @@ require_once BASE_PATH . "app/Auth/Auth.php";
 
 Auth::requireMusician();
 
-require_once BASE_PATH ."includes/getMusicianInfo.php";
+require_once BASE_PATH ."helpers/getMusicianInfo.php";
 
 ?>
 
@@ -40,20 +40,20 @@ require_once BASE_PATH ."includes/getMusicianInfo.php";
         <!-- Nome -->
         <div class="col-12">
           <label for="musician-name" class="form-label ps-2">Nome</label>
-          <input type="text" name="musician_name" id="musician-name" value="<?= htmlspecialchars($musicianInfo['musician_name']) ?>"class="form-control" disabled />
+          <input type="text" name="musician_name" id="musician-name" value="<?= $musicianName ?>"class="form-control" disabled />
         </div>
 
         <!-- Login -->
         <div class="col-md-6">
           <label for="musician-login" class="form-label ps-2">Login</label>
-          <input type="text" name="musician_login" id="musician-login" value="<?= htmlspecialchars($musicianInfo['musician_login']) ?>" class="form-control" disabled />
+          <input type="text" name="musician_login" id="musician-login" value="<?= $musicianLogin ?>" class="form-control" disabled />
         </div>
 
         <!-- Instrumento -->
         <div class="col-md-6">
           <label for="instrument" class="form-label ps-2">Instrumento</label>
           <select name="instrument" id="instrument" class="form-select" disabled>
-            <option value="<?= htmlspecialchars($musicianInfo['instrument_name']) ?>"><?= htmlspecialchars($musicianInfo['instrument_name']) ?></option>
+            <option value="<?= $instrumentName ?>"><?= $instrumentName ?></option>
           </select>
         </div>
 
@@ -61,21 +61,21 @@ require_once BASE_PATH ."includes/getMusicianInfo.php";
         <div class="col-md-6">
           <label for="group" class="form-label ps-2">Grupo da Banda</label>
           <select name="band_group" id="band-group" class="form-select" disabled>
-            <option value="<?= htmlspecialchars($musicianInfo['group_name']) ?>"><?= htmlspecialchars($musicianInfo['group_name']) ?></option>
+            <option value="<?= $groupName ?>"><?= $groupName ?></option>
           </select>
         </div>
 
         <!-- Contato do Músico -->
         <div class="col-md-6">
           <label for="musician-contact" class="form-label ps-2">Contato do Músico</label>
-          <input type="text" name="musician_contact" id="musician-contact" value="<?= htmlspecialchars($musicianInfo['musician_contact']) ?>" class="form-control" />
+          <input type="text" name="musician_contact" id="musician-contact" value="<?= $musicianContact ?>" class="form-control" />
         </div>
 
         <!-- Responsável -->
         <div class="col-md-6">
           <label for="responsible-name" class="form-label ps-2">Responsável</label>
           <input type="text" name="responsible_name" id="responsible-name" placeholder="Nome do responsável"
-            value="<?= htmlspecialchars($musicianInfo['responsible_name']) ?>" class="form-control" />
+            value="<?= $responsibleName ?>" class="form-control" />
         </div>
 
         <!-- Contato do Responsável -->
@@ -83,14 +83,14 @@ require_once BASE_PATH ."includes/getMusicianInfo.php";
           <label for="responsible-contact" class="form-label ps-2">Contato do Responsável</label>
           <input type="text" name="responsible_contact" id="responsible-contact"
             placeholder="Contato do responsável"
-            value="<?= htmlspecialchars($musicianInfo['responsible_contact']) ?>" class="form-control" />
+            value="<?= $responsibleContact ?>" class="form-control" />
         </div>
 
         <!-- Bairro -->
         <div class="col-md-6">
           <label for="neighborhood" class="form-label ps-2">Bairro</label>
           <select name="neighborhood" id="neighborhood" class="form-select">
-            <option value="<?= htmlspecialchars($musicianInfo['neighborhood']) ?>"><?= htmlspecialchars($musicianInfo['neighborhood']) ?></option>
+            <option value="<?= $neighborhood ?>"><?= $neighborhood ?></option>
             <option value="Boa Esperança">Boa Esperança</option>
             <option value="Centro">Centro</option>
             <option value="Croatá">Croatá</option>
@@ -111,7 +111,7 @@ require_once BASE_PATH ."includes/getMusicianInfo.php";
           <label for="institution" class="form-label ps-2">Instituição em que atua</label>
           <input type="text" name="institution" id="institution"
             placeholder="Ex.: Escola, Faculdade, Trabalho e etc."
-            value="<?= htmlspecialchars($musicianInfo['institution']) ?>" class="form-control" />
+            value="<?= $institution ?>" class="form-control" />
         </div>
 
         <!-- Senhas -->
@@ -130,7 +130,7 @@ require_once BASE_PATH ."includes/getMusicianInfo.php";
 
         <!-- Botão Editar -->
         <div class="col-12 mt-3">
-          <input type='hidden' name='musician_id' value='<?= htmlspecialchars($musicianInfo['musician_id']) ?>'>
+          <input type='hidden' name='musician_id' value='<?= $musicianId ?>'>
           <button type="submit" class="btn btn-primary btn-lg rounded-pill w-100">Editar Músico</button>
         </div>
       </form>

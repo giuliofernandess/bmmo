@@ -8,10 +8,7 @@ $musicalScoresDAO = new MusicalScoresDAO($conn);
 
 Auth::requireMusician();
 
-require_once BASE_PATH . "includes/getMusicianInfo.php";
-
-$instrumentId = (int) $musicianInfo["instrument"];
-$groupId = (int) $musicianInfo["band_group"];
+require_once BASE_PATH . "helpers/getMusicianInfo.php";
 
 ?>
 
@@ -80,7 +77,7 @@ $groupId = (int) $musicianInfo["band_group"];
 
     $musicsList = $musicalScoresDAO->getAllByInstrument(
       $instrumentId,
-      $groupId,
+      $bandGroupId,
       $filterName,
       $filterGenre
     );

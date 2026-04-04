@@ -4,7 +4,7 @@ require_once BASE_PATH . "app/Auth/Auth.php";
 
 Auth::requireMusician();
 
-require_once BASE_PATH ."includes/getMusicianInfo.php";
+require_once BASE_PATH ."helpers/getMusicianInfo.php";
 
 ?>
 
@@ -36,29 +36,29 @@ require_once BASE_PATH ."includes/getMusicianInfo.php";
         <div class="row g-0">
           <!-- Imagem -->
           <div class="col-md-4 text-center bg-secondary">
-            <img src="<?= BASE_URL ?>uploads/musicians-images/<?= $musicianInfo['profile_image'] ? $musicianInfo['profile_image'] : 'default.png'?>" class="img-fluid rounded-start h-100 object-fit-cover"
-              alt="Imagem de <?= htmlspecialchars($musicianInfo['musician_name']) ?>">
+            <img src="<?= BASE_URL ?>uploads/musicians-images/<?= $profileImage ?>" class="img-fluid rounded-start h-100 object-fit-cover"
+              alt="Imagem de <?= $musicianName ?>">
           </div>
           <div class="col-md-8">
             <div class="card-body">
-              <h4 class="card-title mb-3"><?= htmlspecialchars($musicianInfo['musician_name']); ?></h4>
+              <h4 class="card-title mb-3"><?= $musicianName; ?></h4>
               <ul class="list-group list-group-flush">
                 <li class="list-group-item"><strong>Instrumento:</strong>
-                  <?= htmlspecialchars($musicianInfo['instrument_name']); ?></li>
-                <li class="list-group-item"><strong>Grupo:</strong> <?= htmlspecialchars($musicianInfo['group_name']); ?>
+                  <?= $instrumentName; ?></li>
+                <li class="list-group-item"><strong>Grupo:</strong> <?= $groupName; ?>
                 </li>
                 <li class="list-group-item"><strong>Data de Nascimento:</strong>
-                  <?= htmlspecialchars($musicianInfo['date_of_birth']); ?></li>
+                  <?= $dateOfBirth; ?></li>
                 <li class="list-group-item"><strong>Telefone:</strong>
-                  <?= htmlspecialchars($musicianInfo['musician_contact']); ?></li>
+                  <?= $musicianContact; ?></li>
                 <li class="list-group-item"><strong>Nome do responsável:</strong>
-                  <?= htmlspecialchars($musicianInfo['responsible_name']); ?></li>
+                  <?= $responsibleName; ?></li>
                 <li class="list-group-item"><strong>Contato do responsável:</strong>
-                  <?= htmlspecialchars($musicianInfo['responsible_contact']); ?></li>
+                  <?= $responsibleContact; ?></li>
                 <li class="list-group-item"><strong>Bairro:</strong>
-                  <?= htmlspecialchars($musicianInfo['neighborhood']); ?></li>
+                  <?= $neighborhood; ?></li>
                 <li class="list-group-item"><strong>Instituição:</strong>
-                  <?= htmlspecialchars($musicianInfo['institution']); ?></li>
+                  <?= $institution; ?></li>
               </ul>
 
               <!-- Botão editar -->
