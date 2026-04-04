@@ -6,6 +6,7 @@ O projeto segue arquitetura em camadas, sem framework, com separação clara ent
 
 - `pages/`: rotas HTTP e telas.
 - `includes/`: componentes reutilizáveis de interface e mensagens.
+- `helpers/`: componentes reutilizáveis de lógica PHP.
 - `app/Auth/`: autenticação e autorização por perfil.
 - `app/Database/`: conexão MySQLi.
 - `app/DAO/`: acesso a dados e operações SQL.
