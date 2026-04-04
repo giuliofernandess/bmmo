@@ -24,7 +24,7 @@ if ($_POST['type'] == 'admin') {
     
 } else {
     $redirect = BASE_URL . 'pages/login/index.php';
-    $redirectSuccess = BASE_URL . 'index.php';
+    $redirectSuccess = BASE_URL . 'pages/musician/index.php';
     $method = Auth::musicianLogin($login, $password);
 }
 
