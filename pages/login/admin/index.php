@@ -37,7 +37,10 @@ session_start();
 
     <div class="container form-container login-container">
 
-      <form action="<?= BASE_URL ?>pages/login/admin/actions/login.php" method="post">
+      <form action="<?= BASE_URL ?>pages/login/actions/login.php" method="post">
+
+        <input type="hidden" name="type" value="admin">
+
         <!-- Campo login -->
         <div class="mb-3">
           <label for="user-login" class="form-label ps-2">Login</label>
