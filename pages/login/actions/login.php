@@ -23,7 +23,7 @@ if ($_POST['type'] == 'admin') {
     $method = Auth::regencyLogin($login, $password);
     
 } else {
-    $redirect = BASE_URL . 'pages/login/index.php';
+    $redirect = BASE_URL . 'pages/login/musician/index.php';
     $redirectSuccess = BASE_URL . 'pages/musician/index.php';
     $method = Auth::musicianLogin($login, $password);
 }
