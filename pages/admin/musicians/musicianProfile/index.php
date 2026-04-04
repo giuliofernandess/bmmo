@@ -13,7 +13,7 @@ $bandGroupsDAO = new BandGroupsDAO($conn);
 Auth::requireRegency();
 
 // Verifica se recebeu o id do músico
-$musicianId = isset($_GET['musician_id']) ? (int)$_GET['musician_id'] : null;
+$musicianId = isset($_GET['musician_id']) ? (int) $_GET['musician_id'] : null;
 
 if (!$musicianId) {
   redirectTo(BASE_URL . "pages/admin/musicians/index.php");
@@ -85,7 +85,7 @@ $profileImage = $profileImage ? htmlspecialchars($profileImage) : "default.png";
 
   <!-- CSS da página -->
   <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/profile.css">
-  
+
 </head>
 
 <body>
@@ -95,34 +95,9 @@ $profileImage = $profileImage ? htmlspecialchars($profileImage) : "default.png";
 
   <!-- Header -->
   <?php include_once BASE_PATH . "includes/secondHeader.php"; ?>
-  
 
-  <main class="d-flex align-items-center justify-content-center flex-fill py-5">
-    <div class="container">
-      <div class="card shadow mx-auto">
-        <div class="row g-0">
-
-          <!-- Imagem -->
-          <div class="col-md-4 text-center bg-secondary">
-            <img src="<?= BASE_URL ?>uploads/musicians-images/<?= $profileImage; ?>"
-              class="img-fluid rounded-start w-100 h-100 object-fit-cover card-image" alt="Imagem de <?= $musicianName; ?>">
-          </div>
-
-          <!-- Dados do músico -->
-          <div class="col-md-8">
-            <div class="card-body d-flex flex-column h-100">
-              <h4 class="card-title mb-3"><?= $musicianName; ?></h4>
-
-              <ul class="list-group list-group-flush mb-4">
-                <li class="list-group-item"><strong>Instrumento:</strong> <?= $instrument; ?></li>
-                <li class="list-group-item"><strong>Grupo:</strong> <?= $bandGroup; ?></li>
-                <li class="list-group-item"><strong>Data de Nascimento:</strong> <?= $dateOfBirth; ?></li>
-                <li class="list-group-item"><strong>Telefone:</strong> <?= $musicianContact; ?></li>
-                <li class="list-group-item"><strong>Bairro:</strong> <?= $neighborhood; ?></li>
-                <li class="list-group-item"><strong>Instituição:</strong> <?= $institution; ?></li>
-                <li class="list-group-item"><strong>Responsável:</strong> <?= $responsibleName; ?></li>
-                <li class="list-group-item"><strong>Telefone do Responsável:</strong> <?= $responsibleContact; ?></li>
-              </ul>
+  <!-- Card do músico -->
+  <?php include_once BASE_PATH . "includes/musicianProfileCard.php"; ?>
 
               <!-- Botões -->
               <div class="mt-auto d-flex justify-content-end gap-2">
