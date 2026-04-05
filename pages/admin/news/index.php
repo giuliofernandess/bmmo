@@ -49,7 +49,7 @@ $newsList = $newsDAO->getAll();
 
         <div class="mb-3">
           <label for="news-subtitle" class="form-label">Subtitulo da notícia</label>
-          <input type="text" name="news_subtitle" id="news-subtitle" class="form-control" placeholder="Subtítulo da notícia">
+          <input type="text" name="news_subtitle" id="news-subtitle" class="form-control" placeholder="Subtítulo da notícia" required>
         </div>
 
         <div class="mb-3">
@@ -59,7 +59,7 @@ $newsList = $newsDAO->getAll();
 
         <div class="mb-3">
           <label for="input-file" class="form-label">Imagem (jpg, jpeg, png, gif) *</label>
-          <input type="file" name="news_image" id="news-image" class="form-control" accept="image/*">
+          <input type="file" name="news_image" id="news-image" class="form-control" accept="image/*" required>
           <small id="image-hint" class="text-muted"></small>
         </div>
 

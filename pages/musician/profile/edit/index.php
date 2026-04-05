@@ -56,7 +56,7 @@ require_once BASE_PATH ."helpers/getMusicianInfo.php";
         <!-- Contato do Músico -->
         <div class="col-md-6">
           <label for="musician-contact" class="form-label ps-2">Contato do Músico</label>
-          <input type="text" name="musician_contact" id="musician-contact" value="<?= $musicianContact ?>" class="form-control" />
+          <input type="text" name="musician_contact" id="musician-contact" value="<?= $musicianContact ?>" class="form-control" required />
         </div>
 
         <!-- Responsável -->
@@ -77,7 +77,7 @@ require_once BASE_PATH ."helpers/getMusicianInfo.php";
         <!-- Bairro -->
         <div class="col-md-6">
           <label for="neighborhood" class="form-label ps-2">Bairro</label>
-          <select name="neighborhood" id="neighborhood" class="form-select">
+          <select name="neighborhood" id="neighborhood" class="form-select" required>
             <option value="<?= $neighborhood ?>"><?= $neighborhood ?></option>
             <option value="Boa Esperança">Boa Esperança</option>
             <option value="Centro">Centro</option>
