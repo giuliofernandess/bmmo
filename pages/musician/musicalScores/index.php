@@ -10,6 +10,16 @@ Auth::requireMusician();
 
 require_once BASE_PATH . "helpers/getMusicianInfo.php";
 
+$filterName = trim($_GET['musical_score_name_filter'] ?? '');
+$filterGenre = trim($_GET['musical_score_genre_filter'] ?? '');
+
+$musicsList = $musicalScoresDAO->getAllByInstrument(
+  $instrumentId,
+  $bandGroupId,
+  $filterName,
+  $filterGenre
+);
+
 ?>
 
 <!doctype html>
@@ -35,11 +45,6 @@ require_once BASE_PATH . "helpers/getMusicianInfo.php";
   <!-- Main -->
   <main class="container mb-5 p-5">
     <h1 class="my-4">Partituras</h1>
-
-    <?php
-    $filterName = trim($_GET['musical_score_name_filter'] ?? '');
-    $filterGenre = trim($_GET['musical_score_genre_filter'] ?? '');
-    ?>
 
     <div class="card shadow-sm border-0 mb-5">
       <div class="card-body">
@@ -74,14 +79,6 @@ require_once BASE_PATH . "helpers/getMusicianInfo.php";
     </div>
 
     <?php
-
-    $musicsList = $musicalScoresDAO->getAllByInstrument(
-      $instrumentId,
-      $bandGroupId,
-      $filterName,
-      $filterGenre
-    );
-
     if (!empty($musicsList)) {
       $currentGenre = "";
 

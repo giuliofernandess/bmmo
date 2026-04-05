@@ -35,6 +35,38 @@ if (!$musicalScores) {
 $music_name = trim($musicalScores->getMusicName());
 $music_genre = trim($musicalScores->getMusicGenre());
 
+$groupCheckedMap = [];
+foreach ($groups as $group) {
+  $groupId = (int) ($group->getGroupId() ?? 0);
+  $groupCheckedMap[$groupId] = $musicalScoresDAO->verifyGroup($musicId, $groupId);
+}
+
+$voiceOffInstrumentsRows = [];
+foreach ($instrumentsVoiceOff as $instrument) {
+  $instrumentId = (int) ($instrument->getInstrumentId() ?? 0);
+
+  $voiceOffInstrumentsRows[] = [
+    'instrument_id' => $instrumentId,
+    'instrument_name' => htmlspecialchars(substr((string) $instrument->getInstrumentName(), 3), ENT_QUOTES, 'UTF-8'),
+    'has_file' => $musicalScoresDAO->verifyInstrument($musicId, $instrumentId)
+  ];
+}
+
+$instrumentsRows = [];
+foreach ($instruments as $instrument) {
+  $instrumentId = (int) ($instrument->getInstrumentId() ?? 0);
+  $hasFile = $musicalScoresDAO->verifyInstrument($musicId, $instrumentId);
+  $musicFile = $hasFile ? $musicalScoresDAO->getFile($musicId, $instrumentId) : '';
+
+  $instrumentsRows[] = [
+    'instrument_id' => $instrumentId,
+    'instrument_name' => htmlspecialchars((string) $instrument->getInstrumentName(), ENT_QUOTES, 'UTF-8'),
+    'has_file' => $hasFile,
+    'file_url' => $hasFile ? (BASE_URL . "uploads/musical-scores/{$musicFile}") : '',
+    'file_name' => $hasFile ? basename((string) $musicFile) : ''
+  ];
+}
+
 ?>
 
 <!doctype html>
@@ -89,9 +121,8 @@ $music_genre = trim($musicalScores->getMusicGenre());
       <div class="mb-3 col-12">
         <label class="form-label fw-semibold">Grupo da Banda</label><br>
         <?php foreach ($groups as $group) { ?>
-          <?php $groupId = (int) ($group->getGroupId() ?? 0); ?>
-          <input type="checkbox" class="form-check-input" name="musical_score_groups[]" value="<?= $groupId ?>"
-            <?= $musicalScoresDAO->verifyGroup($musicId, $groupId) ? 'checked' : ''; ?>>
+          <input type="checkbox" class="form-check-input" name="musical_score_groups[]" value="<?= (int) ($group->getGroupId() ?? 0) ?>"
+            <?= !empty($groupCheckedMap[(int) ($group->getGroupId() ?? 0)]) ? 'checked' : ''; ?>>
           <label class="form-check-label">
             <?= htmlspecialchars($group->getGroupName()) ?>
           </label><br>
@@ -118,30 +149,23 @@ $music_genre = trim($musicalScores->getMusicGenre());
             </thead>
 
             <tbody>
-              <?php foreach ($instrumentsVoiceOff as $instrument) { ?>
-                <?php $instrumentId = (int) ($instrument->getInstrumentId() ?? 0); ?>
-                <?php $hasFile = $musicalScoresDAO->verifyInstrument($musicId, $instrumentId);
-
-                $musicFile = $musicalScoresDAO->getFile($musicId, $instrumentId)
-                  ?>
-
-
+              <?php foreach ($voiceOffInstrumentsRows as $voiceOffRow) { ?>
 
                 <tr>
                   <td class="fw-semibold">
-                    <?= htmlspecialchars(substr($instrument->getInstrumentName(), 3)); ?>
+                    <?= $voiceOffRow['instrument_name'] ?>
                   </td>
 
                   <td>
-                    <input type="file" name="musical_score_instruments_voice_off[<?= $instrumentId ?>]"
+                    <input type="file" name="musical_score_instruments_voice_off[<?= $voiceOffRow['instrument_id'] ?>]"
                       class="form-control form-control-sm">
                   </td>
 
                     <td class=" d-flex align-items-center justify-content-center">
-                      <?php if ($hasFile) { ?>
+                      <?php if ($voiceOffRow['has_file']) { ?>
                         <button type="button"
                           class="btn btn-sm btn-danger d-flex align-items-center justify-content-center delete-instrument-file-button"
-                          data-music-id="<?= (int) $musicId ?>" data-instrument-id="<?= $instrumentId ?>" data-voice-off="1">
+                          data-music-id="<?= (int) $musicId ?>" data-instrument-id="<?= $voiceOffRow['instrument_id'] ?>" data-voice-off="1">
                           <i class="bi bi-trash"></i>
                         </button>
                       <?php } else { ?>
@@ -174,28 +198,22 @@ $music_genre = trim($musicalScores->getMusicGenre());
             </thead>
 
             <tbody>
-              <?php foreach ($instruments as $instrument) { ?>
-                <?php
-                $instrumentId = (int) ($instrument->getInstrumentId() ?? 0);
-                $hasFile = $musicalScoresDAO->verifyInstrument($musicId, $instrumentId);
-
-                $musicFile = $musicalScoresDAO->getFile($musicId, $instrumentId)
-                  ?>
+              <?php foreach ($instrumentsRows as $instrumentRow) { ?>
 
                 <tr>
                   <td class="fw-semibold">
-                    <?= htmlspecialchars($instrument->getInstrumentName()); ?>
+                    <?= $instrumentRow['instrument_name'] ?>
                   </td>
 
                   <td class="text-center">
-                    <?php if ($hasFile) { ?>
+                    <?php if ($instrumentRow['has_file']) { ?>
                       <div class="file-cell">
                         <i class="bi bi-file-earmark-text text-secondary"></i>
 
-                        <a class="file-link file-name" href="<?= BASE_URL . "uploads/musical-scores/{$musicFile}" ?>"
+                        <a class="file-link file-name" href="<?= $instrumentRow['file_url'] ?>"
                           target="_blank">
 
-                          <?= basename($musicFile) ?>
+                          <?= $instrumentRow['file_name'] ?>
                         </a>
                       </div>
                     <?php } else { ?>
@@ -204,15 +222,15 @@ $music_genre = trim($musicalScores->getMusicGenre());
                   </td>
 
                   <td>
-                    <input type="file" name="musical_score_instruments[<?= $instrumentId ?>]"
+                    <input type="file" name="musical_score_instruments[<?= $instrumentRow['instrument_id'] ?>]"
                       class="form-control form-control-sm">
                   </td>
 
                   <td class=" d-flex align-items-center justify-content-center">
-                    <?php if ($hasFile) { ?>
+                    <?php if ($instrumentRow['has_file']) { ?>
                       <button type="button"
                         class="btn btn-sm btn-danger d-flex align-items-center justify-content-center delete-instrument-file-button"
-                        data-music-id="<?= (int) $musicId ?>" data-instrument-id="<?= $instrumentId ?>" data-voice-off="0">
+                        data-music-id="<?= (int) $musicId ?>" data-instrument-id="<?= $instrumentRow['instrument_id'] ?>" data-voice-off="0">
                         <i class="bi bi-trash"></i>
                       </button>
                     <?php } else { ?>

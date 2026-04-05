@@ -14,6 +14,9 @@ Auth::requireRegency();
 
 $selectedInstrument = 0;
 $selectedBandGroup = 0;
+
+$instrumentsList = $instrumentsDAO->getAll();
+$groupsList = $bandGroupsDAO->getAll();
 ?>
 
 <!DOCTYPE html>
@@ -69,9 +72,6 @@ $selectedBandGroup = 0;
             <option value="">Selecione</option>
 
             <?php
-            // Busca todas os instrumentos via POO
-            $instrumentsList = $instrumentsDAO->getAll();
-
             // Itera sobre cada instrumento
             foreach ($instrumentsList as $instrument) {
 
@@ -98,10 +98,6 @@ $selectedBandGroup = 0;
             <option value="">Selecione</option>
 
             <?php
-            // Busca todas os grupos via POO
-            $groupsList = $bandGroupsDAO->getAll();
-
-
             // Itera sobre cada grupo
             foreach ($groupsList as $group) {
 

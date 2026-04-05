@@ -6,6 +6,7 @@ require_once '../../../config/config.php';
 require_once BASE_PATH . 'app/DAO/NewsDAO.php';
 
 $newsDAO = new NewsDAO($conn);
+$newsList = $newsDAO->getAll();
 ?>
 
 <!doctype html>
@@ -36,9 +37,6 @@ $newsDAO = new NewsDAO($conn);
       <section class="row g-4">
 
         <?php
-        // Busca todas as notícias via POO
-        $newsList = $newsDAO->getAll();
-
         if (empty($newsList)) {
             echo "<div class='no-news'>Nenhuma notícia cadastrada no momento.</div>";
         } else {

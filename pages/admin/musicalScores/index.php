@@ -11,6 +11,16 @@ $musicalScoresDAO = new MusicalScoresDAO($conn);
 Auth::requireRegency();
 
 $groups = $bandGroupsDAO->getAll();
+
+$filterName = trim($_GET['musical_score_name_filter'] ?? '');
+$filterGroup = (int)($_GET['band_group_filter'] ?? 0);
+$filterGenre = trim($_GET['musical_score_genre_filter'] ?? '');
+
+$musicsList = $musicalScoresDAO->getAll([
+    'music_name' => $filterName,
+    'band_group' => $filterGroup,
+    'music_genre' => $filterGenre
+  ]);
 ?>
 
 <!doctype html>
@@ -68,8 +78,7 @@ $groups = $bandGroupsDAO->getAll();
         <div class="mb-3">
           <label class="form-label">Grupo da Banda</label><br>
           <?php foreach ($groups as $group) { ?>
-            <?php $groupId = (int) ($group->getGroupId() ?? 0); ?>
-            <input type="checkbox" class="form-check-input" name="musical_score_groups[]" value="<?= $groupId ?>">
+            <input type="checkbox" class="form-check-input" name="musical_score_groups[]" value="<?= (int) ($group->getGroupId() ?? 0) ?>">
             <label class="form-check-label"><?= htmlspecialchars($group->getGroupName()) ?></label><br>
           <?php } ?>
         </div>
@@ -81,12 +90,6 @@ $groups = $bandGroupsDAO->getAll();
 
       </form>
     </div>
-
-    <?php
-    $filterName = trim($_GET['musical_score_name_filter'] ?? '');
-    $filterGroup = (int)($_GET['band_group_filter'] ?? 0);
-    $filterGenre = trim($_GET['musical_score_genre_filter'] ?? '');
-    ?>
 
     <div class="card shadow-sm border-0 mb-5">
       <div class="card-body">
@@ -107,8 +110,7 @@ $groups = $bandGroupsDAO->getAll();
             <select name="band_group_filter" class="form-select">
               <option value="">Todos</option>
               <?php foreach ($groups as $group) { ?>
-                <?php $groupId = (int) ($group->getGroupId() ?? 0); ?>
-                <option value="<?= $groupId ?>" <?= $filterGroup === $groupId ? 'selected' : '' ?>>
+                <option value="<?= (int) ($group->getGroupId() ?? 0) ?>" <?= $filterGroup === (int) ($group->getGroupId() ?? 0) ? 'selected' : '' ?>>
                   <?= htmlspecialchars($group->getGroupName()) ?>
                 </option>
               <?php } ?>
@@ -135,13 +137,6 @@ $groups = $bandGroupsDAO->getAll();
     </div>
 
     <?php
-
-    $musicsList = $musicalScoresDAO->getAll([
-        'music_name' => $filterName,
-        'band_group' => $filterGroup,
-        'music_genre' => $filterGenre
-      ]);
-
     if (!empty($musicsList)) {
       $currentGenre = "";
       $lastName = "";

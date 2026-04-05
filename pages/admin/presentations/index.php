@@ -16,6 +16,8 @@ Auth::requireRegency();
 $presentationsDAO->automaticallyDelete();
 
 $groups = $bandGroupsDAO->getAll();
+$musicList = $musicalScoresDAO->getAll();
+$presentationsList = $presentationsDAO->getAll();
 ?>
 
 <!DOCTYPE html>
@@ -84,8 +86,6 @@ $groups = $bandGroupsDAO->getAll();
                         <select id="presentation-songs" class="form-select">
                             <option value="">Selecione</option>
                             <?php
-                            $musicList = $musicalScoresDAO->getAll();
-
                             if (!empty($musicList)) {
                                 $currentGenre = '';
                                 $lastName = '';
@@ -127,8 +127,6 @@ $groups = $bandGroupsDAO->getAll();
 
         <div class="row g-3">
             <?php
-            $presentationsList = $presentationsDAO->getAll();
-
             if (!empty($presentationsList)) {
                 foreach ($presentationsList as $presentation) {
                     $presentationId = (int) ($presentation->getPresentationId() ?? 0);

@@ -41,6 +41,9 @@ $neighborhood = trim($musicians->getNeighborhood());
 $institution = trim((string) ($musicians->getInstitution() ?? ''));
 $responsible_name = trim((string) ($musicians->getResponsibleName() ?? ''));
 $responsible_contact = trim((string) ($musicians->getResponsibleContact() ?? ''));
+
+$instrumentsList = $instrumentsDAO->getAll();
+$groupsList = $bandGroupsDAO->getAll();
 ?>
 
 <!DOCTYPE html>
@@ -90,9 +93,6 @@ $responsible_contact = trim((string) ($musicians->getResponsibleContact() ?? '')
           <select name="instrument" id="instrument" class="form-select" required>
 
             <?php
-            // Busca todas os instrumentos via POO
-            $instrumentsList = $instrumentsDAO->getAll();
-
             // Itera sobre cada instrumento
             foreach ($instrumentsList as $instrumentEntity) {
 
@@ -119,10 +119,6 @@ $responsible_contact = trim((string) ($musicians->getResponsibleContact() ?? '')
           <select name="band_group" id="band-group" class="form-select" required>
 
             <?php
-            // Busca todas os grupos via POO
-            $groupsList = $bandGroupsDAO->getAll();
-
-
             // Itera sobre cada grupo
             foreach ($groupsList as $groupEntity) {
 

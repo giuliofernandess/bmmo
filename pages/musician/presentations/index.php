@@ -9,6 +9,8 @@ Auth::requireMusician();
 
 $presentationsDAO->automaticallyDelete();
 
+$presentationsList = $presentationsDAO->getAll();
+
 ?>
 
 <!doctype html>
@@ -36,8 +38,6 @@ $presentationsDAO->automaticallyDelete();
         <!-- Cards -->
         <div class="row g-3">
             <?php
-            $presentationsList = $presentationsDAO->getAll();
-
             if (!empty($presentationsList)) {
                 foreach ($presentationsList as $presentation) {
 

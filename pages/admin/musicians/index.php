@@ -15,6 +15,29 @@ $bandGroupsDAO = new BandGroupsDAO($conn);
 $instrumentsDAO = new InstrumentsDAO($conn);
 
 Auth::requireRegency();
+
+$groupsList = $bandGroupsDAO->getAll();
+$instrumentsList = $instrumentsDAO->getAll();
+
+$groupMap = [];
+foreach ($groupsList as $group) {
+  $groupMap[(int) ($group->getGroupId() ?? 0)] = (string) ($group->getGroupName() ?? '');
+}
+
+$instrumentMap = [];
+foreach ($instrumentsList as $instrument) {
+  $instrumentMap[(int) ($instrument->getInstrumentId() ?? 0)] = (string) ($instrument->getInstrumentName() ?? '');
+}
+
+$filterName = $_GET['name'] ?? '';
+$filterGroup = isset($_GET['group']) ? (int) $_GET['group'] : 0;
+$filterInstrument = isset($_GET['instrument']) ? (int) $_GET['instrument'] : 0;
+
+$musiciansList = $musiciansDAO->getAll([
+    'musician_name' => $filterName,
+    'band_group' => $filterGroup,
+    'instrument' => $filterInstrument
+  ]);
 ?>
 
 <!DOCTYPE html>
@@ -43,25 +66,6 @@ Auth::requireRegency();
   <main class="container mb-5 p-5">
     <h1 class="mb-4 text-center">Lista dos músicos BMMO</h1>
 
-    <?php
-    $groupsList = $bandGroupsDAO->getAll();
-    $instrumentsList = $instrumentsDAO->getAll();
-
-    $groupMap = []; 
-    foreach ($groupsList as $group) {
-      $groupMap[(int) ($group->getGroupId() ?? 0)] = (string) ($group->getGroupName() ?? '');
-    }
-
-    $instrumentMap = [];
-    foreach ($instrumentsList as $instrument) {
-      $instrumentMap[(int) ($instrument->getInstrumentId() ?? 0)] = (string) ($instrument->getInstrumentName() ?? '');
-    }
-
-    $filterName = $_GET['name'] ?? '';
-    $filterGroup = isset($_GET['group']) ? (int) $_GET['group'] : 0;
-    $filterInstrument = isset($_GET['instrument']) ? (int) $_GET['instrument'] : 0;
-    ?>
-
     <div class="card shadow-sm border-0 mb-5">
       <div class="card-body">
         <form method="GET" class="row g-3 align-items-end">
@@ -79,8 +83,7 @@ Auth::requireRegency();
             <select name="group" class="form-select">
               <option value="0">Todos</option>
               <?php foreach ($groupsList as $group) { ?>
-                <?php $groupId = (int) ($group->getGroupId() ?? 0); ?>
-                <option value="<?= $groupId ?>" <?= $filterGroup === $groupId ? 'selected' : '' ?>>
+                <option value="<?= (int) ($group->getGroupId() ?? 0) ?>" <?= $filterGroup === (int) ($group->getGroupId() ?? 0) ? 'selected' : '' ?>>
                   <?= htmlspecialchars($group->getGroupName()) ?>
                 </option>
               <?php } ?>
@@ -93,8 +96,7 @@ Auth::requireRegency();
             <select name="instrument" class="form-select">
               <option value="0">Todos</option>
               <?php foreach ($instrumentsList as $instrument) { ?>
-                <?php $instrumentId = (int) ($instrument->getInstrumentId() ?? 0); ?>
-                <option value="<?= $instrumentId ?>" <?= $filterInstrument === $instrumentId ? 'selected' : '' ?>>
+                <option value="<?= (int) ($instrument->getInstrumentId() ?? 0) ?>" <?= $filterInstrument === (int) ($instrument->getInstrumentId() ?? 0) ? 'selected' : '' ?>>
                   <?= htmlspecialchars($instrument->getInstrumentName()) ?>
                 </option>
               <?php } ?>
@@ -114,13 +116,6 @@ Auth::requireRegency();
 
 
     <?php
-
-    $musiciansList = $musiciansDAO->getAll([
-        'musician_name' => $filterName,
-        'band_group' => $filterGroup,
-        'instrument' => $filterInstrument
-      ]);
-
     if (empty($musiciansList)) {
       echo "<div class='no-musician'>Nenhum músico encontrado.</div>";
     } else {
