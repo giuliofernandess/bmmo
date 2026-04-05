@@ -54,16 +54,16 @@ $newsList = $newsDAO->getAll();
 
         <div class="mb-3">
           <label for="news-description" class="form-label">Texto de Detalhamento *</label>
-          <textarea name="news_description" id="news-description" class="form-control news-description-field" required style="height: 200px"></textarea>
+          <textarea name="news_description" id="news-description" class="form-control news-description-field" required></textarea>
         </div>
 
         <div class="mb-3">
-          <label for="input-file" class="form-label">Imagem (jpg, jpeg, png, gif) *</label>
-          <input type="file" name="news_image" id="news-image" class="form-control" accept="image/*" required>
+          <label for="input-file" class="form-label">Imagem (jpg, jpeg, png)</label>
+          <input type="file" name="news_image" id="news-image" class="form-control" accept="image/*">
           <small id="image-hint" class="text-muted"></small>
         </div>
 
-        <input type="submit" class="btn btn-primary btn-lg w-100 py-1"
+        <input type="submit" id="submit-news-button" class="btn btn-primary btn-lg w-100 py-1"
                value="Publicar Notícia">
       </form>
     </div>
@@ -89,7 +89,7 @@ $newsList = $newsDAO->getAll();
           <div class="col-12 col-md-6 col-lg-4 news-card-column">
             <div class="card shadow-sm h-100 news-card-item" data-news-id="<?= $newsId ?>" data-news-title="<?= $escapedNewsTitle ?>" data-news-subtitle="<?= $escapedNewsSubtitle ?>" data-news-description="<?= $escapedNewsDescription ?>" data-news-image="<?= $escapedNewsImage ?>">
               <?php if (!empty($newsImage)) { ?>
-                <img src="<?= BASE_URL ?>uploads/news-images/<?= $escapedNewsImage ?>" class="card-img-top" alt="<?= $escapedNewsTitle ?>">
+                <div class="card-img-top" style="background-image: url('<?= BASE_URL ?>uploads/news-images/<?= $escapedNewsImage ?>'); background-size: cover; background-position: top center; min-height: 220px;"></div>
               <?php } ?>
               <div class="card-body d-flex flex-column">
                 <h5 class="card-title"><?= $escapedNewsTitle ?></h5>

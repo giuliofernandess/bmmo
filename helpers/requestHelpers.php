@@ -97,6 +97,36 @@ if (!function_exists('validateRequiredFields')) {
 	}
 }
 
+if (!function_exists('rotateImageByExif')) {
+	function rotateImageByExif($image, string $filePath)
+	{
+		if (!function_exists('exif_read_data')) {
+			return $image;
+		}
+
+		$exif = exif_read_data($filePath);
+		if (!$exif || !isset($exif['Orientation'])) {
+			return $image;
+		}
+
+		$orientation = (int) $exif['Orientation'];
+
+		switch ($orientation) {
+			case 3:
+				$image = imagerotate($image, 180, 0);
+				break;
+			case 6:
+				$image = imagerotate($image, -90, 0);
+				break;
+			case 8:
+				$image = imagerotate($image, 90, 0);
+				break;
+		}
+
+		return $image;
+	}
+}
+
 if (!function_exists('handleProfileImageUpload')) {
 	function handleProfileImageUpload(
 		array $file,
@@ -141,6 +171,9 @@ if (!function_exists('handleProfileImageUpload')) {
 		if (!$image) {
 			redirectWithMessage('error', 'Não foi possível processar a imagem.', $redirect);
 		}
+
+		// Corrigir orientação EXIF
+		$image = rotateImageByExif($image, $fileTmpPath);
 
 		$uploadDir = BASE_PATH . 'uploads/' . trim($uploadSubDir, '/') . '/';
 

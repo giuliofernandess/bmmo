@@ -48,7 +48,7 @@ function resetNewsForm() {
   document.querySelector("#news-subtitle").value = "";
   document.querySelector("#news-description").value = "";
   document.querySelector("#news-image").value = "";
-  document.querySelector("#news-submit").value = "Publicar Notícia";
+  document.querySelector("#submit-news-button").value = "Publicar Notícia";
 
   const existingId = document.querySelector("input[name='news_id']");
   if (existingId) existingId.remove();
@@ -74,14 +74,16 @@ function editNews(btn) {
 
   const form = document.querySelector("#news-form-element");
 
-  let existingId = document.querySelector("input[name='news_id']");
-  if (!existingId) {
-    existingId = document.createElement("input");
-    existingId.type = "hidden";
-    existingId.name = "news_id";
-    form.appendChild(existingId);
-  }
-  existingId.value = newsId;
+  // Remove input hidden anterior se existir
+  const existingId = document.querySelector("input[name='news_id']");
+  if (existingId) existingId.remove();
+
+  // Criar novo input hidden
+  const newIdInput = document.createElement("input");
+  newIdInput.type = "hidden";
+  newIdInput.name = "news_id";
+  newIdInput.value = newsId;
+  form.appendChild(newIdInput);
 
   document.querySelector("#news-title").value = title;
   document.querySelector("#news-subtitle").value = subtitle;
@@ -92,7 +94,7 @@ function editNews(btn) {
 
   form.action = `${window.BASE_URL}pages/admin/news/actions/edit.php`;
   document.querySelector("#news-form-title").textContent = "Editar Notícia";
-  document.querySelector("#news-submit").value = "Editar Notícia";
+  document.querySelector("#submit-news-button").value = "Editar Notícia";
 }
 
 function editCancel() {

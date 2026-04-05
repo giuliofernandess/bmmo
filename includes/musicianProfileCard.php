@@ -4,8 +4,7 @@
         <div class="row g-0">
           <!-- Imagem -->
           <div class="col-md-4 text-center bg-secondary">
-            <img src="<?= BASE_URL ?>uploads/musicians-images/<?= $profileImage ?>" class="img-fluid rounded-start h-100 object-fit-cover"
-              alt="Imagem de <?= $musicianName ?>">
+            <div class="musician-profile-image h-100" style="background-image: url('<?= BASE_URL ?>uploads/musicians-images/<?= $profileImage ?>'); background-size: cover; background-position: top center; min-height: 300px;"></div>
           </div>
           <div class="col-md-8">
             <div class="card-body">

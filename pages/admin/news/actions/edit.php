@@ -7,28 +7,31 @@ require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $newsDAO = new NewsDAO($conn);
 
-$newsId = (int) (postValueAny(['news_id', 'id'], 'int') ?? 0);
+// Receber news_id de múltiplas formas possíveis
+$newsId = 0;
+if (isset($_POST['news_id']) && !empty($_POST['news_id'])) {
+    $newsId = (int) $_POST['news_id'];
+} elseif (isset($_POST['id']) && !empty($_POST['id'])) {
+    $newsId = (int) $_POST['id'];
+}
+
 $newsTitle = postValueAny(['news_title', 'title']);
 $newsSubtitle = postValueAny(['news_subtitle', 'subtitle']);
 $newsDescription = postValueAny(['news_description', 'description']);
 
 $redirect = BASE_URL . 'pages/admin/news/index.php';
 
-if ($newsId <= 0) {
-    redirectWithMessage('error', 'Notícia invalida.', $redirect);
+// Verificar se encontrou a notícia
+$existingNews = $newsDAO->getById($newsId);
+if (!$existingNews || $newsId <= 0) {
+    redirectWithMessage('error', 'Notícia não encontrada.', $redirect);
 }
 
 validateRequiredFields([
-    'Identificador da notícia' => $newsId,
     'Título' => $newsTitle,
     'Subtítulo' => $newsSubtitle,
     'Descrição' => $newsDescription,
 ], $redirect);
-
-$existingNews = $newsDAO->getById($newsId);
-if (!$existingNews) {
-    redirectWithMessage('error', 'Notícia não encontrada.', $redirect);
-}
 
 $imageFileName = $existingNews->getNewsImage();
 

@@ -50,8 +50,7 @@ $otherNews = $newsDAO->getLatestExcept($newsId, 2);
           <h1 class="mb-3 fw-bold"><?= htmlspecialchars($news->getNewsTitle()); ?></h1>
           <h5 class="text-muted mb-3 fw-bold"><?= htmlspecialchars($news->getNewsSubtitle()); ?></h5>
           <p class="text-muted small mb-4">Publicado em <?= date('d/m/Y', strtotime($news->getPublicationDate())); ?></p>
-          <img src="<?= BASE_URL ?>uploads/news-images/<?= htmlspecialchars($news->getNewsImage()); ?>"
-            alt="Imagem da notícia: <?= htmlspecialchars($news->getNewsTitle()) ?>" loading="lazy" class="news-image-main mb-4" />
+          <div class='news-image-main mb-4' style='background-image: url("<?= BASE_URL ?>uploads/news-images/<?= htmlspecialchars($news->getNewsImage()); ?>"); background-size: cover; background-position: top center; height: 400px;'></div>
           <div class="news-text"><?= nl2br(htmlspecialchars($news->getNewsDescription())); ?></div>
         </article>
       </div>
@@ -73,11 +72,7 @@ $otherNews = $newsDAO->getLatestExcept($newsId, 2);
                 <a href='<?= BASE_URL ?>pages/information/news/expanded.php?newsId=<?= $asideNewsId ?>' class='mb-3 text-decoration-none text-dark d-block'>
                   <div class='card aside-card rounded shadow-sm h-100'>
                     <div class='row g-0'>
-                      <div class='col-4 news-aside-image'>
-                        <img src='<?= BASE_URL ?>uploads/news-images/<?= $asideNewsImage ?>' 
-                             class='img-fluid rounded-start w-100 h-100' 
-                             alt="Imagem da notícia: <?= $asideNewsTitle ?>" loading="lazy" />
-                      </div>
+                      <div class='col-4 news-aside-image' style='background-image: url("<?= BASE_URL ?>uploads/news-images/<?= $asideNewsImage ?>"); background-size: cover; background-position: top center;'></div>
                       <div class='col-8'>
                         <div class='card-body'>
                           <h6 class='card-title mb-1'><?= $asideNewsTitle ?></h6>

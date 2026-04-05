@@ -19,7 +19,7 @@
   max-width: 420px;
 }
 
-.news-description-field {
+#news-description {
   height: 200px;
 }
 
@@ -28,7 +28,7 @@
 }
 
 .news-card-item .card-img-top {
-  max-height: 160px;
+  max-height: 200px;
   object-fit: cover;
 }
 

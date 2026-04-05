@@ -160,7 +160,7 @@ Auth::requireRegency();
 
         <div class='col-12 col-md-6 col-lg-3 mb-5'>
           <div class='card musician-card border-0 shadow-sm'>
-            <img src='<?= $image ?>' class='card-img-top' alt='Imagem de <?= $musicianName ?>'>
+            <div class='card-img-top' style='background-image: url("<?= $image ?>"); background-size: cover; background-position: top center; height: 200px;'></div>
             <a href='musicianProfile/index.php?musician_id=<?= $musicianId ?>'
               class='card-body d-flex flex-column text-decoration-none'>
               <h4 class='card-title fw-semibold text-center mb-3'><?= $musicianName ?></h4>

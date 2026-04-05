@@ -60,10 +60,7 @@ $newsDAO = new NewsDAO($conn);
                 <div class='col-md-6 col-lg-4'>
                   <a href='<?= BASE_URL ?>pages/information/news/expanded.php?newsId=<?= htmlspecialchars($newsId) ?>' class='text-decoration-none text-dark'>
                     <div class='card news-card rounded shadow-sm h-100'>
-                      <img src='<?= BASE_URL ?>uploads/news-images/<?= htmlspecialchars($newsImage) ?>' 
-                           class='card-img-top rounded-top news-image'
-                           alt="Imagem da notícia: <?= $newsTitle ?>"
-                           loading="lazy">
+                      <div class='card-img-top rounded-top news-image' style='background-image: url("<?= BASE_URL ?>uploads/news-images/<?= htmlspecialchars($newsImage) ?>"); background-size: cover; background-position: top center; height: 200px;'></div>
                       <div class='card-body'>
                         <h5 class='card-title mb-1'><?= $newsTitle ?></h5>
                         <p class='card-text text-muted small mb-2'><?= $newsSubtitle ?></p>
