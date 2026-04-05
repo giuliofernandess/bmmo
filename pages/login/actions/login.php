@@ -13,29 +13,38 @@ require_once BASE_PATH . 'helpers/requestHelpers.php';
 // Inicia sessão para salvar mensagens de erro
 session_start();
 
+// Bloqueia acesso direto via GET
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    redirectWithMessage('error', 'Método inválido.', BASE_URL . 'pages/login/admin/index.php');
+}
+
 // Captura os dados do formulário com fallback
 $login = postValueAny(['user_login', 'login']) ?? '';
 $password = postValueAny(['user_password', 'password']) ?? '';
 
-if ($_POST['type'] == 'admin') {
-    $redirect = BASE_URL . 'pages/login/admin/index.php';
+$type = postValue('type') ?? '';
+
+if ($type !== 'admin' && $type !== 'musician') {
+    redirectWithMessage('error', 'Tipo de login inválido.', BASE_URL . 'pages/login/admin/index.php');
+}
+
+$redirect = $type === 'admin'
+    ? BASE_URL . 'pages/login/admin/index.php'
+    : BASE_URL . 'pages/login/musician/index.php';
+
+validateRequiredFields([
+    'Login' => $login,
+    'Senha' => $password,
+    'Tipo de usuário' => $type,
+], $redirect);
+
+if ($type === 'admin') {
     $redirectSuccess = BASE_URL . 'pages/admin/index.php';
     $method = Auth::regencyLogin($login, $password);
     
 } else {
-    $redirect = BASE_URL . 'pages/login/musician/index.php';
     $redirectSuccess = BASE_URL . 'pages/musician/index.php';
     $method = Auth::musicianLogin($login, $password);
-}
-
-// Bloqueia acesso direto via GET
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    redirectWithMessage('error', 'Método inválido.', $redirect);
-}
-
-// Validação simples (campos vazios)
-if ($login === '' || $password === '') {
-    redirectWithMessage('error', 'Preencha todos os campos.', $redirect);
 }
 
 // Tenta autenticar via classe Auth

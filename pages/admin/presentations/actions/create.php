@@ -19,9 +19,12 @@ $local = postValueAny(['presentation_location', 'local']);
 
 $redirect = BASE_URL . 'pages/admin/presentations/index.php';
 
-if ($name === '' || $date === '' || $hour === '' || $local === '') {
-    redirectWithMessage('error', 'Preencha todos os campos obrigatórios!', $redirect);
-}
+validateRequiredFields([
+    'Nome' => $name,
+    'Data' => $date,
+    'Hora' => $hour,
+    'Local' => $local,
+], $redirect);
 
 try {
     $inputDate = new DateTime($date);

@@ -48,22 +48,22 @@ $groups = $bandGroupsDAO->getAll();
 
             <form id="presentation-form-element" action="<?= BASE_URL ?>pages/admin/presentations/actions/create.php" method="post">
                 <div class="mb-3">
-                    <label for="presentation-name" class="form-label">Nome</label>
+                    <label for="presentation-name" class="form-label">Nome *</label>
                     <input type="text" name="presentation_name" id="presentation-name" class="form-control" placeholder="Nome da apresentação" required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="presentation-date" class="form-label">Data</label>
+                    <label for="presentation-date" class="form-label">Data *</label>
                     <input type="date" name="presentation_date" id="presentation-date" class="form-control" required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="presentation-hour" class="form-label">Hora</label>
+                    <label for="presentation-hour" class="form-label">Hora *</label>
                     <input type="time" name="presentation_hour" id="presentation-hour" class="form-control" required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="presentation-location" class="form-label">Local</label>
+                    <label for="presentation-location" class="form-label">Local *</label>
                     <input type="text" name="presentation_location" id="presentation-location" class="form-control" placeholder="Local da apresentação" required>
                 </div>
 

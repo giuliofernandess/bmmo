@@ -72,13 +72,13 @@ $music_genre = trim($musicalScores->getMusicGenre());
 
       <!-- Nome -->
       <div class="col-12 col-md-6 mb-3">
-        <label for="musical-score-name" class="form-label fw-semibold">Nome</label>
+        <label for="musical-score-name" class="form-label fw-semibold">Nome *</label>
         <input type="text" name="musical_score_name" id="musical-score-name" class="form-control" value="<?= $music_name ?> " required>
       </div>
 
       <!-- Gênero -->
       <div class="col-12 col-md-6 mb-3">
-        <label for="musical-score-genre" class="form-label fw-semibold">Gênero</label>
+        <label for="musical-score-genre" class="form-label fw-semibold">Gênero *</label>
         <select name="musical_score_genre" id="musical-score-genre" class="form-select" required>
           <option value="<?= $music_genre ?>"><?= $music_genre ?></option>
           <?php require_once BASE_PATH . "includes/optionsMusicalGenre.php"; ?>

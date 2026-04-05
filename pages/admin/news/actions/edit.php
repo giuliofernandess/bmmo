@@ -18,9 +18,12 @@ if ($newsId <= 0) {
     redirectWithMessage('error', 'Notícia invalida.', $redirect);
 }
 
-if (empty($newsTitle) || empty($newsDescription)) {
-    redirectWithMessage('error', 'Título e descrição são obrigatórios.', $redirect);
-}
+validateRequiredFields([
+    'Identificador da notícia' => $newsId,
+    'Título' => $newsTitle,
+    'Subtítulo' => $newsSubtitle,
+    'Descrição' => $newsDescription,
+], $redirect);
 
 $existingNews = $newsDAO->getById($newsId);
 if (!$existingNews) {

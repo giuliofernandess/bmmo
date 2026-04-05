@@ -54,12 +54,12 @@ $groups = $bandGroupsDAO->getAll();
       <form id="musical-score-form-element" action="<?= BASE_URL ?>pages/admin/musicalScores/actions/create.php" method="post">
 
         <div class="mb-3">
-          <label for="musical-score-name" class="form-label">Nome</label>
+          <label for="musical-score-name" class="form-label">Nome *</label>
           <input type="text" name="musical_score_name" id="musical-score-name" class="form-control" placeholder="Nome da partitura" required>
         </div>
 
         <div class="mb-3">
-          <label for="musical-score-genre" class="form-label">Gênero</label>
+          <label for="musical-score-genre" class="form-label">Gênero *</label>
           <select name="musical_score_genre" id="musical-score-genre" class="form-select" required>
             <?php require BASE_PATH . "includes/optionsMusicalGenre.php"; ?>
           </select>

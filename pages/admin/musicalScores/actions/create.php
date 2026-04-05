@@ -17,10 +17,10 @@ $musicName = postValueAny(['musical_score_name', 'name-add']) ?? '';
 $musicGenre = postValueAny(['musical_score_genre', 'musical-genre-add']) ?? '';
 $musicGroups = $_POST['musical_score_groups'] ?? $_POST['groups'] ?? [];
 
-// Validação rápida
-if (empty($musicName) || empty($musicGenre)) {
-	redirectWithMessage('error', "Nome e gênero são obrigatórios.", $redirect);
-}
+validateRequiredFields([
+	'Nome' => $musicName,
+	'Gênero' => $musicGenre,
+], $redirect);
 
 $musicalScore = MusicalScore::fromArray([
 	'music_name' => $musicName,

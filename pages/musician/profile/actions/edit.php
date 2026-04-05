@@ -24,13 +24,28 @@ $confirmPassword = postValueAny(['confirm_password', 'confirm-password']);
 $redirect = BASE_URL . "pages/musician/profile/edit/index.php";
 $redirectSuccess = BASE_URL . "pages/musician/profile/index.php";
 
-/* Valida senha */
-if (!password_verify($password, $hashPassword)) {
-    redirectWithMessage('error', "Senha atual incorreta.", $redirect);
-}
+validateRequiredFields([
+    'Identificador do músico' => $musicianId,
+    'Bairro' => $neighborhood,
+], $redirect);
 
-if ($newPassword !== $confirmPassword) {
-    redirectWithMessage('error', "As senhas não conferem.", $redirect);
+$isChangingPassword = !isEmptyRequiredValue($password) || !isEmptyRequiredValue($newPassword) || !isEmptyRequiredValue($confirmPassword);
+
+/* Valida senha somente quando houver tentativa de alteração */
+if ($isChangingPassword) {
+    validateRequiredFields([
+        'Senha atual' => $password,
+        'Nova senha' => $newPassword,
+        'Confirmação da nova senha' => $confirmPassword,
+    ], $redirect, 'Para alterar a senha, preencha todos os campos');
+
+    if (!password_verify((string) $password, (string) $hashPassword)) {
+        redirectWithMessage('error', "Senha atual incorreta.", $redirect);
+    }
+
+    if ($newPassword !== $confirmPassword) {
+        redirectWithMessage('error', "As senhas não conferem.", $redirect);
+    }
 }
 
 // Informações do músico via Model
@@ -46,7 +61,7 @@ $musicianInfo = Musician::fromArray([
 $musiciansDAO = new MusiciansDAO($conn);
 if ($musiciansDAO->editOwnProfile($musicianInfo)) {
 
-    if ($newPassword !== null && $confirmPassword !== null) {
+    if ($isChangingPassword) {
 
         // Tenta atualizar a senha do usuário
         if (!$musiciansDAO->editPassword($musicianId, $newPassword)) {

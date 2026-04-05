@@ -32,6 +32,12 @@ $musicGroups = $_POST['musical_score_groups'] ?? $_POST['groups'] ?? [];
 
 $redirectSuccess = BASE_URL . "pages/admin/musicalScores/edit/index.php?" . "musicId=" . urlencode($musicId);
 
+validateRequiredFields([
+	'Identificador da partitura' => $musicId,
+	'Nome' => $musicName,
+	'Gênero' => $musicGenre,
+], $redirectSuccess);
+
 // Validação de instrumentos sem vozes
 $instrumentsVoiceOff = [];
 $voiceOffInput = $_FILES['musical_score_instruments_voice_off'] ?? $_FILES['instrumentsVoiceOff'] ?? [];

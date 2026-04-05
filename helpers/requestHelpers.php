@@ -44,6 +44,60 @@ if (!function_exists('redirectTo')) {
 	}
 }
 
+if (!function_exists('isEmptyRequiredValue')) {
+	function isEmptyRequiredValue($value): bool
+	{
+		if ($value === null) {
+			return true;
+		}
+
+		if (is_string($value)) {
+			return trim($value) === '';
+		}
+
+		if (is_array($value)) {
+			return count($value) === 0;
+		}
+
+		return false;
+	}
+}
+
+if (!function_exists('findMissingRequiredFields')) {
+	function findMissingRequiredFields(array $fields): array
+	{
+		$missing = [];
+
+		foreach ($fields as $label => $value) {
+			if (is_int($label)) {
+				$label = (string) $value;
+			}
+
+			if (isEmptyRequiredValue($value)) {
+				$missing[] = (string) $label;
+			}
+		}
+
+		return $missing;
+	}
+}
+
+if (!function_exists('validateRequiredFields')) {
+	function validateRequiredFields(array $fields, string $redirect, ?string $prefixMessage = null): void
+	{
+		$missingFields = findMissingRequiredFields($fields);
+
+		if (count($missingFields) === 0) {
+			return;
+		}
+
+		$message = $prefixMessage ?? 'Preencha os campos obrigatórios';
+		$message .= ': ' . implode(', ', $missingFields) . '.';
+
+		redirectWithMessage('error', $message, $redirect);
+	}
+}
+
 if (!function_exists('handleProfileImageUpload')) {
 	function handleProfileImageUpload(
 		array $file,

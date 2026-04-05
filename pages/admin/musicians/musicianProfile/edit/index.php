@@ -80,13 +80,13 @@ $responsible_contact = trim((string) ($musicians->getResponsibleContact() ?? '')
 
         <!-- Login -->
         <div class="col-md-6">
-          <label for="musician-login" class="form-label ps-2">Login</label>
+          <label for="musician-login" class="form-label ps-2">Login *</label>
           <input type="text" name="musician_login" id="musician-login" value="<?= $musician_login ?>" class="form-control" required />
         </div>
 
         <!-- Instrumento -->
         <div class="col-md-6">
-          <label for="instrument" class="form-label ps-2">Instrumento</label>
+          <label for="instrument" class="form-label ps-2">Instrumento *</label>
           <select name="instrument" id="instrument" class="form-select" required>
 
             <?php
@@ -115,8 +115,8 @@ $responsible_contact = trim((string) ($musicians->getResponsibleContact() ?? '')
 
         <!-- Grupo da Banda -->
         <div class="col-md-6">
-          <label for="group" class="form-label ps-2">Grupo da Banda</label>
-          <select name="band_group" id="band-group" class="form-select">
+          <label for="group" class="form-label ps-2">Grupo da Banda *</label>
+          <select name="band_group" id="band-group" class="form-select" required>
 
             <?php
             // Busca todas os grupos via POO
@@ -146,7 +146,7 @@ $responsible_contact = trim((string) ($musicians->getResponsibleContact() ?? '')
         <!-- Contato do Músico -->
         <div class="col-md-6">
           <label for="musician-contact" class="form-label ps-2">Contato do Músico</label>
-          <input type="text" name="musician_contact" id="musician-contact" value="<?= $musician_contact ?>" class="form-control" required />
+          <input type="text" name="musician_contact" id="musician-contact" value="<?= $musician_contact ?>" class="form-control" />
         </div>
 
         <!-- Responsável -->
@@ -165,7 +165,7 @@ $responsible_contact = trim((string) ($musicians->getResponsibleContact() ?? '')
 
         <!-- Bairro -->
         <div class="col-md-6">
-          <label for="neighborhood" class="form-label ps-2">Bairro</label>
+          <label for="neighborhood" class="form-label ps-2">Bairro *</label>
           <select name="neighborhood" id="neighborhood" class="form-select" required>
             <option value="<?= $neighborhood ?>"><?= $neighborhood ?></option>
             <option value="Boa Esperança">Boa Esperança</option>

@@ -26,6 +26,14 @@ $confirmPassword = postValueAny(['confirm_password', 'confirm-password']);
 $redirect = BASE_URL . 'pages/admin/musicians/index.php';
 $redirectSuccess = BASE_URL . 'pages/admin/musicians/musicianProfile/index.php' . "?musician_id=" . urlencode($musicianId);
 
+validateRequiredFields([
+	'Identificador do músico' => $musicianId,
+	'Login' => $musicianLogin,
+	'Instrumento' => $instrument,
+	'Grupo da banda' => $bandGroup,
+	'Bairro' => $neighborhood,
+], $redirect);
+
 //Validação de imagem
 $currentImage = $musiciansDAO->getProfileImage($musicianId);
 $imageFileName = handleProfileImageUpload($_FILES['file'] ?? [], $redirect, $currentImage);

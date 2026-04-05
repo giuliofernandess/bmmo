@@ -124,8 +124,8 @@ $selectedBandGroup = 0;
 
         <!-- Contatos -->
         <div class="col-md-6">
-          <label for="musician-contact" class="form-label ps-2">Contato do Músico *</label>
-          <input type="text" name="musician_contact" id="musician-contact" class="form-control" placeholder="(xx) xxxxx-xxxx" required />
+          <label for="musician-contact" class="form-label ps-2">Contato do Músico</label>
+          <input type="text" name="musician_contact" id="musician-contact" class="form-control" placeholder="(xx) xxxxx-xxxx" />
         </div>
 
         <div class="col-md-6">

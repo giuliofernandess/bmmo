@@ -48,7 +48,7 @@ $newsList = $newsDAO->getAll();
         </div>
 
         <div class="mb-3">
-          <label for="news-subtitle" class="form-label">Subtitulo da notícia</label>
+          <label for="news-subtitle" class="form-label">Subtitulo da notícia *</label>
           <input type="text" name="news_subtitle" id="news-subtitle" class="form-control" placeholder="Subtítulo da notícia" required>
         </div>
 

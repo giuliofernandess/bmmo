@@ -10,18 +10,18 @@ $presentationsDAO = new PresentationsDAO($conn);
 $id = (int) (postValueAny(['presentation_id', 'id'], 'int') ?? 0);
 $redirect = BASE_URL . 'pages/admin/presentations/index.php';
 
-if ($id <= 0) {
-    redirectWithMessage('error', 'Algo deu errado!', $redirect);
-}
-
 $name = postValueAny(['presentation_name', 'name']);
 $date = postValueAny(['presentation_date', 'date']);
 $hour = postValueAny(['presentation_hour', 'hour']);
 $local = postValueAny(['presentation_location', 'local']);
 
-if ($name === '' || $date === '' || $hour === '' || $local === '') {
-    redirectWithMessage('error', 'Preencha todos os campos obrigatórios!', $redirect);
-}
+validateRequiredFields([
+    'Identificador da apresentação' => $id,
+    'Nome' => $name,
+    'Data' => $date,
+    'Hora' => $hour,
+    'Local' => $local,
+], $redirect);
 
 try {
     $inputDate = new DateTime($date);

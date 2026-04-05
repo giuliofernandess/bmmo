@@ -17,9 +17,11 @@ date_default_timezone_set('America/Sao_Paulo');
 $currentDate = date('Y-m-d');
 $currentHour = date('H:i:s');
 
-if (empty($newsTitle) || empty($newsDescription)) {
-    redirectWithMessage('error', 'Título e descrição são obrigatórios.', $redirect);
-}
+validateRequiredFields([
+    'Título' => $newsTitle,
+    'Subtítulo' => $newsSubtitle,
+    'Descrição' => $newsDescription,
+], $redirect);
 
 $imageFileName = null;
 
