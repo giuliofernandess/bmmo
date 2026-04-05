@@ -13,17 +13,27 @@ if (!function_exists('postValue')) {
 	}
 }
 
-if (!function_exists('postValueAny')) {
-	function postValueAny(array $keys, string $type = 'string')
+if (!function_exists('getValue')) {
+	function getValue(string $key, string $type = 'string')
 	{
-		foreach ($keys as $key) {
-			$value = postValue($key, $type);
-			if ($value !== null) {
-				return $value;
-			}
+		if (!isset($_GET[$key]) || $_GET[$key] === '') {
+			return null;
 		}
 
-		return null;
+		return $type === 'int'
+			? (int) $_GET[$key]
+			: trim((string) $_GET[$key]);
+	}
+}
+
+if (!function_exists('postArray')) {
+	function postArray(string $key): array
+	{
+		if (!isset($_POST[$key]) || !is_array($_POST[$key])) {
+			return [];
+		}
+
+		return $_POST[$key];
 	}
 }
 

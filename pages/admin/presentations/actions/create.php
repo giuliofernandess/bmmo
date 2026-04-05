@@ -12,10 +12,10 @@ $presentationsDAO = new PresentationsDAO($conn);
 
 Auth::requireRegency();
 
-$name = postValueAny(['presentation_name', 'name']);
-$date = postValueAny(['presentation_date', 'date']);
-$hour = postValueAny(['presentation_hour', 'hour']);
-$local = postValueAny(['presentation_location', 'local']);
+$name = postValue('presentation_name');
+$date = postValue('presentation_date');
+$hour = postValue('presentation_hour');
+$local = postValue('presentation_location');
 
 $redirect = BASE_URL . 'pages/admin/presentations/index.php';
 
@@ -37,12 +37,12 @@ if ($inputDate < $today) {
     redirectWithMessage('error', 'A data não pode ser menor que hoje!', $redirect);
 }
 
-$bandGroups = $_POST['groups'] ?? [];
+$bandGroups = postArray('groups');
 if (empty($bandGroups)) {
     redirectWithMessage('error', 'Selecione o(s) grupo(s) da banda!', $redirect);
 }
 
-$songs = $_POST['songs'] ?? [];
+$songs = postArray('songs');
 if (empty($songs)) {
     redirectWithMessage('error', 'Selecione ao menos uma música!', $redirect);
 }

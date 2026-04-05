@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     redirectWithMessage('error', 'Método invalido para exclusao.', $redirect);
 }
 
-$newsId = (int) (postValueAny(['news_id'], 'int') ?? 0);
+$newsId = (int) (postValue('news_id', 'int') ?? 0);
 
 if ($newsId <= 0) {
     redirectWithMessage('error', 'Notícia invalida.', $redirect);

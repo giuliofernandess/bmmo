@@ -10,7 +10,7 @@ $musiciansDAO = new MusiciansDAO($conn);
 Auth::requireRegency();
 
 $redirect = BASE_URL . "pages/admin/musicians/index.php";
-$musicianId = (int) (postValueAny(['musician_id'], 'int') ?? 0);
+$musicianId = (int) (postValue('musician_id', 'int') ?? 0);
 
 if (!$musicianId) {
 	redirectWithMessage('error', 'Músico inválido.', $redirect);

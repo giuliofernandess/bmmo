@@ -2,6 +2,7 @@
 require_once "../../../config/config.php";
 require_once BASE_PATH . "app/Auth/Auth.php";
 require_once BASE_PATH . "app/DAO/MusicalScoresDAO.php";
+require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $musicalScoresDAO = new MusicalScoresDAO($conn);
 
@@ -10,8 +11,8 @@ Auth::requireMusician();
 
 require_once BASE_PATH . "helpers/getMusicianInfo.php";
 
-$filterName = trim($_GET['musical_score_name_filter'] ?? '');
-$filterGenre = trim($_GET['musical_score_genre_filter'] ?? '');
+$filterName = getValue('musical_score_name_filter') ?? '';
+$filterGenre = getValue('musical_score_genre_filter') ?? '';
 
 $musicsList = $musicalScoresDAO->getAllByInstrument(
   $instrumentId,

@@ -13,9 +13,9 @@ Auth::requireRegency();
 $redirect = BASE_URL . "pages/admin/musicalScores/index.php";
 
 // Recebe dados do formulário
-$musicName = postValueAny(['musical_score_name', 'name-add']) ?? '';
-$musicGenre = postValueAny(['musical_score_genre', 'musical-genre-add']) ?? '';
-$musicGroups = $_POST['musical_score_groups'] ?? $_POST['groups'] ?? [];
+$musicName = postValue('musical_score_name') ?? '';
+$musicGenre = postValue('musical_score_genre') ?? '';
+$musicGroups = postArray('musical_score_groups');
 
 validateRequiredFields([
 	'Nome' => $musicName,

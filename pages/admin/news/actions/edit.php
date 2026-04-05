@@ -7,17 +7,11 @@ require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $newsDAO = new NewsDAO($conn);
 
-// Receber news_id de múltiplas formas possíveis
-$newsId = 0;
-if (isset($_POST['news_id']) && !empty($_POST['news_id'])) {
-    $newsId = (int) $_POST['news_id'];
-} elseif (isset($_POST['id']) && !empty($_POST['id'])) {
-    $newsId = (int) $_POST['id'];
-}
+$newsId = (int) (postValue('news_id', 'int') ?? 0);
 
-$newsTitle = postValueAny(['news_title', 'title']);
-$newsSubtitle = postValueAny(['news_subtitle', 'subtitle']);
-$newsDescription = postValueAny(['news_description', 'description']);
+$newsTitle = postValue('news_title');
+$newsSubtitle = postValue('news_subtitle');
+$newsDescription = postValue('news_description');
 
 $redirect = BASE_URL . 'pages/admin/news/index.php';
 

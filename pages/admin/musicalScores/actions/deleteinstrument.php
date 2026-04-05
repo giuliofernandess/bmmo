@@ -15,14 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 	redirectWithMessage('error', 'Metodo invalido para exclusao do arquivo.', $redirect);
 }
 
-$musicId = filter_input(INPUT_POST, 'music_id', FILTER_VALIDATE_INT);
-$instrumentId = filter_input(INPUT_POST, 'instrument_id', FILTER_VALIDATE_INT);
-$voiceOff = filter_input(
-	INPUT_POST,
-	'voice_off',
-	FILTER_VALIDATE_BOOLEAN,
-	['flags' => FILTER_NULL_ON_FAILURE]
-);
+$musicId = postValue('music_id', 'int');
+$instrumentId = postValue('instrument_id', 'int');
+$voiceOffRaw = postValue('voice_off');
+$voiceOff = $voiceOffRaw !== null
+	? filter_var($voiceOffRaw, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)
+	: null;
 
 if (!$musicId || !$instrumentId) {
 	redirectWithMessage('error', 'Parâmetros inválidos para exclusão do arquivo.', $redirect);

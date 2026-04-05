@@ -16,11 +16,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     redirectWithMessage('error', 'Metodo inválido para exclusao!', $redirect);
 }
 
-if (!isset($_POST['presentation_id']) || !is_numeric($_POST['presentation_id'])) {
+$presentationId = (int) (postValue('presentation_id', 'int') ?? 0);
+
+if ($presentationId <= 0) {
     redirectWithMessage('error', 'Algo deu errado!', $redirect);
 }
-
-$presentationId = (int) $_POST['presentation_id'];
 
 if ($presentationsDAO->delete($presentationId)) {
     redirectWithMessage('success', 'Apresentação excluída com sucesso!', $redirect);

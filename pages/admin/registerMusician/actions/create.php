@@ -24,19 +24,19 @@ function isValidBirthDate(?string $age, ?string $responsibleName, ?string $respo
 }
 
 // Recebimento de variáveis pelo método POST
-$musicianName = postValueAny(['musician_name', 'name']);
-$login = postValueAny(['musician_login', 'login']);
+$musicianName = postValue('musician_name');
+$login = postValue('musician_login');
 
-$dateOfBirth = postValueAny(['date_of_birth', 'date']);
+$dateOfBirth = postValue('date_of_birth');
 $instrument = postValue('instrument', 'int');
-$bandGroup = postValueAny(['band_group', 'group'], 'int');
-$musicianContact = postValueAny(['musician_contact', 'contact']);
-$responsibleName = postValueAny(['responsible_name', 'responsible']);
-$responsibleContact = postValueAny(['responsible_contact', 'contact-of-responsible']);
+$bandGroup = postValue('band_group', 'int');
+$musicianContact = postValue('musician_contact');
+$responsibleName = postValue('responsible_name');
+$responsibleContact = postValue('responsible_contact');
 $neighborhood = postValue('neighborhood');
 $institution = postValue('institution');
 $password = postValue('password');
-$confirmPassword = postValueAny(['confirm_password', 'confirm-password']);
+$confirmPassword = postValue('confirm_password');
 
 $redirect = BASE_URL . 'pages/admin/registerMusician/index.php';
 

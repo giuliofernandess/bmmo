@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 	redirectWithMessage('error', "Metodo invalido para exclusao da partitura.", $redirect);
 }
 	
-$musicId = (int) (postValueAny(['music_id'], 'int') ?? 0);
+$musicId = (int) (postValue('music_id', 'int') ?? 0);
 
 if (!$musicId) {
 	redirectWithMessage('error', "Partitura inválida.", $redirect);

@@ -18,9 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     redirectWithMessage('error', 'Método inválido.', BASE_URL . 'pages/login/admin/index.php');
 }
 
-// Captura os dados do formulário com fallback
-$login = postValueAny(['user_login', 'login']) ?? '';
-$password = postValueAny(['user_password', 'password']) ?? '';
+// Captura os dados do formulário
+$login = postValue('user_login') ?? '';
+$password = postValue('user_password') ?? '';
 
 $type = postValue('type') ?? '';
 

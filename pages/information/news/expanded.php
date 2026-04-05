@@ -2,15 +2,16 @@
 // Config e classe de notícias
 require_once '../../../config/config.php';
 require_once BASE_PATH . 'app/DAO/NewsDAO.php';
+require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $newsDAO = new NewsDAO($conn);
 
 // Captura o ID da notícia via GET
-if (!isset($_GET['newsId'])) {
+$newsId = getValue('newsId', 'int');
+
+if ($newsId === null || $newsId <= 0) {
     die("ID da notícia não fornecido.");
 }
-
-$newsId = (int)$_GET['newsId'];
 
 // Busca notícia principal via POO
 $news = $newsDAO->getById($newsId);

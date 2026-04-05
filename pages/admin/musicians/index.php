@@ -9,6 +9,7 @@ require_once BASE_PATH . "app/Models/Musician.php";
 require_once BASE_PATH . "app/DAO/MusiciansDAO.php";
 require_once BASE_PATH . "app/DAO/BandGroupsDAO.php";
 require_once BASE_PATH . "app/DAO/InstrumentsDAO.php";
+require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $musiciansDAO = new MusiciansDAO($conn);
 $bandGroupsDAO = new BandGroupsDAO($conn);
@@ -29,9 +30,9 @@ foreach ($instrumentsList as $instrument) {
   $instrumentMap[(int) ($instrument->getInstrumentId() ?? 0)] = (string) ($instrument->getInstrumentName() ?? '');
 }
 
-$filterName = $_GET['name'] ?? '';
-$filterGroup = isset($_GET['group']) ? (int) $_GET['group'] : 0;
-$filterInstrument = isset($_GET['instrument']) ? (int) $_GET['instrument'] : 0;
+$filterName = getValue('name') ?? '';
+$filterGroup = getValue('group', 'int') ?? 0;
+$filterInstrument = getValue('instrument', 'int') ?? 0;
 
 $musiciansList = $musiciansDAO->getAll([
     'musician_name' => $filterName,

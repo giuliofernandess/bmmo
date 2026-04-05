@@ -9,17 +9,17 @@ require_once BASE_PATH . 'app/Models/Musician.php';
 require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 // Recebimento de variáveis pelo método POST
-$musicianId = postValueAny(['musician_id', 'musician-id']);
-$musicianContact = postValueAny(['musician_contact', 'contact']);
-$responsibleName = postValueAny(['responsible_name', 'responsible']);
-$responsibleContact = postValueAny(['responsible_contact', 'contact-of-responsible']);
+$musicianId = postValue('musician_id');
+$musicianContact = postValue('musician_contact');
+$responsibleName = postValue('responsible_name');
+$responsibleContact = postValue('responsible_contact');
 $neighborhood = postValue('neighborhood');
 $institution = postValue('institution');
 
 $hashPassword = postValue('hash_password');
 $password = postValue('actual_password');
 $newPassword = postValue('password');
-$confirmPassword = postValueAny(['confirm_password', 'confirm-password']);
+$confirmPassword = postValue('confirm_password');
 
 $redirect = BASE_URL . "pages/musician/profile/edit/index.php";
 $redirectSuccess = BASE_URL . "pages/musician/profile/index.php";

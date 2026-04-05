@@ -4,6 +4,7 @@ require_once BASE_PATH . "app/Auth/Auth.php";
 
 require_once BASE_PATH . "app/DAO/BandGroupsDAO.php";
 require_once BASE_PATH . "app/DAO/MusicalScoresDAO.php";
+require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $bandGroupsDAO = new BandGroupsDAO($conn);
 $musicalScoresDAO = new MusicalScoresDAO($conn);
@@ -12,9 +13,9 @@ Auth::requireRegency();
 
 $groups = $bandGroupsDAO->getAll();
 
-$filterName = trim($_GET['musical_score_name_filter'] ?? '');
-$filterGroup = (int)($_GET['band_group_filter'] ?? 0);
-$filterGenre = trim($_GET['musical_score_genre_filter'] ?? '');
+$filterName = getValue('musical_score_name_filter') ?? '';
+$filterGroup = getValue('band_group_filter', 'int') ?? 0;
+$filterGenre = getValue('musical_score_genre_filter') ?? '';
 
 $musicsList = $musicalScoresDAO->getAll([
     'music_name' => $filterName,

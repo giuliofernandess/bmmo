@@ -13,7 +13,7 @@ $bandGroupsDAO = new BandGroupsDAO($conn);
 Auth::requireRegency();
 
 // Verifica se recebeu o id do músico
-$musicianId = isset($_GET['musician_id']) ? (int) $_GET['musician_id'] : null;
+$musicianId = getValue('musician_id', 'int');
 
 if (!$musicianId) {
   redirectTo(BASE_URL . "pages/admin/musicians/index.php");

@@ -11,17 +11,17 @@ $musiciansDAO = new MusiciansDAO($conn);
 Auth::requireRegency();
 
 // Recebimento de variáveis pelo método POST
-$musicianId = postValueAny(['musician_id', 'musician-id']);
-$musicianLogin = postValueAny(['musician_login', 'login']);
+$musicianId = postValue('musician_id');
+$musicianLogin = postValue('musician_login');
 $instrument = postValue('instrument', 'int');
-$bandGroup = postValueAny(['band_group', 'group'], 'int');
-$musicianContact = postValueAny(['musician_contact', 'contact']);
-$responsibleName = postValueAny(['responsible_name', 'responsible']);
-$responsibleContact = postValueAny(['responsible_contact', 'contact-of-responsible']);
+$bandGroup = postValue('band_group', 'int');
+$musicianContact = postValue('musician_contact');
+$responsibleName = postValue('responsible_name');
+$responsibleContact = postValue('responsible_contact');
 $neighborhood = postValue('neighborhood');
 $institution = postValue('institution');
 $password = postValue('password');
-$confirmPassword = postValueAny(['confirm_password', 'confirm-password']);
+$confirmPassword = postValue('confirm_password');
 
 $redirect = BASE_URL . 'pages/admin/musicians/index.php';
 $redirectSuccess = BASE_URL . 'pages/admin/musicians/musicianProfile/index.php' . "?musician_id=" . urlencode($musicianId);
