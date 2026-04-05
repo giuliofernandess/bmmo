@@ -96,7 +96,6 @@ class MusiciansDAO implements EntityInterface
         $institution = $entity->getInstitution();
 
         $profileImage = $entity->getProfileImage();
-        $passwordRaw = $entity->getPassword();
 
         try {
 
@@ -159,8 +158,6 @@ class MusiciansDAO implements EntityInterface
         $responsibleContact = $entity->getResponsibleContact();
         $neighborhood = $entity->getNeighborhood();
         $institution = $entity->getInstitution();
-
-        $passwordRaw = $entity->getPassword();
 
         try {
 
