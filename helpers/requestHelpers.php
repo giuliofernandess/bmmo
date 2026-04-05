@@ -92,7 +92,6 @@ if (!function_exists('validateRequiredFields')) {
 		}
 
 		$message = $prefixMessage ?? 'Preencha os campos obrigatórios';
-		$message .= ': ' . implode(', ', $missingFields) . '.';
 
 		redirectWithMessage('error', $message, $redirect);
 	}
