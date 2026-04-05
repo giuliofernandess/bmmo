@@ -54,7 +54,7 @@ $newsList = $newsDAO->getAll();
 
         <div class="mb-3">
           <label for="news-description" class="form-label">Texto de Detalhamento *</label>
-          <textarea name="news_description" id="news-description" class="form-control news-description-field" required></textarea>
+          <textarea name="news_description" id="news-description" class="form-control news-description-field" required style="height: 200px"></textarea>
         </div>
 
         <div class="mb-3">
