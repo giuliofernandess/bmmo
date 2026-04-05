@@ -104,8 +104,9 @@ if (!function_exists('handleProfileImageUpload')) {
 		?string $currentImage = null,
 		string $uploadSubDir = 'musicians-images',
 		string $filePrefix = 'profile_',
-		array $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'],
-		int $maxFileSize = 5242880
+		array $allowedExtensions = ['jpg', 'jpeg', 'png'],
+		int $maxFileSize = 5242880,
+		int $jpegQuality = 85
 	): ?string
 	{
 		if (!isset($file['error']) || $file['error'] !== UPLOAD_ERR_OK) {
@@ -118,24 +119,41 @@ if (!function_exists('handleProfileImageUpload')) {
 		$fileExtension = strtolower(pathinfo((string) $fileName, PATHINFO_EXTENSION));
 
 		if (!in_array($fileExtension, $allowedExtensions, true)) {
-			redirectWithMessage('error', 'Extensão de arquivo inválida. Permitido apenas jpg, jpeg, png, gif.', $redirect);
+			redirectWithMessage('error', 'Extensão de arquivo inválida. Permitido apenas jpg, jpeg, png.', $redirect);
 		}
 
 		if ($fileSize > $maxFileSize) {
 			redirectWithMessage('error', 'Arquivo muito grande. Máximo permitido: 5MB.', $redirect);
 		}
 
-		$newFileName = uniqid($filePrefix, true) . '.' . $fileExtension;
+		// Carregar imagem original
+		$image = null;
+		switch ($fileExtension) {
+			case 'jpg':
+			case 'jpeg':
+				$image = imagecreatefromjpeg($fileTmpPath);
+				break;
+			case 'png':
+				$image = imagecreatefrompng($fileTmpPath);
+				break;
+		}
+
+		if (!$image) {
+			redirectWithMessage('error', 'Não foi possível processar a imagem.', $redirect);
+		}
+
 		$uploadDir = BASE_PATH . 'uploads/' . trim($uploadSubDir, '/') . '/';
 
 		if (!is_dir($uploadDir)) {
 			mkdir($uploadDir, 0755, true);
 		}
 
+		// Salvar sempre como JPEG
+		$newFileName = uniqid($filePrefix, true) . '.jpg';
 		$destPath = $uploadDir . $newFileName;
 
-		if (!move_uploaded_file($fileTmpPath, $destPath)) {
-			redirectWithMessage('error', 'Erro ao enviar a imagem.', $redirect);
+		if (!imagejpeg($image, $destPath, $jpegQuality)) {
+			redirectWithMessage('error', 'Erro ao processar a imagem.', $redirect);
 		}
 
 		if ($currentImage) {
