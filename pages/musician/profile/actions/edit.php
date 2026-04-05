@@ -46,10 +46,9 @@ $musicianInfo = Musician::fromArray([
 $musiciansDAO = new MusiciansDAO($conn);
 if ($musiciansDAO->editOwnProfile($musicianInfo)) {
 
-    if ($newPassword !== null && $newPassword !== null) {
+    if ($newPassword !== null && $confirmPassword !== null) {
 
         // Tenta atualizar a senha do usuário
-
         if (!$musiciansDAO->editPassword($musicianId, $newPassword)) {
             redirectWithMessage('error', "Erro ao editar a senha. Tente novamente.", $redirect);
         }
