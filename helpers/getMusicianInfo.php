@@ -58,6 +58,7 @@ if ($musician) {
 	$responsibleContact = $sanitize($musician->getResponsibleContact());
 	$neighborhood = $sanitize($musician->getNeighborhood());
 	$institution = $sanitize($musician->getInstitution());
+	$password = $sanitize($musician->getPassword());
 
 	$rawProfileImage = trim((string) ($musician->getProfileImage() ?? ''));
 	$profileImage = $rawProfileImage !== '' ? $sanitize(basename($rawProfileImage)) : 'default.png';

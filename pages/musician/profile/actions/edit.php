@@ -15,14 +15,21 @@ $responsibleName = postValueAny(['responsible_name', 'responsible']);
 $responsibleContact = postValueAny(['responsible_contact', 'contact-of-responsible']);
 $neighborhood = postValue('neighborhood');
 $institution = postValue('institution');
-$password = postValue('password');
+
+$hashPassword = postValue('hash_password');
+$password = postValue('actual_password');
+$newPassword = postValue('password');
 $confirmPassword = postValueAny(['confirm_password', 'confirm-password']);
 
 $redirect = BASE_URL . "pages/musician/profile/edit/index.php";
 $redirectSuccess = BASE_URL . "pages/musician/profile/index.php";
 
 /* Valida senha */
-if ($password !== $confirmPassword) {
+if (!password_verify($password, $hashPassword)) {
+    redirectWithMessage('error', "Senha atual incorreta.", $redirect);
+}
+
+if ($newPassword !== $confirmPassword) {
     redirectWithMessage('error', "As senhas não conferem.", $redirect);
 }
 
@@ -39,11 +46,11 @@ $musicianInfo = Musician::fromArray([
 $musiciansDAO = new MusiciansDAO($conn);
 if ($musiciansDAO->editOwnProfile($musicianInfo)) {
 
-    if ($password !== null && $password !== null) {
+    if ($newPassword !== null && $newPassword !== null) {
 
         // Tenta atualizar a senha do usuário
 
-        if (!$musiciansDAO->editPassword($musicianId, $password)) {
+        if (!$musiciansDAO->editPassword($musicianId, $newPassword)) {
             redirectWithMessage('error', "Erro ao editar a senha. Tente novamente.", $redirect);
         }
 
