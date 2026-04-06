@@ -12,19 +12,19 @@ Auth::requireRegency();
 $redirect = BASE_URL . "pages/admin/musicalScores/index.php";
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-	redirectWithMessage('error', "Metodo invalido para exclusao da partitura.", $redirect);
+	redirectWithMessage($redirect, 'error', "Metodo invalido para exclusao da partitura.");
 }
 	
-$musicId = (int) (postValue('music_id', 'int') ?? 0);
+$musicId = (int) (requestValue('music_id', 'int', 'post') ?? 0);
 
 if (!$musicId) {
-	redirectWithMessage('error', "Partitura inválida.", $redirect);
+	redirectWithMessage($redirect, 'error', "Partitura inválida.");
 }
 
 $musicalScoreGeneralDelete = $musicalScoresDAO->delete($musicId);
 
 if ($musicalScoreGeneralDelete) {
-	redirectWithMessage('success', "Partitura excluída com sucesso.", $redirect);
+	redirectWithMessage($redirect, 'success', "Partitura excluída com sucesso.");
 } else {
-	redirectWithMessage('error', "Não foi possível deletar a partitura.", $redirect);
+	redirectWithMessage($redirect, 'error', "Não foi possível deletar a partitura.");
 }

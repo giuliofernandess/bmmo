@@ -11,8 +11,8 @@ Auth::requireMusician();
 
 require_once BASE_PATH . "helpers/getMusicianInfo.php";
 
-$filterName = getValue('musical_score_name_filter') ?? '';
-$filterGenre = getValue('musical_score_genre_filter') ?? '';
+$filterName = requestValue('musical_score_name_filter', 'string', 'get') ?? '';
+$filterGenre = requestValue('musical_score_genre_filter', 'string', 'get') ?? '';
 
 $musicsList = $musicalScoresDAO->getAllByInstrument(
   $instrumentId,

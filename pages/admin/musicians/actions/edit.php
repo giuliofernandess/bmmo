@@ -11,27 +11,27 @@ $musiciansDAO = new MusiciansDAO($conn);
 Auth::requireRegency();
 
 // Recebimento de variáveis pelo método POST
-$musicianId = postValue('musician_id');
-$musicianLogin = postValue('musician_login');
-$instrument = postValue('instrument', 'int');
-$bandGroup = postValue('band_group', 'int');
-$musicianContact = postValue('musician_contact');
-$responsibleName = postValue('responsible_name');
-$responsibleContact = postValue('responsible_contact');
-$neighborhood = postValue('neighborhood');
-$institution = postValue('institution');
-$password = postValue('password');
-$confirmPassword = postValue('confirm_password');
+$musicianId = requestValue('musician_id', 'string', 'post');
+$musicianLogin = requestValue('musician_login', 'string', 'post');
+$instrument = requestValue('instrument', 'int', 'post');
+$bandGroup = requestValue('band_group', 'int', 'post');
+$musicianContact = requestValue('musician_contact', 'string', 'post');
+$responsibleName = requestValue('responsible_name', 'string', 'post');
+$responsibleContact = requestValue('responsible_contact', 'string', 'post');
+$neighborhood = requestValue('neighborhood', 'string', 'post');
+$institution = requestValue('institution', 'string', 'post');
+$password = requestValue('password', 'string', 'post');
+$confirmPassword = requestValue('confirm_password', 'string', 'post');
 
 $redirect = BASE_URL . 'pages/admin/musicians/index.php';
 $redirectSuccess = BASE_URL . 'pages/admin/musicians/musicianProfile/index.php' . "?musician_id=" . urlencode($musicianId);
 
 validateRequiredFields([
-	'Identificador do músico' => $musicianId,
-	'Login' => $musicianLogin,
-	'Instrumento' => $instrument,
-	'Grupo da banda' => $bandGroup,
-	'Bairro' => $neighborhood,
+	'id' => $musicianId,
+	'login' => $musicianLogin,
+	'instrument' => $instrument,
+	'band_group' => $bandGroup,
+	'neighborhood' => $neighborhood
 ], $redirect);
 
 //Validação de imagem
@@ -40,7 +40,7 @@ $imageFileName = handleProfileImageUpload($_FILES['file'] ?? [], $redirect, $cur
 
 /* Valida senha */
 if ($password !== $confirmPassword) {
-	redirectWithMessage('error', "As senhas não conferem.", $redirect);
+	redirectWithMessage($redirect, 'error', "As senhas não conferem.");
 }
 
 $musicianInfo = Musician::fromArray([
@@ -64,12 +64,12 @@ if ($musiciansDAO->edit($musicianInfo)) {
         // Tenta atualizar a senha do usuário
 
         if (!$musiciansDAO->editPassword($musicianId, $password)) {
-            redirectWithMessage('error', "Erro ao editar a senha. Tente novamente.", $redirect);
+            redirectWithMessage($redirect, 'error', "Erro ao editar a senha. Tente novamente.");
         }
 
     }
 
-    redirectWithMessage('success', "Músico editado com sucesso!", $redirectSuccess);
+    redirectWithMessage($redirectSuccess, 'success', "Músico editado com sucesso!");
 } else {
-    redirectWithMessage('error', "Erro ao editar o músico. Tente novamente.", $redirect);
+    redirectWithMessage($redirect, 'error', "Erro ao editar o músico. Tente novamente.");
 }

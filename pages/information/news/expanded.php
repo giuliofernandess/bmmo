@@ -7,7 +7,7 @@ require_once BASE_PATH . 'helpers/requestHelpers.php';
 $newsDAO = new NewsDAO($conn);
 
 // Captura o ID da notícia via GET
-$newsId = getValue('newsId', 'int');
+$newsId = requestValue('newsId', 'int', 'get');
 
 if ($newsId === null || $newsId <= 0) {
     die("ID da notícia não fornecido.");

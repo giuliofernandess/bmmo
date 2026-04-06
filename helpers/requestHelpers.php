@@ -1,28 +1,17 @@
 <?php
 
-if (!function_exists('postValue')) {
-	function postValue(string $key, string $type = 'string')
+if (!function_exists('requestValue')) {
+	function requestValue(string $key, string $type = 'string', string $method = 'post')
 	{
-		if (!isset($_POST[$key]) || $_POST[$key] === '') {
+		$source = strtolower($method) === 'get' ? $_GET : $_POST;
+
+		if (!isset($source[$key]) || $source[$key] === '') {
 			return null;
 		}
 
 		return $type === 'int'
-			? (int) $_POST[$key]
-			: trim((string) $_POST[$key]);
-	}
-}
-
-if (!function_exists('getValue')) {
-	function getValue(string $key, string $type = 'string')
-	{
-		if (!isset($_GET[$key]) || $_GET[$key] === '') {
-			return null;
-		}
-
-		return $type === 'int'
-			? (int) $_GET[$key]
-			: trim((string) $_GET[$key]);
+			? (int) $source[$key]
+			: trim((string) $source[$key]);
 	}
 }
 
@@ -38,17 +27,12 @@ if (!function_exists('postArray')) {
 }
 
 if (!function_exists('redirectWithMessage')) {
-	function redirectWithMessage(string $type, string $message, string $redirect): void
+	function redirectWithMessage(string $redirect, string $type = '', string $message = ''): void
 	{
-		Message::set($type, $message);
-		header('Location: ' . $redirect);
-		exit;
-	}
-}
+		if ($type !== '' && $message !== '') {
+			Message::set($type, $message);
+		}
 
-if (!function_exists('redirectTo')) {
-	function redirectTo(string $redirect): void
-	{
 		header('Location: ' . $redirect);
 		exit;
 	}
@@ -59,6 +43,10 @@ if (!function_exists('isEmptyRequiredValue')) {
 	{
 		if ($value === null) {
 			return true;
+		}
+
+		if(is_int($value)) {
+			return intval($value) === 0;
 		}
 
 		if (is_string($value)) {
@@ -73,10 +61,10 @@ if (!function_exists('isEmptyRequiredValue')) {
 	}
 }
 
-if (!function_exists('findMissingRequiredFields')) {
-	function findMissingRequiredFields(array $fields): array
+if (!function_exists('validateRequiredFields')) {
+	function validateRequiredFields(array $fields, string $redirect, ?string $prefixMessage = null): void
 	{
-		$missing = [];
+		$missingFields = [];
 
 		foreach ($fields as $label => $value) {
 			if (is_int($label)) {
@@ -84,18 +72,9 @@ if (!function_exists('findMissingRequiredFields')) {
 			}
 
 			if (isEmptyRequiredValue($value)) {
-				$missing[] = (string) $label;
+				$missingFields[] = (string) $label;
 			}
 		}
-
-		return $missing;
-	}
-}
-
-if (!function_exists('validateRequiredFields')) {
-	function validateRequiredFields(array $fields, string $redirect, ?string $prefixMessage = null): void
-	{
-		$missingFields = findMissingRequiredFields($fields);
 
 		if (count($missingFields) === 0) {
 			return;
@@ -103,7 +82,7 @@ if (!function_exists('validateRequiredFields')) {
 
 		$message = $prefixMessage ?? 'Preencha os campos obrigatórios';
 
-		redirectWithMessage('error', $message, $redirect);
+		redirectWithMessage($redirect, 'error', $message);
 	}
 }
 
@@ -159,11 +138,11 @@ if (!function_exists('handleProfileImageUpload')) {
 		$fileExtension = strtolower(pathinfo((string) $fileName, PATHINFO_EXTENSION));
 
 		if (!in_array($fileExtension, $allowedExtensions, true)) {
-			redirectWithMessage('error', 'Extensão de arquivo inválida. Permitido apenas jpg, jpeg, png.', $redirect);
+			redirectWithMessage($redirect, 'error', 'Extensão de arquivo inválida. Permitido apenas jpg, jpeg, png.');
 		}
 
 		if ($fileSize > $maxFileSize) {
-			redirectWithMessage('error', 'Arquivo muito grande. Máximo permitido: 5MB.', $redirect);
+			redirectWithMessage($redirect, 'error', 'Arquivo muito grande. Máximo permitido: 5MB.');
 		}
 
 		// Carregar imagem original
@@ -179,7 +158,7 @@ if (!function_exists('handleProfileImageUpload')) {
 		}
 
 		if (!$image) {
-			redirectWithMessage('error', 'Não foi possível processar a imagem.', $redirect);
+			redirectWithMessage($redirect, 'error', 'Não foi possível processar a imagem.');
 		}
 
 		// Corrigir orientação EXIF
@@ -196,7 +175,7 @@ if (!function_exists('handleProfileImageUpload')) {
 		$destPath = $uploadDir . $newFileName;
 
 		if (!imagejpeg($image, $destPath, $jpegQuality)) {
-			redirectWithMessage('error', 'Erro ao processar a imagem.', $redirect);
+			redirectWithMessage($redirect, 'error', 'Erro ao processar a imagem.');
 		}
 
 		if ($currentImage) {

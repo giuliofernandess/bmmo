@@ -12,18 +12,18 @@ Auth::requireRegency();
 $redirect = BASE_URL . 'pages/admin/news/index.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    redirectWithMessage('error', 'Método invalido para exclusao.', $redirect);
+    redirectWithMessage($redirect, 'error', 'Método invalido para exclusao.');
 }
 
-$newsId = (int) (postValue('news_id', 'int') ?? 0);
+$newsId = (int) (requestValue('news_id', 'int', 'post') ?? 0);
 
 if ($newsId <= 0) {
-    redirectWithMessage('error', 'Notícia invalida.', $redirect);
+    redirectWithMessage($redirect, 'error', 'Notícia invalida.');
 }
 
 $news = $newsDAO->getById($newsId);
 if (!$news) {
-    redirectWithMessage('error', 'Notícia não encontrada.', $redirect);
+    redirectWithMessage($redirect, 'error', 'Notícia não encontrada.');
 }
 
 if ($newsDAO->delete($newsId)) {
@@ -35,7 +35,7 @@ if ($newsDAO->delete($newsId)) {
         }
     }
 
-    redirectWithMessage('success', 'Notícia removida com sucesso!', $redirect);
+    redirectWithMessage($redirect, 'success', 'Notícia removida com sucesso!');
 } else {
-    redirectWithMessage('error', 'Erro ao remover a notícia. Tente novamente.', $redirect);
+    redirectWithMessage($redirect, 'error', 'Erro ao remover a notícia. Tente novamente.');
 }

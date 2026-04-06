@@ -7,24 +7,24 @@ require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $newsDAO = new NewsDAO($conn);
 
-$newsId = (int) (postValue('news_id', 'int') ?? 0);
+$newsId = (int) (requestValue('news_id', 'int', 'post') ?? 0);
 
-$newsTitle = postValue('news_title');
-$newsSubtitle = postValue('news_subtitle');
-$newsDescription = postValue('news_description');
+$newsTitle = requestValue('news_title', 'string', 'post');
+$newsSubtitle = requestValue('news_subtitle', 'string', 'post');
+$newsDescription = requestValue('news_description', 'string', 'post');
 
 $redirect = BASE_URL . 'pages/admin/news/index.php';
 
 // Verificar se encontrou a notícia
 $existingNews = $newsDAO->getById($newsId);
 if (!$existingNews || $newsId <= 0) {
-    redirectWithMessage('error', 'Notícia não encontrada.', $redirect);
+    redirectWithMessage($redirect, 'error', 'Notícia não encontrada.');
 }
 
 validateRequiredFields([
-    'Título' => $newsTitle,
-    'Subtítulo' => $newsSubtitle,
-    'Descrição' => $newsDescription,
+    'title' => $newsTitle,
+    'subtitle' => $newsSubtitle,
+    'description' => $newsDescription,
 ], $redirect);
 
 $imageFileName = $existingNews->getNewsImage();
@@ -48,7 +48,7 @@ $newsInfo = News::fromArray([
 ]);
 
 if ($newsDAO->edit($newsInfo)) {
-    redirectWithMessage('success', 'Notícia editada com sucesso!', $redirect);
+    redirectWithMessage($redirect, 'success', 'Notícia editada com sucesso!');
 } else {
-    redirectWithMessage('error', 'Erro ao editar a notícia. Tente novamente.', $redirect);
+    redirectWithMessage($redirect, 'error', 'Erro ao editar a notícia. Tente novamente.');
 }

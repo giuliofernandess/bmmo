@@ -25,17 +25,18 @@ function buildSafeMusicalScoreFileName(string $originalName, array $allowedExten
 }
 
 // Recebe dados do formulário
-$musicId = (int) (postValue('musical_score_id', 'int') ?? 0);
-$musicName = postValue('musical_score_name') ?? '';
-$musicGenre = postValue('musical_score_genre') ?? '';
+$musicId = (int) (requestValue('musical_score_id', 'int', 'post') ?? 0);
+$musicName = requestValue('musical_score_name', 'string', 'post') ?? '';
+$musicGenre = requestValue('musical_score_genre', 'string', 'post') ?? '';
 $musicGroups = postArray('musical_score_groups');
 
 $redirectSuccess = BASE_URL . "pages/admin/musicalScores/edit/index.php?" . "musicId=" . urlencode($musicId);
 
 validateRequiredFields([
-	'Identificador da partitura' => $musicId,
-	'Nome' => $musicName,
-	'Gênero' => $musicGenre,
+	'id' => $musicId,
+	'name' => $musicName,
+	'genre' => $musicGenre,
+	'groups' => $musicGroups
 ], $redirectSuccess);
 
 // Validação de instrumentos sem vozes
@@ -56,15 +57,15 @@ foreach ($voiceOffNames as $instrumentId => $nameVoiceOff) {
 		$safeName = buildSafeMusicalScoreFileName((string) $nameVoiceOff, $allowedExtensions);
 
 		if ($safeName === null) {
-			redirectWithMessage('error', "Formato de arquivo inválido. Envie apenas PDF.", $redirectSuccess);
+			redirectWithMessage($redirectSuccess, 'error', "Formato de arquivo inválido. Envie apenas PDF.");
 		}
 
 		if ($size > $maxFileSize) {
-			redirectWithMessage('error', "Arquivo muito grande. Máximo permitido: 15MB.", $redirectSuccess);
+			redirectWithMessage($redirectSuccess, 'error', "Arquivo muito grande. Máximo permitido: 15MB.");
 		}
 
 		if (!move_uploaded_file($tmp, BASE_PATH . "uploads/musical-scores/" . $safeName)) {
-			redirectWithMessage('error', "Erro ao enviar arquivo de instrumento sem voz.", $redirectSuccess);
+			redirectWithMessage($redirectSuccess, 'error', "Erro ao enviar arquivo de instrumento sem voz.");
 		}
 
 		$instrumentsVoiceOff[$instrumentId] = $safeName;
@@ -90,15 +91,15 @@ foreach ($instrumentNames as $instrumentId => $name) {
 		$safeName = buildSafeMusicalScoreFileName((string) $name, $allowedExtensions);
 
 		if ($safeName === null) {
-			redirectWithMessage('error', "Formato de arquivo inválido. Envie apenas PDF.", $redirectSuccess);
+			redirectWithMessage($redirectSuccess, 'error', "Formato de arquivo inválido. Envie apenas PDF.");
 		}
 
 		if ($size > $maxFileSize) {
-			redirectWithMessage('error', "Arquivo muito grande. Máximo permitido: 15MB.", $redirectSuccess);
+			redirectWithMessage($redirectSuccess, 'error', "Arquivo muito grande. Máximo permitido: 15MB.");
 		}
 
 		if (!move_uploaded_file($tmp, BASE_PATH . "uploads/musical-scores/" . $safeName)) {
-			redirectWithMessage('error', "Erro ao enviar arquivo de instrumento com voz.", $redirectSuccess);
+			redirectWithMessage($redirectSuccess, 'error', "Erro ao enviar arquivo de instrumento com voz.");
 		}
 
 		$instruments[$instrumentId] = $safeName;
@@ -118,7 +119,7 @@ $musicalScore = MusicalScore::fromArray([
 $musicalScoreEdit = $musicalScoresDAO->edit($musicalScore);
 
 if ($musicalScoreEdit !== false) {
-	redirectWithMessage('success', "Partitura editada com sucesso!", $redirectSuccess);
+	redirectWithMessage($redirectSuccess, 'success', "Partitura editada com sucesso!");
 } else {
-	redirectWithMessage('error', "Erro ao editar partitura.", $redirectSuccess);
+	redirectWithMessage($redirectSuccess, 'error', "Erro ao editar partitura.");
 }

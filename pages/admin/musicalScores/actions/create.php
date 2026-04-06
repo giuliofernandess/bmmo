@@ -13,13 +13,14 @@ Auth::requireRegency();
 $redirect = BASE_URL . "pages/admin/musicalScores/index.php";
 
 // Recebe dados do formulário
-$musicName = postValue('musical_score_name') ?? '';
-$musicGenre = postValue('musical_score_genre') ?? '';
+$musicName = requestValue('musical_score_name', 'string', 'post') ?? '';
+$musicGenre = requestValue('musical_score_genre', 'string', 'post') ?? '';
 $musicGroups = postArray('musical_score_groups');
 
 validateRequiredFields([
-	'Nome' => $musicName,
-	'Gênero' => $musicGenre,
+	'name' => $musicName,
+	'genre' => $musicGenre,
+	'groups' => $musicGroups
 ], $redirect);
 
 $musicalScore = MusicalScore::fromArray([
@@ -33,7 +34,7 @@ $musicalScoreAdd = $musicalScoresDAO->create($musicalScore);
 $redirectSuccess = BASE_URL . "pages/admin/musicalScores/edit/index.php?" . "musicId=" . urlencode($musicalScoreAdd);
 
 if ($musicalScoreAdd !== false) {
-	redirectWithMessage('success', "Partitura criada com sucesso!", $redirectSuccess);
+	redirectWithMessage($redirectSuccess, 'success', "Partitura criada com sucesso!");
 } else {
-	redirectWithMessage('error', "Erro ao criar partitura.", $redirect);
+	redirectWithMessage($redirect, 'error', "Erro ao criar partitura.");
 }

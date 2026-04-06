@@ -14,10 +14,10 @@ $instrumentsDAO = new InstrumentsDAO($conn);
 Auth::requireRegency();
 
 // Verifica se recebeu o id do músico
-$musicianId = getValue('musician_id', 'int');
+$musicianId = requestValue('musician_id', 'int', 'get');
 
 if (!$musicianId) {
-  redirectTo(BASE_URL . "pages/admin/musicians/index.php");
+  redirectWithMessage(BASE_URL . "pages/admin/musicians/index.php");
 }
 
 $musicians = $musiciansDAO->getById($musicianId);

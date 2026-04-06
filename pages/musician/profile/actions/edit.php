@@ -9,24 +9,24 @@ require_once BASE_PATH . 'app/Models/Musician.php';
 require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 // Recebimento de variáveis pelo método POST
-$musicianId = postValue('musician_id');
-$musicianContact = postValue('musician_contact');
-$responsibleName = postValue('responsible_name');
-$responsibleContact = postValue('responsible_contact');
-$neighborhood = postValue('neighborhood');
-$institution = postValue('institution');
+$musicianId = requestValue('musician_id', 'string', 'post');
+$musicianContact = requestValue('musician_contact', 'string', 'post');
+$responsibleName = requestValue('responsible_name', 'string', 'post');
+$responsibleContact = requestValue('responsible_contact', 'string', 'post');
+$neighborhood = requestValue('neighborhood', 'string', 'post');
+$institution = requestValue('institution', 'string', 'post');
 
-$hashPassword = postValue('hash_password');
-$password = postValue('actual_password');
-$newPassword = postValue('password');
-$confirmPassword = postValue('confirm_password');
+$hashPassword = requestValue('hash_password', 'string', 'post');
+$password = requestValue('actual_password', 'string', 'post');
+$newPassword = requestValue('password', 'string', 'post');
+$confirmPassword = requestValue('confirm_password', 'string', 'post');
 
 $redirect = BASE_URL . "pages/musician/profile/edit/index.php";
 $redirectSuccess = BASE_URL . "pages/musician/profile/index.php";
 
 validateRequiredFields([
-    'Identificador do músico' => $musicianId,
-    'Bairro' => $neighborhood,
+    'id' => $musicianId,
+    'neighborhood' => $neighborhood,
 ], $redirect);
 
 $isChangingPassword = !isEmptyRequiredValue($password) || !isEmptyRequiredValue($newPassword) || !isEmptyRequiredValue($confirmPassword);
@@ -34,17 +34,17 @@ $isChangingPassword = !isEmptyRequiredValue($password) || !isEmptyRequiredValue(
 /* Valida senha somente quando houver tentativa de alteração */
 if ($isChangingPassword) {
     validateRequiredFields([
-        'Senha atual' => $password,
-        'Nova senha' => $newPassword,
-        'Confirmação da nova senha' => $confirmPassword,
+        'actual_password' => $password,
+        'new_password' => $newPassword,
+        'confirm_password' => $confirmPassword,
     ], $redirect, 'Para alterar a senha, preencha todos os campos');
 
     if (!password_verify((string) $password, (string) $hashPassword)) {
-        redirectWithMessage('error', "Senha atual incorreta.", $redirect);
+        redirectWithMessage($redirect, 'error', "Senha atual incorreta.");
     }
 
     if ($newPassword !== $confirmPassword) {
-        redirectWithMessage('error', "As senhas não conferem.", $redirect);
+        redirectWithMessage($redirect, 'error', "As senhas não conferem.");
     }
 }
 
@@ -65,12 +65,12 @@ if ($musiciansDAO->editOwnProfile($musicianInfo)) {
 
         // Tenta atualizar a senha do usuário
         if (!$musiciansDAO->editPassword($musicianId, $newPassword)) {
-            redirectWithMessage('error', "Erro ao editar a senha. Tente novamente.", $redirect);
+            redirectWithMessage($redirect, 'error', "Erro ao editar a senha. Tente novamente.");
         }
 
     }
 
-    redirectWithMessage('success', "Músico editado com sucesso!", $redirectSuccess);
+    redirectWithMessage($redirectSuccess, 'success', "Músico editado com sucesso!");
 } else {
-    redirectWithMessage('error', "Erro ao editar o músico. Tente novamente.", $redirect);
+    redirectWithMessage($redirect, 'error', "Erro ao editar o músico. Tente novamente.");
 }

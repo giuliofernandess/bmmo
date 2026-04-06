@@ -15,17 +15,17 @@ session_start();
 
 // Bloqueia acesso direto via GET
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    redirectWithMessage('error', 'Método inválido.', BASE_URL . 'pages/login/admin/index.php');
+    redirectWithMessage(BASE_URL . 'pages/login/admin/index.php', 'error', 'Método inválido.');
 }
 
 // Captura os dados do formulário
-$login = postValue('user_login') ?? '';
-$password = postValue('user_password') ?? '';
+$login = requestValue('user_login', 'string', 'post') ?? '';
+$password = requestValue('user_password', 'string', 'post') ?? '';
 
-$type = postValue('type') ?? '';
+$type = requestValue('type', 'string', 'post') ?? '';
 
 if ($type !== 'admin' && $type !== 'musician') {
-    redirectWithMessage('error', 'Tipo de login inválido.', BASE_URL . 'pages/login/admin/index.php');
+    redirectWithMessage(BASE_URL . 'pages/login/admin/index.php', 'error', 'Tipo de login inválido.');
 }
 
 $redirect = $type === 'admin'
@@ -33,9 +33,9 @@ $redirect = $type === 'admin'
     : BASE_URL . 'pages/login/musician/index.php';
 
 validateRequiredFields([
-    'Login' => $login,
-    'Senha' => $password,
-    'Tipo de usuário' => $type,
+    'login' => $login,
+    'password' => $password,
+    'type' => $type,
 ], $redirect);
 
 if ($type === 'admin') {
@@ -49,8 +49,8 @@ if ($type === 'admin') {
 
 // Tenta autenticar via classe Auth
 if ($method) {
-    redirectWithMessage('success', 'Login efetuado com sucesso!', $redirectSuccess);
+    redirectWithMessage($redirectSuccess, 'success', 'Login efetuado com sucesso!');
 }
 
 // Login inválido → salva mensagem e volta para o form
-redirectWithMessage('error', 'Login ou senha inválidos.', $redirect);
+redirectWithMessage($redirect, 'error', 'Login ou senha inválidos.');

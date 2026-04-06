@@ -13,17 +13,17 @@ Auth::requireRegency();
 $redirect = BASE_URL . 'pages/admin/presentations/index.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    redirectWithMessage('error', 'Metodo inválido para exclusao!', $redirect);
+    redirectWithMessage($redirect, 'error', 'Metodo inválido para exclusao!');
 }
 
-$presentationId = (int) (postValue('presentation_id', 'int') ?? 0);
+$presentationId = (int) (requestValue('presentation_id', 'int', 'post') ?? 0);
 
 if ($presentationId <= 0) {
-    redirectWithMessage('error', 'Algo deu errado!', $redirect);
+    redirectWithMessage($redirect, 'error', 'Algo deu errado!');
 }
 
 if ($presentationsDAO->delete($presentationId)) {
-    redirectWithMessage('success', 'Apresentação excluída com sucesso!', $redirect);
+    redirectWithMessage($redirect, 'success', 'Apresentação excluída com sucesso!');
 } else {
-    redirectWithMessage('error', 'Erro ao excluir apresentação!', $redirect);
+    redirectWithMessage($redirect, 'error', 'Erro ao excluir apresentação!');
 }

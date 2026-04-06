@@ -10,10 +10,10 @@ $musiciansDAO = new MusiciansDAO($conn);
 Auth::requireRegency();
 
 $redirect = BASE_URL . "pages/admin/musicians/index.php";
-$musicianId = (int) (postValue('musician_id', 'int') ?? 0);
+$musicianId = (int) (requestValue('musician_id', 'int', 'post') ?? 0);
 
 if (!$musicianId) {
-	redirectWithMessage('error', 'Músico inválido.', $redirect);
+	redirectWithMessage($redirect, 'error', 'Músico inválido.');
 }
 
 $redirectError = BASE_URL . "pages/admin/musicians/musicianProfile/index.php" . "?musician_id=" . urlencode((string) $musicianId);
@@ -28,7 +28,7 @@ if ($deleteMusician) {
 		unlink(BASE_PATH . 'uploads/musicians-images/' . $currentImage);
 	}
 
-	redirectWithMessage('success', "Músico excluído com sucesso.", $redirect);
+	redirectWithMessage($redirect, 'success', "Músico excluído com sucesso.");
 } else {
-	redirectWithMessage('error', "Não foi possível deletar o músico.", $redirectError);
+	redirectWithMessage($redirectError, 'error', "Não foi possível deletar o músico.");
 }

@@ -12,39 +12,39 @@ $presentationsDAO = new PresentationsDAO($conn);
 
 Auth::requireRegency();
 
-$name = postValue('presentation_name');
-$date = postValue('presentation_date');
-$hour = postValue('presentation_hour');
-$local = postValue('presentation_location');
+$name = requestValue('presentation_name', 'string', 'post');
+$date = requestValue('presentation_date', 'string', 'post');
+$hour = requestValue('presentation_hour', 'string', 'post');
+$local = requestValue('presentation_location', 'string', 'post');
 
 $redirect = BASE_URL . 'pages/admin/presentations/index.php';
 
 validateRequiredFields([
-    'Nome' => $name,
-    'Data' => $date,
-    'Hora' => $hour,
-    'Local' => $local,
+    'name' => $name,
+    'date' => $date,
+    'hour' => $hour,
+    'location' => $local,
 ], $redirect);
 
 try {
     $inputDate = new DateTime($date);
     $today = new DateTime('today');
 } catch (Exception $e) {
-    redirectWithMessage('error', 'Data inválida!', $redirect);
+    redirectWithMessage($redirect, 'error', 'Data inválida!');
 }
 
 if ($inputDate < $today) {
-    redirectWithMessage('error', 'A data não pode ser menor que hoje!', $redirect);
+    redirectWithMessage($redirect, 'error', 'A data não pode ser menor que hoje!');
 }
 
 $bandGroups = postArray('groups');
 if (empty($bandGroups)) {
-    redirectWithMessage('error', 'Selecione o(s) grupo(s) da banda!', $redirect);
+    redirectWithMessage($redirect, 'error', 'Selecione o(s) grupo(s) da banda!');
 }
 
 $songs = postArray('songs');
 if (empty($songs)) {
-    redirectWithMessage('error', 'Selecione ao menos uma música!', $redirect);
+    redirectWithMessage($redirect, 'error', 'Selecione ao menos uma música!');
 }
 
 $presentationInfo = Presentation::fromArray([
@@ -57,7 +57,7 @@ $presentationInfo = Presentation::fromArray([
 ]);
 
 if ($presentationsDAO->create($presentationInfo)) {
-    redirectWithMessage('success', 'Apresentação inserida com sucesso!', $redirect);
+    redirectWithMessage($redirect, 'success', 'Apresentação inserida com sucesso!');
 } else {
-    redirectWithMessage('error', 'Erro ao inserir apresentação!', $redirect);
+    redirectWithMessage($redirect, 'error', 'Erro ao inserir apresentação!');
 }

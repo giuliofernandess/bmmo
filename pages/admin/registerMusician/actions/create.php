@@ -24,36 +24,36 @@ function isValidBirthDate(?string $age, ?string $responsibleName, ?string $respo
 }
 
 // Recebimento de variáveis pelo método POST
-$musicianName = postValue('musician_name');
-$login = postValue('musician_login');
+$musicianName = requestValue('musician_name', 'string', 'post');
+$login = requestValue('musician_login', 'string', 'post');
 
-$dateOfBirth = postValue('date_of_birth');
-$instrument = postValue('instrument', 'int');
-$bandGroup = postValue('band_group', 'int');
-$musicianContact = postValue('musician_contact');
-$responsibleName = postValue('responsible_name');
-$responsibleContact = postValue('responsible_contact');
-$neighborhood = postValue('neighborhood');
-$institution = postValue('institution');
-$password = postValue('password');
-$confirmPassword = postValue('confirm_password');
+$dateOfBirth = requestValue('date_of_birth', 'string', 'post');
+$instrument = requestValue('instrument', 'int', 'post');
+$bandGroup = requestValue('band_group', 'int', 'post');
+$musicianContact = requestValue('musician_contact', 'string', 'post');
+$responsibleName = requestValue('responsible_name', 'string', 'post');
+$responsibleContact = requestValue('responsible_contact', 'string', 'post');
+$neighborhood = requestValue('neighborhood', 'string', 'post');
+$institution = requestValue('institution', 'string', 'post');
+$password = requestValue('password', 'string', 'post');
+$confirmPassword = requestValue('confirm_password', 'string', 'post');
 
 $redirect = BASE_URL . 'pages/admin/registerMusician/index.php';
 
 validateRequiredFields([
-	'Nome' => $musicianName,
-	'Login' => $login,
-	'Data de nascimento' => $dateOfBirth,
-	'Instrumento' => $instrument,
-	'Grupo da banda' => $bandGroup,
-	'Bairro' => $neighborhood,
-	'Senha' => $password,
-	'Confirmação de senha' => $confirmPassword,
+	'name' => $musicianName,
+	'login' => $login,
+	'date_of_birth' => $dateOfBirth,
+	'instrument' => $instrument,
+	'band_group' => $bandGroup,
+	'neighborhood' => $neighborhood,
+	'password' => $password,
+	'confirm_password' => $confirmPassword,
 ], $redirect);
 
 $birth = DateTime::createFromFormat('Y-m-d', (string) $dateOfBirth);
 if ($birth === false) {
-	redirectWithMessage('error', 'Data de nascimento inválida.', $redirect);
+	redirectWithMessage($redirect, 'error', 'Data de nascimento inválida.');
 }
 
 $today = new DateTime();
@@ -68,17 +68,17 @@ if (isset($_FILES['file'])) {
 
 /* Valida senha */
 if ($password !== $confirmPassword) {
-	redirectWithMessage('error', "As senhas não conferem.", $redirect);
+	redirectWithMessage($redirect, 'error', "As senhas não conferem.");
 }
 
 /* Valida login */
 if ($musiciansDAO->verifyLogin($login)) {
-	redirectWithMessage('error', "Login já existe.", $redirect);
+	redirectWithMessage($redirect, 'error', "Login já existe.");
 }
 
 /* Valida datas */
 if (!isValidBirthDate($age, $responsibleName, $responsibleContact)) {
-	redirectWithMessage('error', "Data de nascimento inválida ou falta de informações do responsável.", $redirect);
+	redirectWithMessage($redirect, 'error', "Data de nascimento inválida ou falta de informações do responsável.");
 }
 
 
@@ -98,7 +98,7 @@ $musicianInfo = Musician::fromArray([
 ]);
 
 if ($musiciansDAO->create($musicianInfo)) {
-	redirectWithMessage('success', "Músico criado com sucesso!", $redirect);
+	redirectWithMessage($redirect, 'success', "Músico criado com sucesso!");
 } else {
-	redirectWithMessage('error', "Erro ao registrar o músico. Tente novamente.", $redirect);
+	redirectWithMessage($redirect, 'error', "Erro ao registrar o músico. Tente novamente.");
 }

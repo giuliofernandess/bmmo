@@ -7,9 +7,9 @@ require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $newsDAO = new NewsDAO($conn);
 
-$newsTitle = postValue('news_title');
-$newsSubtitle = postValue('news_subtitle');
-$newsDescription = postValue('news_description');
+$newsTitle = requestValue('news_title', 'string', 'post');
+$newsSubtitle = requestValue('news_subtitle', 'string', 'post');
+$newsDescription = requestValue('news_description', 'string', 'post');
 
 $redirect = BASE_URL . 'pages/admin/news/index.php';
 
@@ -18,9 +18,9 @@ $currentDate = date('Y-m-d');
 $currentHour = date('H:i:s');
 
 validateRequiredFields([
-    'Título' => $newsTitle,
-    'Subtítulo' => $newsSubtitle,
-    'Descrição' => $newsDescription,
+    'title' => $newsTitle,
+    'subtitle' => $newsSubtitle,
+    'description' => $newsDescription,
 ], $redirect);
 
 $imageFileName = null;
@@ -28,7 +28,7 @@ $imageFileName = null;
 $imageInput = $_FILES['news_image'] ?? $_FILES['file'] ?? null;
 
 if ($imageInput === null || ($imageInput['error'] ?? null) !== UPLOAD_ERR_OK) {
-    redirectWithMessage('error', 'A imagem é obrigatória para criar notícia.', $redirect);
+    redirectWithMessage($redirect, 'error', 'A imagem é obrigatória para criar notícia.');
 }
 
 $imageFileName = handleProfileImageUpload(
@@ -49,7 +49,7 @@ $newsInfo = News::fromArray([
 ]);
 
 if ($newsDAO->create($newsInfo)) {
-    redirectWithMessage('success', 'Notícia criada com sucesso!', $redirect);
+    redirectWithMessage($redirect, 'success', 'Notícia criada com sucesso!');
 } else {
-    redirectWithMessage('error', 'Erro ao criar a notícia. Tente novamente.', $redirect);
+    redirectWithMessage($redirect, 'error', 'Erro ao criar a notícia. Tente novamente.');
 }

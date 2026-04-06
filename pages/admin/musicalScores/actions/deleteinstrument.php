@@ -12,18 +12,18 @@ Auth::requireRegency();
 $redirect = BASE_URL . "pages/admin/musicalScores/index.php";
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-	redirectWithMessage('error', 'Metodo invalido para exclusao do arquivo.', $redirect);
+	redirectWithMessage($redirect, 'error', 'Metodo invalido para exclusao do arquivo.');
 }
 
-$musicId = postValue('music_id', 'int');
-$instrumentId = postValue('instrument_id', 'int');
-$voiceOffRaw = postValue('voice_off');
+$musicId = requestValue('music_id', 'int', 'post');
+$instrumentId = requestValue('instrument_id', 'int', 'post');
+$voiceOffRaw = requestValue('voice_off', 'string', 'post');
 $voiceOff = $voiceOffRaw !== null
 	? filter_var($voiceOffRaw, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)
 	: null;
 
 if (!$musicId || !$instrumentId) {
-	redirectWithMessage('error', 'Parâmetros inválidos para exclusão do arquivo.', $redirect);
+	redirectWithMessage($redirect, 'error', 'Parâmetros inválidos para exclusão do arquivo.');
 }
 
 $currentFile = $musicalScoresDAO->getFile($musicId, $instrumentId);
@@ -39,7 +39,7 @@ if ($musicalScoreInstrumentDelete) {
 		unlink(BASE_PATH . 'uploads/musical-scores/' . $currentFile);
 	}
 
-	redirectWithMessage('success', "Arquivo excluído com sucesso.", BASE_URL . "pages/admin/musicalScores/edit/index.php?musicId={$musicId}");
+	redirectWithMessage(BASE_URL . "pages/admin/musicalScores/edit/index.php?musicId={$musicId}", 'success', "Arquivo excluído com sucesso.");
 } else {
-	redirectWithMessage('error', "Não foi possível deletar o arquivo.", BASE_URL . "pages/admin/musicalScores/edit/index.php?musicId={$musicId}");
+	redirectWithMessage(BASE_URL . "pages/admin/musicalScores/edit/index.php?musicId={$musicId}", 'error', "Não foi possível deletar o arquivo.");
 }
