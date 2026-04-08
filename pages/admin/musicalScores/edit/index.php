@@ -133,11 +133,11 @@ foreach ($instruments as $instrument) {
       <div class="mb-4 col-12">
         <div class="d-flex align-items-center justify-content-between mb-3">
           <h3>Instrumentos sem Vozes</h3>
-          <i class="bi bi-plus-square-fill fs-3 text-primary cursor-pointer" id="form-toggle-icon"
+          <i class="bi bi-plus-square-fill fs-3 text-primary cursor-pointer" id="musical-score-voice-off-form-toggle-icon"
         title="Instrumentos sem Vozes"></i>
         </div>
 
-        <div class="table-responsive is-hidden" id="musical-score-form-container">
+        <div class="table-responsive is-hidden" id="musical-score-voice-off-form-container">
           <table class="table table-bordered table-hover align-middle shadow-sm">
 
             <thead class="table-primary text-center">
@@ -269,11 +269,11 @@ foreach ($instruments as $instrument) {
     document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.delete-instrument-file-button').forEach((button) => {
         button.addEventListener('click', () => {
-          const musicId = Number(button.dataset.musicId);
+          const musicalScoreId = Number(button.dataset.musicId);
           const instrumentId = Number(button.dataset.instrumentId);
           const voiceOff = button.dataset.voiceOff === '1';
 
-          deleteInstrumentFile(musicId, instrumentId, voiceOff);
+          deleteInstrumentFile(musicalScoreId, instrumentId, voiceOff);
         });
       });
 
@@ -302,25 +302,25 @@ foreach ($instruments as $instrument) {
       form.submit();
     }
 
-    function deleteInstrumentFile(musicId, instrumentId, voiceOff) {
+    function deleteInstrumentFile(musicalScoreId, instrumentId, voiceOff) {
       if (!confirmAction('Deseja excluir este arquivo?')) {
         return;
       }
 
       submitPost('<?= BASE_URL ?>pages/admin/musicalScores/actions/deleteinstrument.php', {
-        music_id: musicId,
+        musical_score_id: musicalScoreId,
         instrument_id: instrumentId,
         voice_off: voiceOff ? '1' : '0'
       });
     }
 
-    function deleteMusicalScore(musicId) {
+    function deleteMusicalScore(musicalScoreId) {
       if (!confirmAction('Deseja excluir esta partitura?')) {
         return;
       }
 
       submitPost('<?= BASE_URL ?>pages/admin/musicalScores/actions/delete.php', {
-        music_id: musicId
+        musical_score_id: musicalScoreId
       });
     }
   </script>

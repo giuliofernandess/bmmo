@@ -18,8 +18,8 @@ $institution = filter_input(INPUT_POST, 'institution');
 
 $storedPasswordHash = filter_input(INPUT_POST, 'password_hash');
 $currentPassword = filter_input(INPUT_POST, 'current_password');
-$newPassword = filter_input(INPUT_POST, 'password');
-$confirmPassword = filter_input(INPUT_POST, 'confirm_password');
+$newPassword = filter_input(INPUT_POST, 'new_password');
+$confirmNewPassword = filter_input(INPUT_POST, 'confirm_new_password');
 
 $redirect = BASE_URL . "pages/musician/profile/edit/index.php";
 $redirectSuccess = BASE_URL . "pages/musician/profile/index.php";
@@ -29,21 +29,21 @@ validateRequiredFields([
     'neighborhood' => $neighborhood,
 ], $redirect);
 
-$isChangingPassword = !isEmptyRequiredValue($currentPassword) || !isEmptyRequiredValue($newPassword) || !isEmptyRequiredValue($confirmPassword);
+$isChangingPassword = !isEmptyRequiredValue($currentPassword) || !isEmptyRequiredValue($newPassword) || !isEmptyRequiredValue($confirmNewPassword);
 
 /* Valida senha somente quando houver tentativa de alteração */
 if ($isChangingPassword) {
     validateRequiredFields([
         'current_password' => $currentPassword,
         'new_password' => $newPassword,
-        'confirm_password' => $confirmPassword,
+        'confirm_new_password' => $confirmNewPassword,
     ], $redirect, 'Para alterar a senha, preencha todos os campos');
 
     if (!password_verify((string) $currentPassword, (string) $storedPasswordHash)) {
         redirectWithMessage($redirect, 'error', "Senha atual incorreta.");
     }
 
-    if ($newPassword !== $confirmPassword) {
+    if ($newPassword !== $confirmNewPassword) {
         redirectWithMessage($redirect, 'error', "As senhas não conferem.");
     }
 }

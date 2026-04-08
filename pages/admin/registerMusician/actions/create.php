@@ -35,20 +35,20 @@ $responsibleName = filter_input(INPUT_POST, 'responsible_name');
 $responsibleContact = filter_input(INPUT_POST, 'responsible_contact');
 $neighborhood = filter_input(INPUT_POST, 'neighborhood');
 $institution = filter_input(INPUT_POST, 'institution');
-$newPassword = filter_input(INPUT_POST, 'password');
-$confirmPassword = filter_input(INPUT_POST, 'confirm_password');
+$newPassword = filter_input(INPUT_POST, 'new_password');
+$confirmNewPassword = filter_input(INPUT_POST, 'confirm_new_password');
 
 $redirect = BASE_URL . 'pages/admin/registerMusician/index.php';
 
 validateRequiredFields([
-	'name' => $musicianName,
-	'login' => $login,
-	'date_of_birth' => $dateOfBirth,
+	'musician_name' => $musicianName,
+	'musician_login' => $login,
+	'musician_date_of_birth' => $dateOfBirth,
 	'musician_instrument' => $instrument,
 	'band_group' => $bandGroup,
-	'neighborhood' => $neighborhood,
-	'password' => $newPassword,
-	'confirm_password' => $confirmPassword,
+	'musician_neighborhood' => $neighborhood,
+	'new_password' => $newPassword,
+	'confirm_new_password' => $confirmNewPassword,
 ], $redirect);
 
 $birth = DateTime::createFromFormat('Y-m-d', (string) $dateOfBirth);
@@ -67,7 +67,7 @@ if (isset($_FILES['file'])) {
 }
 
 /* Valida senha */
-if ($newPassword !== $confirmPassword) {
+if ($newPassword !== $confirmNewPassword) {
 	redirectWithMessage($redirect, 'error', "As senhas não conferem.");
 }
 

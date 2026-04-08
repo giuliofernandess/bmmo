@@ -195,14 +195,14 @@ $groupsList = $bandGroupsDAO->getAll();
 
         <!-- Senhas -->
         <div class="col-md-6">
-          <label for="password" class="form-label ps-2">Senha</label>
-          <input type="password" name="password" id="password" placeholder="Digite a nova senha" minlength="8"
+          <label for="new-password" class="form-label ps-2">Senha</label>
+          <input type="password" name="new_password" id="new-password" placeholder="Digite a nova senha" minlength="8"
             maxlength="20" class="form-control" />
         </div>
         <div class="col-md-6">
-          <label for="confirm-password" class="form-label ps-2">Confirmar Senha</label>
+          <label for="confirm-new-password" class="form-label ps-2">Confirmar Senha</label>
           <div>
-            <input type="password" name="confirm_password" id="confirm-password" placeholder="Confirme a nova senha"
+            <input type="password" name="confirm_new_password" id="confirm-new-password" placeholder="Confirme a nova senha"
               class="form-control" minlength="8" maxlength="20" />
           </div>
         </div>

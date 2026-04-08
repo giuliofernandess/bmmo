@@ -7,7 +7,7 @@ require_once BASE_PATH . 'helpers/requestHelpers.php';
 $newsDAO = new NewsDAO($conn);
 
 // Captura o ID da notícia via GET
-$newsId = filter_input(INPUT_GET, 'newsId');
+$newsId = filter_input(INPUT_GET, 'news_id');
 
 if ($newsId === null || $newsId <= 0) {
     die("ID da notícia não fornecido.");
@@ -70,7 +70,7 @@ $otherNews = $newsDAO->getLatestExcept($newsId, 2);
               $asidePublicationDate = $asidePublicationDateRaw !== '' ? date('d/m/Y', strtotime($asidePublicationDateRaw)) : '';
             ?>
                 <!-- Card de notícia da sidebar -->
-                <a href='<?= BASE_URL ?>pages/information/news/expanded.php?newsId=<?= $asideNewsId ?>' class='mb-3 text-decoration-none text-dark d-block'>
+                <a href='<?= BASE_URL ?>pages/information/news/expanded.php?news_id=<?= $asideNewsId ?>' class='mb-3 text-decoration-none text-dark d-block'>
                   <div class='card aside-card rounded shadow-sm h-100'>
                     <div class='row g-0'>
                       <div class='col-4 news-aside-image' style='background-image: url("<?= BASE_URL ?>uploads/news-images/<?= $asideNewsImage ?>"); background-size: cover; background-position: top center;'></div>

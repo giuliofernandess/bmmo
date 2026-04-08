@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 	redirectWithMessage($redirect, 'error', 'Metodo invalido para exclusao do arquivo.');
 }
 
-$musicId = filter_input(INPUT_POST, 'music_id');
+$musicId = filter_input(INPUT_POST, 'musical_score_id');
 $instrumentId = filter_input(INPUT_POST, 'instrument_id');
 $voiceOffRaw = filter_input(INPUT_POST, 'voice_off');
 $voiceOff = $voiceOffRaw !== null

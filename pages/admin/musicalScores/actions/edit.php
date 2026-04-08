@@ -33,10 +33,10 @@ $musicGroups = postArray('musical_score_groups');
 $redirectSuccess = BASE_URL . "pages/admin/musicalScores/edit/index.php?" . "musical_score_id=" . urlencode($musicId);
 
 validateRequiredFields([
-	'id' => $musicId,
-	'name' => $musicName,
-	'genre' => $musicGenre,
-	'groups' => $musicGroups
+	'musical_score_id' => $musicId,
+	'musical_score_name' => $musicName,
+	'musical_score_genre' => $musicGenre,
+	'musical_score_groups' => $musicGroups
 ], $redirectSuccess);
 
 // Validação de instrumentos sem vozes

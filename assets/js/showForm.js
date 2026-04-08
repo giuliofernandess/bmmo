@@ -1,6 +1,8 @@
 function showForm() {
-  const formCard = document.querySelector("#musical-score-form-container");
-  const icon = document.querySelector("#form-toggle-icon");
+  const formCard = document.querySelector("#musical-score-create-form-container")
+    || document.querySelector("#musical-score-voice-off-form-container");
+  const icon = document.querySelector("#musical-score-create-form-toggle-icon")
+    || document.querySelector("#musical-score-voice-off-form-toggle-icon");
 
   if (!formCard || !icon) {
     return;
@@ -17,7 +19,8 @@ function showForm() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const toggleIcon = document.querySelector('#form-toggle-icon');
+  const toggleIcon = document.querySelector('#musical-score-create-form-toggle-icon')
+    || document.querySelector('#musical-score-voice-off-form-toggle-icon');
 
   if (toggleIcon) {
     toggleIcon.addEventListener('click', showForm);

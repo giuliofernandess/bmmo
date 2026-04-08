@@ -1,5 +1,5 @@
 function showPassword() {
-    let inputPass = document.querySelector('#user-password') || document.querySelector('#password');
+    let inputPass = document.querySelector('#user-password') || document.querySelector('#new-password') || document.querySelector('#password');
     let btnShowPass = document.querySelector('#password-toggle-button') || document.querySelector('#password-btn');
 
     if (!inputPass || !btnShowPass) {

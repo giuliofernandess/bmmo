@@ -20,18 +20,18 @@ $responsibleName = filter_input(INPUT_POST, 'responsible_name');
 $responsibleContact = filter_input(INPUT_POST, 'responsible_contact');
 $neighborhood = filter_input(INPUT_POST, 'neighborhood');
 $institution = filter_input(INPUT_POST, 'institution');
-$newPassword = filter_input(INPUT_POST, 'password');
-$confirmPassword = filter_input(INPUT_POST, 'confirm_password');
+$newPassword = filter_input(INPUT_POST, 'new_password');
+$confirmNewPassword = filter_input(INPUT_POST, 'confirm_new_password');
 
 $redirect = BASE_URL . 'pages/admin/musicians/index.php';
 $redirectSuccess = BASE_URL . 'pages/admin/musicians/musicianProfile/index.php' . "?musician_id=" . urlencode($musicianId);
 
 validateRequiredFields([
-	'id' => $musicianId,
-	'login' => $musicianLogin,
+	'musician_id' => $musicianId,
+	'musician_login' => $musicianLogin,
 	'musician_instrument' => $instrument,
 	'band_group' => $bandGroup,
-	'neighborhood' => $neighborhood
+	'musician_neighborhood' => $neighborhood
 ], $redirect);
 
 //Validação de imagem
@@ -39,7 +39,7 @@ $currentImage = $musiciansDAO->getProfileImage($musicianId);
 $imageFileName = handleProfileImageUpload($_FILES['file'] ?? [], $redirect, $currentImage);
 
 /* Valida senha */
-if ($newPassword !== $confirmPassword) {
+if ($newPassword !== $confirmNewPassword) {
 	redirectWithMessage($redirect, 'error', "As senhas não conferem.");
 }
 
@@ -59,7 +59,7 @@ $musicianInfo = Musician::fromArray([
 $musiciansDAO = new MusiciansDAO($conn);
 if ($musiciansDAO->edit($musicianInfo)) {
 
-	if ($newPassword !== null && $confirmPassword !== null) {
+	if ($newPassword !== null && $confirmNewPassword !== null) {
 
         // Tenta atualizar a senha do usuário
 

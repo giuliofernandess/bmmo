@@ -41,7 +41,7 @@ $presentationsList = $presentationsDAO->getAll();
     <main class="p-5">
         <div class="d-flex align-items-center justify-content-between mb-4">
             <h1 class="mb-0">Proximas apresentações</h1>
-            <i class="bi bi-plus-square-fill fs-3 text-primary cursor-pointer" id="form-toggle-icon"
+            <i class="bi bi-plus-square-fill fs-3 text-primary cursor-pointer" id="presentation-form-toggle-icon"
                 title="Criar apresentacao"></i>
         </div>
 

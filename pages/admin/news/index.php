@@ -34,7 +34,7 @@ $newsList = $newsDAO->getAll();
 
     <div class="d-flex align-items-center justify-content-between mb-4">
       <h1 class="mb-0">Notícias</h1>
-      <i id="form-toggle-icon" class="bi bi-plus-square-fill fs-3 text-primary cursor-pointer" title="Criar Notícia"></i>
+      <i id="news-form-toggle-icon" class="bi bi-plus-square-fill fs-3 text-primary cursor-pointer" title="Criar Notícia"></i>
     </div>
 
     <div class="bg-white p-4 rounded shadow-sm mb-4 is-hidden" id="news-form-container">

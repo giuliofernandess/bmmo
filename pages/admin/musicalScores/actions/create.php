@@ -18,9 +18,9 @@ $musicGenre = filter_input(INPUT_POST, 'musical_score_genre');
 $musicGroups = postArray('musical_score_groups');
 
 validateRequiredFields([
-	'name' => $musicName,
-	'genre' => $musicGenre,
-	'groups' => $musicGroups
+	'musical_score_name' => $musicName,
+	'musical_score_genre' => $musicGenre,
+	'musical_score_groups' => $musicGroups
 ], $redirect);
 
 $musicalScore = MusicalScore::fromArray([

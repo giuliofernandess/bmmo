@@ -20,10 +20,10 @@ $presentationLocation = filter_input(INPUT_POST, 'presentation_location');
 $redirect = BASE_URL . 'pages/admin/presentations/index.php';
 
 validateRequiredFields([
-    'name' => $presentationName,
-    'date' => $presentationDate,
-    'hour' => $presentationHour,
-    'location' => $presentationLocation,
+    'presentation_name' => $presentationName,
+    'presentation_date' => $presentationDate,
+    'presentation_hour' => $presentationHour,
+    'presentation_location' => $presentationLocation,
 ], $redirect);
 
 try {

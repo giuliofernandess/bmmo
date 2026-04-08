@@ -54,12 +54,12 @@ $musicsList = $musicalScoresDAO->getAll([
     <!-- Título -->
     <div class="d-flex align-items-center justify-content-between mb-4">
       <h1 class="mb-0">Lista de partituras</h1>
-      <i class="bi bi-plus-square-fill fs-3 text-primary cursor-pointer" id="form-toggle-icon"
+      <i class="bi bi-plus-square-fill fs-3 text-primary cursor-pointer" id="musical-score-create-form-toggle-icon"
         title="Adicionar Partitura"></i>
     </div>
 
     <!-- Formulário de adição de partitura-->
-    <div class="bg-white p-4 rounded shadow-sm mb-4 is-hidden" id="musical-score-form-container">
+    <div class="bg-white p-4 rounded shadow-sm mb-4 is-hidden" id="musical-score-create-form-container">
       <h4 class="mb-3">Adicionar Partitura</h4>
 
       <form id="musical-score-form-element" action="<?= BASE_URL ?>pages/admin/musicalScores/actions/create.php" method="post">

@@ -5,7 +5,7 @@ const selectedSongsContainer = document.querySelector(".selected-songs");
 const formCard = document.querySelector("#presentation-form");
 
 function showForm() {
-  const icon = document.querySelector("#form-toggle-icon");
+  const icon = document.querySelector("#presentation-form-toggle-icon");
   const isOpen = formCard.classList.contains("is-open");
 
   if (!isOpen) {
@@ -20,7 +20,7 @@ function showForm() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const toggleIcon = document.querySelector('#form-toggle-icon');
+  const toggleIcon = document.querySelector('#presentation-form-toggle-icon');
   const addSongButton = document.querySelector('#presentation-add-song-button');
 
   if (toggleIcon) {

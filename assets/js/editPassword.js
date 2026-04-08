@@ -1,6 +1,6 @@
 function showForm() {  
   const formCard = document.querySelector("#edit-password-form-container");
-  const icon = document.querySelector("#form-toggle-icon");
+  const icon = document.querySelector("#profile-password-form-toggle-icon");
 
   if (!formCard || !icon) {
     return;
@@ -17,7 +17,7 @@ function showForm() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const toggleIcon = document.querySelector('#form-toggle-icon');
+  const toggleIcon = document.querySelector('#profile-password-form-toggle-icon');
 
   if (toggleIcon) {
     toggleIcon.addEventListener('click', showForm);

@@ -56,7 +56,7 @@ $newsList = $newsDAO->getAll();
 
                 <!-- Card da notícia -->
                 <div class='col-md-6 col-lg-4'>
-                  <a href='<?= BASE_URL ?>pages/information/news/expanded.php?newsId=<?= htmlspecialchars($newsId) ?>' class='text-decoration-none text-dark'>
+                  <a href='<?= BASE_URL ?>pages/information/news/expanded.php?news_id=<?= htmlspecialchars($newsId) ?>' class='text-decoration-none text-dark'>
                     <div class='card news-card rounded shadow-sm h-100'>
                       <div class='card-img-top rounded-top news-image' style='background-image: url("<?= BASE_URL ?>uploads/news-images/<?= htmlspecialchars($newsImage) ?>"); background-size: cover; background-position: top center; height: 200px;'></div>
                       <div class='card-body'>

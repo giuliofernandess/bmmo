@@ -16,11 +16,11 @@ $presentationHour = filter_input(INPUT_POST, 'presentation_hour');
 $presentationLocation = filter_input(INPUT_POST, 'presentation_location');
 
 validateRequiredFields([
-    'Identificador da apresentação' => $presentationId,
-    'name' => $presentationName,
-    'date' => $presentationDate,
-    'hour' => $presentationHour,
-    'location' => $presentationLocation,
+    'presentation_id' => $presentationId,
+    'presentation_name' => $presentationName,
+    'presentation_date' => $presentationDate,
+    'presentation_hour' => $presentationHour,
+    'presentation_location' => $presentationLocation,
 ], $redirect);
 
 try {
