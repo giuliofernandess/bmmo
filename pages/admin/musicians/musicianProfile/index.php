@@ -19,20 +19,20 @@ if (!$musicianId) {
   redirectWithMessage(BASE_URL . "pages/admin/musicians/index.php");
 }
 
-$res = $musiciansDAO->getById($musicianId);
+$musician = $musiciansDAO->getById($musicianId);
 
-if (!$res) {
+if (!$musician) {
   echo "<div class='alert alert-warning m-4'>Músico não encontrado.</div>";
   exit;
 }
 
 
 //Recebimento de variáveis
-$musicianName = trim($res->getMusicianName()) ?: null;
+$musicianName = trim($musician->getMusicianName()) ?: null;
 
 $instrumentName = null;
 foreach ($instrumentsDAO->getAll() as $instrumentItem) {
-  if (($instrumentItem->getInstrumentId() ?? 0) === $res->getInstrument()) {
+  if (($instrumentItem->getInstrumentId() ?? 0) === $musician->getInstrument()) {
     $instrumentName = trim($instrumentItem->getInstrumentName()) ?: null;
     break;
   }
@@ -40,14 +40,14 @@ foreach ($instrumentsDAO->getAll() as $instrumentItem) {
 
 $groupName = null;
 foreach ($bandGroupsDAO->getAll() as $group) {
-  if (($group->getGroupId() ?? 0) === $res->getBandGroup()) {
+  if (($group->getGroupId() ?? 0) === $musician->getBandGroup()) {
     $groupName = trim($group->getGroupName()) ?: null;
     break;
   }
 }
 
 //Tratamento de data
-$dateOfBirthRaw = trim($res->getDateOfBirth()) ?: null;
+$dateOfBirthRaw = trim($musician->getDateOfBirth()) ?: null;
 $dateOfBirth = htmlspecialchars((string) $dateOfBirthRaw);
 try {
   $date = new DateTime((string) $dateOfBirthRaw);
@@ -56,12 +56,12 @@ try {
   // Keep raw date string to avoid fatal error if database value is invalid.
 }
 
-$musicianContact = trim((string) ($res->getMusicianContact() ?? '')) ?: null;
-$neighborhood = trim($res->getNeighborhood()) ?: null;
-$institution = trim((string) ($res->getInstitution() ?? '')) ?: null;
-$responsibleName = trim((string) ($res->getResponsibleName() ?? '')) ?: null;
-$responsibleContact = trim((string) ($res->getResponsibleContact() ?? '')) ?: null;
-$profileImage = trim((string) ($res->getProfileImage() ?? '')) ?: null;
+$musicianContact = trim((string) ($musician->getMusicianContact() ?? '')) ?: null;
+$neighborhood = trim($musician->getNeighborhood()) ?: null;
+$institution = trim((string) ($musician->getInstitution() ?? '')) ?: null;
+$responsibleName = trim((string) ($musician->getResponsibleName() ?? '')) ?: null;
+$responsibleContact = trim((string) ($musician->getResponsibleContact() ?? '')) ?: null;
+$profileImage = trim((string) ($musician->getProfileImage() ?? '')) ?: null;
 
 
 // Tratamento de possível NULL

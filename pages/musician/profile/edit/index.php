@@ -112,11 +112,11 @@ require_once BASE_PATH ."helpers/getMusicianInfo.php";
         <!-- Senhas -->
         <div class="is-hidden" id="edit-password-form-container">
 
-          <input type="hidden" name="hash_password" value="<?= $password ?>">
+          <input type="hidden" name="password_hash" value="<?= $passwordHash ?>">
 
           <div class="col-md-12 mb-3">
-            <label for="actual-password" class="form-label ps-2">Senha atual</label>
-            <input type="password" name="actual_password" id="actual-password" placeholder="Digite a senha atual" minlength="8"
+            <label for="current-password" class="form-label ps-2">Senha atual</label>
+            <input type="password" name="current_password" id="current-password" placeholder="Digite a senha atual" minlength="8"
               maxlength="20" class="form-control" />
           </div>
           <div class="col-md-12 mb-3">

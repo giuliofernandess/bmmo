@@ -35,7 +35,7 @@ $responsibleName = filter_input(INPUT_POST, 'responsible_name');
 $responsibleContact = filter_input(INPUT_POST, 'responsible_contact');
 $neighborhood = filter_input(INPUT_POST, 'neighborhood');
 $institution = filter_input(INPUT_POST, 'institution');
-$password = filter_input(INPUT_POST, 'password');
+$newPassword = filter_input(INPUT_POST, 'password');
 $confirmPassword = filter_input(INPUT_POST, 'confirm_password');
 
 $redirect = BASE_URL . 'pages/admin/registerMusician/index.php';
@@ -47,7 +47,7 @@ validateRequiredFields([
 	'instrument' => $instrument,
 	'band_group' => $bandGroup,
 	'neighborhood' => $neighborhood,
-	'password' => $password,
+	'password' => $newPassword,
 	'confirm_password' => $confirmPassword,
 ], $redirect);
 
@@ -67,7 +67,7 @@ if (isset($_FILES['file'])) {
 }
 
 /* Valida senha */
-if ($password !== $confirmPassword) {
+if ($newPassword !== $confirmPassword) {
 	redirectWithMessage($redirect, 'error', "As senhas não conferem.");
 }
 
@@ -94,7 +94,7 @@ $musicianInfo = Musician::fromArray([
 	'neighborhood' => (string) $neighborhood,
 	'institution' => $institution,
 	'profile_image' => $imageFileName,
-	'password' => (string) $password,
+	'password' => (string) $newPassword,
 ]);
 
 if ($musiciansDAO->create($musicianInfo)) {

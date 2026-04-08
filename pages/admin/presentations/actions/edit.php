@@ -7,24 +7,24 @@ require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $presentationsDAO = new PresentationsDAO($conn);
 
-$id = filter_input(INPUT_POST, 'presentation_id');
+$presentationId = filter_input(INPUT_POST, 'presentation_id');
 $redirect = BASE_URL . 'pages/admin/presentations/index.php';
 
-$name = filter_input(INPUT_POST, 'presentation_name');
-$date = filter_input(INPUT_POST, 'presentation_date');
-$hour = filter_input(INPUT_POST, 'presentation_hour');
-$local = filter_input(INPUT_POST, 'presentation_location');
+$presentationName = filter_input(INPUT_POST, 'presentation_name');
+$presentationDate = filter_input(INPUT_POST, 'presentation_date');
+$presentationHour = filter_input(INPUT_POST, 'presentation_hour');
+$presentationLocation = filter_input(INPUT_POST, 'presentation_location');
 
 validateRequiredFields([
-    'Identificador da apresentação' => $id,
-    'name' => $name,
-    'date' => $date,
-    'hour' => $hour,
-    'location' => $local,
+    'Identificador da apresentação' => $presentationId,
+    'name' => $presentationName,
+    'date' => $presentationDate,
+    'hour' => $presentationHour,
+    'location' => $presentationLocation,
 ], $redirect);
 
 try {
-    $inputDate = new DateTime($date);
+    $inputDate = new DateTime($presentationDate);
     $today = new DateTime('today');
 } catch (Exception $e) {
     redirectWithMessage($redirect, 'error', 'Data inválida!');
@@ -45,11 +45,11 @@ if (empty($songs)) {
 }
 
 $presentationInfo = Presentation::fromArray([
-    'presentation_id' => $id,
-    'presentation_name' => $name,
-    'presentation_date' => $date,
-    'presentation_hour' => $hour,
-    'local_of_presentation' => $local,
+    'presentation_id' => $presentationId,
+    'presentation_name' => $presentationName,
+    'presentation_date' => $presentationDate,
+    'presentation_hour' => $presentationHour,
+    'local_of_presentation' => $presentationLocation,
     'groups' => $bandGroups,
     'songs' => $songs,
 ]);

@@ -24,16 +24,16 @@ if (!$musicId) {
   redirectWithMessage(BASE_URL . "pages/admin/musicalScores/index.php");
 }
 
-$musicalScores = $musicalScoresDAO->getById($musicId);
+$musicalScore = $musicalScoresDAO->getById($musicId);
 
-if (!$musicalScores) {
+if (!$musicalScore) {
   echo "<div class='alert alert-warning m-4'>Partitura não encontrada.</div>";
   exit;
 }
 
 // Recebimento de variáveis
-$music_name = trim($musicalScores->getMusicName());
-$music_genre = trim($musicalScores->getMusicGenre());
+$musicName = trim($musicalScore->getMusicName());
+$musicGenre = trim($musicalScore->getMusicGenre());
 
 $groupCheckedMap = [];
 foreach ($groups as $group) {
@@ -105,14 +105,14 @@ foreach ($instruments as $instrument) {
       <!-- Nome -->
       <div class="col-12 col-md-6 mb-3">
         <label for="musical-score-name" class="form-label fw-semibold">Nome *</label>
-        <input type="text" name="musical_score_name" id="musical-score-name" class="form-control" value="<?= $music_name ?> " required>
+        <input type="text" name="musical_score_name" id="musical-score-name" class="form-control" value="<?= $musicName ?> " required>
       </div>
 
       <!-- Gênero -->
       <div class="col-12 col-md-6 mb-3">
         <label for="musical-score-genre" class="form-label fw-semibold">Gênero *</label>
         <select name="musical_score_genre" id="musical-score-genre" class="form-select" required>
-          <option value="<?= $music_genre ?>"><?= $music_genre ?></option>
+          <option value="<?= $musicGenre ?>"><?= $musicGenre ?></option>
           <?php require_once BASE_PATH . "includes/optionsMusicalGenre.php"; ?>
         </select>
       </div>

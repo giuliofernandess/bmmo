@@ -16,8 +16,8 @@ $responsibleContact = filter_input(INPUT_POST, 'responsible_contact');
 $neighborhood = filter_input(INPUT_POST, 'neighborhood');
 $institution = filter_input(INPUT_POST, 'institution');
 
-$hashPassword = filter_input(INPUT_POST, 'hash_password');
-$password = filter_input(INPUT_POST, 'actual_password');
+$storedPasswordHash = filter_input(INPUT_POST, 'password_hash');
+$currentPassword = filter_input(INPUT_POST, 'current_password');
 $newPassword = filter_input(INPUT_POST, 'password');
 $confirmPassword = filter_input(INPUT_POST, 'confirm_password');
 
@@ -29,17 +29,17 @@ validateRequiredFields([
     'neighborhood' => $neighborhood,
 ], $redirect);
 
-$isChangingPassword = !isEmptyRequiredValue($password) || !isEmptyRequiredValue($newPassword) || !isEmptyRequiredValue($confirmPassword);
+$isChangingPassword = !isEmptyRequiredValue($currentPassword) || !isEmptyRequiredValue($newPassword) || !isEmptyRequiredValue($confirmPassword);
 
 /* Valida senha somente quando houver tentativa de alteração */
 if ($isChangingPassword) {
     validateRequiredFields([
-        'actual_password' => $password,
+        'current_password' => $currentPassword,
         'new_password' => $newPassword,
         'confirm_password' => $confirmPassword,
     ], $redirect, 'Para alterar a senha, preencha todos os campos');
 
-    if (!password_verify((string) $password, (string) $hashPassword)) {
+    if (!password_verify((string) $currentPassword, (string) $storedPasswordHash)) {
         redirectWithMessage($redirect, 'error', "Senha atual incorreta.");
     }
 
