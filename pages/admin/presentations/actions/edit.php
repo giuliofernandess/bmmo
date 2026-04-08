@@ -7,13 +7,13 @@ require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $presentationsDAO = new PresentationsDAO($conn);
 
-$id = (int) (requestValue('presentation_id', 'int', 'post') ?? 0);
+$id = filter_input(INPUT_POST, 'presentation_id');
 $redirect = BASE_URL . 'pages/admin/presentations/index.php';
 
-$name = requestValue('presentation_name', 'string', 'post');
-$date = requestValue('presentation_date', 'string', 'post');
-$hour = requestValue('presentation_hour', 'string', 'post');
-$local = requestValue('presentation_location', 'string', 'post');
+$name = filter_input(INPUT_POST, 'presentation_name');
+$date = filter_input(INPUT_POST, 'presentation_date');
+$hour = filter_input(INPUT_POST, 'presentation_hour');
+$local = filter_input(INPUT_POST, 'presentation_location');
 
 validateRequiredFields([
     'Identificador da apresentação' => $id,

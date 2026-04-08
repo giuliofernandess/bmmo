@@ -19,10 +19,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // Captura os dados do formulário
-$login = requestValue('user_login', 'string', 'post') ?? '';
-$password = requestValue('user_password', 'string', 'post') ?? '';
+$login = filter_input(INPUT_POST, 'user_login');
+$password = filter_input(INPUT_POST, 'user_password');
 
-$type = requestValue('type', 'string', 'post') ?? '';
+$type = filter_input(INPUT_POST, 'type');
 
 if ($type !== 'admin' && $type !== 'musician') {
     redirectWithMessage(BASE_URL . 'pages/login/admin/index.php', 'error', 'Tipo de login inválido.');

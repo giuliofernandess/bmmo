@@ -11,17 +11,17 @@ $musiciansDAO = new MusiciansDAO($conn);
 Auth::requireRegency();
 
 // Recebimento de variáveis pelo método POST
-$musicianId = requestValue('musician_id', 'string', 'post');
-$musicianLogin = requestValue('musician_login', 'string', 'post');
-$instrument = requestValue('instrument', 'int', 'post');
-$bandGroup = requestValue('band_group', 'int', 'post');
-$musicianContact = requestValue('musician_contact', 'string', 'post');
-$responsibleName = requestValue('responsible_name', 'string', 'post');
-$responsibleContact = requestValue('responsible_contact', 'string', 'post');
-$neighborhood = requestValue('neighborhood', 'string', 'post');
-$institution = requestValue('institution', 'string', 'post');
-$password = requestValue('password', 'string', 'post');
-$confirmPassword = requestValue('confirm_password', 'string', 'post');
+$musicianId = filter_input(INPUT_POST, 'musician_id');
+$musicianLogin = filter_input(INPUT_POST, 'musician_login');
+$instrument = filter_input(INPUT_POST, 'instrument');
+$bandGroup = filter_input(INPUT_POST, 'band_group');
+$musicianContact = filter_input(INPUT_POST, 'musician_contact');
+$responsibleName = filter_input(INPUT_POST, 'responsible_name');
+$responsibleContact = filter_input(INPUT_POST, 'responsible_contact');
+$neighborhood = filter_input(INPUT_POST, 'neighborhood');
+$institution = filter_input(INPUT_POST, 'institution');
+$password = filter_input(INPUT_POST, 'password');
+$confirmPassword = filter_input(INPUT_POST, 'confirm_password');
 
 $redirect = BASE_URL . 'pages/admin/musicians/index.php';
 $redirectSuccess = BASE_URL . 'pages/admin/musicians/musicianProfile/index.php' . "?musician_id=" . urlencode($musicianId);

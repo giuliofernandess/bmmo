@@ -1,20 +1,5 @@
 <?php
 
-if (!function_exists('requestValue')) {
-	function requestValue(string $key, string $type = 'string', string $method = 'post')
-	{
-		$source = strtolower($method) === 'get' ? $_GET : $_POST;
-
-		if (!isset($source[$key]) || $source[$key] === '') {
-			return null;
-		}
-
-		return $type === 'int'
-			? (int) $source[$key]
-			: trim((string) $source[$key]);
-	}
-}
-
 if (!function_exists('postArray')) {
 	function postArray(string $key): array
 	{

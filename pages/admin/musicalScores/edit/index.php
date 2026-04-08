@@ -18,7 +18,7 @@ $instruments = $instrumentsDAO->getAll(false, true);
 $instrumentsVoiceOff = $instrumentsDAO->getAll(true);
 
 // Verifica se recebeu o id do músico
-$musicId = requestValue('musicId', 'int', 'get');
+$musicId = filter_input(INPUT_GET, 'musicId');
 
 if (!$musicId) {
   redirectWithMessage(BASE_URL . "pages/admin/musicalScores/index.php");

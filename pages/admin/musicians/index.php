@@ -30,9 +30,9 @@ foreach ($instrumentsList as $instrument) {
   $instrumentMap[(int) ($instrument->getInstrumentId() ?? 0)] = (string) ($instrument->getInstrumentName() ?? '');
 }
 
-$filterName = requestValue('name', 'string', 'get') ?? '';
-$filterGroup = requestValue('group', 'int', 'get') ?? 0;
-$filterInstrument = requestValue('instrument', 'int', 'get') ?? 0;
+$filterName = filter_input(INPUT_GET, 'name');
+$filterGroup = filter_input(INPUT_GET, 'group') ?? 0;
+$filterInstrument = filter_input(INPUT_GET, 'instrument') ?? 0;
 
 $musiciansList = $musiciansDAO->getAll([
     'musician_name' => $filterName,

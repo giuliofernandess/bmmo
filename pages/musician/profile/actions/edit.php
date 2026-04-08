@@ -9,17 +9,17 @@ require_once BASE_PATH . 'app/Models/Musician.php';
 require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 // Recebimento de variáveis pelo método POST
-$musicianId = requestValue('musician_id', 'string', 'post');
-$musicianContact = requestValue('musician_contact', 'string', 'post');
-$responsibleName = requestValue('responsible_name', 'string', 'post');
-$responsibleContact = requestValue('responsible_contact', 'string', 'post');
-$neighborhood = requestValue('neighborhood', 'string', 'post');
-$institution = requestValue('institution', 'string', 'post');
+$musicianId = filter_input(INPUT_POST, 'musician_id');
+$musicianContact = filter_input(INPUT_POST, 'musician_contact');
+$responsibleName = filter_input(INPUT_POST, 'responsible_name');
+$responsibleContact = filter_input(INPUT_POST, 'responsible_contact');
+$neighborhood = filter_input(INPUT_POST, 'neighborhood');
+$institution = filter_input(INPUT_POST, 'institution');
 
-$hashPassword = requestValue('hash_password', 'string', 'post');
-$password = requestValue('actual_password', 'string', 'post');
-$newPassword = requestValue('password', 'string', 'post');
-$confirmPassword = requestValue('confirm_password', 'string', 'post');
+$hashPassword = filter_input(INPUT_POST, 'hash_password');
+$password = filter_input(INPUT_POST, 'actual_password');
+$newPassword = filter_input(INPUT_POST, 'password');
+$confirmPassword = filter_input(INPUT_POST, 'confirm_password');
 
 $redirect = BASE_URL . "pages/musician/profile/edit/index.php";
 $redirectSuccess = BASE_URL . "pages/musician/profile/index.php";

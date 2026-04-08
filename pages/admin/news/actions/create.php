@@ -7,9 +7,9 @@ require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $newsDAO = new NewsDAO($conn);
 
-$newsTitle = requestValue('news_title', 'string', 'post');
-$newsSubtitle = requestValue('news_subtitle', 'string', 'post');
-$newsDescription = requestValue('news_description', 'string', 'post');
+$newsTitle = filter_input(INPUT_POST, 'news_title');
+$newsSubtitle = filter_input(INPUT_POST, 'news_subtitle');
+$newsDescription = filter_input(INPUT_POST, 'news_description');
 
 $redirect = BASE_URL . 'pages/admin/news/index.php';
 

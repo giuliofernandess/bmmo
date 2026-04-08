@@ -24,19 +24,19 @@ function isValidBirthDate(?string $age, ?string $responsibleName, ?string $respo
 }
 
 // Recebimento de variáveis pelo método POST
-$musicianName = requestValue('musician_name', 'string', 'post');
-$login = requestValue('musician_login', 'string', 'post');
+$musicianName = filter_input(INPUT_POST, 'musician_name');
+$login = filter_input(INPUT_POST, 'musician_login');
 
-$dateOfBirth = requestValue('date_of_birth', 'string', 'post');
-$instrument = requestValue('instrument', 'int', 'post');
-$bandGroup = requestValue('band_group', 'int', 'post');
-$musicianContact = requestValue('musician_contact', 'string', 'post');
-$responsibleName = requestValue('responsible_name', 'string', 'post');
-$responsibleContact = requestValue('responsible_contact', 'string', 'post');
-$neighborhood = requestValue('neighborhood', 'string', 'post');
-$institution = requestValue('institution', 'string', 'post');
-$password = requestValue('password', 'string', 'post');
-$confirmPassword = requestValue('confirm_password', 'string', 'post');
+$dateOfBirth = filter_input(INPUT_POST, 'date_of_birth');
+$instrument = filter_input(INPUT_POST, 'instrument');
+$bandGroup = filter_input(INPUT_POST, 'band_group');
+$musicianContact = filter_input(INPUT_POST, 'musician_contact');
+$responsibleName = filter_input(INPUT_POST, 'responsible_name');
+$responsibleContact = filter_input(INPUT_POST, 'responsible_contact');
+$neighborhood = filter_input(INPUT_POST, 'neighborhood');
+$institution = filter_input(INPUT_POST, 'institution');
+$password = filter_input(INPUT_POST, 'password');
+$confirmPassword = filter_input(INPUT_POST, 'confirm_password');
 
 $redirect = BASE_URL . 'pages/admin/registerMusician/index.php';
 

@@ -13,9 +13,9 @@ Auth::requireRegency();
 
 $groups = $bandGroupsDAO->getAll();
 
-$filterName = requestValue('musical_score_name_filter', 'string', 'get') ?? '';
-$filterGroup = requestValue('band_group_filter', 'int', 'get') ?? 0;
-$filterGenre = requestValue('musical_score_genre_filter', 'string', 'get') ?? '';
+$filterName = filter_input(INPUT_GET, 'musical_score_name_filter');
+$filterGroup = filter_input(INPUT_GET, 'band_group_filter');
+$filterGenre = filter_input(INPUT_GET, 'musical_score_genre_filter');
 
 $musicsList = $musicalScoresDAO->getAll([
     'music_name' => $filterName,

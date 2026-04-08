@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     redirectWithMessage($redirect, 'error', 'Metodo inválido para exclusao!');
 }
 
-$presentationId = (int) (requestValue('presentation_id', 'int', 'post') ?? 0);
+$presentationId = filter_input(INPUT_POST, 'presentation_id');
 
 if ($presentationId <= 0) {
     redirectWithMessage($redirect, 'error', 'Algo deu errado!');

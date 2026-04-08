@@ -25,9 +25,9 @@ function buildSafeMusicalScoreFileName(string $originalName, array $allowedExten
 }
 
 // Recebe dados do formulário
-$musicId = (int) (requestValue('musical_score_id', 'int', 'post') ?? 0);
-$musicName = requestValue('musical_score_name', 'string', 'post') ?? '';
-$musicGenre = requestValue('musical_score_genre', 'string', 'post') ?? '';
+$musicId = filter_input(INPUT_POST, 'musical_score_id');
+$musicName = filter_input(INPUT_POST, 'musical_score_name');
+$musicGenre = filter_input(INPUT_POST, 'musical_score_genre');
 $musicGroups = postArray('musical_score_groups');
 
 $redirectSuccess = BASE_URL . "pages/admin/musicalScores/edit/index.php?" . "musicId=" . urlencode($musicId);
