@@ -30,9 +30,9 @@ foreach ($instrumentsList as $instrument) {
   $instrumentMap[(int) ($instrument->getInstrumentId() ?? 0)] = (string) ($instrument->getInstrumentName() ?? '');
 }
 
-$filterName = filter_input(INPUT_GET, 'name');
-$filterGroup = filter_input(INPUT_GET, 'group') ?? 0;
-$filterInstrument = filter_input(INPUT_GET, 'instrument') ?? 0;
+$filterName = filter_input(INPUT_GET, 'musician_name_filter');
+$filterGroup = filter_input(INPUT_GET, 'band_group_filter') ?? 0;
+$filterInstrument = filter_input(INPUT_GET, 'instrument_filter') ?? 0;
 
 $musiciansList = $musiciansDAO->getAll([
     'musician_name' => $filterName,
@@ -73,15 +73,15 @@ $musiciansList = $musiciansDAO->getAll([
 
           <!-- Nome -->
           <div class="col-12 col-md-4">
-            <label class="form-label fw-semibold">Nome do músico</label>
-            <input type="text" name="name" value="<?= htmlspecialchars($filterName) ?>" class="form-control"
+            <label for="musician-name-filter" class="form-label fw-semibold">Nome do músico</label>
+            <input type="text" name="musician_name_filter" id="musician-name-filter" value="<?= htmlspecialchars($filterName) ?>" class="form-control"
               placeholder="Digite o nome">
           </div>
 
           <!-- Grupo -->
           <div class="col-12 col-md-3">
-            <label class="form-label fw-semibold">Grupo da banda</label>
-            <select name="group" class="form-select">
+            <label for="band-group-filter" class="form-label fw-semibold">Grupo da banda</label>
+            <select name="band_group_filter" id="band-group-filter" class="form-select">
               <option value="0">Todos</option>
               <?php foreach ($groupsList as $group) { ?>
                 <option value="<?= (int) ($group->getGroupId() ?? 0) ?>" <?= $filterGroup === (int) ($group->getGroupId() ?? 0) ? 'selected' : '' ?>>
@@ -93,8 +93,8 @@ $musiciansList = $musiciansDAO->getAll([
 
           <!-- Instrumento -->
           <div class="col-12 col-md-3">
-            <label class="form-label fw-semibold">Instrumento</label>
-            <select name="instrument" class="form-select">
+            <label for="instrument-filter" class="form-label fw-semibold">Instrumento</label>
+            <select name="instrument_filter" id="instrument-filter" class="form-select">
               <option value="0">Todos</option>
               <?php foreach ($instrumentsList as $instrument) { ?>
                 <option value="<?= (int) ($instrument->getInstrumentId() ?? 0) ?>" <?= $filterInstrument === (int) ($instrument->getInstrumentId() ?? 0) ? 'selected' : '' ?>>

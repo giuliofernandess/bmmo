@@ -39,7 +39,7 @@ if ($musicalScoreInstrumentDelete) {
 		unlink(BASE_PATH . 'uploads/musical-scores/' . $currentFile);
 	}
 
-	redirectWithMessage(BASE_URL . "pages/admin/musicalScores/edit/index.php?musicId={$musicId}", 'success', "Arquivo excluído com sucesso.");
+	redirectWithMessage(BASE_URL . "pages/admin/musicalScores/edit/index.php?musical_score_id={$musicId}", 'success', "Arquivo excluído com sucesso.");
 } else {
-	redirectWithMessage(BASE_URL . "pages/admin/musicalScores/edit/index.php?musicId={$musicId}", 'error', "Não foi possível deletar o arquivo.");
+	redirectWithMessage(BASE_URL . "pages/admin/musicalScores/edit/index.php?musical_score_id={$musicId}", 'error', "Não foi possível deletar o arquivo.");
 }

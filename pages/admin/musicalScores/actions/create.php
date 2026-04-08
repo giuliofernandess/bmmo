@@ -31,7 +31,7 @@ $musicalScore = MusicalScore::fromArray([
 
 $musicalScoreAdd = $musicalScoresDAO->create($musicalScore);
 
-$redirectSuccess = BASE_URL . "pages/admin/musicalScores/edit/index.php?" . "musicId=" . urlencode($musicalScoreAdd);
+$redirectSuccess = BASE_URL . "pages/admin/musicalScores/edit/index.php?" . "musical_score_id=" . urlencode($musicalScoreAdd);
 
 if ($musicalScoreAdd !== false) {
 	redirectWithMessage($redirectSuccess, 'success', "Partitura criada com sucesso!");

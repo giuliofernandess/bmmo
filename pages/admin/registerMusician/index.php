@@ -68,7 +68,7 @@ $groupsList = $bandGroupsDAO->getAll();
         <!-- Instrumento + Grupo -->
         <div class="col-md-6">
           <label for="instrument" class="form-label ps-2">Instrumento *</label>
-          <select name="instrument" id="instrument" class="form-select select" required>
+          <select name="musician_instrument" id="musician-instrument" class="form-select select" required>
             <option value="">Selecione</option>
 
             <?php

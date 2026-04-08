@@ -13,7 +13,7 @@ Auth::requireRegency();
 // Recebimento de variáveis pelo método POST
 $musicianId = filter_input(INPUT_POST, 'musician_id');
 $musicianLogin = filter_input(INPUT_POST, 'musician_login');
-$instrument = filter_input(INPUT_POST, 'instrument');
+$instrument = filter_input(INPUT_POST, 'musician_instrument');
 $bandGroup = filter_input(INPUT_POST, 'band_group');
 $musicianContact = filter_input(INPUT_POST, 'musician_contact');
 $responsibleName = filter_input(INPUT_POST, 'responsible_name');
@@ -29,7 +29,7 @@ $redirectSuccess = BASE_URL . 'pages/admin/musicians/musicianProfile/index.php' 
 validateRequiredFields([
 	'id' => $musicianId,
 	'login' => $musicianLogin,
-	'instrument' => $instrument,
+	'musician_instrument' => $instrument,
 	'band_group' => $bandGroup,
 	'neighborhood' => $neighborhood
 ], $redirect);

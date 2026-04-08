@@ -17,8 +17,8 @@ $groups = $bandGroupsDAO->getAll();
 $instruments = $instrumentsDAO->getAll(false, true);
 $instrumentsVoiceOff = $instrumentsDAO->getAll(true);
 
-// Verifica se recebeu o id do músico
-$musicId = filter_input(INPUT_GET, 'musicId');
+// Verifica se recebeu o id da partitura
+$musicId = filter_input(INPUT_GET, 'musical_score_id');
 
 if (!$musicId) {
   redirectWithMessage(BASE_URL . "pages/admin/musicalScores/index.php");

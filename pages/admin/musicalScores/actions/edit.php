@@ -30,7 +30,7 @@ $musicName = filter_input(INPUT_POST, 'musical_score_name');
 $musicGenre = filter_input(INPUT_POST, 'musical_score_genre');
 $musicGroups = postArray('musical_score_groups');
 
-$redirectSuccess = BASE_URL . "pages/admin/musicalScores/edit/index.php?" . "musicId=" . urlencode($musicId);
+$redirectSuccess = BASE_URL . "pages/admin/musicalScores/edit/index.php?" . "musical_score_id=" . urlencode($musicId);
 
 validateRequiredFields([
 	'id' => $musicId,

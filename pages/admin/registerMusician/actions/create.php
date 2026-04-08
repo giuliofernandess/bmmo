@@ -28,7 +28,7 @@ $musicianName = filter_input(INPUT_POST, 'musician_name');
 $login = filter_input(INPUT_POST, 'musician_login');
 
 $dateOfBirth = filter_input(INPUT_POST, 'date_of_birth');
-$instrument = filter_input(INPUT_POST, 'instrument');
+$instrument = filter_input(INPUT_POST, 'musician_instrument');
 $bandGroup = filter_input(INPUT_POST, 'band_group');
 $musicianContact = filter_input(INPUT_POST, 'musician_contact');
 $responsibleName = filter_input(INPUT_POST, 'responsible_name');
@@ -44,7 +44,7 @@ validateRequiredFields([
 	'name' => $musicianName,
 	'login' => $login,
 	'date_of_birth' => $dateOfBirth,
-	'instrument' => $instrument,
+	'musician_instrument' => $instrument,
 	'band_group' => $bandGroup,
 	'neighborhood' => $neighborhood,
 	'password' => $newPassword,
