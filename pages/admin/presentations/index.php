@@ -38,7 +38,7 @@ $presentationsList = $presentationsDAO->getAll();
 
     <?php include_once BASE_PATH . 'includes/secondHeader.php' ?>
 
-    <main class="p-5">
+    <main class="p-5 presentations-page">
         <div class="d-flex align-items-center justify-content-between mb-4">
             <h1 class="mb-0">Proximas apresentações</h1>
             <i class="bi bi-plus-square-fill fs-3 text-primary cursor-pointer" id="presentation-form-toggle-icon"
@@ -152,8 +152,8 @@ $presentationsList = $presentationsDAO->getAll();
                     }
                     ?>
                     <div class="col-12 col-md-6 col-lg-3">
-                        <div class="card shadow-sm h-100">
-                            <div class="card-body d-flex flex-column presentation-info"
+                        <div class="card shadow-sm h-100 presentation-card">
+                            <div class="card-body d-flex flex-column presentation-card-body presentation-info"
                                 data-presentation-id="<?= $presentationId ?>"
                                 data-presentation-name="<?= htmlspecialchars($presentation->getPresentationName()) ?>"
                                 data-presentation-date="<?= htmlspecialchars($presentationDate) ?>"
