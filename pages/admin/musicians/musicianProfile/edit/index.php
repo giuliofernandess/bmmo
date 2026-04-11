@@ -77,7 +77,7 @@ $groupsList = $bandGroupsDAO->getAll();
 
         <!-- Nome -->
         <div class="col-md-6">
-          <label for="musician-name" class="form-label ps-2">Nome</label>
+          <label for="musician-name" class="form-label ps-2">Nome Completo</label>
           <input type="text" name="musician_name" id="musician-name" value="<?= $musician_name ?>" class="form-control" disabled />
         </div>
 
