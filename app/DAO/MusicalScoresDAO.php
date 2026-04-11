@@ -386,9 +386,11 @@ class MusicalScoresDAO implements EntityInterface
      * Lista partituras filtradas por instrumento, grupo e filtros opcionais.
      */
 
-    public function getAllByInstrument(int $instrumentId, int $groupId, string $musicName = '', string $musicGenre = ''): array
+    public function getAllByInstrument(int $instrumentId, int $groupId, string|null $musicName = '', string|null $musicGenre = ''): array
     {
         $db = $this->conn;
+        $musicName = trim((string) ($musicName ?? ''));
+        $musicGenre = trim((string) ($musicGenre ?? ''));
 
         $sql = "SELECT ms.* FROM musical_scores_groups AS msg
                 JOIN musical_scores_instruments AS msi ON msg.music_id = msi.music_id

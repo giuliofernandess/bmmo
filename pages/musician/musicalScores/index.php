@@ -56,7 +56,7 @@ $musicsList = $musicalScoresDAO->getAllByInstrument(
           <!-- Nome -->
           <div class="col-12 col-md-6">
             <label class="form-label fw-semibold">Nome da partitura</label>
-            <input type="text" name="musical_score_name_filter" value="<?= htmlspecialchars($filterName) ?>" class="form-control"
+            <input type="text" name="musical_score_name_filter" value="<?= $filterName ? htmlspecialchars($filterName) : '' ?>" class="form-control"
               placeholder="Digite o nome da partitura">
           </div>
 
