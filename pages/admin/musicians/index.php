@@ -156,7 +156,11 @@ $musiciansList = $musiciansDAO->getAll([
 
         <div class='col-12 col-md-6 col-lg-3 mb-5'>
           <div class='card musician-card border-0 shadow-sm'>
-            <div class='card-img-top' style='background-image: url("<?= $image ?>"); background-size: cover; background-position: top center; height: 200px;'></div>
+            <?php if ($image == $imageUrl) { ?>
+              <div class='card-img-top' style='background-image: url("<?= $image ?>"); background-size: cover; background-position: top center;'></div>
+            <?php } else { ?>
+              <img src="<?= BASE_URL ?>uploads/musicians-images/default.png" alt="Imagem do músico" class="card-img-top">
+            <?php } ?>
             <a href='musicianProfile/index.php?musician_id=<?= $musicianId ?>'
               class='card-body d-flex flex-column text-decoration-none'>
               <h4 class='card-title fw-semibold text-center mb-3'><?= $musicianName ?></h4>
