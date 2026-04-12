@@ -1,22 +1,32 @@
 @charset "UTF-8";
 
+body {
+  background: linear-gradient(145deg, #edf3fb 0%, #e6eef9 100%);
+}
+
 .container > div {
   max-width: 1200px;
 }
 
 .profile-summary-card {
   max-width: 1000px;
+  border: 1px solid #dce7f5;
+  border-radius: 1rem;
 }
 
 .card-image {
   max-height: 470px;
 }
 
-.btn {
-  transition: 0.2s;
+.musician-profile-image {
+  min-height: 320px;
 }
 
-.btn:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+.profile-summary-card .list-group-item {
+  border-color: #e2ebf7;
+  color: #243953;
+}
+
+.profile-summary-card .card-title {
+  color: #173862;
 }

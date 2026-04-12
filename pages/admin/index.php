@@ -16,31 +16,32 @@ Auth::requireRegency();
   <?php require_once BASE_PATH . "includes/basicHead.php"; ?>
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
   <!-- Toast de sucesso -->
   <?php include_once BASE_PATH . "includes/successToast.php"; ?>
 
   <!-- Header -->
-  <header class="d-flex align-items-center justify-content-between px-3 bg-primary">
-    <a href="#" class="d-flex align-items-center text-white text-decoration-none">
-      <img src="<?= BASE_URL ?>assets/images/band_logo.png" alt="Logo Banda" width="30" height="30" class="me-2">
-      <span class="fs-5 fw-bold">BMMO Online - Maestro</span>
-    </a>
-
-    <nav>
-      <ul class="nav">
-        <li class="nav-item">
-          <a href="<?= BASE_URL ?>pages/logout.php" class="nav-link text-white logout-link-icon"
-            id="logout-link">
-            <i class="bi bi-box-arrow-left text-white"></i>
-          </a>
-        </li>
-      </ul>
-    </nav>
+  <header>
+    <div class="container d-flex align-items-center justify-content-between px-3 pt-1">
+      <a href="#" class="d-flex align-items-center text-white text-decoration-none">
+        <img src="<?= BASE_URL ?>assets/images/band_logo.png" alt="Logo Banda" width="30" height="30" class="me-2">
+        <span class="fs-5 fw-bold">BMMO Online - Maestro</span>
+      </a>
+      <nav>
+        <ul class="nav">
+          <li class="nav-item">
+            <a href="<?= BASE_URL ?>pages/logout.php" class="nav-link text-white logout-link-icon"
+              id="logout-link">
+              <i class="bi bi-box-arrow-left text-white"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
   <!-- Main -->
-  <main class="flex-grow-1 d-flex align-items-center justify-content-center py-5">
+  <main class="flex-grow-1 d-flex align-items-center justify-content-center py-5 px-3">
     <div class="container introduction-container text-center">
       <img src="<?= BASE_URL ?>assets/images/band_logo.png" width="160" height="160" alt="Logo" class="mb-3">
       <h1 class="fw-bold">Painel do Maestro</h1>

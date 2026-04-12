@@ -44,14 +44,14 @@ session_start();
         <!-- Campo login -->
         <div class="mb-3">
           <label for="user-login" class="form-label ps-2">Login *</label>
-          <input type="text" name="user_login" id="user-login" class="form-control rounded-pill" required />
+          <input type="text" name="user_login" id="user-login" class="form-control" required />
         </div>
 
         <!-- Campo senha com botão de mostrar/esconder -->
         <div class="mb-4">
           <label for="user-password" class="form-label ps-2">Senha *</label>
-          <div>
-            <input type="password" name="user_password" id="user-password" class="form-control rounded-pill"
+          <div class="password-field-wrapper">
+            <input type="password" name="user_password" id="user-password" class="form-control"
                    minlength="8" maxlength="20" required />
             <i class="bi bi-eye-fill show-password" id="password-toggle-button"></i>
           </div>

@@ -171,8 +171,8 @@ $groupsList = $bandGroupsDAO->getAll();
         <!-- Senhas -->
         <div class="col-md-6">
           <label for="new-password" class="form-label ps-2">Senha *</label>
-          <div>
-            <input type="password" name="new_password" id="new-password" class="form-control rounded-pill"
+          <div class="password-field-wrapper">
+            <input type="password" name="new_password" id="new-password" class="form-control"
               placeholder="Digite a senha" minlength="8" maxlength="20" required />
             <i class="bi bi-eye-fill show-password" id="password-btn"></i>
           </div>

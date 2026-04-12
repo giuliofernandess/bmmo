@@ -1,6 +1,6 @@
 <!-- Header usado nas páginas iniciais -->
-<nav class="navbar navbar-expand-md navbar-dark">
-    <div class="container-fluid">
+<nav class="navbar navbar-expand-md navbar-dark py-2">
+  <div class="container">
 
         <!-- Logo -->
         <a class="navbar-brand d-flex align-items-center" href="<?= BASE_URL ?>pages/index.php">
@@ -17,15 +17,15 @@
 
         <!-- Menu Desktop -->
         <div class="collapse navbar-collapse justify-content-end d-none d-md-flex">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav gap-lg-2">
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="<?= BASE_URL ?>pages/index.php">Início</a>
+                    <a class="nav-link px-3" href="<?= BASE_URL ?>pages/index.php">Início</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link text-white" href="<?= BASE_URL ?>pages/information/news/index.php">Notícias</a>
+                  <a class="nav-link px-3" href="<?= BASE_URL ?>pages/information/news/index.php">Notícias</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white"
+                    <a class="nav-link px-3"
                     href="<?= BASE_URL ?>pages/information/aboutTheBand/index.php">Sobre</a>
                 </li>
             </ul>

@@ -30,7 +30,7 @@ $newsList = $newsDAO->getAll();
 
   <?php include_once BASE_PATH . 'includes/secondHeader.php'; ?>
 
-  <main class="p-4">
+  <main class="container p-4">
 
     <div class="d-flex align-items-center justify-content-between mb-4">
       <h1 class="mb-0">Notícias</h1>
@@ -101,7 +101,7 @@ $newsList = $newsDAO->getAll();
                   <button type="button" class="btn btn-success btn-sm news-edit-button">Editar</button>
                   <form action="<?= BASE_URL ?>pages/admin/news/actions/delete.php" method="post" class="news-delete-form">
                     <input type="hidden" name="news_id" value="<?= $newsId ?>">
-                    <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                    <button type="submit" class="btn btn-danger btn-sm w-100">Excluir</button>
                   </form>
                 </div>
               </div>

@@ -1,90 +1,118 @@
 @charset "UTF-8";
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap");
 
-/* Cores do projeto */
 :root {
   --color-1: #0d6efd;
   --color-2: #0dcaf0;
-  --color-bg: #f4f7fb;
-  --color-dark: #0a0a23;
+  --color-bg: #edf2f8;
+  --color-dark: #11243f;
+  --surface: #ffffff;
+  --border-soft: #dbe6f4;
 }
 
-/* Reset básico */
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
-/* Body e layout geral */
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: "Source Sans 3", sans-serif;
   min-height: 100vh;
-  background: var(--color-bg);
+  background: radial-gradient(circle at top right, #f6f9ff 0%, #edf2f8 50%, #e7edf6 100%);
   color: var(--color-dark);
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
 }
 
-/* Navbar principal */
-header, .navbar {
-  background: rgba(13, 110, 253, 0.95);
-  backdrop-filter: blur(6px);
-  box-shadow: 0 2px 15px rgba(0,0,0,0.15);
-  min-height: 60px;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  color: #15315a;
 }
 
-.navbar-toggler { border: 0; }
-.navbar-nav .nav-item { margin: 8px 0; }
-
-/* Botão hamburguer */
-.menu-toggle {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-.menu-toggle span {
-  display: block;
-  width: 25px;
-  height: 3px;
-  background: #fff;
-  border-radius: 3px;
-  transition: 0.3s;
+.navbar,
+header {
+  background: linear-gradient(100deg, #0d6efd 0%, #0a4fc0 100%);
+  box-shadow: 0 6px 18px rgba(8, 39, 89, 0.2);
+  min-height: 64px;
 }
 
-/* Offcanvas menu mobile */
-.offcanvas-body { overflow-y: auto; }
-.offcanvas .navbar-nav { flex-direction: column !important; }
-.offcanvas .nav-item { margin: 10px 0; }
+.navbar .navbar-brand,
+header .fw-bold {
+  font-family: "Source Sans 3", sans-serif;
+  letter-spacing: 0.2px;
+}
 
-/* Animação do botão hamburguer ativo */
-.menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
-.menu-toggle.active span:nth-child(2) { opacity: 0; }
-.menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+.navbar .nav-link {
+  color: rgba(255, 255, 255, 0.95) !important;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
 
-/* Footer */
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+  background-color: rgba(255, 255, 255, 0.16);
+  color: #fff !important;
+}
+
+.offcanvas.offcanvas-end {
+  border-left: 1px solid var(--border-soft);
+}
+
+.offcanvas .offcanvas-header {
+  background: #f8fbff;
+}
+
+main {
+  width: 100%;
+}
+
+.introduction-container {
+  background: transparent;
+  padding: 1.5rem;
+}
+
+.introduction-container .card {
+  border: 1px solid #dce7f5;
+}
+
+.bg-white.rounded.shadow-sm {
+  border: 1px solid #dce7f5;
+}
+
+.card {
+  border: 1px solid #e2eaf5;
+  border-radius: 0.95rem;
+}
+
+.btn {
+  font-weight: 600;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0.35rem 0.9rem rgba(17, 36, 63, 0.16);
+}
+
 footer {
-  background: rgba(13, 110, 253, 0.95);
-  backdrop-filter: blur(6px);
-  color: #fff;
-  text-align: center;
-  padding: 15px;
   margin-top: auto;
-  font-size: 0.9rem;
-  box-shadow: 0 -3px 10px rgba(0,0,0,0.1);
+  background: linear-gradient(100deg, #0d6efd 0%, #0a4fc0 100%);
+  color: #f8fbff;
+  box-shadow: 0 -4px 14px rgba(8, 39, 89, 0.2);
 }
-footer a { color: #fff; transition: opacity 0.3s; }
-footer a:hover { opacity: 0.8; }
 
-/* Media queries */
-@media (min-width: 768px) { .navbar-nav .nav-item { margin: 10px 0; } }
-@media (min-width: 992px) {
-  .navbar-collapse .navbar-nav { flex-direction: row; align-items: center; }
-  .navbar-collapse .navbar-nav .nav-item { margin-left: 25px; margin-top:0; margin-bottom:0; }
+footer a {
+  color: #f8fbff;
+}
+
+footer a:hover {
+  color: #d5e7ff;
 }
 
 /* Toasts de feedback */

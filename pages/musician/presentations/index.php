@@ -29,7 +29,7 @@ $presentationsList = $presentationsDAO->getAll();
     <!-- Header -->
     <?php include_once BASE_PATH . "includes/secondHeader.php"; ?>
 
-    <main class="p-5 presentations-page">
+    <main class="container p-5 presentations-page">
         <!-- Título -->
         <div class="d-flex align-items-center justify-content-between mb-4">
             <h1 class="mb-0 text-primary fw-bold">Próximas apresentações</h1>

@@ -24,7 +24,7 @@ $musicianInfo = $musiciansDAO->findByLogin($login);
   <?php require_once BASE_PATH . "includes/basicHead.php"; ?>
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
   <!-- Toast de sucesso -->
   <?php include_once BASE_PATH ."includes/successToast.php"; ?>
 
@@ -48,7 +48,7 @@ $musicianInfo = $musiciansDAO->findByLogin($login);
   </header>
 
   <!-- Main -->
-  <main class="flex-grow-1 d-flex align-items-center justify-content-center py-5">
+  <main class="flex-grow-1 d-flex align-items-center justify-content-center py-5 px-3">
     <div class="container introduction-container text-center">
       <img src="<?= BASE_URL ?>assets/images/band_logo.png" width="160" height="160" alt="Logo" class="mb-3">
       <h1 class="fw-bold">Bem-vindo(a), <?= htmlspecialchars($musicianInfo ? $musicianInfo->getMusicianName() : ''); ?></h1>

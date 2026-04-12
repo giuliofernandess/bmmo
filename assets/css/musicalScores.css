@@ -1,15 +1,28 @@
 @charset "UTF-8";
 
-/* Mensagem quando não há partituras */
+body {
+  background: linear-gradient(145deg, #edf3fb 0%, #e6eef9 100%);
+}
+
 .no-musics {
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 1.05rem;
   color: #6c757d;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
+}
+
+.musician-card {
+  border: 1px solid #dce7f5;
+  transition: transform 0.2s ease, box-shadow 0.25s ease;
+}
+
+.musician-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0.75rem 1.6rem rgba(16, 37, 68, 0.12) !important;
 }
 
 .card-img-top {
-  height: 200px;
+  height: 220px;
   object-fit: cover;
 }
 
@@ -41,17 +54,8 @@
   width: 5%;
 }
 
-.btn {
-  transition: 0.2s;
-}
-
-.btn:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
-}
-
 #musical-score-submit {
-  height: 45px;
+  min-height: 44px;
 }
 
 .file-cell {
@@ -82,5 +86,15 @@
   width: 36px;
   height: 36px;
   padding: 0;
-  border-radius: 50%;
+  border-radius: 999px;
+}
+
+.table {
+  --bs-table-bg: #ffffff;
+  --bs-table-striped-bg: #f7faff;
+}
+
+.table-primary {
+  --bs-table-bg: #dbe9ff;
+  --bs-table-color: #173862;
 }

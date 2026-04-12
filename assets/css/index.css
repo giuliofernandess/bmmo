@@ -1,67 +1,48 @@
 @charset "UTF-8";
 
-/* Fundo do main com gradiente */
 .main-gradient {
-  background: linear-gradient(to right, #eef2f3, #d9e9ff);
+  background: linear-gradient(140deg, #edf3fb 0%, #e6eef9 100%);
 }
 
-/* Card central da página inicial */
 .introduction-container {
   background: #fff;
-  backdrop-filter: blur(8px);
-  border-radius: 20px;
-  max-width: 800px;
+  border: 1px solid #dce7f5;
+  border-radius: 1rem;
+  max-width: 860px;
 }
 
 .introduction-copy {
-  max-width: 700px;
-  line-height: 1.6;
+  max-width: 720px;
+  line-height: 1.7;
+  color: #233753;
 }
 
-/* Logo com animação de pulsar */
 .introduction-logo {
-  max-width: 90px;
-  animation: pulse 3s infinite;
+  max-width: 92px;
 }
 
 @media (min-width: 768px) {
-  .introduction-logo { max-width: 120px; }
+  .introduction-logo {
+    max-width: 118px;
+  }
 }
 
-/* Título principal */
 .introduction-title {
-  color: var(--color-1);
+  color: #14335f;
   font-size: clamp(1.8rem, 4vw, 2.5rem);
 }
 
-/* Botões com efeito shine */
 .btn-shine {
-  font-weight: 600;
-  transition: all 0.35s ease;
-  position: relative;
-  overflow: hidden;
+  min-width: 230px;
+  box-shadow: 0 0.4rem 1rem rgba(17, 36, 63, 0.12);
 }
 
-.btn-shine::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.2);
-  transition: left 0.4s;
-}
-
-.btn-shine:hover::after { left: 0; }
 .btn-shine:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+  box-shadow: 0 0.55rem 1.25rem rgba(17, 36, 63, 0.2);
 }
 
-/* Animação de pulsar (logo) */
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
+@media (max-width: 768px) {
+  .btn-shine {
+    min-width: 100%;
+  }
 }
