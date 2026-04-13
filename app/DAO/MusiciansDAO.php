@@ -12,9 +12,9 @@ class MusiciansDAO implements EntityInterface
         $this->conn = $conn;
     }
 
-    /**
-     * Cria um novo músico.
-     */
+    
+
+
 
     public function create(object $entity): mixed
     {
@@ -24,7 +24,7 @@ class MusiciansDAO implements EntityInterface
             return false;
         }
 
-        // Normaliza os dados recebidos para persistência.
+        
         $musicianName = $entity->getMusicianName();
         $login = $entity->getMusicianLogin();
 
@@ -43,7 +43,7 @@ class MusiciansDAO implements EntityInterface
 
         $profileImage = $entity->getProfileImage();
 
-        // Gera hash seguro da senha.
+        
         $passwordRaw = $entity->getPassword();
 
         if (!$passwordRaw) {
@@ -53,7 +53,7 @@ class MusiciansDAO implements EntityInterface
         $password = password_hash($passwordRaw, PASSWORD_DEFAULT);
 
 
-        // Persiste músico no banco.
+        
         try {
 
             $stmt = $db->prepare(
@@ -71,9 +71,9 @@ class MusiciansDAO implements EntityInterface
         }
     }
 
-    /**
-     * Atualiza dados administrativos do músico.
-     */
+    
+
+
 
     public function edit(object $entity): bool
     {
@@ -99,7 +99,7 @@ class MusiciansDAO implements EntityInterface
 
         try {
 
-            // Atualiza sem mexer na senha
+            
             $stmt = $db->prepare("
                 UPDATE musicians 
                 SET musician_login = ?, 
@@ -139,9 +139,9 @@ class MusiciansDAO implements EntityInterface
         }
     }
 
-    /**
-     * Atualiza os dados do próprio músico logado.
-     */
+    
+
+
 
     public function editOwnProfile(object $entity): bool
     {
@@ -161,7 +161,7 @@ class MusiciansDAO implements EntityInterface
 
         try {
 
-            // Atualiza sem mexer na senha
+            
             $stmt = $db->prepare("
                 UPDATE musicians 
                 SET musician_contact = ?, 
@@ -194,9 +194,9 @@ class MusiciansDAO implements EntityInterface
     }
     
 
-    /**
-     * Atualiza a senha de um músico.
-     */
+    
+
+
 
     public function editPassword(int $musicianId, string $newPassword): bool
     {
@@ -219,9 +219,9 @@ class MusiciansDAO implements EntityInterface
     }
 
 
-    /**
-     * Remove um músico por ID.
-     */
+    
+
+
 
     public function delete(int $musicianId): bool
     {
@@ -238,9 +238,9 @@ class MusiciansDAO implements EntityInterface
         return $affected > 0;
     }
 
-    /**
-     * Busca músico por login.
-     */
+    
+
+
     public function findByLogin(string $login): ?Musician
     {
         $db = $this->conn;
@@ -264,9 +264,9 @@ class MusiciansDAO implements EntityInterface
     }
 
 
-    /**
-     * Lista músicos com filtros opcionais de nome, grupo e instrumento.
-     */
+    
+
+
 
     public function getAll(array $filters = []): array
     {
@@ -331,9 +331,9 @@ class MusiciansDAO implements EntityInterface
         return $musicians;
     }
 
-    /**
-     * Busca músico por ID.
-     */
+    
+
+
     public function getById(int $musicianId): ?Musician
     {
         $db = $this->conn;
@@ -356,9 +356,9 @@ class MusiciansDAO implements EntityInterface
         return $data ? Musician::fromArray($data) : null;
     }
 
-    /**
-     * Retorna o nome do arquivo da foto de perfil do músico.
-     */
+    
+
+
 
     public function getProfileImage(int $musicianId): string
     {
@@ -381,9 +381,9 @@ class MusiciansDAO implements EntityInterface
     }
 
 
-    /**
-     * Verifica se já existe um músico com o login informado.
-     */
+    
+
+
 
     public function verifyLogin(string $musicianLogin): bool
     {

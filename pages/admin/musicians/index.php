@@ -122,16 +122,16 @@ $musiciansList = $musiciansDAO->getAll([
     } else {
       $instrument = '';
 
-      // Itera sobre cada músico  
+      
       foreach ($musiciansList as $data) {
         $musician = $data instanceof Musician ? $data : Musician::fromArray((array) $data);
 
-        // Dados do músico
+        
         $musicianId = (int) ($musician->getMusicianId() ?? 0);
         $musicianName = htmlspecialchars($musician->getMusicianName(), ENT_QUOTES, 'UTF-8');
         $bandGroup = htmlspecialchars($groupMap[$musician->getBandGroup()] ?? '', ENT_QUOTES, 'UTF-8');
 
-        // Verificação de imagem
+        
         $musicianImage = basename((string) ($musician->getProfileImage() ?? ''));
 
         $imagePath = BASE_PATH . "uploads/musicians-images/{$musicianImage}";

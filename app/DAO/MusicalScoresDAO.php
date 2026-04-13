@@ -12,9 +12,9 @@ class MusicalScoresDAO implements EntityInterface
         $this->conn = $conn;
     }
 
-    /**
-     * Cria uma nova partitura com grupos vinculados.
-     */
+    
+
+
     public function create(object $entity): mixed
     {
         if (!$entity instanceof MusicalScore) {
@@ -33,7 +33,7 @@ class MusicalScoresDAO implements EntityInterface
 
             try {
 
-                // Inserir partitura
+                
                 $stmt = $db->prepare(
                     "INSERT INTO musical_scores (music_name, music_genre) VALUES (?, ?)"
                 );
@@ -49,7 +49,7 @@ class MusicalScoresDAO implements EntityInterface
                 $stmt->close();
 
 
-                // Inserir grupos
+                
                 $stmtGroups = $db->prepare(
                     "INSERT INTO musical_scores_groups (music_id, group_id) VALUES (?, ?)"
                 );
@@ -68,7 +68,7 @@ class MusicalScoresDAO implements EntityInterface
                 $stmtGroups->close();
 
 
-                // Confirma transação.
+                
                 $db->commit();
 
                 return $musicId;
@@ -83,9 +83,9 @@ class MusicalScoresDAO implements EntityInterface
         }
     }
 
-    /**
-     * Atualiza uma partitura e seus vínculos de grupos/instrumentos.
-     */
+    
+
+
 
     public function edit(object $entity): bool
     {
@@ -106,7 +106,7 @@ class MusicalScoresDAO implements EntityInterface
 
         try {
 
-            // Edição de características gerais
+            
             $stmt = $db->prepare(
                 "UPDATE musical_scores SET music_name= ?, music_genre= ? WHERE music_id = ?"
             );
@@ -118,13 +118,13 @@ class MusicalScoresDAO implements EntityInterface
 
             $stmt->close();
 
-            // Limpar grupos antigos
+            
             $stmtDel = $db->prepare("DELETE FROM musical_scores_groups WHERE music_id = ?");
             $stmtDel->bind_param("i", $musicId);
             $stmtDel->execute();
             $stmtDel->close();
 
-            // Inserir grupos novos
+            
             if (!empty($musicGroups)) {
                 $stmtGroups = $db->prepare(
                     "INSERT INTO musical_scores_groups (music_id, group_id) VALUES (?, ?)"
@@ -144,7 +144,7 @@ class MusicalScoresDAO implements EntityInterface
 
             $stmtVoiceOff = $db->prepare("INSERT INTO musical_scores_instruments VALUES (?, ?, ?)");
 
-            // Inserir instrumentos sem vozes
+            
             foreach ($instrumentsVoiceOff as $instrumentVoiceOff => $file) {
 
                 $baseInstrument = (int) $instrumentVoiceOff;
@@ -182,13 +182,13 @@ class MusicalScoresDAO implements EntityInterface
 
             $stmt = $db->prepare("INSERT INTO musical_scores_instruments VALUES (?, ?, ?)");
 
-            // Inserir instrumentos com vozes
+            
             foreach ($instruments as $instrument => $file) {
                 $instrument = (int) $instrument;
 
                 if ($this->verifyInstrument($musicId, $instrument)) {
 
-                    // Deleta os arquivos antigos
+                    
                     $oldFile = $this->getFile($musicId, $instrument);
 
                     if ($oldFile) {
@@ -216,7 +216,7 @@ class MusicalScoresDAO implements EntityInterface
 
             $stmt->close();
 
-            // Confirma transação.
+            
             $db->commit();
 
             return true;
@@ -227,9 +227,9 @@ class MusicalScoresDAO implements EntityInterface
         }
     }
 
-    /**
-     * Remove uma partitura e os vínculos relacionados.
-     */
+    
+
+
 
     public function delete(int $musicId): bool
     {
@@ -258,7 +258,7 @@ class MusicalScoresDAO implements EntityInterface
             $stmt->execute();
             $stmt->close();
 
-            // Confirma transação.
+            
             $db->commit();
 
             foreach ($files as $file) {
@@ -277,9 +277,9 @@ class MusicalScoresDAO implements EntityInterface
 
     }
 
-    /**
-     * Remove arquivo(s) de instrumento de uma partitura.
-     */
+    
+
+
 
     public function deleteMusicalScoreInstrument(int $musicId, int $instrumentId = 0, bool $voiceOff = false): bool
     {
@@ -313,9 +313,9 @@ class MusicalScoresDAO implements EntityInterface
         return $affected > 0;
     }
 
-    /**
-     * Lista partituras com filtros opcionais de nome, grupo e gênero.
-     */
+    
+
+
 
     public function getAll(array $filters = []): array
     {
@@ -382,9 +382,9 @@ class MusicalScoresDAO implements EntityInterface
         return $musics;
     }
 
-    /**
-     * Lista partituras filtradas por instrumento, grupo e filtros opcionais.
-     */
+    
+
+
 
     public function getAllByInstrument(int $instrumentId, int $groupId, string|null $musicName = '', string|null $musicGenre = ''): array
     {
@@ -445,9 +445,9 @@ class MusicalScoresDAO implements EntityInterface
         return $musicsList;
     }
 
-    /**
-     * Busca partitura por ID.
-     */
+    
+
+
     public function getById(int $musicId): ?MusicalScore
     {
         $db = $this->conn;
@@ -470,9 +470,9 @@ class MusicalScoresDAO implements EntityInterface
         return $data ? MusicalScore::fromArray($data) : null;
     }
 
-    /**
-     * Retorna o nome do arquivo de partitura para um instrumento.
-     */
+    
+
+
     public function getFile(int $musicId, int $instrumentId): ?string
     {
         $db = $this->conn;
@@ -494,9 +494,9 @@ class MusicalScoresDAO implements EntityInterface
         return $row['file'] ?? null;
     }
 
-    /**
-     * Verifica se um grupo está vinculado à partitura.
-     */
+    
+
+
     public function verifyGroup(int $musicId, int $groupId): ?bool
     {
 
@@ -524,9 +524,9 @@ class MusicalScoresDAO implements EntityInterface
 
     }
 
-    /**
-     * Verifica se um instrumento está vinculado à partitura.
-     */
+    
+
+
 
     public function verifyInstrument(int $musicId, int $instrumentId): ?bool
     {

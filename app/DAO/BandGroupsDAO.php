@@ -10,11 +10,11 @@ class BandGroupsDAO
     {
         $this->conn = $conn;
     }
-    /**
-     * Retorna todos os grupos da banda do banco, ordenados por id.
-     *
-     * @return BandGroup[]
-     */
+    
+
+
+
+
 
     public function getAll(): array
     {

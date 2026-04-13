@@ -142,10 +142,10 @@ $musicsList = $musicalScoresDAO->getAll([
       $currentGenre = "";
       $lastName = "";
 
-      // Itera sobre cada partitura
+      
       foreach ($musicsList as $music) {
 
-        // Dados do partitura
+        
         $musicName = htmlspecialchars($music->getMusicName(), ENT_QUOTES, 'UTF-8');
         $musicId = (int) ($music->getMusicId() ?? 0);
         $musicGenre = htmlspecialchars($music->getMusicGenre(), ENT_QUOTES, 'UTF-8');

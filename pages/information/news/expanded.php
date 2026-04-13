@@ -1,25 +1,25 @@
 <?php
-// Config e classe de notícias
+
 require_once '../../../config/config.php';
 require_once BASE_PATH . 'app/DAO/NewsDAO.php';
 require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $newsDAO = new NewsDAO($conn);
 
-// Captura o ID da notícia via GET
+
 $newsId = filter_input(INPUT_GET, 'news_id');
 
 if ($newsId === null || $newsId <= 0) {
     die("ID da notícia não fornecido.");
 }
 
-// Busca notícia principal via POO
+
 $news = $newsDAO->getById($newsId);
 if (!$news) {
     die("Notícia não encontrada.");
 }
 
-// Busca outras notícias para sidebar (exceto a principal)
+
 $otherNews = $newsDAO->getLatestExcept($newsId, 2);
 ?>
 

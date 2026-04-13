@@ -73,12 +73,8 @@ function editNews(btn) {
   const image = card.dataset.newsImage;
 
   const form = document.querySelector("#news-form-element");
-
-  // Remove input hidden anterior se existir
   const existingId = document.querySelector("input[name='news_id']");
   if (existingId) existingId.remove();
-
-  // Criar novo input hidden
   const newIdInput = document.createElement("input");
   newIdInput.type = "hidden";
   newIdInput.name = "news_id";

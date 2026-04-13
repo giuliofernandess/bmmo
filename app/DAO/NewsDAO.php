@@ -12,9 +12,9 @@ class NewsDAO implements EntityInterface
         $this->conn = $conn;
     }
 
-    /**
-     * Cria uma noticia.
-     */
+    
+
+
     public function create(object $entity): mixed
     {
         $db = $this->conn;
@@ -53,9 +53,9 @@ class NewsDAO implements EntityInterface
         }
     }
 
-    /**
-     * Lista noticias em ordem de publicacao (mais recentes primeiro).
-     */
+    
+
+
     public function getAll(array $filters = []): array
     {
         $db = $this->conn;
@@ -80,9 +80,9 @@ class NewsDAO implements EntityInterface
         return $newsList;
     }
 
-    /**
-     * Busca uma noticia por ID.
-     */
+    
+
+
     public function getById(int $newsId): ?News
     {
         $db = $this->conn;
@@ -105,9 +105,9 @@ class NewsDAO implements EntityInterface
         return $data ? News::fromArray($data) : null;
     }
 
-    /**
-     * Atualiza uma noticia existente.
-     */
+    
+
+
     public function edit(object $entity): bool
     {
         $db = $this->conn;
@@ -144,9 +144,9 @@ class NewsDAO implements EntityInterface
         }
     }
 
-    /**
-     * Remove uma noticia por ID.
-     */
+    
+
+
     public function delete(int $newsId): bool
     {
         $db = $this->conn;
@@ -164,9 +164,9 @@ class NewsDAO implements EntityInterface
         }
     }
 
-    /**
-     * Lista as ultimas noticias, excluindo a noticia atual.
-     */
+    
+
+
     public function getLatestExcept(int $excludeId, int $limit = 2): array
     {
         $db = $this->conn;

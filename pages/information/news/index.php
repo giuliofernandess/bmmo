@@ -1,8 +1,8 @@
 <?php 
-// Carrega config do projeto (BASE_URL e BASE_PATH)
+
 require_once '../../../config/config.php';
 
-// Carrega a classe de notícias POO
+
 require_once BASE_PATH . 'app/DAO/NewsDAO.php';
 
 $newsDAO = new NewsDAO($conn);
@@ -40,10 +40,10 @@ $newsList = $newsDAO->getAll();
         if (empty($newsList)) {
             echo "<div class='no-news'>Nenhuma notícia cadastrada no momento.</div>";
         } else {
-            // Itera sobre cada notícia
+            
             foreach ($newsList as $newsItem) {
 
-                // Dados da notícia
+                
               $newsId = (int) ($newsItem->getNewsId() ?? 0);
                 $newsTitle = htmlspecialchars($newsItem->getNewsTitle(), ENT_QUOTES, 'UTF-8');
                 $newsSubtitle = htmlspecialchars($newsItem->getNewsSubtitle(), ENT_QUOTES, 'UTF-8');

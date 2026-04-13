@@ -15,7 +15,7 @@ $newsDescription = filter_input(INPUT_POST, 'news_description');
 
 $redirect = BASE_URL . 'pages/admin/news/index.php';
 
-// Verificar se encontrou a notícia
+
 $existingNews = $newsDAO->getById($newsId);
 if (!$existingNews || $newsId <= 0) {
     redirectWithMessage($redirect, 'error', 'Notícia não encontrada.');

@@ -14,9 +14,9 @@ class PresentationsDAO implements EntityInterface
         $this->conn = $conn;
     }
 
-    /**
-     * Cria uma apresentação com grupos e músicas vinculadas.
-     */
+    
+
+
 
     public function create(object $entity): mixed
     {
@@ -28,7 +28,7 @@ class PresentationsDAO implements EntityInterface
             return false;
         }
 
-        // Normaliza os dados principais da apresentação.
+        
         $name = $entity->getPresentationName();
         $date = $entity->getPresentationDate();
         $hour = $entity->getPresentationHour();
@@ -36,7 +36,7 @@ class PresentationsDAO implements EntityInterface
         $musicGroups = $entity->getGroups();
         $songGroups = $entity->getSongs();
 
-        // Salva apresentação e vínculos em transação.
+        
         try {
 
             $stmt = $db->prepare("INSERT INTO presentations (presentation_name, presentation_date, presentation_hour, local_of_presentation) VALUES (?, ?, ?, ?)");
@@ -48,7 +48,7 @@ class PresentationsDAO implements EntityInterface
 
             $stmt->close();
 
-            // Inserir grupos
+            
             $stmtGroups = $db->prepare(
                 "INSERT INTO presentations_groups (presentation_id, group_id) VALUES (?, ?)"
             );
@@ -66,7 +66,7 @@ class PresentationsDAO implements EntityInterface
 
             $stmtGroups->close();
 
-            // Inserir músicas.
+            
             $stmtSongs = $db->prepare(
                 "INSERT INTO presentations_songs (presentation_id, song_id) VALUES (?, ?)"
             );
@@ -93,9 +93,9 @@ class PresentationsDAO implements EntityInterface
         }
     }
 
-    /**
-     * Atualiza uma apresentação e recria vínculos de grupos/músicas.
-     */
+    
+
+
 
     public function edit(object $entity): bool
     {
@@ -107,7 +107,7 @@ class PresentationsDAO implements EntityInterface
             return false;
         }
 
-        // Normaliza os dados principais da apresentação.
+        
         $presentationId = (int) ($entity->getPresentationId() ?? 0);
         $name = $entity->getPresentationName();
         $date = $entity->getPresentationDate();
@@ -116,7 +116,7 @@ class PresentationsDAO implements EntityInterface
         $musicGroups = $entity->getGroups();
         $songGroups = $entity->getSongs();
 
-        // Atualiza apresentação e vínculos em transação.
+        
         try {
 
             $stmt = $db->prepare("UPDATE presentations SET presentation_name = ?, presentation_date = ?, presentation_hour = ?, local_of_presentation = ? WHERE presentation_id = ?");
@@ -126,7 +126,7 @@ class PresentationsDAO implements EntityInterface
 
             $stmt->close();
 
-            // Limpar grupos e músicas
+            
             $stmtDeleteGroups = $db->prepare("DELETE FROM presentations_groups WHERE presentation_id = ?");
             $stmtDeleteGroups->bind_param("i", $presentationId);
             $stmtDeleteGroups->execute();
@@ -137,7 +137,7 @@ class PresentationsDAO implements EntityInterface
             $stmtDeleteSongs->execute();
             $stmtDeleteSongs->close();
 
-            // Editar grupos
+            
             $stmtGroups = $db->prepare(
                 "INSERT INTO presentations_groups (presentation_id, group_id) VALUES (?, ?)"
             );
@@ -155,7 +155,7 @@ class PresentationsDAO implements EntityInterface
 
             $stmtGroups->close();
 
-            // Inserir músicas.
+            
             $stmtSongs = $db->prepare(
                 "INSERT INTO presentations_songs (presentation_id, song_id) VALUES (?, ?)"
             );
@@ -182,9 +182,9 @@ class PresentationsDAO implements EntityInterface
         }
     }
 
-    /**
-     * Remove uma apresentação e seus vínculos.
-     */
+    
+
+
 
     public function delete(int $presentationId): bool
     {
@@ -192,7 +192,7 @@ class PresentationsDAO implements EntityInterface
 
         $db->begin_transaction();
 
-        // Remove apresentação; vínculos são removidos por ON DELETE CASCADE.
+        
         try {
             $stmtDeleteMainTable = $db->prepare("DELETE FROM presentations WHERE presentation_id = ?");
             $stmtDeleteMainTable->bind_param("i", $presentationId);
@@ -208,9 +208,9 @@ class PresentationsDAO implements EntityInterface
         }
     }
 
-    /**
-     * Remove automaticamente apresentações com data anterior ao dia atual.
-     */
+    
+
+
 
     public function automaticallyDelete(): void
     {
@@ -226,9 +226,9 @@ class PresentationsDAO implements EntityInterface
         $stmt->close();
     }
 
-    /**
-     * Lista apresentações em ordem cronológica.
-     */
+    
+
+
 
     public function getAll(array $filters = []): array
     {
@@ -255,9 +255,9 @@ class PresentationsDAO implements EntityInterface
         return $presentationsList;
     }
 
-    /**
-     * Lista os grupos vinculados a uma apresentação.
-     */
+    
+
+
 
     public function getPresentationGroups(int $presentationId): array
     {
@@ -286,9 +286,9 @@ class PresentationsDAO implements EntityInterface
         return $groupsList;
     }
 
-    /**
-     * Lista as músicas vinculadas a uma apresentação.
-     */
+    
+
+
 
     public function getPresentationSongs(int $presentationId): array
     {

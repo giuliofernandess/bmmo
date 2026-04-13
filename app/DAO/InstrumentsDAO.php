@@ -10,13 +10,13 @@ class InstrumentsDAO
     {
         $this->conn = $conn;
     }
-    /**
-     * Retorna todos os instrumentos do banco, ordenados por id.
-     *
-     * @param bool $voiceOff Booleano que seleciona a consulta com in 
-     * @param bool $musicalScore Booleano que verifica se o método vai ser chamado para uma partitura ou não
-     * @return Instrument[]
-     */
+    
+
+
+
+
+
+
 
     public function getAll(bool $voiceOff = false, bool $musicalScore = false): array
     {

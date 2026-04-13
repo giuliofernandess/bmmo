@@ -24,7 +24,7 @@ function buildSafeMusicalScoreFileName(string $originalName, array $allowedExten
 	return uniqid('score_', true) . '.' . $extension;
 }
 
-// Recebe dados do formulário
+
 $musicId = filter_input(INPUT_POST, 'musical_score_id');
 $musicName = filter_input(INPUT_POST, 'musical_score_name');
 $musicGenre = filter_input(INPUT_POST, 'musical_score_genre');
@@ -39,7 +39,7 @@ validateRequiredFields([
 	'musical_score_groups' => $musicGroups
 ], $redirectSuccess);
 
-// Validação de instrumentos sem vozes
+
 $instrumentsVoiceOff = [];
 $voiceOffInput = $_FILES['musical_score_instruments_voice_off'] ?? $_FILES['instrumentsVoiceOff'] ?? [];
 $voiceOffNames = $voiceOffInput['name'] ?? [];
@@ -73,7 +73,7 @@ foreach ($voiceOffNames as $instrumentId => $nameVoiceOff) {
 }
 }
 
-// Validação de instrumentos com vozes
+
 $instruments = [];
 $instrumentInput = $_FILES['musical_score_instruments'] ?? $_FILES['instruments'] ?? [];
 $instrumentNames = $instrumentInput['name'] ?? [];

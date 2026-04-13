@@ -12,7 +12,7 @@ $bandGroupsDAO = new BandGroupsDAO($conn);
 
 Auth::requireRegency();
 
-// Verifica se recebeu o id do músico
+
 $musicianId = filter_input(INPUT_GET, 'musician_id');
 
 if (!$musicianId) {
@@ -27,7 +27,7 @@ if (!$musician) {
 }
 
 
-//Recebimento de variáveis
+
 $musicianName = trim($musician->getMusicianName()) ?: null;
 
 $instrumentName = null;
@@ -46,14 +46,14 @@ foreach ($bandGroupsDAO->getAll() as $group) {
   }
 }
 
-//Tratamento de data
+
 $dateOfBirthRaw = trim($musician->getDateOfBirth()) ?: null;
 $dateOfBirth = htmlspecialchars((string) $dateOfBirthRaw);
 try {
   $date = new DateTime((string) $dateOfBirthRaw);
   $dateOfBirth = htmlspecialchars($date->format('d-m-Y'));
 } catch (Exception $e) {
-  // Keep raw date string to avoid fatal error if database value is invalid.
+  
 }
 
 $musicianContact = trim((string) ($musician->getMusicianContact() ?? '')) ?: null;
@@ -64,7 +64,7 @@ $responsibleContact = trim((string) ($musician->getResponsibleContact() ?? '')) 
 $profileImage = trim((string) ($musician->getProfileImage() ?? '')) ?: null;
 
 
-// Tratamento de possível NULL
+
 $institution = $institution ? htmlspecialchars($institution) : "Não informado";
 $responsibleName = $responsibleName ? htmlspecialchars($responsibleName) : "Não informado";
 $responsibleContact = $responsibleContact ? htmlspecialchars($responsibleContact) : "Não informado";

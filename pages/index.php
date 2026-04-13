@@ -1,8 +1,8 @@
 <?php
-//Inicia sessão
+
 session_start();
 
-// Carrega config do projeto (BASE_URL e BASE_PATH)
+
 require_once '../config/config.php';
 ?>
 

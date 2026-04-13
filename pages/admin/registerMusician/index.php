@@ -72,10 +72,10 @@ $groupsList = $bandGroupsDAO->getAll();
             <option value="">Selecione</option>
 
             <?php
-            // Itera sobre cada instrumento
+            
             foreach ($instrumentsList as $instrument) {
 
-              // Dados do instrumento
+              
               $instrumentId = (int) ($instrument->getInstrumentId() ?? 0);
               $instrumentName = htmlspecialchars($instrument->getInstrumentName(), ENT_QUOTES, 'UTF-8');
               ?>
@@ -98,10 +98,10 @@ $groupsList = $bandGroupsDAO->getAll();
             <option value="">Selecione</option>
 
             <?php
-            // Itera sobre cada grupo
+            
             foreach ($groupsList as $group) {
 
-              // Dados do grupo
+              
               $groupId = (int) ($group->getGroupId() ?? 0);
               $groupName = htmlspecialchars($group->getGroupName(), ENT_QUOTES, 'UTF-8');
               ?>

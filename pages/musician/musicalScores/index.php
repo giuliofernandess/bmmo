@@ -83,7 +83,7 @@ $musicsList = $musicalScoresDAO->getAllByInstrument(
     if (!empty($musicsList)) {
       $currentGenre = "";
 
-      // Itera sobre cada partitura
+      
       foreach ($musicsList as $music) {
         $musicGenre = htmlspecialchars($music->getMusicGenre(), ENT_QUOTES, 'UTF-8');
         $musicName = htmlspecialchars($music->getMusicName(), ENT_QUOTES, 'UTF-8');

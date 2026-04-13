@@ -1,8 +1,8 @@
 <?php
-// Carrega configuração do projeto (BASE_URL e BASE_PATH)
+
 require_once '../../../config/config.php';
 
-// Inicia sessão para capturar mensagens de erro
+
 session_start();
 ?>
 

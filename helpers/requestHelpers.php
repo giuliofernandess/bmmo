@@ -130,7 +130,7 @@ if (!function_exists('handleProfileImageUpload')) {
 			redirectWithMessage($redirect, 'error', 'Arquivo muito grande. Máximo permitido: 5MB.');
 		}
 
-		// Carregar imagem original
+		
 		$image = null;
 		switch ($fileExtension) {
 			case 'jpg':
@@ -146,7 +146,7 @@ if (!function_exists('handleProfileImageUpload')) {
 			redirectWithMessage($redirect, 'error', 'Não foi possível processar a imagem.');
 		}
 
-		// Corrigir orientação EXIF
+		
 		$image = rotateImageByExif($image, $fileTmpPath);
 
 		$uploadDir = BASE_PATH . 'uploads/' . trim($uploadSubDir, '/') . '/';
@@ -155,7 +155,7 @@ if (!function_exists('handleProfileImageUpload')) {
 			mkdir($uploadDir, 0755, true);
 		}
 
-		// Salvar sempre como JPEG
+		
 		$newFileName = uniqid($filePrefix, true) . '.jpg';
 		$destPath = $uploadDir . $newFileName;
 

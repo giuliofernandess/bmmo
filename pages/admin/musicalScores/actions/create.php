@@ -12,7 +12,7 @@ Auth::requireRegency();
 
 $redirect = BASE_URL . "pages/admin/musicalScores/index.php";
 
-// Recebe dados do formulário
+
 $musicName = filter_input(INPUT_POST, 'musical_score_name');
 $musicGenre = filter_input(INPUT_POST, 'musical_score_genre');
 $musicGroups = postArray('musical_score_groups');

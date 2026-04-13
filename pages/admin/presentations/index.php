@@ -148,7 +148,7 @@ $presentationsList = $presentationsDAO->getAll();
                     try {
                         $formattedPresentationDate = (new DateTime($presentationDate))->format('d/m/Y');
                     } catch (Exception $e) {
-                        // Keep raw date string to avoid breaking page rendering.
+                        
                     }
                     ?>
                     <div class="col-12 col-md-6 col-lg-3">

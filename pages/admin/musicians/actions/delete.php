@@ -18,7 +18,7 @@ if (!$musicianId) {
 
 $redirectError = BASE_URL . "pages/admin/musicians/musicianProfile/index.php" . "?musician_id=" . urlencode((string) $musicianId);
 
-// Recebe a imagem do músico
+
 $currentImage = $musiciansDAO->getProfileImage($musicianId);
 
 $deleteMusician = $musiciansDAO->delete($musicianId);

@@ -13,7 +13,7 @@ $instrumentsDAO = new InstrumentsDAO($conn);
 
 Auth::requireRegency();
 
-// Verifica se recebeu o id do músico
+
 $musicianId = filter_input(INPUT_GET, 'musician_id');
 
 if (!$musicianId) {
@@ -28,11 +28,11 @@ if (!$musicians) {
 }
 
 
-//Recebimento de variáveis
+
 $musician_login = trim($musicians->getMusicianLogin());
 $musician_name = trim($musicians->getMusicianName());
 
-//Instrumento + Grupo
+
 $instrument = (int) $musicians->getInstrument();
 $band_group = (int) $musicians->getBandGroup();
 
@@ -93,10 +93,10 @@ $groupsList = $bandGroupsDAO->getAll();
           <select name="musician_instrument" id="musician-instrument" class="form-select" required>
 
             <?php
-            // Itera sobre cada instrumento
+            
             foreach ($instrumentsList as $instrumentEntity) {
 
-              // Dados do instrumento
+              
               $instrumentId = (int) ($instrumentEntity->getInstrumentId() ?? 0);
               $instrumentName = htmlspecialchars($instrumentEntity->getInstrumentName(), ENT_QUOTES, 'UTF-8');
               ?>
@@ -119,10 +119,10 @@ $groupsList = $bandGroupsDAO->getAll();
           <select name="band_group" id="band-group" class="form-select" required>
 
             <?php
-            // Itera sobre cada grupo
+            
             foreach ($groupsList as $groupEntity) {
 
-              // Dados do grupo
+              
               $groupId = (int) ($groupEntity->getGroupId() ?? 0);
               $groupName = htmlspecialchars($groupEntity->getGroupName(), ENT_QUOTES, 'UTF-8');
               ?>

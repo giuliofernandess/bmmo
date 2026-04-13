@@ -10,7 +10,7 @@ $musiciansDAO = new MusiciansDAO($conn);
 
 Auth::requireRegency();
 
-// Recebimento de variáveis pelo método POST
+
 $musicianId = filter_input(INPUT_POST, 'musician_id');
 $musicianLogin = filter_input(INPUT_POST, 'musician_login');
 $instrument = filter_input(INPUT_POST, 'musician_instrument');
@@ -34,11 +34,11 @@ validateRequiredFields([
 	'musician_neighborhood' => $neighborhood
 ], $redirect);
 
-//Validação de imagem
+
 $currentImage = $musiciansDAO->getProfileImage($musicianId);
 $imageFileName = handleProfileImageUpload($_FILES['file'] ?? [], $redirect, $currentImage);
 
-/* Valida senha */
+
 if ($newPassword !== $confirmNewPassword) {
 	redirectWithMessage($redirect, 'error', "As senhas não conferem.");
 }
@@ -61,7 +61,7 @@ if ($musiciansDAO->edit($musicianInfo)) {
 
 	if ($newPassword !== null && $confirmNewPassword !== null) {
 
-        // Tenta atualizar a senha do usuário
+        
 
 		if (!$musiciansDAO->editPassword($musicianId, $newPassword)) {
             redirectWithMessage($redirect, 'error', "Erro ao editar a senha. Tente novamente.");

@@ -146,8 +146,6 @@ function editPresentation(btn) {
   document.querySelector("#presentation-date").value = info.dataset.presentationDate;
   document.querySelector("#presentation-hour").value = info.dataset.presentationHour;
   document.querySelector("#presentation-location").value = info.dataset.presentationLocation;
-
-  // grupos
   const bandGroups = JSON.parse(info.dataset.presentationGroups);
   const checkboxes = document.querySelectorAll('input[name="groups[]"]');
 

@@ -1,5 +1,5 @@
 <?php
-// Carrega config do projeto
+
 require_once '../../../config/config.php';
 ?>
 

@@ -8,7 +8,7 @@ require_once BASE_PATH . 'app/DAO/MusiciansDAO.php';
 require_once BASE_PATH . 'app/Models/Musician.php';
 require_once BASE_PATH . 'helpers/requestHelpers.php';
 
-// Recebimento de variáveis pelo método POST
+
 $musicianId = filter_input(INPUT_POST, 'musician_id');
 $musicianContact = filter_input(INPUT_POST, 'musician_contact');
 $responsibleName = filter_input(INPUT_POST, 'responsible_name');
@@ -31,7 +31,7 @@ validateRequiredFields([
 
 $isChangingPassword = !isEmptyRequiredValue($currentPassword) || !isEmptyRequiredValue($newPassword) || !isEmptyRequiredValue($confirmNewPassword);
 
-/* Valida senha somente quando houver tentativa de alteração */
+
 if ($isChangingPassword) {
     validateRequiredFields([
         'current_password' => $currentPassword,
@@ -48,7 +48,7 @@ if ($isChangingPassword) {
     }
 }
 
-// Informações do músico via Model
+
 $musicianInfo = Musician::fromArray([
     'musician_id' => (int) $musicianId,
     'musician_contact' => $musicianContact,
@@ -63,7 +63,7 @@ if ($musiciansDAO->editOwnProfile($musicianInfo)) {
 
     if ($isChangingPassword) {
 
-        // Tenta atualizar a senha do usuário
+        
         if (!$musiciansDAO->editPassword($musicianId, $newPassword)) {
             redirectWithMessage($redirect, 'error', "Erro ao editar a senha. Tente novamente.");
         }
