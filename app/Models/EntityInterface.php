@@ -1,8 +1,5 @@
 <?php
 
-
-
-
 interface EntityInterface
 {
     
