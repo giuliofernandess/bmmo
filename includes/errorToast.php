@@ -1,4 +1,5 @@
-<?php if ($message = Message::get('error')) { ?>
+<?php $messageHelper = new Message(); ?>
+<?php if ($message = $messageHelper->getMessage('error')) { ?>
     <div class="app-toast-container app-toast-error" role="alert" aria-live="assertive" aria-atomic="true">
       <div class="app-toast-card">
         <div class="app-toast-icon" aria-hidden="true">
@@ -16,7 +17,7 @@
       </div>
     </div>
 
-    <?php Message::clear('error'); ?>
+    <?php $messageHelper->clearMessage('error'); ?>
    
     <!-- Remove toast em 5 segundos -->
     <script src="<?= BASE_URL ?>assets/js/removeToast.js?v=<?= filemtime(BASE_PATH . 'assets/js/removeToast.js') ?>"></script>

@@ -15,7 +15,8 @@ if (!function_exists('redirectWithMessage')) {
 	function redirectWithMessage(string $redirect, string $type = '', string $message = ''): void
 	{
 		if ($type !== '' && $message !== '') {
-			Message::set($type, $message);
+			$messageHelper = new Message();
+			$messageHelper->setMessage($type, $message);
 		}
 
 		header('Location: ' . $redirect);
