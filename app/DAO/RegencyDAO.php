@@ -10,12 +10,6 @@ class RegencyDAO
     {
         $this->conn = $conn;
     }
-    
-
-
-
-
-
 
     public function findByLogin(string $login): ?Regency
     {

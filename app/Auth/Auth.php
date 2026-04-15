@@ -19,7 +19,8 @@ class Auth
         session_unset();
         session_destroy();
 
-        Message::set('success', 'Logout realizado com sucesso!');
+    $messageHelper = new Message();
+    $messageHelper->setMessage('success', 'Logout realizado com sucesso!');
 
         header("Location: " . $redirectUrl);
         exit;

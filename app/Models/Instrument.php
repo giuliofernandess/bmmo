@@ -14,14 +14,6 @@ class Instrument
         return $entity;
     }
 
-    public function toArray(): array
-    {
-        return [
-            'instrument_id' => $this->instrumentId,
-            'instrument_name' => $this->instrumentName,
-        ];
-    }
-
     public function getInstrumentId(): ?int
     {
         return $this->instrumentId;

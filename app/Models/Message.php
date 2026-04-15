@@ -2,7 +2,7 @@
 
 class Message
 {
-    public static function set(string $type, string $message): void
+    public function setMessage(string $type, string $message): void
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -11,7 +11,7 @@ class Message
         $_SESSION['flash_messages'][$type] = $message;
     }
 
-    public static function get(string $type): ?string
+    public function getMessage(string $type): ?string
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -25,7 +25,7 @@ class Message
         
     }
 
-    public static function clear(string $type): void
+    public function clearMessage(string $type): void
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();

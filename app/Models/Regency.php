@@ -14,14 +14,6 @@ class Regency
         return $entity;
     }
 
-    public function toArray(): array
-    {
-        return [
-            'regency_login' => $this->regencyLogin,
-            'password' => $this->password,
-        ];
-    }
-
     public function getRegencyLogin(): string
     {
         return $this->regencyLogin;
