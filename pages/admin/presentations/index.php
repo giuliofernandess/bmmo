@@ -186,15 +186,14 @@ $presentationsList = $presentationsDAO->getAll();
 
                                 <div class="mt-auto d-flex justify-content-end gap-2">
                                     <form action="<?= BASE_URL ?>pages/admin/presentations/actions/delete.php" method="post"
-                                        class="presentation-delete-form" style="width: 60px;">
+                                        class="presentation-delete-form">
                                         <input type="hidden" name="presentation_id" value="<?= $presentationId ?>">
-                                        <button type="submit" class="btn btn-danger btn-sm d-flex align-items-center justify-content-center p-0 presentation-action-button">
+                                        <button type="submit" class="btn btn-danger btn-sm d-flex align-items-center justify-content-center p-0 presentation-action-button" style="width: 50px;">
                                             <i class="bi bi-trash fs-6"></i>
                                         </button>
                                     </form>
 
-                                    <a class="btn btn-success btn-sm d-flex align-items-center justify-content-center presentation-edit-button presentation-action-button" style="max-width: 50px;"
-                                        href="#">
+                                    <a href="#" class="btn btn-success btn-sm d-flex align-items-center justify-content-center presentation-edit-button presentation-action-button" style="width: 50px;">
                                         <i class="bi bi-pencil-square fs-6"></i>
                                     </a>
                                 </div>
