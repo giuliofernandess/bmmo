@@ -24,7 +24,7 @@ $institution = filter_input(INPUT_POST, 'institution');
 $newPassword = filter_input(INPUT_POST, 'new_password');
 $confirmNewPassword = filter_input(INPUT_POST, 'confirm_new_password');
 
-$redirect = BASE_URL . 'pages/admin/musicians/index.php';
+$redirect = BASE_URL . 'pages/admin/musicians/musicianProfile/index.php?musician_id=' . urlencode($musicianId);
 $redirectSuccess = BASE_URL . 'pages/admin/musicians/musicianProfile/index.php' . "?musician_id=" . urlencode($musicianId);
 
 validateRequiredFields([
