@@ -30,22 +30,23 @@ $musicianInfo = $musiciansDAO->findByLogin($login);
   <?php include_once BASE_PATH ."includes/successToast.php"; ?>
 
   <!-- Header -->
-  <header class="d-flex align-items-center justify-content-between px-3 bg-primary">
-    <a href="#" class="d-flex align-items-center text-white text-decoration-none">
-      <img src="<?= BASE_URL ?>assets/images/band_logo.png" alt="Logo Banda" width="30" height="30" class="me-2">
-      <span class="fs-5 fw-bold">BMMO Online - Músico</span>
-    </a>
-
-    <nav>
-      <ul class="nav">
-        <li class="nav-item">
-          <a href="<?= BASE_URL ?>pages/logout.php" class="nav-link text-white logout-link-icon"
-            id="logout-link">
-            <i class="bi bi-box-arrow-left text-white"></i>
-          </a>
-        </li>
-      </ul>
-    </nav>
+  <header>
+    <div class="container d-flex align-items-center justify-content-between px-3 pt-1">
+      <a href="#" class="d-flex align-items-center text-white text-decoration-none">
+        <img src="<?= BASE_URL ?>assets/images/band_logo.png" alt="Logo Banda" width="30" height="30" class="me-2">
+        <span class="fs-5 fw-bold">BMMO Online - Músico</span>
+      </a>
+      <nav>
+        <ul class="nav">
+          <li class="nav-item">
+            <a href="<?= BASE_URL ?>pages/logout.php" class="nav-link text-white logout-link-icon"
+              id="logout-link">
+              <i class="bi bi-box-arrow-left text-white"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
   <!-- Main -->
