@@ -17,5 +17,6 @@ require_once BASE_PATH . 'app/Database/Database.php';
 require_once BASE_PATH . 'app/Models/Message.php';
 
 
-$conn = Database::getConnection();
+$database = new Database();
+$conn = $database->getConnection();
 ?>

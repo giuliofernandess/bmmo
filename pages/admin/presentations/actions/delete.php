@@ -3,12 +3,13 @@
 session_start();
 require_once '../../../../config/config.php';
 require_once BASE_PATH . 'app/Auth/Auth.php';
+$auth = new Auth();
 require_once BASE_PATH . 'app/DAO/PresentationsDAO.php';
 require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $presentationsDAO = new PresentationsDAO($conn);
 
-Auth::requireRegency();
+$auth->requireRegency();
 
 $redirect = BASE_URL . 'pages/admin/presentations/index.php';
 

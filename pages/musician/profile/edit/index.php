@@ -1,8 +1,9 @@
 <?php
 require_once "../../../../config/config.php";
 require_once BASE_PATH . "app/Auth/Auth.php";
+$auth = new Auth();
 
-Auth::requireMusician();
+$auth->requireMusician();
 
 require_once BASE_PATH ."helpers/getMusicianInfo.php";
 

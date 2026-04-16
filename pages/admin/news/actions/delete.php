@@ -2,12 +2,13 @@
 session_start();
 require_once '../../../../config/config.php';
 require_once BASE_PATH . 'app/Auth/Auth.php';
+$auth = new Auth();
 require_once BASE_PATH . 'app/DAO/NewsDAO.php';
 require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $newsDAO = new NewsDAO($conn);
 
-Auth::requireRegency();
+$auth->requireRegency();
 
 $redirect = BASE_URL . 'pages/admin/news/index.php';
 

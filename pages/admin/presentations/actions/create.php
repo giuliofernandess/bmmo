@@ -5,12 +5,13 @@ require_once '../../../../config/config.php';
 
 require_once BASE_PATH . 'app/DAO/PresentationsDAO.php';
 require_once BASE_PATH . 'app/Auth/Auth.php';
+$auth = new Auth();
 require_once BASE_PATH . 'app/Models/Presentation.php';
 require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $presentationsDAO = new PresentationsDAO($conn);
 
-Auth::requireRegency();
+$auth->requireRegency();
 
 $presentationName = filter_input(INPUT_POST, 'presentation_name');
 $presentationDate = filter_input(INPUT_POST, 'presentation_date');

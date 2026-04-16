@@ -2,13 +2,14 @@
 session_start();
 require_once "../../../../config/config.php";
 require_once BASE_PATH . 'app/Auth/Auth.php';
+$auth = new Auth();
 require_once BASE_PATH . 'app/DAO/MusiciansDAO.php';
 require_once BASE_PATH . 'app/Models/Musician.php';
 require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $musiciansDAO = new MusiciansDAO($conn);
 
-Auth::requireRegency();
+$auth->requireRegency();
 
 function isValidBirthDate(?string $age, ?string $responsibleName, ?string $responsibleContact): bool
 {

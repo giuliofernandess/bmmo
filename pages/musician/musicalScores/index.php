@@ -1,13 +1,14 @@
 <?php
 require_once "../../../config/config.php";
 require_once BASE_PATH . "app/Auth/Auth.php";
+$auth = new Auth();
 require_once BASE_PATH . "app/DAO/MusicalScoresDAO.php";
 require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 $musicalScoresDAO = new MusicalScoresDAO($conn);
 
 
-Auth::requireMusician();
+$auth->requireMusician();
 
 require_once BASE_PATH . "helpers/getMusicianInfo.php";
 

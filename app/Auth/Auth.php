@@ -10,7 +10,7 @@ class Auth
     
 
 
-    public static function redirectIfLoggedIn(): void
+    public function redirectIfLoggedIn(): void
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -30,7 +30,7 @@ class Auth
     }
 
 
-    public static function logout(string $redirectUrl): void
+    public function logout(string $redirectUrl): void
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -52,14 +52,15 @@ class Auth
 
 
 
-    public static function regencyLogin(string $login, string $password): bool
+    public function regencyLogin(string $login, string $password): bool
     {
         
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
 
-        $conn = Database::getConnection();
+        $database = new Database();
+        $conn = $database->getConnection();
         $regencyDAO = new RegencyDAO($conn);
 
         
@@ -86,14 +87,15 @@ class Auth
 
 
 
-    public static function musicianLogin(string $login, string $password): bool
+    public function musicianLogin(string $login, string $password): bool
     {
         
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
 
-        $conn = Database::getConnection();
+        $database = new Database();
+        $conn = $database->getConnection();
         $musiciansDAO = new MusiciansDAO($conn);
 
         
@@ -118,7 +120,7 @@ class Auth
     
 
 
-    public static function requireRegency(): void
+    public function requireRegency(): void
     {
         
         if (session_status() === PHP_SESSION_NONE) {
@@ -135,7 +137,7 @@ class Auth
     
 
 
-    public static function requireMusician(): void
+    public function requireMusician(): void
     {
         
         if (session_status() === PHP_SESSION_NONE) {

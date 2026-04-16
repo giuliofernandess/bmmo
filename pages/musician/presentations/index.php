@@ -1,11 +1,12 @@
 <?php
 require_once "../../../config/config.php";
 require_once BASE_PATH . "app/Auth/Auth.php";
+$auth = new Auth();
 require_once BASE_PATH ."app/DAO/PresentationsDAO.php";
 
 $presentationsDAO = new PresentationsDAO($conn);
 
-Auth::requireMusician();
+$auth->requireMusician();
 
 $presentationsDAO->automaticallyDelete();
 

@@ -8,6 +8,7 @@ require_once '../../../config/config.php';
 
 
 require_once BASE_PATH . 'app/Auth/Auth.php';
+$auth = new Auth();
 require_once BASE_PATH . 'helpers/requestHelpers.php';
 
 
@@ -40,11 +41,11 @@ validateRequiredFields([
 
 if ($type === 'admin') {
     $redirectSuccess = BASE_URL . 'pages/admin/index.php';
-    $method = Auth::regencyLogin($login, $password);
+    $method = $auth->regencyLogin($login, $password);
     
 } else {
     $redirectSuccess = BASE_URL . 'pages/musician/index.php';
-    $method = Auth::musicianLogin($login, $password);
+    $method = $auth->musicianLogin($login, $password);
 }
 
 

@@ -1,8 +1,9 @@
 <?php
 require_once "../../config/config.php";
 require_once BASE_PATH . "app/Auth/Auth.php";
+$auth = new Auth();
 
-Auth::requireRegency();
+$auth->requireRegency();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">

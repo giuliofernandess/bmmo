@@ -6,12 +6,13 @@ require_once BASE_PATH . 'app/DAO/BandGroupsDAO.php';
 require_once BASE_PATH . 'app/DAO/MusicalScoresDAO.php';
 require_once BASE_PATH . 'app/DAO/PresentationsDAO.php';
 require_once BASE_PATH . 'app/Auth/Auth.php';
+$auth = new Auth();
 
 $bandGroupsDAO = new BandGroupsDAO($conn);
 $musicalScoresDAO = new MusicalScoresDAO($conn);
 $presentationsDAO = new PresentationsDAO($conn);
 
-Auth::requireRegency();
+$auth->requireRegency();
 
 $presentationsDAO->automaticallyDelete();
 

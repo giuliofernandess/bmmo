@@ -1,6 +1,7 @@
 <?php
 require_once "../../../../config/config.php";
 require_once BASE_PATH . "app/Auth/Auth.php";
+$auth = new Auth();
 require_once BASE_PATH . "app/DAO/MusiciansDAO.php";
 require_once BASE_PATH . "app/DAO/InstrumentsDAO.php";
 require_once BASE_PATH . "app/DAO/BandGroupsDAO.php";
@@ -10,7 +11,7 @@ $musiciansDAO = new MusiciansDAO($conn);
 $instrumentsDAO = new InstrumentsDAO($conn);
 $bandGroupsDAO = new BandGroupsDAO($conn);
 
-Auth::requireRegency();
+$auth->requireRegency();
 
 
 $musicianId = filter_input(INPUT_GET, 'musician_id');

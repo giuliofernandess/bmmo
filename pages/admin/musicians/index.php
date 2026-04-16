@@ -3,6 +3,7 @@
 require_once "../../../config/config.php";
 
 require_once BASE_PATH . "app/Auth/Auth.php";
+$auth = new Auth();
 
 require_once BASE_PATH . "app/Models/Musician.php";
 
@@ -15,7 +16,7 @@ $musiciansDAO = new MusiciansDAO($conn);
 $bandGroupsDAO = new BandGroupsDAO($conn);
 $instrumentsDAO = new InstrumentsDAO($conn);
 
-Auth::requireRegency();
+$auth->requireRegency();
 
 $groupsList = $bandGroupsDAO->getAll();
 $instrumentsList = $instrumentsDAO->getAll();

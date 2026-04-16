@@ -3,6 +3,7 @@ session_start();
 
 require_once "../../../config/config.php";
 require_once BASE_PATH . "app/Auth/Auth.php";
+$auth = new Auth();
 
 require_once BASE_PATH . "app/DAO/InstrumentsDAO.php";
 require_once BASE_PATH . "app/DAO/BandGroupsDAO.php";
@@ -10,7 +11,7 @@ require_once BASE_PATH . "app/DAO/BandGroupsDAO.php";
 $bandGroupsDAO = new BandGroupsDAO($conn);
 $instrumentsDAO = new InstrumentsDAO($conn);
 
-Auth::requireRegency();
+$auth->requireRegency();
 
 $selectedInstrument = 0;
 $selectedBandGroup = 0;
