@@ -1,9 +1,12 @@
 <?php
 
 require_once '../../../config/config.php';
+require_once BASE_PATH . 'app/Auth/Auth.php';
 
 
 session_start();
+
+Auth::redirectIfLoggedIn();
 ?>
 
 <!doctype html>

@@ -10,6 +10,26 @@ class Auth
     
 
 
+    public static function redirectIfLoggedIn(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $role = $_SESSION['role'] ?? '';
+
+        if (($role === 'regency' && isset($_SESSION['regency_login'])) || isset($_SESSION['regency_login'])) {
+            header("Location: " . BASE_URL . "pages/admin/index.php");
+            exit;
+        }
+
+        if (($role === 'musician' && isset($_SESSION['musician_login'])) || isset($_SESSION['musician_login'])) {
+            header("Location: " . BASE_URL . "pages/musician/index.php");
+            exit;
+        }
+    }
+
+
     public static function logout(string $redirectUrl): void
     {
         if (session_status() === PHP_SESSION_NONE) {
