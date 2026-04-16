@@ -1,6 +1,19 @@
 const currentPage = location.pathname + location.search;
 const previousPage = sessionStorage.getItem("currentPage");
-const fallbackPage = window.fallbackPage || "/";
+const origin = window.location.origin;
+
+function parseUrl(urlValue) {
+    try {
+        return new URL(urlValue, origin);
+    } catch (e) {
+        return null;
+    }
+}
+
+const fallbackParsed = parseUrl(window.fallbackPage || "/");
+const fallbackPage = fallbackParsed && fallbackParsed.origin === origin
+    ? fallbackParsed.href
+    : `${origin}/`;
 
 if (previousPage) {
     sessionStorage.setItem("lastPage", previousPage);
@@ -10,33 +23,31 @@ sessionStorage.setItem("currentPage", currentPage);
 
 function isUnsafeBackTarget(urlValue) {
     if (!urlValue) {
-        return false;
+        return true;
     }
 
-    let parsed;
+    const parsed = parseUrl(urlValue);
 
-    try {
-        parsed = new URL(urlValue, window.location.origin);
-    } catch (e) {
+    if (!parsed || parsed.origin !== origin) {
         return true;
     }
 
     const pathname = (parsed.pathname || "").toLowerCase();
     const file = pathname.split("/").pop() || "";
 
-    const receivesGet = parsed.search.length > 0;
+    const receivesMutatingGet = /(\?|&)(action|delete|remove|create|edit|login)=/i.test(parsed.search);
     const receivesPost =
         pathname.includes("/actions/") ||
-        /^(create|edit|delete|login)\.php$/.test(file);
+        /^(create|edit|delete|deleteinstrument|login)\.php$/.test(file);
 
-    return receivesGet || receivesPost;
+    return receivesMutatingGet || receivesPost;
 }
 
 function safeBack() {
     const last = sessionStorage.getItem("lastPage");
 
-    if (!last) {
-        history.back();
+    if (!last || last === currentPage) {
+        window.location.href = fallbackPage;
         return;
     }
 
@@ -45,7 +56,14 @@ function safeBack() {
         return;
     }
 
-    history.back();
+    const target = parseUrl(last);
+
+    if (!target) {
+        window.location.href = fallbackPage;
+        return;
+    }
+
+    window.location.href = target.href;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
