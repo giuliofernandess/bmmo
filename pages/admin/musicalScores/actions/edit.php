@@ -14,6 +14,30 @@ $auth->requireRegency();
 $allowedExtensions = ['pdf'];
 $maxFileSize = 15 * 1024 * 1024;
 
+function iniSizeToBytes(string $value): int
+{
+	$value = trim($value);
+	if ($value === '') {
+		return 0;
+	}
+
+	$unit = strtolower(substr($value, -1));
+	$number = (float) $value;
+
+	switch ($unit) {
+		case 'g':
+			$number *= 1024;
+			// no break
+		case 'm':
+			$number *= 1024;
+			// no break
+		case 'k':
+			$number *= 1024;
+	}
+
+	return (int) $number;
+}
+
 function buildSafeMusicalScoreFileName(string $originalName, array $allowedExtensions): ?string
 {
 	$extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
@@ -33,6 +57,13 @@ $musicGroups = postArray('musical_score_groups');
 
 $redirectSuccess = BASE_URL . "pages/admin/musicalScores/edit/index.php?" . "musical_score_id=" . urlencode($musicId);
 
+$contentLength = isset($_SERVER['CONTENT_LENGTH']) ? (int) $_SERVER['CONTENT_LENGTH'] : 0;
+$postMaxSize = iniSizeToBytes((string) ini_get('post_max_size'));
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $postMaxSize > 0 && $contentLength > $postMaxSize) {
+	redirectWithMessage($redirectSuccess, 'error', "Arquivo muito grande para o servidor. Reduza o tamanho do envio.");
+}
+
 validateRequiredFields([
 	'musical_score_id' => $musicId,
 	'musical_score_name' => $musicName,
@@ -50,8 +81,13 @@ $voiceOffSizes = $voiceOffInput['size'] ?? [];
 
 if (is_array($voiceOffNames)) {
 foreach ($voiceOffNames as $instrumentId => $nameVoiceOff) {
+	$errorCode = (int) ($voiceOffErrors[$instrumentId] ?? UPLOAD_ERR_NO_FILE);
 
-	if (($voiceOffErrors[$instrumentId] ?? null) === UPLOAD_ERR_OK) {
+	if ($errorCode === UPLOAD_ERR_INI_SIZE || $errorCode === UPLOAD_ERR_FORM_SIZE) {
+		redirectWithMessage($redirectSuccess, 'error', "Arquivo muito grande. Máximo permitido: 15MB.");
+	}
+
+	if ($errorCode === UPLOAD_ERR_OK) {
 
 		$tmp = $voiceOffTmp[$instrumentId] ?? '';
 		$size = (int) ($voiceOffSizes[$instrumentId] ?? 0);
@@ -84,8 +120,13 @@ $instrumentSizes = $instrumentInput['size'] ?? [];
 
 if (is_array($instrumentNames)) {
 foreach ($instrumentNames as $instrumentId => $name) {
+	$errorCode = (int) ($instrumentErrors[$instrumentId] ?? UPLOAD_ERR_NO_FILE);
 
-	if (($instrumentErrors[$instrumentId] ?? null) === UPLOAD_ERR_OK) {
+	if ($errorCode === UPLOAD_ERR_INI_SIZE || $errorCode === UPLOAD_ERR_FORM_SIZE) {
+		redirectWithMessage($redirectSuccess, 'error', "Arquivo muito grande. Máximo permitido: 15MB.");
+	}
+
+	if ($errorCode === UPLOAD_ERR_OK) {
 
 		$tmp = $instrumentTmp[$instrumentId] ?? '';
 		$size = (int) ($instrumentSizes[$instrumentId] ?? 0);
