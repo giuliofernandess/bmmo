@@ -54,7 +54,7 @@ $auth->requireRegency();
 
         <!-- Card: Registrar Músico -->
         <div class="col">
-          <a href="<?= BASE_URL ?>pages/admin/registerMusician/index.php" class="text-decoration-none text-dark">
+          <a href="<?= BASE_URL ?>pages/admin/register-musician/index.php" class="text-decoration-none text-dark">
             <div class="card h-100 shadow-sm border-0 p-3">
               <i class="bi bi-person-plus-fill fs-2 text-primary mb-2"></i>
               <h5 class="fw-bold">Cadastrar Músico</h5>
@@ -87,7 +87,7 @@ $auth->requireRegency();
 
         <!-- Card: Lista de Partituras -->
         <div class="col">
-          <a href="<?= BASE_URL ?>pages/admin/musicalScores/index.php"
+          <a href="<?= BASE_URL ?>pages/admin/musical-scores/index.php"
             class="text-decoration-none text-dark">
             <div class="card h-100 shadow-sm border-0 p-3">
               <i class="bi bi-music-note-list fs-2 text-danger mb-2"></i>

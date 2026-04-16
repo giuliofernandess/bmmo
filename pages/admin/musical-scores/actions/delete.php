@@ -10,7 +10,7 @@ $musicalScoresDAO = new MusicalScoresDAO($conn);
 
 $auth->requireRegency();
 
-$redirect = BASE_URL . "pages/admin/musicalScores/index.php";
+$redirect = BASE_URL . "pages/admin/musical-scores/index.php";
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 	redirectWithMessage($redirect, 'error', "Metodo invalido para exclusao da partitura.");

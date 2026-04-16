@@ -17,7 +17,7 @@ if (!$musicianId) {
 	redirectWithMessage($redirect, 'error', 'Músico inválido.');
 }
 
-$redirectError = BASE_URL . "pages/admin/musicians/musicianProfile/index.php" . "?musician_id=" . urlencode((string) $musicianId);
+$redirectError = BASE_URL . "pages/admin/musicians/musician-profile/index.php" . "?musician_id=" . urlencode((string) $musicianId);
 
 
 $currentImage = $musiciansDAO->getProfileImage($musicianId);

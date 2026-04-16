@@ -23,12 +23,13 @@ Use `lowercase` para domínios principais:
 - `pages/login`
 - `pages/musician`
 
-Dentro de cada domínio, use `camelCase` apenas quando o nome tiver mais de uma palavra:
-- `musicalScores`
-- `aboutTheBand`
-- `registerMusician`
+Dentro de cada domínio, use `kebab-case` para nomes compostos:
+- `musical-scores`
+- `about-the-band`
+- `register-musician`
+- `musician-profile`
 
-Evite PascalCase e variações antigas com hífen para módulos de rota.
+Evite `camelCase` e `PascalCase` em pastas de rota dentro de `pages`.
 
 ### 2. Arquivos de entrada de página
 
@@ -82,7 +83,7 @@ Exemplos:
   - `pages/index.php`
   - `pages/information/news/index.php`
   - `pages/information/news/expanded.php`
-  - `pages/information/aboutTheBand/index.php`
+  - `pages/information/about-the-band/index.php`
 - Login:
   - `pages/login/admin/index.php`
   - `pages/login/admin/actions/login.php`

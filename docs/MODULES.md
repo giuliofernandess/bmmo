@@ -35,9 +35,9 @@
 
 ### Admin
 - `pages/admin/musicians/index.php`
-- `pages/admin/registerMusician/index.php`
-- `pages/admin/musicians/musicianProfile/index.php`
-- `pages/admin/musicians/musicianProfile/edit/index.php`
+- `pages/admin/register-musician/index.php`
+- `pages/admin/musicians/musician-profile/index.php`
+- `pages/admin/musicians/musician-profile/edit/index.php`
 - `pages/admin/musicians/actions/create.php`
 - `pages/admin/musicians/actions/edit.php`
 - `pages/admin/musicians/actions/delete.php`
@@ -53,15 +53,15 @@
 ## Partituras
 
 ### Admin
-- `pages/admin/musicalScores/index.php`
-- `pages/admin/musicalScores/edit/index.php`
-- `pages/admin/musicalScores/actions/create.php`
-- `pages/admin/musicalScores/actions/edit.php`
-- `pages/admin/musicalScores/actions/delete.php`
-- `pages/admin/musicalScores/actions/deleteinstrument.php`
+- `pages/admin/musical-scores/index.php`
+- `pages/admin/musical-scores/edit/index.php`
+- `pages/admin/musical-scores/actions/create.php`
+- `pages/admin/musical-scores/actions/edit.php`
+- `pages/admin/musical-scores/actions/delete.php`
+- `pages/admin/musical-scores/actions/deleteinstrument.php`
 
 ### Músico autenticado
-- `pages/musician/musicalScores/index.php`
+- `pages/musician/musical-scores/index.php`
 
 ### Persistência
 - `MusicalScoresDAO`
@@ -82,7 +82,7 @@
 
 ## Informações institucionais
 
-- `pages/information/aboutTheBand/index.php`
+- `pages/information/about-the-band/index.php`
 
 ## Dashboard por perfil
 

@@ -11,7 +11,7 @@ $musicalScoresDAO = new MusicalScoresDAO($conn);
 
 $auth->requireRegency();
 
-$redirect = BASE_URL . "pages/admin/musicalScores/index.php";
+$redirect = BASE_URL . "pages/admin/musical-scores/index.php";
 
 
 $musicName = filter_input(INPUT_POST, 'musical_score_name');
@@ -32,7 +32,7 @@ $musicalScore = MusicalScore::fromArray([
 
 $musicalScoreAdd = $musicalScoresDAO->create($musicalScore);
 
-$redirectSuccess = BASE_URL . "pages/admin/musicalScores/edit/index.php?" . "musical_score_id=" . urlencode($musicalScoreAdd);
+$redirectSuccess = BASE_URL . "pages/admin/musical-scores/edit/index.php?" . "musical_score_id=" . urlencode($musicalScoreAdd);
 
 if ($musicalScoreAdd !== false) {
 	redirectWithMessage($redirectSuccess, 'success', "Partitura criada com sucesso!");

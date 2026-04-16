@@ -41,7 +41,7 @@ Este repositório usa `.editorconfig` na raiz para padronizar:
 - Público:
   - `http://localhost/bmmo/pages/index.php`
   - `http://localhost/bmmo/pages/information/news/index.php`
-  - `http://localhost/bmmo/pages/information/aboutTheBand/index.php`
+  - `http://localhost/bmmo/pages/information/about-the-band/index.php`
 - Login:
   - `http://localhost/bmmo/pages/login/admin/index.php`
   - `http://localhost/bmmo/pages/login/musician/index.php`

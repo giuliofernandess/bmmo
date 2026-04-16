@@ -63,7 +63,7 @@ $musicsList = $musicalScoresDAO->getAll([
     <div class="bg-white p-4 rounded shadow-sm mb-4 is-hidden" id="musical-score-create-form-container">
       <h4 class="mb-3">Adicionar Partitura</h4>
 
-      <form id="musical-score-form-element" action="<?= BASE_URL ?>pages/admin/musicalScores/actions/create.php" method="post">
+      <form id="musical-score-form-element" action="<?= BASE_URL ?>pages/admin/musical-scores/actions/create.php" method="post">
 
         <div class="mb-3">
           <label for="musical-score-name" class="form-label">Nome *</label>
@@ -166,7 +166,7 @@ $musicsList = $musicalScoresDAO->getAll([
             <div class='card musician-card h-100 border-0 shadow-sm'>
               <img src='<?= BASE_URL ?>assets/images/musical_score.jpg' class='card-img-top musical-score-img'
                 alt='Capa de Partitura'>
-              <a href="<?= BASE_URL ?>pages/admin/musicalScores/edit/index.php?musical_score_id=<?= $musicId ?>"
+              <a href="<?= BASE_URL ?>pages/admin/musical-scores/edit/index.php?musical_score_id=<?= $musicId ?>"
                 class='card-body d-flex flex-column text-decoration-none'>
                 <h5 class='card-title fw-semibold text-center mb-3'><?= htmlspecialchars($musicName) ?></h5>
                 <button class='btn btn-outline-primary mt-auto w-100'>

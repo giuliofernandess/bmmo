@@ -22,7 +22,7 @@ $instrumentsVoiceOff = $instrumentsDAO->getAll(true);
 $musicId = filter_input(INPUT_GET, 'musical_score_id');
 
 if (!$musicId) {
-  redirectWithMessage(BASE_URL . "pages/admin/musicalScores/index.php");
+  redirectWithMessage(BASE_URL . "pages/admin/musical-scores/index.php");
 }
 
 $musicalScore = $musicalScoresDAO->getById($musicId);
@@ -99,7 +99,7 @@ foreach ($instruments as $instrument) {
     <h1 class="mb-3">Edição de partituras</h1>
 
     <!-- Form -->
-    <form method="post" action="<?= BASE_URL ?>pages/admin/musicalScores/actions/edit.php" enctype="multipart/form-data" class="row g-3">
+    <form method="post" action="<?= BASE_URL ?>pages/admin/musical-scores/actions/edit.php" enctype="multipart/form-data" class="row g-3">
 
       <input type="hidden" name="musical_score_id" value="<?= $musicId ?>">
 
@@ -266,66 +266,7 @@ foreach ($instruments as $instrument) {
   <?php include_once BASE_PATH . "includes/footer.php"; ?>
 
   <!-- Scripts -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('.delete-instrument-file-button').forEach((button) => {
-        button.addEventListener('click', () => {
-          const musicalScoreId = Number(button.dataset.musicId);
-          const instrumentId = Number(button.dataset.instrumentId);
-          const voiceOff = button.dataset.voiceOff === '1';
-
-          deleteInstrumentFile(musicalScoreId, instrumentId, voiceOff);
-        });
-      });
-
-      const deleteScoreButton = document.querySelector('.delete-musical-score-button');
-      if (deleteScoreButton) {
-        deleteScoreButton.addEventListener('click', () => {
-          deleteMusicalScore(Number(deleteScoreButton.dataset.musicId));
-        });
-      }
-    });
-
-    function submitPost(url, fields) {
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = url;
-
-      Object.entries(fields).forEach(([key, value]) => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = String(value);
-        form.appendChild(input);
-      });
-
-      document.body.appendChild(form);
-      form.submit();
-    }
-
-    function deleteInstrumentFile(musicalScoreId, instrumentId, voiceOff) {
-      if (!confirmAction('Deseja excluir este arquivo?')) {
-        return;
-      }
-
-      submitPost('<?= BASE_URL ?>pages/admin/musicalScores/actions/deleteinstrument.php', {
-        musical_score_id: musicalScoreId,
-        instrument_id: instrumentId,
-        voice_off: voiceOff ? '1' : '0'
-      });
-    }
-
-    function deleteMusicalScore(musicalScoreId) {
-      if (!confirmAction('Deseja excluir esta partitura?')) {
-        return;
-      }
-
-      submitPost('<?= BASE_URL ?>pages/admin/musicalScores/actions/delete.php', {
-        musical_score_id: musicalScoreId
-      });
-    }
-  </script>
-
+  <script src="<?= BASE_URL ?>assets/js/editMusicalScores.js"></script>
   <script src="<?= BASE_URL ?>assets/js/confirmAction.js"></script>
   <script src="<?= BASE_URL ?>assets/js/showForm.js"></script>
 

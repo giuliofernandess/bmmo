@@ -55,7 +55,7 @@ $musicName = filter_input(INPUT_POST, 'musical_score_name');
 $musicGenre = filter_input(INPUT_POST, 'musical_score_genre');
 $musicGroups = postArray('musical_score_groups');
 
-$redirectSuccess = BASE_URL . "pages/admin/musicalScores/edit/index.php?" . "musical_score_id=" . urlencode($musicId);
+$redirectSuccess = BASE_URL . "pages/admin/musical-scores/edit/index.php?" . "musical_score_id=" . urlencode($musicId);
 
 $contentLength = isset($_SERVER['CONTENT_LENGTH']) ? (int) $_SERVER['CONTENT_LENGTH'] : 0;
 $postMaxSize = iniSizeToBytes((string) ini_get('post_max_size'));

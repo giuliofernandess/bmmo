@@ -162,7 +162,7 @@ $musiciansList = $musiciansDAO->getAll([
             <?php } else { ?>
               <img src="<?= BASE_URL ?>uploads/musicians-images/default.png" alt="Imagem do músico" class="card-img-top">
             <?php } ?>
-            <a href='musicianProfile/index.php?musician_id=<?= $musicianId ?>'
+            <a href='musician-profile/index.php?musician_id=<?= $musicianId ?>'
               class='card-body d-flex flex-column text-decoration-none'>
               <h4 class='card-title fw-semibold text-center mb-3'><?= $musicianName ?></h4>
               <p class="text-center text-dark-emphasis mb-3 fs-5"><?= $bandGroup ?></p>

@@ -42,7 +42,7 @@ $birth = DateTime::createFromFormat('Y-m-d', (string) $dateOfBirth);
 $today = new DateTime();
 $age = $today->diff($birth)->y;
 
-$redirect = BASE_URL . 'pages/admin/registerMusician/index.php';
+$redirect = BASE_URL . 'pages/admin/register-musician/index.php';
 
 validateRequiredFields([
 	'musician_name' => $musicianName,
