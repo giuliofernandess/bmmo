@@ -24,7 +24,6 @@ function isValidBirthDate(?string $age, ?string $responsibleName, ?string $respo
 	}
 }
 
-
 $musicianName = filter_input(INPUT_POST, 'musician_name');
 $login = filter_input(INPUT_POST, 'musician_login');
 
@@ -53,7 +52,7 @@ validateRequiredFields([
 ], $redirect);
 
 $birth = DateTime::createFromFormat('Y-m-d', (string) $dateOfBirth);
-if ($birth === false) {
+if (!$birth) {
 	redirectWithMessage($redirect, 'error', 'Data de nascimento inválida.');
 }
 
@@ -67,21 +66,21 @@ if (isset($_FILES['file'])) {
 	$imageFileName = handleProfileImageUpload($_FILES['file'], $redirect);
 }
 
-
-if ($newPassword !== $confirmNewPassword) {
-	redirectWithMessage($redirect, 'error', "As senhas não conferem.");
-}
-
-
 if ($musiciansDAO->verifyLogin($login)) {
 	redirectWithMessage($redirect, 'error', "Login já existe.");
 }
 
-
-if (!isValidBirthDate($age, $responsibleName, $responsibleContact)) {
-	redirectWithMessage($redirect, 'error', "Data de nascimento inválida ou falta de informações do responsável.");
+if ($age > $today) {
+	redirectWithMessage($redirect, 'error', "Data de nascimento inválida.");
 }
 
+if (!isValidBirthDate($age, $responsibleName, $responsibleContact)) {
+	redirectWithMessage($redirect, 'error', "Faltam informações do responsável.");
+}
+
+if ($newPassword !== $confirmNewPassword) {
+	redirectWithMessage($redirect, 'error', "As senhas não conferem.");
+}
 
 $musicianInfo = Musician::fromArray([
 	'musician_name' => (string) $musicianName,
