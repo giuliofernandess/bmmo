@@ -12,9 +12,6 @@ class MusicalScoresDAO implements EntityInterface
         $this->conn = $conn;
     }
 
-    
-
-
     public function create(object $entity): mixed
     {
         if (!$entity instanceof MusicalScore) {
@@ -33,7 +30,6 @@ class MusicalScoresDAO implements EntityInterface
 
             try {
 
-                
                 $stmt = $db->prepare(
                     "INSERT INTO musical_scores (music_name, music_genre) VALUES (?, ?)"
                 );
@@ -48,8 +44,6 @@ class MusicalScoresDAO implements EntityInterface
 
                 $stmt->close();
 
-
-                
                 $stmtGroups = $db->prepare(
                     "INSERT INTO musical_scores_groups (music_id, group_id) VALUES (?, ?)"
                 );
@@ -67,8 +61,6 @@ class MusicalScoresDAO implements EntityInterface
 
                 $stmtGroups->close();
 
-
-                
                 $db->commit();
 
                 return $musicId;
@@ -82,10 +74,6 @@ class MusicalScoresDAO implements EntityInterface
             return false;
         }
     }
-
-    
-
-
 
     public function edit(object $entity): bool
     {
@@ -106,7 +94,6 @@ class MusicalScoresDAO implements EntityInterface
 
         try {
 
-            
             $stmt = $db->prepare(
                 "UPDATE musical_scores SET music_name= ?, music_genre= ? WHERE music_id = ?"
             );
@@ -118,13 +105,11 @@ class MusicalScoresDAO implements EntityInterface
 
             $stmt->close();
 
-            
             $stmtDel = $db->prepare("DELETE FROM musical_scores_groups WHERE music_id = ?");
             $stmtDel->bind_param("i", $musicId);
             $stmtDel->execute();
             $stmtDel->close();
 
-            
             if (!empty($musicGroups)) {
                 $stmtGroups = $db->prepare(
                     "INSERT INTO musical_scores_groups (music_id, group_id) VALUES (?, ?)"
@@ -144,7 +129,6 @@ class MusicalScoresDAO implements EntityInterface
 
             $stmtVoiceOff = $db->prepare("INSERT INTO musical_scores_instruments VALUES (?, ?, ?)");
 
-            
             foreach ($instrumentsVoiceOff as $instrumentVoiceOff => $file) {
 
                 $baseInstrument = (int) $instrumentVoiceOff;
@@ -182,13 +166,11 @@ class MusicalScoresDAO implements EntityInterface
 
             $stmt = $db->prepare("INSERT INTO musical_scores_instruments VALUES (?, ?, ?)");
 
-            
             foreach ($instruments as $instrument => $file) {
                 $instrument = (int) $instrument;
 
                 if ($this->verifyInstrument($musicId, $instrument)) {
 
-                    
                     $oldFile = $this->getFile($musicId, $instrument);
 
                     if ($oldFile) {
@@ -216,7 +198,6 @@ class MusicalScoresDAO implements EntityInterface
 
             $stmt->close();
 
-            
             $db->commit();
 
             return true;
@@ -227,16 +208,11 @@ class MusicalScoresDAO implements EntityInterface
         }
     }
 
-    
-
-
-
     public function delete(int $musicId): bool
     {
         $db = $this->conn;
 
         $db->begin_transaction();
-
 
         try {
             $stmtDelInstruments = $db->prepare("SELECT file FROM musical_scores_instruments WHERE music_id = ?");
@@ -252,13 +228,12 @@ class MusicalScoresDAO implements EntityInterface
 
             $stmtDelInstruments->close();
 
-            $stmt = $db->prepare("DELETE FROM musical_scores 
+            $stmt = $db->prepare("DELETE FROM musical_scores
             WHERE music_id = ?");
             $stmt->bind_param("i", $musicId);
             $stmt->execute();
             $stmt->close();
 
-            
             $db->commit();
 
             foreach ($files as $file) {
@@ -277,28 +252,24 @@ class MusicalScoresDAO implements EntityInterface
 
     }
 
-    
-
-
-
     public function deleteMusicalScoreInstrument(int $musicId, int $instrumentId = 0, bool $voiceOff = false): bool
     {
         $db = $this->conn;
 
         if ($instrumentId === 0) {
-            $stmt = $db->prepare("DELETE FROM musical_scores_instruments 
+            $stmt = $db->prepare("DELETE FROM musical_scores_instruments
             WHERE music_id = ?");
             $stmt->bind_param("i", $musicId);
         } else {
             if (!$voiceOff) {
-                $stmt = $db->prepare("DELETE FROM musical_scores_instruments 
+                $stmt = $db->prepare("DELETE FROM musical_scores_instruments
                 WHERE music_id = ? and instrument_id = ?");
                 $stmt->bind_param("ii", $musicId, $instrumentId);
             } else {
                 $secondVoice = $instrumentId + 1;
                 $thirdVoice = $instrumentId + 2;
 
-                $stmt = $db->prepare("DELETE FROM musical_scores_instruments 
+                $stmt = $db->prepare("DELETE FROM musical_scores_instruments
                     WHERE music_id = ? and instrument_id IN (?, ?, ?)");
                 $stmt->bind_param("iiii", $musicId, $instrumentId, $secondVoice, $thirdVoice);
             }
@@ -312,10 +283,6 @@ class MusicalScoresDAO implements EntityInterface
 
         return $affected > 0;
     }
-
-    
-
-
 
     public function getAll(array $filters = []): array
     {
@@ -382,10 +349,6 @@ class MusicalScoresDAO implements EntityInterface
         return $musics;
     }
 
-    
-
-
-
     public function getAllByInstrument(int $instrumentId, int $groupId, string|null $musicName = '', string|null $musicGenre = ''): array
     {
         $db = $this->conn;
@@ -445,9 +408,6 @@ class MusicalScoresDAO implements EntityInterface
         return $musicsList;
     }
 
-    
-
-
     public function getById(int $musicId): ?MusicalScore
     {
         $db = $this->conn;
@@ -470,15 +430,12 @@ class MusicalScoresDAO implements EntityInterface
         return $data ? MusicalScore::fromArray($data) : null;
     }
 
-    
-
-
     public function getFile(int $musicId, int $instrumentId): ?string
     {
         $db = $this->conn;
 
-        $sql = "SELECT file 
-            FROM musical_scores_instruments 
+        $sql = "SELECT file
+            FROM musical_scores_instruments
             WHERE music_id = ? AND instrument_id = ?
             LIMIT 1";
 
@@ -493,9 +450,6 @@ class MusicalScoresDAO implements EntityInterface
 
         return $row['file'] ?? null;
     }
-
-    
-
 
     public function verifyGroup(int $musicId, int $groupId): ?bool
     {
@@ -523,10 +477,6 @@ class MusicalScoresDAO implements EntityInterface
         }
 
     }
-
-    
-
-
 
     public function verifyInstrument(int $musicId, int $instrumentId): ?bool
     {

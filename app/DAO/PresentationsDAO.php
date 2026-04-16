@@ -14,10 +14,6 @@ class PresentationsDAO implements EntityInterface
         $this->conn = $conn;
     }
 
-    
-
-
-
     public function create(object $entity): mixed
     {
         $db = $this->conn;
@@ -28,7 +24,6 @@ class PresentationsDAO implements EntityInterface
             return false;
         }
 
-        
         $name = $entity->getPresentationName();
         $date = $entity->getPresentationDate();
         $hour = $entity->getPresentationHour();
@@ -36,7 +31,6 @@ class PresentationsDAO implements EntityInterface
         $musicGroups = $entity->getGroups();
         $songGroups = $entity->getSongs();
 
-        
         try {
 
             $stmt = $db->prepare("INSERT INTO presentations (presentation_name, presentation_date, presentation_hour, local_of_presentation) VALUES (?, ?, ?, ?)");
@@ -48,7 +42,6 @@ class PresentationsDAO implements EntityInterface
 
             $stmt->close();
 
-            
             $stmtGroups = $db->prepare(
                 "INSERT INTO presentations_groups (presentation_id, group_id) VALUES (?, ?)"
             );
@@ -66,7 +59,6 @@ class PresentationsDAO implements EntityInterface
 
             $stmtGroups->close();
 
-            
             $stmtSongs = $db->prepare(
                 "INSERT INTO presentations_songs (presentation_id, song_id) VALUES (?, ?)"
             );
@@ -92,10 +84,6 @@ class PresentationsDAO implements EntityInterface
             return false;
         }
     }
-
-    
-
-
 
     public function edit(object $entity): bool
     {
@@ -107,7 +95,6 @@ class PresentationsDAO implements EntityInterface
             return false;
         }
 
-        
         $presentationId = (int) ($entity->getPresentationId() ?? 0);
         $name = $entity->getPresentationName();
         $date = $entity->getPresentationDate();
@@ -116,7 +103,6 @@ class PresentationsDAO implements EntityInterface
         $musicGroups = $entity->getGroups();
         $songGroups = $entity->getSongs();
 
-        
         try {
 
             $stmt = $db->prepare("UPDATE presentations SET presentation_name = ?, presentation_date = ?, presentation_hour = ?, local_of_presentation = ? WHERE presentation_id = ?");
@@ -126,7 +112,6 @@ class PresentationsDAO implements EntityInterface
 
             $stmt->close();
 
-            
             $stmtDeleteGroups = $db->prepare("DELETE FROM presentations_groups WHERE presentation_id = ?");
             $stmtDeleteGroups->bind_param("i", $presentationId);
             $stmtDeleteGroups->execute();
@@ -137,7 +122,6 @@ class PresentationsDAO implements EntityInterface
             $stmtDeleteSongs->execute();
             $stmtDeleteSongs->close();
 
-            
             $stmtGroups = $db->prepare(
                 "INSERT INTO presentations_groups (presentation_id, group_id) VALUES (?, ?)"
             );
@@ -155,7 +139,6 @@ class PresentationsDAO implements EntityInterface
 
             $stmtGroups->close();
 
-            
             $stmtSongs = $db->prepare(
                 "INSERT INTO presentations_songs (presentation_id, song_id) VALUES (?, ?)"
             );
@@ -182,17 +165,12 @@ class PresentationsDAO implements EntityInterface
         }
     }
 
-    
-
-
-
     public function delete(int $presentationId): bool
     {
         $db = $this->conn;
 
         $db->begin_transaction();
 
-        
         try {
             $stmtDeleteMainTable = $db->prepare("DELETE FROM presentations WHERE presentation_id = ?");
             $stmtDeleteMainTable->bind_param("i", $presentationId);
@@ -208,10 +186,6 @@ class PresentationsDAO implements EntityInterface
         }
     }
 
-    
-
-
-
     public function automaticallyDelete(): void
     {
         $db = $this->conn;
@@ -225,10 +199,6 @@ class PresentationsDAO implements EntityInterface
 
         $stmt->close();
     }
-
-    
-
-
 
     public function getAll(array $filters = []): array
     {
@@ -255,15 +225,11 @@ class PresentationsDAO implements EntityInterface
         return $presentationsList;
     }
 
-    
-
-
-
     public function getPresentationGroups(int $presentationId): array
     {
         $db = $this->conn;
 
-        $stmt = $db->prepare("SELECT pg.group_id, bg.group_name FROM presentations_groups AS pg 
+        $stmt = $db->prepare("SELECT pg.group_id, bg.group_name FROM presentations_groups AS pg
         JOIN band_groups AS bg ON pg.group_id = bg.group_id
         WHERE pg.presentation_id = ?");
         $stmt->bind_param('i', $presentationId);
@@ -286,15 +252,11 @@ class PresentationsDAO implements EntityInterface
         return $groupsList;
     }
 
-    
-
-
-
     public function getPresentationSongs(int $presentationId): array
     {
         $db = $this->conn;
 
-        $stmt = $db->prepare("SELECT ps.song_id, ms.music_name FROM presentations_songs AS ps 
+        $stmt = $db->prepare("SELECT ps.song_id, ms.music_name FROM presentations_songs AS ps
         JOIN musical_scores AS ms ON ps.song_id = ms.music_id
         WHERE ps.presentation_id = ?");
         $stmt->bind_param('i', $presentationId);

@@ -12,9 +12,6 @@ class NewsDAO implements EntityInterface
         $this->conn = $conn;
     }
 
-    
-
-
     public function create(object $entity): mixed
     {
         $db = $this->conn;
@@ -53,9 +50,6 @@ class NewsDAO implements EntityInterface
         }
     }
 
-    
-
-
     public function getAll(array $filters = []): array
     {
         $db = $this->conn;
@@ -80,9 +74,6 @@ class NewsDAO implements EntityInterface
         return $newsList;
     }
 
-    
-
-
     public function getById(int $newsId): ?News
     {
         $db = $this->conn;
@@ -104,9 +95,6 @@ class NewsDAO implements EntityInterface
 
         return $data ? News::fromArray($data) : null;
     }
-
-    
-
 
     public function edit(object $entity): bool
     {
@@ -144,9 +132,6 @@ class NewsDAO implements EntityInterface
         }
     }
 
-    
-
-
     public function delete(int $newsId): bool
     {
         $db = $this->conn;
@@ -163,9 +148,6 @@ class NewsDAO implements EntityInterface
             return false;
         }
     }
-
-    
-
 
     public function getLatestExcept(int $excludeId, int $limit = 2): array
     {

@@ -10,13 +10,6 @@ class InstrumentsDAO
     {
         $this->conn = $conn;
     }
-    
-
-
-
-
-
-
 
     public function getAll(bool $voiceOff = false, bool $musicalScore = false): array
     {

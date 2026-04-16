@@ -12,10 +12,6 @@ class MusiciansDAO implements EntityInterface
         $this->conn = $conn;
     }
 
-    
-
-
-
     public function create(object $entity): mixed
     {
         $db = $this->conn;
@@ -24,7 +20,6 @@ class MusiciansDAO implements EntityInterface
             return false;
         }
 
-        
         $musicianName = $entity->getMusicianName();
         $login = $entity->getMusicianLogin();
 
@@ -43,7 +38,6 @@ class MusiciansDAO implements EntityInterface
 
         $profileImage = $entity->getProfileImage();
 
-        
         $passwordRaw = $entity->getPassword();
 
         if (!$passwordRaw) {
@@ -52,8 +46,6 @@ class MusiciansDAO implements EntityInterface
 
         $password = password_hash($passwordRaw, PASSWORD_DEFAULT);
 
-
-        
         try {
 
             $stmt = $db->prepare(
@@ -70,10 +62,6 @@ class MusiciansDAO implements EntityInterface
             return false;
         }
     }
-
-    
-
-
 
     public function edit(object $entity): bool
     {
@@ -99,17 +87,16 @@ class MusiciansDAO implements EntityInterface
 
         try {
 
-            
             $stmt = $db->prepare("
-                UPDATE musicians 
-                SET musician_login = ?, 
-                    instrument = ?, 
-                    band_group = ?, 
-                    musician_contact = ?, 
-                    responsible_name = ?, 
-                    responsible_contact = ?, 
-                    neighborhood = ?, 
-                    institution = ?, 
+                UPDATE musicians
+                SET musician_login = ?,
+                    instrument = ?,
+                    band_group = ?,
+                    musician_contact = ?,
+                    responsible_name = ?,
+                    responsible_contact = ?,
+                    neighborhood = ?,
+                    institution = ?,
                     profile_image = ?
                 WHERE musician_id = ?
             ");
@@ -139,10 +126,6 @@ class MusiciansDAO implements EntityInterface
         }
     }
 
-    
-
-
-
     public function editOwnProfile(object $entity): bool
     {
         $db = $this->conn;
@@ -161,13 +144,12 @@ class MusiciansDAO implements EntityInterface
 
         try {
 
-            
             $stmt = $db->prepare("
-                UPDATE musicians 
-                SET musician_contact = ?, 
-                    responsible_name = ?, 
-                    responsible_contact = ?, 
-                    neighborhood = ?, 
+                UPDATE musicians
+                SET musician_contact = ?,
+                    responsible_name = ?,
+                    responsible_contact = ?,
+                    neighborhood = ?,
                     institution = ?
                 WHERE musician_id = ?
             ");
@@ -192,11 +174,6 @@ class MusiciansDAO implements EntityInterface
             return false;
         }
     }
-    
-
-    
-
-
 
     public function editPassword(int $musicianId, string $newPassword): bool
     {
@@ -218,11 +195,6 @@ class MusiciansDAO implements EntityInterface
         }
     }
 
-
-    
-
-
-
     public function delete(int $musicianId): bool
     {
         $db = $this->conn;
@@ -237,9 +209,6 @@ class MusiciansDAO implements EntityInterface
 
         return $affected > 0;
     }
-
-    
-
 
     public function findByLogin(string $login): ?Musician
     {
@@ -262,11 +231,6 @@ class MusiciansDAO implements EntityInterface
 
         return $data ? Musician::fromArray($data) : null;
     }
-
-
-    
-
-
 
     public function getAll(array $filters = []): array
     {
@@ -331,9 +295,6 @@ class MusiciansDAO implements EntityInterface
         return $musicians;
     }
 
-    
-
-
     public function getById(int $musicianId): ?Musician
     {
         $db = $this->conn;
@@ -356,10 +317,6 @@ class MusiciansDAO implements EntityInterface
         return $data ? Musician::fromArray($data) : null;
     }
 
-    
-
-
-
     public function getProfileImage(int $musicianId): string
     {
         $db = $this->conn;
@@ -379,11 +336,6 @@ class MusiciansDAO implements EntityInterface
 
         return (string) ($data['profile_image'] ?? '');
     }
-
-
-    
-
-
 
     public function verifyLogin(string $musicianLogin): bool
     {

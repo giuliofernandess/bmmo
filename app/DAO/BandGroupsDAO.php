@@ -10,11 +10,6 @@ class BandGroupsDAO
     {
         $this->conn = $conn;
     }
-    
-
-
-
-
 
     public function getAll(): array
     {
