@@ -11,13 +11,13 @@ $musiciansDAO = new MusiciansDAO($conn);
 
 $auth->requireRegency();
 
-function isValidBirthDate(?string $age, ?string $responsibleName, ?string $responsibleContact): bool
+function isValidBirthDate(int $age, ?string $responsibleName, ?string $responsibleContact): bool
 {
 	if ($age < 7 || $age > 100) {
 		return false;
-	} elseif ($age < 18 && $responsibleName === null) {
+	} elseif ($age < 18 && empty(trim((string) $responsibleName))) {
 		return false;
-	} elseif ($age < 18 && $responsibleContact === null) {
+	} elseif ($age < 18 && empty(trim((string) $responsibleContact))) {
 		return false;
 	} else {
 		return true;
@@ -38,6 +38,10 @@ $institution = filter_input(INPUT_POST, 'institution');
 $newPassword = filter_input(INPUT_POST, 'new_password');
 $confirmNewPassword = filter_input(INPUT_POST, 'confirm_new_password');
 
+$birth = DateTime::createFromFormat('Y-m-d', (string) $dateOfBirth);
+$today = new DateTime();
+$age = $today->diff($birth)->y;
+
 $redirect = BASE_URL . 'pages/admin/registerMusician/index.php';
 
 validateRequiredFields([
@@ -51,14 +55,10 @@ validateRequiredFields([
 	'confirm_new_password' => $confirmNewPassword,
 ], $redirect);
 
-$birth = DateTime::createFromFormat('Y-m-d', (string) $dateOfBirth);
+
 if (!$birth) {
 	redirectWithMessage($redirect, 'error', 'Data de nascimento inválida.');
 }
-
-$today = new DateTime();
-$age = $today->diff($birth)->y;
-
 
 $imageFileName = null;
 
@@ -70,7 +70,7 @@ if ($musiciansDAO->verifyLogin($login)) {
 	redirectWithMessage($redirect, 'error', "Login já existe.");
 }
 
-if ($age > $today) {
+if ($birth > $today) {
 	redirectWithMessage($redirect, 'error', "Data de nascimento inválida.");
 }
 
