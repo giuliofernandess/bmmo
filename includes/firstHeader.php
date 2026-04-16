@@ -26,7 +26,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link px-3"
-                    href="<?= BASE_URL ?>pages/information/aboutTheBand/index.php">Sobre</a>
+                    href="<?= BASE_URL ?>pages/information/about-the-band/index.php">Sobre</a>
                 </li>
             </ul>
         </div>
@@ -69,7 +69,7 @@
 
       <li class="nav-item">
         <a class="nav-link rounded px-3 py-2 text-dark"
-           href="<?= BASE_URL ?>pages/information/aboutTheBand/index.php">
+           href="<?= BASE_URL ?>pages/information/about-the-band/index.php">
           <i class="bi bi-info-circle me-2 text-primary"></i>Sobre
         </a>
       </li>
