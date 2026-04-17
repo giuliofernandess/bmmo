@@ -266,6 +266,9 @@ foreach ($instruments as $instrument) {
   <?php include_once BASE_PATH . "includes/footer.php"; ?>
 
   <!-- Scripts -->
+  <script>
+    window.BASE_URL = <?= json_encode(BASE_URL) ?>;
+  </script>
   <script src="<?= BASE_URL ?>assets/js/editMusicalScores.js"></script>
   <script src="<?= BASE_URL ?>assets/js/confirmAction.js"></script>
   <script src="<?= BASE_URL ?>assets/js/showForm.js"></script>

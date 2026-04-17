@@ -43,8 +43,10 @@ function deleteInstrumentFile(musicalScoreId, instrumentId, voiceOff) {
         return;
     }
 
+    const baseUrl = window.BASE_URL || "/";
+
     submitPost(
-        "<?= BASE_URL ?>pages/admin/musical-scores/actions/deleteinstrument.php",
+        `${baseUrl}pages/admin/musical-scores/actions/deleteinstrument.php`,
         {
             musical_score_id: musicalScoreId,
             instrument_id: instrumentId,
@@ -58,7 +60,9 @@ function deleteMusicalScore(musicalScoreId) {
         return;
     }
 
-    submitPost("<?= BASE_URL ?>pages/admin/musical-scores/actions/delete.php", {
+    const baseUrl = window.BASE_URL || "/";
+
+    submitPost(`${baseUrl}pages/admin/musical-scores/actions/delete.php`, {
         musical_score_id: musicalScoreId,
     });
 }
