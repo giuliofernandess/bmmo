@@ -1,78 +1,35 @@
-const currentPage = location.pathname + location.search;
-const previousPage = sessionStorage.getItem("currentPage");
-const origin = window.location.origin;
+(() => {
+	const backButton = document.getElementById('safe-back-button');
+	if (!backButton) {
+		return;
+	}
 
-function parseUrl(urlValue) {
-    try {
-        return new URL(urlValue, origin);
-    } catch (e) {
-        return null;
-    }
-}
+	const fallbackUrl = typeof window.fallbackPage === 'string' && window.fallbackPage.trim() !== ''
+		? window.fallbackPage
+		: '/';
 
-const fallbackParsed = parseUrl(window.fallbackPage || "/");
-const fallbackPage = fallbackParsed && fallbackParsed.origin === origin
-    ? fallbackParsed.href
-    : `${origin}/`;
+	const isUnsafeUrl = (url) => {
+		try {
+			const parsedUrl = new URL(url, window.location.origin);
+			return parsedUrl.pathname.includes('/actions/') || parsedUrl.search !== '';
+		} catch (error) {
+			return true;
+		}
+	};
 
-if (previousPage) {
-    sessionStorage.setItem("lastPage", previousPage);
-}
+	const goToSafeDestination = () => {
+		const previousUrl = document.referrer;
 
-sessionStorage.setItem("currentPage", currentPage);
+		if (previousUrl && !isUnsafeUrl(previousUrl)) {
+			window.location.href = previousUrl;
+			return;
+		}
 
-function isUnsafeBackTarget(urlValue) {
-    if (!urlValue) {
-        return true;
-    }
+		window.location.href = fallbackUrl;
+	};
 
-    const parsed = parseUrl(urlValue);
-
-    if (!parsed || parsed.origin !== origin) {
-        return true;
-    }
-
-    const pathname = (parsed.pathname || "").toLowerCase();
-    const file = pathname.split("/").pop() || "";
-
-    const receivesMutatingGet = /(\?|&)(action|delete|remove|create|edit|login)=/i.test(parsed.search);
-    const receivesPost =
-        pathname.includes("/actions/") ||
-        /^(create|edit|delete|deleteinstrument|login)\.php$/.test(file);
-
-    return receivesMutatingGet || receivesPost;
-}
-
-function safeBack() {
-    const last = sessionStorage.getItem("lastPage");
-
-    if (!last || last === currentPage) {
-        window.location.href = fallbackPage;
-        return;
-    }
-
-    if (isUnsafeBackTarget(last)) {
-        window.location.href = fallbackPage;
-        return;
-    }
-
-    const target = parseUrl(last);
-
-    if (!target) {
-        window.location.href = fallbackPage;
-        return;
-    }
-
-    window.location.href = target.href;
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    const button = document.querySelector('#safe-back-button');
-
-    if (button) {
-        button.addEventListener('click', (event) => {
-            event.preventDefault();
-            safeBack();
-        });
-    }
-});
+	backButton.addEventListener('click', (event) => {
+		event.preventDefault();
+		goToSafeDestination();
+	});
+})();
