@@ -225,6 +225,28 @@ class PresentationsDAO implements EntityInterface
         return $presentationsList;
     }
 
+    public function getById(int $musicId): ?MusicalScore
+    {
+        $db = $this->conn;
+
+        $sql = "SELECT * FROM presentations WHERE presentation_id = ?";
+        $stmt = $db->prepare($sql);
+
+        if (!$stmt) {
+            return null;
+        }
+
+        $stmt->bind_param("i", $musicId);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+
+        $stmt->close();
+
+        return $data ? MusicalScore::fromArray($data) : null;
+    }
+
     public function getPresentationGroups(int $presentationId): array
     {
         $db = $this->conn;
