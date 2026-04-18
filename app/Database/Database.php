@@ -4,12 +4,6 @@ class Database
 {
     private ?mysqli $connection = null;
 
-    
-
-
-
-
-
     public function getConnection(): mysqli
     {
         if ($this->connection === null) {
