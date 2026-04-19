@@ -65,7 +65,7 @@ class MusicalScoresDAO implements EntityInterface
 
                 return $musicId;
 
-            } catch (\Exception $e) {
+            } catch (\mysqli_sql_exception $e) {
 
                 $db->rollback();
                 return false;
@@ -202,7 +202,7 @@ class MusicalScoresDAO implements EntityInterface
 
             return true;
 
-        } catch (\Exception $e) {
+        } catch (\mysqli_sql_exception $e) {
             $db->rollback();
             return false;
         }
@@ -245,7 +245,7 @@ class MusicalScoresDAO implements EntityInterface
             }
 
             return true;
-        } catch (Exception $e) {
+        } catch (\mysqli_sql_exception $e) {
             $db->rollback();
             return false;
         }

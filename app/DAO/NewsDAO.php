@@ -45,7 +45,7 @@ class NewsDAO implements EntityInterface
             $stmt->close();
 
             return $success;
-        } catch (\Exception $e) {
+        } catch (\mysqli_sql_exception $e) {
             return false;
         }
     }
@@ -127,7 +127,7 @@ class NewsDAO implements EntityInterface
             $stmt->close();
 
             return $success;
-        } catch (\Exception $e) {
+        } catch (\mysqli_sql_exception $e) {
             return false;
         }
     }
@@ -144,7 +144,7 @@ class NewsDAO implements EntityInterface
             $stmt->close();
 
             return $success;
-        } catch (\Exception $e) {
+        } catch (\mysqli_sql_exception $e) {
             return false;
         }
     }

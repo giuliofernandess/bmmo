@@ -58,7 +58,7 @@ class MusiciansDAO implements EntityInterface
             $stmt->close();
 
             return $success;
-        } catch (\Exception $e) {
+        } catch (\mysqli_sql_exception $e) {
             return false;
         }
     }
@@ -121,7 +121,7 @@ class MusiciansDAO implements EntityInterface
 
             return $success;
 
-        } catch (\Exception $e) {
+        } catch (\mysqli_sql_exception $e) {
             return false;
         }
     }
@@ -170,7 +170,7 @@ class MusiciansDAO implements EntityInterface
 
             return $success;
 
-        } catch (\Exception $e) {
+        } catch (\mysqli_sql_exception $e) {
             return false;
         }
     }
@@ -199,15 +199,19 @@ class MusiciansDAO implements EntityInterface
     {
         $db = $this->conn;
 
-        $stmt = $db->prepare("DELETE FROM musicians WHERE musician_id = ?");
-        $stmt->bind_param("i", $musicianId);
-        $stmt->execute();
+        try {
+            $stmt = $db->prepare("DELETE FROM musicians WHERE musician_id = ?");
+            $stmt->bind_param("i", $musicianId);
+            $stmt->execute();
 
-        $affected = $stmt->affected_rows;
+            $affected = $stmt->affected_rows;
 
-        $stmt->close();
+            $stmt->close();
 
-        return $affected > 0;
+            return $affected > 0;
+        } catch (\mysqli_sql_exception $e) {
+            return false;
+        }
     }
 
     public function findByLogin(string $login): ?Musician

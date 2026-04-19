@@ -79,7 +79,7 @@ class PresentationsDAO implements EntityInterface
             $db->commit();
 
             return true;
-        } catch (\Exception $e) {
+        } catch (\mysqli_sql_exception $e) {
             $db->rollback();
             return false;
         }
@@ -159,7 +159,7 @@ class PresentationsDAO implements EntityInterface
             $db->commit();
 
             return true;
-        } catch (\Exception $e) {
+        } catch (\mysqli_sql_exception $e) {
             $db->rollback();
             return false;
         }
@@ -180,7 +180,7 @@ class PresentationsDAO implements EntityInterface
             $db->commit();
 
             return true;
-        } catch (\Exception $e) {
+        } catch (\mysqli_sql_exception $e) {
             $db->rollback();
             return false;
         }
